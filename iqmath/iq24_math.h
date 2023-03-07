@@ -2,14 +2,16 @@
 #define IQ24_MATH_H
 
 #include "iq24.h"
+#include "iq24_cordic.h"
 #include "defs/defs.h"
+#include <stddef.h>
 
-
-//! Константа PI в формате IQ24.
-#define IQ24_PI (0x3243F6A)
 
 //! Константа Е в формате IQ24.
 #define IQ24_E (0x2B7E151)
+
+//! Константа PI в формате IQ24.
+#define IQ24_PI (0x3243F6A)
 
 //! Константа 2*PI в формате IQ24.
 #define IQ24_2PI (0x6487ED5)
@@ -19,6 +21,18 @@
 
 //! Константа PI/4 в формате IQ24.
 #define IQ24_PI4 (0xC90FDA)
+
+//! Угол PI в относительных единицах в формате IQ24.
+#define IQ24_PI_PU (0x800000)
+
+//! Угол 2*PI в относительных единицах в формате IQ24.
+#define IQ24_2PI_PU (0x1000000)
+
+//! Угол PI/2 в относительных единицах в формате IQ24.
+#define IQ24_PI2_PU (0x400000)
+
+//! Угол PI/4 в относительных единицах в формате IQ24.
+#define IQ24_PI4_PU (0x200000)
 
 
 /**
@@ -116,6 +130,38 @@ ALWAYS_INLINE static iq24_t iq24_cos(iq24_t angle)
  * @return Квадратный корень.
  */
 EXTERN iq24_t iq24_sqrt(iq24_t val);
+
+/**
+ * Вычисляет арктангенс от значений Y и X ( atan(Y/X) ).
+ * Угол возвращается в периодических единицах.
+ * @param y Координата Y.
+ * @param x Координата X.
+ * @return Угол.
+ */
+ALWAYS_INLINE static iq24_t iq24_atan2_pu(iq24_t y, iq24_t x)
+{
+    iq24_t angle = 0;
+
+    iq24_cordic_atan2_hyp_pu(x, y, &angle, NULL);
+
+    return angle;
+}
+
+/**
+ * Вычисляет арктангенс от значений Y и X ( atan(Y/X) ).
+ * Угол возвращается в радианах.
+ * @param y Координата Y.
+ * @param x Координата X.
+ * @return Угол.
+ */
+ALWAYS_INLINE static iq24_t iq24_atan2(iq24_t y, iq24_t x)
+{
+    iq24_t angle = 0;
+
+    iq24_cordic_atan2_hyp(x, y, &angle, NULL);
+
+    return angle;
+}
 
 
 #endif /* IQ24_MATH_H */
