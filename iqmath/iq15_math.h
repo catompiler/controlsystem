@@ -7,6 +7,12 @@
 #include <stddef.h>
 
 
+//! Константа sqrt(2) в формате IQ15.
+#define IQ15_SQRT2 (0xB505)
+
+//! Константа 1/sqrt(2) в формате IQ15.
+#define IQ15_INV_SQRT2 (0x5A82)
+
 //! Константа Е в формате IQ15.
 #define IQ15_E (0xADF8)
 

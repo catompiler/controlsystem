@@ -7,6 +7,12 @@
 #include <stddef.h>
 
 
+//! Константа sqrt(2) в формате IQ24.
+#define IQ24_SQRT2 (0x16A09E6)
+
+//! Константа 1/sqrt(2) в формате IQ24.
+#define IQ24_INV_SQRT2 (0xB504F3)
+
 //! Константа Е в формате IQ24.
 #define IQ24_E (0x2B7E151)
 

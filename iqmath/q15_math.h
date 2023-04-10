@@ -5,8 +5,11 @@
 #include "defs/defs.h"
 
 
+//! Константа 1/sqrt(2) в формате Q15.
+#define Q15_INV_SQRT2 (0x5A82)
+
 //! Константа PI/4 в формате IQ15.
-#define IQ15_PI4 (0x6487)
+#define Q15_PI4 (0x6487)
 
 //! Угол PI в относительных единицах в формате Q15.
 #define Q15_PI_PU (0x4000)
