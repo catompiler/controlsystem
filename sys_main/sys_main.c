@@ -2,8 +2,8 @@
 #include "sys_main.h"
 #include <assert.h>
 
-//#include <sys/time.h>
-//#include <stdio.h>
+#include <sys/time.h>
+#include <stdio.h>
 
 
 //static void sys_tim_handler(void* arg);
@@ -11,24 +11,8 @@
 
 static void adc_tim_handler(void* arg)
 {
-    CALC(adc);
-
     M_sys_main* sys = (M_sys_main*)arg;
     assert(sys != NULL);
-
-    // Если системный таймер однократного счёта, то запустим его.
-#if defined(SYS_TIMER_ONE_SHOT) && SYS_TIMER_ONE_SHOT == 1
-
-    //sys_tim_handler(arg);
-
-    sys_tim.control = SYS_TIMER_CONTROL_ENABLE;
-    CONTROL(sys_tim);
-
-    // TODO: reaction on timer error.
-    if(sys_tim.status & SYS_TIMER_STATUS_ERROR){
-        sys->errors |= SYS_MAIN_ERROR_INTERNAL;
-        sys->state = SYS_MAIN_STATE_ERROR;
-    }
 
 //    static struct timespec t_old;
 //    struct timespec t;
@@ -45,15 +29,32 @@ static void adc_tim_handler(void* arg)
 
 //    struct timespec t;
 //    clock_gettime(CLOCK_MONOTONIC, &t);
-//    printf("%ld s %ld ns\n", t.tv_sec, t.tv_nsec);
+//    printf("adc %ld s %ld ns\n", t.tv_sec, t.tv_nsec);
 
-#endif
+    CALC(adc);
 }
 
 static void sys_tim_handler(void* arg)
 {
     M_sys_main* sys = (M_sys_main*)arg;
     assert(sys != NULL);
+
+//    static struct timespec t_old;
+//    struct timespec t;
+//
+//    clock_gettime(CLOCK_MONOTONIC, &t);
+//
+//    long dnsec = t.tv_nsec - t_old.tv_nsec;
+//    if(t.tv_sec > t_old.tv_sec) dnsec += 1000000000LL;
+//
+//    printf("%ld us\n", dnsec / 1000);
+//    t_old.tv_sec = t.tv_sec;
+//    t_old.tv_nsec = t.tv_nsec;
+
+
+//    struct timespec t;
+//    clock_gettime(CLOCK_MONOTONIC, &t);
+//    printf("sys %ld s %ld ns\n", t.tv_sec, t.tv_nsec);
 
     CALC((*sys));
 }
@@ -63,11 +64,45 @@ static void ms_tim_handler(void* arg)
     M_sys_main* sys = (M_sys_main*)arg;
     assert(sys != NULL);
 
-//    struct timeval tv;
-//    gettimeofday(&tv, NULL);
-//    printf("%ld s %ld us\n", tv.tv_sec, tv.tv_usec);
+//    static struct timespec t_old;
+//    struct timespec t;
+//
+//    clock_gettime(CLOCK_MONOTONIC, &t);
+//
+//    long dnsec = t.tv_nsec - t_old.tv_nsec;
+//    if(t.tv_sec > t_old.tv_sec) dnsec += 1000000000LL;
+//
+//    printf("%ld us\n", dnsec / 1000);
+//    t_old.tv_sec = t.tv_sec;
+//    t_old.tv_nsec = t.tv_nsec;
+
+
+//    struct timespec t;
+//    clock_gettime(CLOCK_MONOTONIC, &t);
+//    printf("ms %ld s %ld ns\n", t.tv_sec, t.tv_nsec);
 }
 
+static void adc_handler(void* arg)
+{
+    M_sys_main* sys = (M_sys_main*)arg;
+    assert(sys != NULL);
+
+    // Если системный таймер однократного счёта, то запустим его.
+    #if defined(SYS_TIMER_ONE_SHOT) && SYS_TIMER_ONE_SHOT == 1
+
+    //sys_tim_handler(arg);
+
+    sys_tim.control = SYS_TIMER_CONTROL_ENABLE;
+    CONTROL(sys_tim);
+
+    // TODO: reaction on timer error.
+    if(sys_tim.status & SYS_TIMER_STATUS_ERROR){
+        sys->errors |= SYS_MAIN_ERROR_INTERNAL;
+        sys->state = SYS_MAIN_STATE_ERROR;
+    }
+
+    #endif
+}
 
 //static void check_modules_error_status(M_sys_main* sys)
 //{
@@ -103,6 +138,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
 
     // АЦП.
     INIT(adc);
+    CALLBACK_PROC(adc.on_conversion) = adc_handler;
+    CALLBACK_ARG(adc.on_conversion) = (void*)sys;
 
     // Таймер АЦП.
     INIT(adc_tim);

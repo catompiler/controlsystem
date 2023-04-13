@@ -83,6 +83,8 @@ struct _S_Fake_Adc {
     METHOD_DEINIT(M_fake_adc);
     METHOD_CALC(M_fake_adc);
     METHOD_IDLE(M_fake_adc);
+    // Коллбэки.
+    CALLBACK(on_conversion);
     // Внутренние данные.
     iq24_t m_acnt; //!< Счётчик электрического угла.
     iq24_t m_Ua_gain; //!< Суммарное усиление напряжения фазы A.
@@ -112,6 +114,7 @@ EXTERN METHOD_IDLE_PROTO(M_fake_adc);
         METHOD_INIT_PTR(M_fake_adc), METHOD_DEINIT_PTR(M_fake_adc),\
         METHOD_CALC_PTR(M_fake_adc), METHOD_IDLE_PTR(M_fake_adc),\
         /* Коллбэки */\
+        CALLBACK_DEFAULTS, /* on_conversion */\
         /* Внутренние данные */\
         0, /* m_acnt */\
         0, 0, 0 /* gain Uabc */\

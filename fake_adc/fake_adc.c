@@ -82,6 +82,9 @@ METHOD_CALC_IMPL(M_fake_adc, adc)
 
     // Установим статус.
     adc->status = STATUS_READY | STATUS_VALID;
+
+    // Вызвать коллбэк.
+    CALLBACK_CALL(adc->on_conversion);
 }
 
 METHOD_IDLE_IMPL(M_fake_adc, adc)
