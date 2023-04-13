@@ -6,6 +6,15 @@
 //#include <sys/time.h>
 //#include <stdio.h>
 
+#ifndef __linux__
+#include "thread_timer/windows_timer_res.h"
+#ifdef WINDOWS_TIMER
+//! Устанавливать ли разрешение таймера в windows.
+//! 1 - да.
+//! 0, либо не определено - нет.
+#define WINDOWS_SET_TIMER_RESOLUTION 1
+#endif
+#endif
 
 #ifndef __arm__
 #define RUN_TESTS 0
@@ -21,15 +30,25 @@ static void write_dlog_to_file(void)
 
     uint32_t get_index = dlog.r_get_index;
     uint32_t i, j;
+    int first = 0;
     for(i = 0; i < dlog.r_count; i ++){
+        first = 1;
         for(j = 0; j < DATA_LOG_CH_COUNT; j ++){
-            fprintf(f, "%d", dlog.r_ch[j].data[get_index]);
-            if(j != (DATA_LOG_CH_COUNT - 1)){
-                fprintf(f, ", ");
-            }else{
-                fprintf(f, "\n");
+//            fprintf(f, "%d", dlog.r_ch[j].data[get_index]);
+//            if(j != (DATA_LOG_CH_COUNT - 1)){
+//                fprintf(f, ", ");
+//            }else{
+//                fprintf(f, "\n");
+//            }
+            if(dlog.p_ch[j].enabled){
+                if(first == 0){
+                    fprintf(f, ", ");
+                }
+                fprintf(f, "%d", dlog.r_ch[j].data[get_index]);
+                first = 0;
             }
         }
+        fprintf(f, "\n");
         DATA_LOG_NEXT_INDEX(get_index);
     }
 
@@ -40,6 +59,9 @@ static void write_dlog_to_file(void)
 int main(void)
 {
     //loadsettings();
+#if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
+    windows_timer_set_max_res();
+#endif
 
     dlog.p_ch[0].reg_id = REG_ID_ADC_UA;
     dlog.p_ch[0].enabled = 1;
@@ -54,6 +76,9 @@ int main(void)
     if(sys.status & SYS_MAIN_STATUS_ERROR){
         printf("Error init main system!\n");
         DEINIT(sys);
+#if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
+        windows_timer_restore_res();
+#endif
         return 0;
     }
 
@@ -90,6 +115,10 @@ int main(void)
 
 #if defined(RUN_TESTS) && RUN_TESTS == 1
     test_main();
+#endif
+
+#if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
+        windows_timer_restore_res();
 #endif
 
     return 0;
