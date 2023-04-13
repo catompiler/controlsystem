@@ -2,8 +2,7 @@
 #define SYS_TIMER_H
 
 #include "module/base.h"
-#include <signal.h>
-#include <time.h>
+#include "thread_timer/thread_timer.h"
 
 //! Перечисление возможных бит управления.
 enum _E_Sys_Timer_Control {
@@ -42,7 +41,7 @@ struct _S_sys_timer {
     // Коллбэки.
     CALLBACK(on_timeout);
     // Внутренние данные.
-    timer_t m_timerid;
+    thread_timer_t m_thr_tim; //!< Таймер.
 };
 
 EXTERN METHOD_INIT_PROTO(M_sys_timer);
@@ -55,7 +54,7 @@ EXTERN METHOD_CONTROL_PROTO(M_sys_timer);
         METHOD_INIT_PTR(M_sys_timer), METHOD_DEINIT_PTR(M_sys_timer),\
         METHOD_CONTROL_PTR(M_sys_timer),\
         CALLBACK_DEFAULTS /* on_timeout */,\
-        0 /* m_timerid */,\
+        {0} /* m_thr_tim */,\
     }
 
 #endif /* SYS_TIMER_H */

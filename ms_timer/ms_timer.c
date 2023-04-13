@@ -3,9 +3,9 @@
 #include <stddef.h>
 
 
-static void timer_notify_function(union sigval arg)
+static void timer_callback(void* arg)
 {
-    M_ms_timer* ms_tmr = (M_ms_timer*)arg.sival_ptr;
+    M_ms_timer* ms_tmr = (M_ms_timer*)arg;
 
     assert(ms_tmr != NULL);
 
@@ -18,85 +18,53 @@ static int timer_init_impl(M_ms_timer* ms_tmr)
 {
     int res = 0;
 
-    struct sigevent sigev;
-
-    sigev.sigev_notify = SIGEV_THREAD;
-    sigev.sigev_signo = 0;
-    sigev.sigev_notify_attributes = 0;
-    sigev.sigev_notify_function = timer_notify_function;
-    sigev.sigev_value.sival_ptr = (void*)ms_tmr;
-
-    res = timer_create(CLOCK_MONOTONIC, &sigev, &ms_tmr->m_timerid);
+    res = thread_timer_init(&ms_tmr->m_thr_tim);
     if(res != 0) return res;
 
-    // reset timer value
-    struct itimerspec t;
-    t.it_value.tv_sec = 0;
-    t.it_value.tv_nsec = 0;
-    t.it_interval.tv_sec = 0;
-    t.it_interval.tv_nsec = 0;
+    thread_timer_set_callback(&ms_tmr->m_thr_tim, timer_callback, ms_tmr);
 
-    res = timer_settime(ms_tmr->m_timerid, 0, &t, NULL);
-    if(res != 0) return res;
+    struct timespec ts_val;
+    ts_val.tv_sec = 0;
+    ts_val.tv_nsec = MS_TIMER_TICKS_PERIOD_US * 1000;
+    thread_timer_set_period(&ms_tmr->m_thr_tim, &ts_val);
 
-    return res;
+    thread_timer_wait_thread_begin(&ms_tmr->m_thr_tim);
+
+    return 0;
 }
 
 static int timer_start_impl(M_ms_timer* ms_tmr)
 {
     int res = 0;
 
-    struct itimerspec t;
-    t.it_value.tv_sec = 0;
-    t.it_value.tv_nsec = MS_TIMER_TICKS_PERIOD_US * 1000;
-    t.it_interval.tv_sec = 0;
-    t.it_interval.tv_nsec = MS_TIMER_TICKS_PERIOD_US * 1000;
-
-    res = timer_settime(ms_tmr->m_timerid, 0, &t, NULL);
+    res = thread_timer_start(&ms_tmr->m_thr_tim);
     if(res != 0) return res;
 
-    return res;
+    thread_timer_wait_start(&ms_tmr->m_thr_tim);
+
+    return 0;
 }
 
 static int timer_stop_impl(M_ms_timer* ms_tmr)
 {
     int res = 0;
 
-    struct itimerspec t;
-    t.it_value.tv_sec = 0;
-    t.it_value.tv_nsec = 0;
-    t.it_interval.tv_sec = 0;
-    t.it_interval.tv_nsec = 0;
-
-    res = timer_settime(ms_tmr->m_timerid, 0, &t, NULL);
+    res = thread_timer_stop(&ms_tmr->m_thr_tim);
     if(res != 0) return res;
 
-    return res;
+    thread_timer_wait_stop(&ms_tmr->m_thr_tim);
+
+    return 0;
 }
 
 static int timer_isrunning_impl(M_ms_timer* ms_tmr)
 {
-    int res = 0;
-
-    struct itimerspec t;
-    t.it_value.tv_sec = 0;
-    t.it_value.tv_nsec = 0;
-    t.it_interval.tv_sec = 0;
-    t.it_interval.tv_nsec = 0;
-
-    res = timer_gettime(ms_tmr->m_timerid, &t);
-    if(res != 0) return 0;
-
-    if(t.it_value.tv_sec == 0 && t.it_value.tv_nsec == 0){
-        return 0;
-    }
-
-    return 1;
+    return thread_timer_running(&ms_tmr->m_thr_tim);
 }
 
 static void timer_deinit_impl(M_ms_timer* ms_tmr)
 {
-    timer_delete(ms_tmr->m_timerid);
+    thread_timer_deinit(&ms_tmr->m_thr_tim);
 }
 
 
@@ -105,7 +73,6 @@ METHOD_INIT_IMPL(M_ms_timer, ms_tmr)
     ms_tmr->control = 0;
     ms_tmr->status = 0;
     ms_tmr->out_counter = 0;
-    ms_tmr->m_timerid = 0;
 
     int res = timer_init_impl(ms_tmr);
 
