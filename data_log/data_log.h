@@ -32,6 +32,14 @@ enum _E_Data_Log_Status {
             (INDEX) = 0;\
         }\
     }while(0)
+// Предыдущий индекс.
+#define DATA_LOG_PREV_INDEX(INDEX)\
+    do{\
+        if((INDEX) == 0){\
+            (INDEX) = DATA_LOG_CH_LEN;\
+        }\
+        (INDEX) = (INDEX) - 1;\
+    }while(0)
 
 
 //! Тип значения данных лога.
