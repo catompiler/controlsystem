@@ -1,6 +1,7 @@
 #include "modules/modules.h"
 #include <stdio.h>
 #include <stddef.h>
+#include <string.h>
 #include "reg/regs.h"
 
 //#include <sys/time.h>
@@ -18,13 +19,16 @@
 
 #ifndef __arm__
 #define RUN_TESTS 0
+#define WRITE_DLOG_TO_CSV 1
+#define WRITE_DLOG_TO_VCD 0
 #endif
 
 #if defined(RUN_TESTS) && RUN_TESTS == 1
 #include "test_main.h"
 #endif
 
-static void write_dlog_to_file(void)
+#if defined(WRITE_DLOG_TO_CSV) && WRITE_DLOG_TO_CSV == 1
+static void write_dlog_to_file_csv(void)
 {
     FILE* f = fopen("dlog.csv", "w");
 
@@ -54,7 +58,81 @@ static void write_dlog_to_file(void)
 
     fclose(f);
 }
+#endif
 
+#if defined(WRITE_DLOG_TO_VCD) && WRITE_DLOG_TO_VCD == 1
+static void make_bin_str(char* buf, size_t buf_size, uint32_t val, size_t bits)
+{
+    memset(buf, 0x0, buf_size);
+
+    val = val << (32 - bits);
+
+    int i,j;
+    for(i = 0, j = 0; i < bits && j < buf_size - 1; i ++, j ++){
+        buf[j] = (val & 0x80000000) ? '1' : '0';
+        val <<= 1;
+    }
+    buf[j] = 0;
+}
+
+static void write_dlog_to_file_vcd(void)
+{
+    FILE* f = fopen("dlog.vcd", "w");
+
+    char first_id_char = 'A';
+
+    uint32_t get_index = dlog.r_get_index;
+    uint32_t prev_index = get_index;
+    uint32_t i, j;
+
+    #define BIN_SIZE 32
+    #define BIN_BUF_SIZE 33
+    char buf[BIN_BUF_SIZE];
+
+    // write header.
+    fprintf(f, "$timescale 625 us $end\n");
+    fprintf(f, "$scope module dlog $end\n");
+    for(i = 0; i < DATA_LOG_CH_COUNT; i ++){
+        if(dlog.p_ch[i].enabled){
+            fprintf(f, "$var reg %d %c dlog_ch%d $end\n", BIN_SIZE, first_id_char + i, i);
+        }
+    }
+    fprintf(f, "$upscope $end\n");
+    fprintf(f, "$enddefinitions $end\n");
+
+    /*fprintf(f, "$dumpvars\n");
+    for(i = 0; i < DATA_LOG_CH_COUNT; i ++){
+        if(dlog.p_ch[i].enabled){
+            make_bin_str(buf, BIN_BUF_SIZE, 0, BIN_SIZE);
+            fprintf(f, "b%s %c\n", buf, first_id_char + i);
+        }
+    }
+    fprintf(f, "$end\n");*/
+
+    // write data.
+    DATA_LOG_PREV_INDEX(prev_index);
+    for(i = 0; i < dlog.r_count; i ++){
+        fprintf(f, "#%d\n", i);
+        for(j = 0; j < DATA_LOG_CH_COUNT; j ++){
+            if(dlog.p_ch[j].enabled){
+                if((i == 0) ||
+                   (dlog.r_ch[j].data[get_index] >> (32-BIN_SIZE)) !=
+                   (dlog.r_ch[j].data[prev_index] >> (32-BIN_SIZE))){
+                    //
+                    make_bin_str(buf, BIN_BUF_SIZE, dlog.r_ch[j].data[get_index] >> (32-BIN_SIZE), BIN_SIZE);
+                    fprintf(f, "b%s %c\n", buf, first_id_char + j);
+                }
+            }
+        }
+        prev_index = get_index;
+        DATA_LOG_NEXT_INDEX(get_index);
+    }
+
+    fclose(f);
+
+    #undef BIN_BUF_SIZE
+}
+#endif
 
 int main(void)
 {
@@ -96,7 +174,12 @@ int main(void)
 
     DEINIT(sys);
 
-    write_dlog_to_file();
+#if defined(WRITE_DLOG_TO_CSV) && WRITE_DLOG_TO_CSV == 1
+    write_dlog_to_file_csv();
+#endif
+#if defined(WRITE_DLOG_TO_VCD) && WRITE_DLOG_TO_VCD == 1
+    write_dlog_to_file_vcd();
+#endif
 
     printf("done\n");
 
