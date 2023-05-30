@@ -2,6 +2,7 @@
 #define IQ_INTRINSICS_H
 
 #include <stdint.h>
+#include "defs/defs.h"
 #include "iq_types.h"
 
 
@@ -50,8 +51,8 @@
 #else
 #define __SSAT16(Q, N)\
     ({ register int32_t __RES, __Q = Q;\
-       register int32_t __QHI = (int16_t)((__Q >> 16) & 0xffff);\
        register int32_t __QLO = (int16_t)(__Q  & 0xffff);\
+       register int32_t __QHI = (int16_t)((__Q >> 16) & 0xffff);\
        const int32_t __MAX = (int32_t)( (1U<<((N)-1))-1);\
        const int32_t __MIN = (int32_t)(-(1U<<((N)-1))  );\
     __QHI = (__QHI > __MAX) ? __MAX : ((__QHI < __MIN) ? __MIN : __QHI);\
@@ -90,10 +91,10 @@
 #else
 #define __QADD16(Q1, Q2)\
     ({ register int32_t __RES, __RESHI, __RESLO, __Q1 = Q1, __Q2 = Q2;\
-       register int32_t __Q1HI = (int16_t)((__Q1 >> 16) & 0xffff);\
        register int32_t __Q1LO = (int16_t)(__Q1  & 0xffff);\
-       register int32_t __Q2HI = (int16_t)((__Q2 >> 16) & 0xffff);\
+       register int32_t __Q1HI = (int16_t)((__Q1 >> 16) & 0xffff);\
        register int32_t __Q2LO = (int16_t)(__Q2  & 0xffff);\
+       register int32_t __Q2HI = (int16_t)((__Q2 >> 16) & 0xffff);\
     __RESHI = __Q1HI + __Q2HI;\
     __RESLO = __Q1LO + __Q2LO;\
     __RESHI = (__RESHI > INT16_MAX) ? INT16_MAX : __RESHI;\
@@ -134,10 +135,10 @@
 #else
 #define __QSUB16(Q1, Q2)\
     ({ register int32_t __RES, __RESHI, __RESLO, __Q1 = Q1, __Q2 = Q2;\
-       register int32_t __Q1HI = (int16_t)((__Q1 >> 16) & 0xffff);\
        register int32_t __Q1LO = (int16_t)(__Q1  & 0xffff);\
-       register int32_t __Q2HI = (int16_t)((__Q2 >> 16) & 0xffff);\
+       register int32_t __Q1HI = (int16_t)((__Q1 >> 16) & 0xffff);\
        register int32_t __Q2LO = (int16_t)(__Q2  & 0xffff);\
+       register int32_t __Q2HI = (int16_t)((__Q2 >> 16) & 0xffff);\
     __RESHI = __Q1HI - __Q2HI;\
     __RESLO = __Q1LO - __Q2LO;\
     __RESHI = (__RESHI > INT16_MAX) ? INT16_MAX : __RESHI;\
@@ -185,6 +186,60 @@
     __RES;})
 #endif
 #endif //__SMLAL
+
+//! Выполняет два умножения 16 битных чисел с фиксированной запятой
+//! Q1 и Q2 внутри 32 битных аргументов
+//! и сложение их с 64 битным аккумулятором A.
+//! RES = Q1[15:0] * Q2[15:0] + Q1[31:16] * Q2[31:16] + A.
+#ifndef __SMLALD
+#ifdef __arm__
+#define __SMLALD(Q1, Q2, A)\
+    ({ union __U_MLAL_64 { int64_t _64;\
+           struct _S_MLAL_64 {int32_t lo; int32_t hi;} _32; };\
+       register union __U_MLAL_64 __u_mlal_64 = {A};\
+       register int32_t __Q1 = Q1, __Q2 = Q2;\
+    __asm__("smlald %0, %1, %2, %3" : "=r"(__u_mlal_64._32.lo), "=r"(__u_mlal_64._32.hi) :\
+            "r"(__Q1), "r"(__Q2), "0"(__u_mlal_64._32.lo), "1"(__u_mlal_64._32.hi));\
+    (__u_mlal_64._64);})
+#else
+#define __SMLALD(Q1, Q2, A)\
+    ({ register int32_t __Q1 = Q1, __Q2 = Q2;\
+       register int64_t __RES, __A = A;\
+       register int32_t __Q1LO = (int16_t)(__Q1  & 0xffff);\
+       register int32_t __Q1HI = (int16_t)((__Q1 >> 16) & 0xffff);\
+       register int32_t __Q2LO = (int16_t)(__Q2  & 0xffff);\
+       register int32_t __Q2HI = (int16_t)((__Q2 >> 16) & 0xffff);\
+    __RES = __A + (int64_t)__Q1LO * __Q2LO + (int64_t)__Q1HI * __Q2HI;\
+    __RES;})
+#endif
+#endif //__SMLALD
+
+//! Выполняет два умножения 16 битных чисел с фиксированной запятой
+//! Q1 и Q2 внутри 32 битных аргументов
+//! и сложение их с 64 битным аккумулятором A.
+//! RES = Q1[15:0] * Q2[15:0] + Q1[31:16] * Q2[31:16] + A.
+#ifndef __SMLALDX
+#ifdef __arm__
+#define __SMLALDX(Q1, Q2, A)\
+    ({ union __U_MLAL_64 { int64_t _64;\
+           struct _S_MLAL_64 {int32_t lo; int32_t hi;} _32; };\
+       register union __U_MLAL_64 __u_mlal_64 = {A};\
+       register int32_t __Q1 = Q1, __Q2 = Q2;\
+    __asm__("smlaldx %0, %1, %2, %3" : "=r"(__u_mlal_64._32.lo), "=r"(__u_mlal_64._32.hi) :\
+            "r"(__Q1), "r"(__Q2), "0"(__u_mlal_64._32.lo), "1"(__u_mlal_64._32.hi));\
+    (__u_mlal_64._64);})
+#else
+#define __SMLALDX(Q1, Q2, A)\
+    ({ register int32_t __Q1 = Q1, __Q2 = Q2;\
+       register int64_t __RES, __A = A;\
+       register int32_t __Q1LO = (int16_t)(__Q1  & 0xffff);\
+       register int32_t __Q1HI = (int16_t)((__Q1 >> 16) & 0xffff);\
+       register int32_t __Q2LO = (int16_t)(__Q2  & 0xffff);\
+       register int32_t __Q2HI = (int16_t)((__Q2 >> 16) & 0xffff);\
+    __RES = __A + (int64_t)__Q1LO * __Q2HI + (int64_t)__Q1HI * __Q2LO;\
+    __RES;})
+#endif
+#endif //__SMLALDX
 
 
 #endif /* IQ_INTRINSICS_H */

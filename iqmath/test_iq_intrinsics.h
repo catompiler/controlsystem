@@ -66,6 +66,16 @@ static void test_iq_intrinsics_smlal(void)
     CU_ASSERT_EQUAL(0x100010000LL, __SMLAL(0x10000, 0x10000, 0x10000));
 }
 
+static void test_iq_intrinsics_smlald(void)
+{
+    CU_ASSERT_EQUAL(0x10000000bLL, __SMLALD(0x00010002, 0x00030004, 0x100000000));
+}
+
+static void test_iq_intrinsics_smlaldx(void)
+{
+    CU_ASSERT_EQUAL(0x10000000aLL, __SMLALDX(0x00010002, 0x00030004, 0x100000000));
+}
+
 static CU_ErrorCode test_iq_intrinsics(void)
 {
     CU_pSuite suite = CU_add_suite("IQ_INTRINSICS", NULL, NULL);
@@ -80,6 +90,8 @@ static CU_ErrorCode test_iq_intrinsics(void)
     if(CU_add_test(suite, "QSUB16", test_iq_intrinsics_qsub16) == NULL) return CU_get_error();
     if(CU_add_test(suite, "MLA", test_iq_intrinsics_mla) == NULL) return CU_get_error();
     if(CU_add_test(suite, "SMLAL", test_iq_intrinsics_smlal) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "SMLALD", test_iq_intrinsics_smlald) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "SMLALDX", test_iq_intrinsics_smlaldx) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ", test_) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ", test_) == NULL) return CU_get_error();
 
