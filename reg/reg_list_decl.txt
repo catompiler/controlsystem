@@ -40,8 +40,18 @@ REG UB_OFFSET, adc.p_Ub_offset, U32, CONF
 REG UC_GAIN,   adc.p_Uc_gain,  IQ24, CONF
 REG UC_OFFSET, adc.p_Uc_offset, U32, CONF
 
+// Phase and Amplitude.
+GROUP PHASE_AMPL, 300
+!REG UA_VALUE, Ua_phase_ampl.out_value, IQ24, NONE
+REG UA_PHASE, Ua_phase_ampl.out_phase, IQ24, NONE
+REG UA_AMPL, Ua_phase_ampl.out_ampl, IQ24, NONE
+REG UB_PHASE, Ub_phase_ampl.out_phase, IQ24, NONE
+REG UB_AMPL, Ub_phase_ampl.out_ampl, IQ24, NONE
+REG UC_PHASE, Uc_phase_ampl.out_phase, IQ24, NONE
+REG UC_AMPL, Uc_phase_ampl.out_ampl, IQ24, NONE
+
 !// Measurement
-!GROUP MEAS, 300
+!GROUP MEAS, 400
 !REG UA_GAIN,   meas.gain_Ua,   IQ24, CONF
 !REG UA_OFFSET, meas.offset_Ua, IQ24, CONF
 !REG UB_GAIN,   meas.gain_Ub,   IQ24, CONF

@@ -186,6 +186,11 @@ METHOD_INIT_IMPL(M_sys_main, sys)
 
     }
 
+    // Вычислительные модули.
+    INIT(Ua_phase_ampl);
+    INIT(Ub_phase_ampl);
+    INIT(Uc_phase_ampl);
+
     // Проверка ошибок инициализации.
     // Если нет ошибок - продолжим инициализацию.
     if(!(init_status & STATUS_ERROR)){
@@ -206,6 +211,11 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(adc);
     DEINIT(dlog);
     DEINIT(conf);
+
+    // Вычислительные модули.
+    DEINIT(Ua_phase_ampl);
+    DEINIT(Ub_phase_ampl);
+    DEINIT(Uc_phase_ampl);
 
     // Сброс внутренних переменных.
     sys->control = SYS_MAIN_CONTROL_NONE;
@@ -275,6 +285,20 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
     //CALC(conf); // conf не требует вычисления.
     //CALC(adc); // АЦП вычисляется в коллбэке таймера АЦП.
+
+    // Вычислительные модули.
+    // Фаза и амплитуда.
+    // Фаза A.
+    Ua_phase_ampl.in_value = adc.out_Ua;
+    CALC(Ua_phase_ampl);
+    // Фаза B.
+    Ub_phase_ampl.in_value = adc.out_Ub;
+    CALC(Ub_phase_ampl);
+    // Фаза C.
+    Uc_phase_ampl.in_value = adc.out_Uc;
+    CALC(Uc_phase_ampl);
+
+    // Последний модуль - запись лога.
     CALC(dlog);
 }
 

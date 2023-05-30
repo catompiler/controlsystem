@@ -33,6 +33,14 @@
 #define REG_ID_ADC_UC_GAIN    210
 #define REG_ID_ADC_UC_OFFSET    211
 
+// Phase and Amplitude.
+#define REG_ID_PHASE_AMPL_UA_PHASE    300
+#define REG_ID_PHASE_AMPL_UA_AMPL    301
+#define REG_ID_PHASE_AMPL_UB_PHASE    302
+#define REG_ID_PHASE_AMPL_UB_AMPL    303
+#define REG_ID_PHASE_AMPL_UC_PHASE    304
+#define REG_ID_PHASE_AMPL_UC_AMPL    305
+
 
 // End
 
