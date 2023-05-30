@@ -30,6 +30,10 @@ METHOD_INIT_IMPL(M_data_log, dlog)
 {
     dlog->status = STATUS_NONE;
 
+    dlog->r_count = 0;
+    dlog->r_get_index = 0;
+    dlog->r_put_index = 0;
+
     status_t status = recalc_values(dlog);
 
     if(status & STATUS_READY){
