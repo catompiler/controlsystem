@@ -18,6 +18,11 @@
 
 #define PACKED __attribute__((packed))
 
+#define ALIGNED(N) __attribute__((aligned(N)))
+#define ALIGNED1 ALIGNED(1)
+#define NOALIGNED ALIGNED1
+#define ALIGNED4 ALIGNED(4)
+
 #define STRING(s) #s
 #define MAKE_STRING(s) STRING(s)
 #define CONCAT_SIMPLE(a, ...) a ## __VA_ARGS__
