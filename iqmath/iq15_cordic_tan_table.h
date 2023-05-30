@@ -22,6 +22,7 @@
 #define IQ15_CORDIC_TAN_TABLE_SIZE 15
 
 //! Таблица значений тангенсов.
+__attribute__((aligned(4)))
 static const int32_t iq15_cordic_tan_table[IQ15_CORDIC_TAN_TABLE_SIZE] = {
     0x00001000, 0x00000972, 0x000004fe, 0x00000289, 0x00000146, 0x000000a3, 0x00000051, 0x00000029,
     0x00000014, 0x0000000a, 0x00000005, 0x00000003, 0x00000001, 0x00000001, 0x00000000

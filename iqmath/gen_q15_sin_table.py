@@ -22,6 +22,7 @@ def gen_sin_table():
     print("//! Число значений в таблице синуса.");
     print("#define Q15_SIN_TABLE_SIZE %u\n" % (table_size));
     print("//! Таблица значений синуса.");
+    print("__attribute__((aligned(4)))");
     print("static const int16_t q15_sin_table[Q15_SIN_TABLE_SIZE] = {\n    ", end='');
     for i in range(0, table_size):
         y = math.sin(2 * math.pi * i / table_size);

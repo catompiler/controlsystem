@@ -8,6 +8,7 @@
 #define IQ24_SIN_TABLE_SIZE 256
 
 //! Таблица значений синуса.
+__attribute__((aligned(4)))
 static const int32_t iq24_sin_table[IQ24_SIN_TABLE_SIZE] = {
     0x00000000, 0x00064855, 0x000c8fb3, 0x0012d521, 0x001917a7, 0x001f564e, 0x00259021, 0x002bc429,
     0x0031f170, 0x00381705, 0x003e33f3, 0x0044474a, 0x004a5019, 0x00504d72, 0x00563e6a, 0x005c2215,

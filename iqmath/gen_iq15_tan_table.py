@@ -32,6 +32,7 @@ def gen_tan_table():
     print("//! Число значений в таблице тангенсов.");
     print("#define IQ15_CORDIC_TAN_TABLE_SIZE %u\n" % (table_size));
     print("//! Таблица значений тангенсов.");
+    print("__attribute__((aligned(4)))");
     print("static const int32_t iq15_cordic_tan_table[IQ15_CORDIC_TAN_TABLE_SIZE] = {\n    ", end='');
     tan_val = 1.0;
     for i in range(0, table_size):

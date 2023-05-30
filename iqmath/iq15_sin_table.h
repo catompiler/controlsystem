@@ -8,6 +8,7 @@
 #define IQ15_SIN_TABLE_SIZE 128
 
 //! Таблица значений синуса.
+__attribute__((aligned(4)))
 static const int32_t iq15_sin_table[IQ15_SIN_TABLE_SIZE] = {
     0x00000000, 0x00000648, 0x00000c8c, 0x000012c8, 0x000018f9, 0x00001f1a, 0x00002528, 0x00002b1f,
     0x000030fc, 0x000036ba, 0x00003c57, 0x000041ce, 0x0000471d, 0x00004c40, 0x00005134, 0x000055f6,
