@@ -42,18 +42,18 @@ static void test_iq15_sin_pu(void)
     float a;
     int ac = -804;
     while(ac < 804){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ15_PI / 180;
         ac ++;
 
         f_val = sinf(a);
-        q_val = iq15_sin_pu(IQ15(a/(2*M_PI)));
+        q_val = iq15_sin_pu(IQ15(a/(2*TEST_IQ15_PI)));
         fq_val = (float)q_val / IQ15_BASE;
 
         err = fabs(fq_val - f_val);
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float sin: %01.08f | iq15 sin: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float sin: %01.08f | iq15 sin: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ15_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ15_SIN_PU_ERRMAX_F);
     }
 
@@ -73,18 +73,18 @@ static void test_iq15_cos_pu(void)
     float a;
     int ac = -804;
     while(ac < 804){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ15_PI / 180;
         ac ++;
 
         f_val = cosf(a);
-        q_val = iq15_cos_pu(IQ15(a/(2*M_PI)));
+        q_val = iq15_cos_pu(IQ15(a/(2*TEST_IQ15_PI)));
         fq_val = (float)q_val / IQ15_BASE;
 
         err = fabs(fq_val - f_val);
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float cos: %01.08f | iq15 cos: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float cos: %01.08f | iq15 cos: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ15_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ15_SIN_PU_ERRMAX_F);
     }
 
@@ -104,7 +104,7 @@ static void test_iq15_sin(void)
     float a;
     int ac = -804;
     while(ac < 804){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ15_PI / 180;
         ac ++;
 
         f_val = sinf(a);
@@ -115,7 +115,7 @@ static void test_iq15_sin(void)
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float sin: %01.08f | iq15 sin: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float sin: %01.08f | iq15 sin: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ15_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ15_SIN_ERRMAX_F);
     }
 
@@ -135,7 +135,7 @@ static void test_iq15_cos(void)
     float a;
     int ac = -804;
     while(ac < 804){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ15_PI / 180;
         ac ++;
 
         f_val = cosf(a);
@@ -146,7 +146,7 @@ static void test_iq15_cos(void)
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float cos: %01.08f | iq15 cos: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float cos: %01.08f | iq15 cos: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ15_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ15_SIN_ERRMAX_F);
     }
 

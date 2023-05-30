@@ -7,7 +7,8 @@
 #include "q15_math.h"
 
 
-#define TEST_Q15_PI4 (3.14159265359/4)
+#define TEST_Q15_PI 3.14159265359
+#define TEST_Q15_PI4 (TEST_Q15_PI/4)
 #define TEST_Q15_Q15_PI4 0x6487
 
 #define TEST_Q15_SIN_PU_ERRMAX_F (3e-4f)
@@ -25,22 +26,22 @@ static void test_q15_sin_pu(void)
     float a;
     int ac = -804;
     while(ac < 804){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_Q15_PI / 180;
         ac ++;
 
-        if(ac == 630 + 1){
-            asm("nop");
-        }
+        /*if(ac == 630 + 1){
+            __asm("nop");
+        }*/
 
         f_val = sinf(a);
-        q_val = q15_sin_pu(Q15(a/(2*M_PI)));
+        q_val = q15_sin_pu(Q15(a/(2*TEST_Q15_PI)));
         fq_val = (float)q_val / Q15_BASE;
 
         err = fabs(fq_val - f_val);
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float sin: %01.08f | q15 sin: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float sin: %01.08f | q15 sin: %01.08f | abs err: %01.08f\n", a * 180 / TEST_Q15_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_Q15_SIN_PU_ERRMAX_F);
     }
 
@@ -60,18 +61,18 @@ static void test_q15_cos_pu(void)
     float a;
     int ac = -804;
     while(ac < 804){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_Q15_PI / 180;
         ac ++;
 
         f_val = cosf(a);
-        q_val = q15_cos_pu(Q15(a/(2*M_PI)));
+        q_val = q15_cos_pu(Q15(a/(2*TEST_Q15_PI)));
         fq_val = (float)q_val / Q15_BASE;
 
         err = fabs(fq_val - f_val);
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float cos: %01.08f | q15 cos: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float cos: %01.08f | q15 cos: %01.08f | abs err: %01.08f\n", a * 180 / TEST_Q15_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_Q15_SIN_PU_ERRMAX_F);
     }
 
@@ -124,6 +125,7 @@ static void test_q15_(void)
 }
 */
 
+#undef TEST_Q15_PI
 #undef TEST_Q15_PI4
 #undef TEST_Q15_Q15_PI4
 

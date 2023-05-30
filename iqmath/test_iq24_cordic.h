@@ -4,6 +4,7 @@
 
 #include <CUnit/CUnit.h>
 #include <stdint.h>
+#include <math.h>
 #include "iq24_cordic.h"
 
 
@@ -12,6 +13,7 @@
 
 #define TEST_IQ24_SIN_PU_ERRMAX_F (2e-6f)
 #define TEST_IQ24_SIN_ERRMAX_F (2e-6f)
+
 
 
 static void test_iq24_cordic_atan2_pu(void)
@@ -26,21 +28,21 @@ static void test_iq24_cordic_atan2_pu(void)
     float a;
     int ac = -359;
     while(ac < 359){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ24_PI / 180;
         ac ++;
 
         fx = cosf(a);
         fy = sinf(a);
         f_val = atan2f(fy, fx);
-        if(f_val < 0) f_val += 2*M_PI;
+        if(f_val < 0) f_val += 2*TEST_IQ24_PI;
         iq24_cordic_atan2_hyp_pu(IQ24(fx), IQ24(fy), &q_val, NULL);
-        fq_val = (float)q_val * 2 * M_PI / IQ24_BASE;
+        fq_val = (float)q_val * 2 * TEST_IQ24_PI / IQ24_BASE;
 
         err = fabs(fq_val - f_val);
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float atan2: %01.08f | iq24 atan2: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float atan2: %01.08f | iq24 atan2: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ24_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ24_SIN_PU_ERRMAX_F);
     }
 
@@ -60,13 +62,13 @@ static void test_iq24_cordic_atan2(void)
     float a;
     int ac = -359;
     while(ac < 359){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ24_PI / 180;
         ac ++;
 
         fx = cosf(a);
         fy = sinf(a);
         f_val = atan2f(fy, fx);
-        if(f_val < 0) f_val += 2*M_PI;
+        if(f_val < 0) f_val += 2*TEST_IQ24_PI;
         iq24_cordic_atan2_hyp(IQ24(fx), IQ24(fy), &q_val, NULL);
         fq_val = (float)q_val / IQ24_BASE;
 
@@ -74,7 +76,7 @@ static void test_iq24_cordic_atan2(void)
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float atan2: %01.08f | iq24 atan2: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float atan2: %01.08f | iq24 atan2: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ24_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ24_SIN_PU_ERRMAX_F);
     }
 
@@ -87,6 +89,8 @@ static void test_iq24_cordic_hyp(void)
     float f_val, fx, fy, fq_val;
     iq24_t q_val;
 
+    float ampl = 1.0f;
+
     float err, max_err = 0;
 
     //printf("float atan2 vs iq24 atan2 pu\n");
@@ -94,11 +98,11 @@ static void test_iq24_cordic_hyp(void)
     float a;
     int ac = -359;
     while(ac < 359){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ24_PI / 180;
         ac ++;
 
-        fx = cosf(a);
-        fy = sinf(a);
+        fx = ampl * cosf(a);
+        fy = ampl * sinf(a);
         f_val = sqrtf(fx*fx + fy*fy);
         iq24_cordic_atan2_hyp_pu(IQ24(fx), IQ24(fy), NULL, &q_val);
         fq_val = (float)q_val / IQ24_BASE;
@@ -107,7 +111,9 @@ static void test_iq24_cordic_hyp(void)
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float atan2: %01.08f | iq24 atan2: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float hyp: %01.08f | iq24 hyp: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ24_PI, f_val, fq_val, err);
+
+        //printf("angle: %03.04f | float atan2: %01.08f | iq24 atan2: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ24_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ24_SIN_PU_ERRMAX_F);
     }
 
@@ -127,18 +133,18 @@ static void test_iq24_cordic_sin_pu(void)
     float a;
     int ac = -359;
     while(ac < 359){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ24_PI / 180;
         ac ++;
 
         f_val = sinf(a);
-        iq24_cordic_sincos_pu(IQ24(a/(2*M_PI)), &q_val, NULL);
+        iq24_cordic_sincos_pu(IQ24(a/(2*TEST_IQ24_PI)), &q_val, NULL);
         fq_val = (float)q_val / IQ24_BASE;
 
         err = fabs(fq_val - f_val);
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float sin: %01.08f | iq24 sin: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float sin: %01.08f | iq24 sin: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ24_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ24_SIN_PU_ERRMAX_F);
     }
 
@@ -158,18 +164,18 @@ static void test_iq24_cordic_cos_pu(void)
     float a;
     int ac = -359;
     while(ac < 359){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ24_PI / 180;
         ac ++;
 
         f_val = cosf(a);
-        iq24_cordic_sincos_pu(IQ24(a/(2*M_PI)), NULL, &q_val);
+        iq24_cordic_sincos_pu(IQ24(a/(2*TEST_IQ24_PI)), NULL, &q_val);
         fq_val = (float)q_val / IQ24_BASE;
 
         err = fabs(fq_val - f_val);
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float cos: %01.08f | iq24 cos: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float cos: %01.08f | iq24 cos: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ24_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ24_SIN_PU_ERRMAX_F);
     }
 
@@ -189,7 +195,7 @@ static void test_iq24_cordic_sin(void)
     float a;
     int ac = -359;
     while(ac < 359){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ24_PI / 180;
         ac ++;
 
         f_val = sinf(a);
@@ -200,7 +206,7 @@ static void test_iq24_cordic_sin(void)
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float sin: %01.08f | iq24 sin: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float sin: %01.08f | iq24 sin: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ24_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ24_SIN_ERRMAX_F);
     }
 
@@ -220,7 +226,7 @@ static void test_iq24_cordic_cos(void)
     float a;
     int ac = -359;
     while(ac < 359){
-        a = (float)ac * M_PI / 180;
+        a = (float)ac * TEST_IQ24_PI / 180;
         ac ++;
 
         f_val = cosf(a);
@@ -231,7 +237,7 @@ static void test_iq24_cordic_cos(void)
 
         if(max_err < err) max_err = err;
 
-        //printf("angle: %03.04f | float cos: %01.08f | iq24 cos: %01.08f | abs err: %01.08f\n", a * 180 / M_PI, f_val, fq_val, err);
+        //printf("angle: %03.04f | float cos: %01.08f | iq24 cos: %01.08f | abs err: %01.08f\n", a * 180 / TEST_IQ24_PI, f_val, fq_val, err);
         //CU_ASSERT_DOUBLE_EQUAL(f_val, fq_val, TEST_IQ24_SIN_ERRMAX_F);
     }
 
