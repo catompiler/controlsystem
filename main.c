@@ -164,6 +164,13 @@ int main(void)
     dlog.p_ch[7].enabled = 1;
     dlog.p_ch[8].reg_id = REG_ID_PHASE_AMPL_UC_AMPL;
     dlog.p_ch[8].enabled = 1;
+    // RMS Ua, Ub, Uc.
+    dlog.p_ch[9].reg_id = REG_ID_RMS_UA;
+    dlog.p_ch[9].enabled = 1;
+    dlog.p_ch[10].reg_id = REG_ID_RMS_UB;
+    dlog.p_ch[10].enabled = 1;
+    dlog.p_ch[11].reg_id = REG_ID_RMS_UC;
+    dlog.p_ch[11].enabled = 1;
 
     dlog.control = CONTROL_ENABLE;
 

@@ -12,3 +12,7 @@ M_data_log dlog = DATA_LOG_DEFAULTS;
 M_phase_ampl Ua_phase_ampl = PHASE_AMPL_DEFAULTS;
 M_phase_ampl Ub_phase_ampl = PHASE_AMPL_DEFAULTS;
 M_phase_ampl Uc_phase_ampl = PHASE_AMPL_DEFAULTS;
+
+M_rms Ua_rms = RMS_DEFAULTS;
+M_rms Ub_rms = RMS_DEFAULTS;
+M_rms Uc_rms = RMS_DEFAULTS;

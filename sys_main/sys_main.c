@@ -187,9 +187,14 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     }
 
     // Вычислительные модули.
+    // Фазы и амплитуды.
     INIT(Ua_phase_ampl);
     INIT(Ub_phase_ampl);
     INIT(Uc_phase_ampl);
+    // RMS.
+    INIT(Ua_rms);
+    INIT(Ub_rms);
+    INIT(Uc_rms);
 
     // Проверка ошибок инициализации.
     // Если нет ошибок - продолжим инициализацию.
@@ -213,9 +218,14 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(conf);
 
     // Вычислительные модули.
+    // Фазы и амплитуды.
     DEINIT(Ua_phase_ampl);
     DEINIT(Ub_phase_ampl);
     DEINIT(Uc_phase_ampl);
+    // RMS.
+    DEINIT(Ua_rms);
+    DEINIT(Ub_rms);
+    DEINIT(Uc_rms);
 
     // Сброс внутренних переменных.
     sys->control = SYS_MAIN_CONTROL_NONE;
@@ -297,6 +307,16 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     // Фаза C.
     Uc_phase_ampl.in_value = adc.out_Uc;
     CALC(Uc_phase_ampl);
+    // RMS.
+    // Фаза A.
+    Ua_rms.in_value = adc.out_Ua;
+    CALC(Ua_rms);
+    // Фаза B.
+    Ub_rms.in_value = adc.out_Ub;
+    CALC(Ub_rms);
+    // Фаза C.
+    Uc_rms.in_value = adc.out_Uc;
+    CALC(Uc_rms);
 
     // Последний модуль - запись лога.
     CALC(dlog);

@@ -10,6 +10,7 @@
 #include "ms_timer/ms_timer.h"
 #include "data_log/data_log.h"
 #include "phase_ampl/phase_ampl.h"
+#include "rms/rms.h"
 
 
 extern M_conf conf;
@@ -23,5 +24,9 @@ extern M_data_log dlog;
 extern M_phase_ampl Ua_phase_ampl;
 extern M_phase_ampl Ub_phase_ampl;
 extern M_phase_ampl Uc_phase_ampl;
+
+extern M_rms Ua_rms;
+extern M_rms Ub_rms;
+extern M_rms Uc_rms;
 
 #endif /* MODULES_H */

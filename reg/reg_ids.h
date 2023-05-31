@@ -41,6 +41,10 @@
 #define REG_ID_PHASE_AMPL_UC_PHASE    304
 #define REG_ID_PHASE_AMPL_UC_AMPL    305
 
+#define REG_ID_RMS_UA    350
+#define REG_ID_RMS_UB    351
+#define REG_ID_RMS_UC    352
+
 
 // End
 

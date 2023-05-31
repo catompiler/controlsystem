@@ -50,6 +50,11 @@ REG UB_AMPL, Ub_phase_ampl.out_ampl, IQ24, NONE
 REG UC_PHASE, Uc_phase_ampl.out_phase, IQ24, NONE
 REG UC_AMPL, Uc_phase_ampl.out_ampl, IQ24, NONE
 
+GROUP RMS, 350
+REG UA, Ua_rms.out_value, IQ24, NONE
+REG UB, Ub_rms.out_value, IQ24, NONE
+REG UC, Uc_rms.out_value, IQ24, NONE
+
 !// Measurement
 !GROUP MEAS, 400
 !REG UA_GAIN,   meas.gain_Ua,   IQ24, CONF
