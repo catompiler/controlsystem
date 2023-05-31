@@ -4,6 +4,9 @@
 #include <stdint.h>
 
 
+//! Число бит дробной части значений комплексного синуса.
+#define PHASE_AMPL_CMPLX_SIN_TABLE_FRACT_BITS 14
+
 //! Число значений комплексного синуса.
 #define PHASE_AMPL_CMPLX_SIN_TABLE_SIZE 32
 
@@ -13,10 +16,10 @@
 //! нечётное слово - пара из мнимых частей (I[n+1], I[n])
 __attribute__((aligned(4)))
 static const int32_t phase_ampl_cmplx_sin_table[PHASE_AMPL_CMPLX_SIN_TABLE_SIZE] = {
-    0x18f90000, 0x7d8a7fff, 0x471d30fc, 0x6a6e7642, 0x6a6e5a82, 0x471d5a82, 0x7d8a7642, 0x18f930fc,
-    0x7d8a7fff, 0xe7070000, 0x6a6e7642, 0xb8e3cf04, 0x471d5a82, 0x9592a57e, 0x18f930fc, 0x827689be,
-    0xe7070000, 0x82768000, 0xb8e3cf04, 0x959289be, 0x9592a57e, 0xb8e3a57e, 0x827689be, 0xe707cf04,
-    0x82768000, 0x18f90000, 0x959289be, 0x471d30fc, 0xb8e3a57e, 0x6a6e5a82, 0xe707cf04, 0x7d8a7642
+    0x003d0000, 0x01340000, 0x05fa01dc, 0x08f2047d, 0x17980d39, 0x0fc40d39, 0x3268246a, 0x0a070f15,
+    0x4ad73fd9, 0xf11d0000, 0x52955190, 0xc8d2de37, 0x40f74d12, 0x9ec5b2ee, 0x18ac2f02, 0x83f68e84,
+    0xe7540000, 0x83f6804e, 0xbf09d0fe, 0x9ec58e84, 0xad6bb2ee, 0xc8d2b2ee, 0xb529ae70, 0xf11dde37,
+    0xcd98c027, 0x0a070000, 0xe868db96, 0x0fc40f15, 0xfa06f2c7, 0x08f20d39, 0xffc3fe24, 0x0134047d
 };
 
 #endif // PHASE_AMPL_CMPLX_SIN_TABLE_H

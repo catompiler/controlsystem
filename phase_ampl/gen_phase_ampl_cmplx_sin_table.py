@@ -16,10 +16,25 @@ def ssat(val):
         val = -0x8000;
     return val;
 
+# Оконная функция.
+def win(n, width):
+    # Без окна.
+    #return 1.0;
+    # Окно Ханна.
+    # Коэффициент ослабления окна Ханна.
+    beta = -6.0;
+    # Нормирующий коэффициент для амплитуды.
+    k = math.pow(10.0, beta / 20.0);
+    # Элемент окна Ханна.
+    h = 0.5 * (1.0 - math.cos((2.0 * math.pi * n)/(width))); # width - 1 для симметричного окна.
+    return h / k;
+
 def gen_cmplx_sin_table():
-    fract_bits = 15;
+    fract_bits = 14;
     base = (1 << fract_bits);
     table_size = 32;
+    print("//! Число бит дробной части значений комплексного синуса.");
+    print("#define PHASE_AMPL_CMPLX_SIN_TABLE_FRACT_BITS %u\n" % (fract_bits));
     print("//! Число значений комплексного синуса.");
     print("#define PHASE_AMPL_CMPLX_SIN_TABLE_SIZE %u\n" % (table_size));
     print("//! Таблица значений комплексного синуса.");
@@ -29,13 +44,20 @@ def gen_cmplx_sin_table():
     print("__attribute__((aligned(4)))");
     print("static const int32_t phase_ampl_cmplx_sin_table[PHASE_AMPL_CMPLX_SIN_TABLE_SIZE] = {\n    ", end='');
     for i in range(0, table_size >> 1):
-        a0 = 2.0 * math.pi * (i * 2) / table_size;
-        a1 = 2.0 * math.pi * (i * 2 + 1) / table_size;
 
-        r0 = math.sin(a0);
-        i0 = math.cos(a0);
-        r1 = math.sin(a1);
-        i1 = math.cos(a1);
+        n0 = i * 2;
+        n1 = i * 2 + 1;
+
+        a0 = 2.0 * math.pi * n0 / table_size;
+        a1 = 2.0 * math.pi * n1 / table_size;
+
+        w0 = win(n0, table_size);
+        w1 = win(n1, table_size);
+
+        r0 = math.sin(a0) * w0;
+        i0 = math.cos(a0) * w0;
+        r1 = math.sin(a1) * w1;
+        i1 = math.cos(a1) * w1;
 
         r0_iq = ssat(round(r0 * base));
         i0_iq = ssat(round(i0 * base));
