@@ -13,8 +13,10 @@ enum _E_Mod_Tmpl_Status {
     MOD_TMPL_STATUS_NONE = STATUS_NONE,
 };
 
+//! Предварительная декларация типа модуля.
 typedef struct _S_Mod_Tmpl M_mod_tmpl;
 
+//! Структура модуля.
 struct _S_Mod_Tmpl {
     // Базовые поля.
     control_t control; //!< Слово управления.
