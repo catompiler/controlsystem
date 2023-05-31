@@ -10,7 +10,7 @@ METHOD_INIT_IMPL(M_phase_ampl, pa)
 
     pa->m_count = 0;
     pa->m_get_index = 0;
-    pa->m_put_index = 9;
+    pa->m_put_index = 0;
 }
 
 METHOD_DEINIT_IMPL(M_phase_ampl, pa)
@@ -26,8 +26,8 @@ ALWAYS_INLINE static void phase_ampl_move_blocks(M_phase_ampl* pa)
     uint64_t* ptr_rd = (uint64_t*)&pa->m_data[PHASE_AMPL_BLOCK_LEN];
 
     int i;
-    #pragma GCC unroll 32
-    for(i = 0; i < PHASE_AMPL_SAMPLES_COUNT/PHASE_AMPL_BLOCK_LEN; i ++){
+    #pragma GCC unroll 8
+    for(i = 0; i < (PHASE_AMPL_SAMPLES_COUNT / PHASE_AMPL_BLOCK_LEN); i ++){
         *ptr_wr ++ = *ptr_rd ++;
     }
 }
@@ -38,8 +38,8 @@ ALWAYS_INLINE static void phase_ampl_move_blocks(M_phase_ampl* pa)
     uint32_t* ptr_rd = (uint32_t*)&pa->m_data[PHASE_AMPL_BLOCK_LEN];
 
     int i;
-    #pragma GCC unroll 32
-    for(i = 0; i < PHASE_AMPL_SAMPLES_COUNT/PHASE_AMPL_BLOCK_LEN; i ++){
+    #pragma GCC unroll 8
+    for(i = 0; i < (PHASE_AMPL_SAMPLES_COUNT / PHASE_AMPL_BLOCK_LEN); i ++){
         *ptr_wr ++ = *ptr_rd ++;
 #if PHASE_AMPL_BLOCK_SIZE >= 8
         *ptr_wr ++ = *ptr_rd ++;
@@ -75,8 +75,8 @@ static void calc_phase_ampl(M_phase_ampl* pa)
     int64_t acc_i = 0;
 
     int i;
-    #pragma GCC unroll 32
-    for(i = 0; i < PHASE_AMPL_SAMPLES_COUNT/PHASE_AMPL_BLOCK_LEN; i ++){
+    #pragma GCC unroll 8
+    for(i = 0; i < (PHASE_AMPL_SAMPLES_COUNT / PHASE_AMPL_BLOCK_LEN); i ++){
         // x0, x1
         cdw.all = *pcmplx_sin ++;
         xw = *pvalues ++;
@@ -102,8 +102,8 @@ static void calc_phase_ampl(M_phase_ampl* pa)
     int64_t acc_i = 0;
 
     int i;
-    #pragma GCC unroll 32
-    for(i = 0; i < PHASE_AMPL_SAMPLES_COUNT / PHASE_AMPL_BLOCK_LEN; i ++){
+    #pragma GCC unroll 8
+    for(i = 0; i < (PHASE_AMPL_SAMPLES_COUNT / PHASE_AMPL_BLOCK_LEN); i ++){
         // x0, x1
         crw = *pcmplx_sin ++;
         ciw = *pcmplx_sin ++;
@@ -171,7 +171,7 @@ METHOD_CALC_IMPL(M_phase_ampl, pa)
     pa->m_data[pa->m_put_index] = (phase_ampl_data_t)iq_pa_val;
 
     // Индекс записи в конце буфера.
-    if(pa->m_put_index == PHASE_AMPL_LEN - 1){
+    if(pa->m_put_index == (PHASE_AMPL_LEN - 1)){
         // Перемещаем блоки буфера.
         phase_ampl_move_blocks(pa);
         pa->m_get_index = 0;

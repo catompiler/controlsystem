@@ -4,6 +4,7 @@
 #include "module/base.h"
 #include "iqmath/iq_types.h"
 #include "conf/conf.h"
+#include "defs/defs.h"
 
 
 /*
