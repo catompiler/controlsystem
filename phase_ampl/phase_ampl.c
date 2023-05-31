@@ -1,4 +1,5 @@
 #include "phase_ampl.h"
+#include "bits/bits.h"
 #include "iqmath/iqmath.h"
 #include "phase_ampl_cmplx_sin_table.h"
 
@@ -122,12 +123,18 @@ static void calc_phase_ampl(M_phase_ampl* pa)
 
 #endif  //USE_64BIT_LOAD
 
+#if IS_POW2(PHASE_AMPL_SAMPLES_COUNT/2)
+    // iq(PHASE_AMPL_DATA_SAT_BIT + Q15_FRACT_BITS) -> iq24 and / (L/2).
+    acc_r >>= (PHASE_AMPL_DATA_FRACT_BITS + Q15_FRACT_BITS - IQ24_FRACT_BITS + GET_POW2(PHASE_AMPL_SAMPLES_COUNT/2));
+    acc_i >>= (PHASE_AMPL_DATA_FRACT_BITS + Q15_FRACT_BITS - IQ24_FRACT_BITS + GET_POW2(PHASE_AMPL_SAMPLES_COUNT/2));
+#else //IS_POW2(PHASE_AMPL_SAMPLES_COUNT)
     // iq(PHASE_AMPL_DATA_SAT_BIT + Q15_FRACT_BITS) -> iq24.
     acc_r >>= (PHASE_AMPL_DATA_FRACT_BITS + Q15_FRACT_BITS - IQ24_FRACT_BITS);
     acc_i >>= (PHASE_AMPL_DATA_FRACT_BITS + Q15_FRACT_BITS - IQ24_FRACT_BITS);
     // acc / (L/2)
     acc_r /= (PHASE_AMPL_SAMPLES_COUNT/2);
     acc_i /= (PHASE_AMPL_SAMPLES_COUNT/2);
+#endif //IS_POW2(PHASE_AMPL_SAMPLES_COUNT)
 
     //printf("%d, %d\n", (int)acc_r, (int)acc_i);
 
