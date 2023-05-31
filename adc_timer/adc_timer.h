@@ -2,6 +2,7 @@
 #define ADC_TIMER_H
 
 #include "module/base.h"
+#include "conf/conf.h"
 #include "thread_timer/thread_timer.h"
 
 //! Перечисление возможных бит управления.
@@ -20,7 +21,7 @@ enum _E_Adc_Timer_Status {
 
 
 #define ADC_TIMER_AC_FREQ (50)
-#define ADC_TIMER_TICKS_PER_PERIOD (32)
+#define ADC_TIMER_TICKS_PER_PERIOD (CONF_PERIOD_SAMPLES)
 #define ADC_TIMER_TICKS_FREQ (ADC_TIMER_AC_FREQ * ADC_TIMER_TICKS_PER_PERIOD)
 #define ADC_TIMER_TICKS_PERIOD_US (1000000 / ADC_TIMER_TICKS_FREQ)
 

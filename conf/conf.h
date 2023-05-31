@@ -3,6 +3,7 @@
 
 #include "module/base.h"
 #include "iqmath/iqmath.h"
+#include "consts.h"
 
 //! Перечисление возможных бит управления.
 enum _E_Conf_Control {

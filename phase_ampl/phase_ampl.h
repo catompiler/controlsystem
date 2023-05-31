@@ -3,7 +3,7 @@
 
 #include "module/base.h"
 #include "iqmath/iq_types.h"
-#include "adc_timer/adc_timer.h"
+#include "conf/conf.h"
 
 
 /*
@@ -24,7 +24,7 @@ typedef iq14s_t phase_ampl_data_t;
 
 
 //! Число семплов за период.
-#define PHASE_AMPL_SAMPLES_COUNT ADC_TIMER_TICKS_PER_PERIOD
+#define PHASE_AMPL_SAMPLES_COUNT (CONF_PERIOD_SAMPLES)
 //! Размер блока в байтах (для оптимизации сдвига буфера).
 #define PHASE_AMPL_BLOCK_SIZE 8
 //! Размер блока в семплах.

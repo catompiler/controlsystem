@@ -1,13 +1,13 @@
 #ifndef FAKE_ADC_H
 #define FAKE_ADC_H
 
-#include "adc_timer/adc_timer.h"
 #include "module/base.h"
+#include "conf/conf.h"
 #include <stdint.h>
 
 
 //#define ADC_AC_FREQ (50)
-#define ADC_SAMPLES_PER_PERIOD (ADC_TIMER_TICKS_PER_PERIOD) //(32)
+#define ADC_SAMPLES_PER_PERIOD (CONF_PERIOD_SAMPLES)
 //#define ADC_SAMPLES_FREQ (ADC_AC_FREQ * ADC_SAMPLES_PER_PERIOD)
 //#define ADC_SAMPLES_PERIOD_S (0)
 //#define ADC_SAMPLES_PERIOD_US (1000000 / ADC_SAMPLES_FREQ)
