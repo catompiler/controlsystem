@@ -2,7 +2,6 @@
 #define IQ15_MATH_H
 
 #include "iq15.h"
-#include "iq15_cordic.h"
 #include "defs/defs.h"
 #include <stddef.h>
 
@@ -39,6 +38,9 @@
 
 //! Угол PI/4 в относительных единицах в формате IQ15.
 #define IQ15_PI4_PU (0x1000)
+
+//! Инвертированный угол 2*PI в радианах.
+#define IQ15_INV_2PI (0x145F)
 
 
 /**
@@ -78,6 +80,26 @@ ALWAYS_INLINE static iq15_t iq15_round(iq15_t q)
 }
 
 /**
+ * Преобразует радианы в периодические единицы.
+ * @param angle Угол в радианах.
+ * @return Угол в периодических единицах.
+ */
+ALWAYS_INLINE static iq15_t iq15_rads_to_pu(iq15_t angle)
+{
+    return iq15_mul(angle, IQ15_INV_2PI);
+}
+
+/**
+ * Преобразует периодические единицы в радианы.
+ * @param angle Угол в периодических единицах.
+ * @return Угол в радианах.
+ */
+ALWAYS_INLINE static iq15_t iq15_pu_to_rads(iq15_t angle)
+{
+    return iq15_mul(angle, IQ15_2PI);
+}
+
+/**
  * Функция sin.
  * Аргумент в циклических единицах.
  * @param angle Угол.
@@ -95,7 +117,7 @@ EXTERN iq15_t iq15_sin_pu(iq15_t angle);
  */
 ALWAYS_INLINE static iq15_t iq15_cos_pu(iq15_t angle)
 {
-    return iq15_sin_pu((iq15_t)0x2000 - angle);
+    return iq15_sin_pu(IQ15_PI2_PU - angle);
 }
 
 /**
@@ -107,8 +129,7 @@ ALWAYS_INLINE static iq15_t iq15_cos_pu(iq15_t angle)
 ALWAYS_INLINE static iq15_t iq15_sin(iq15_t angle)
 {
     // Приведение угла в радианах в цикличные единицы.
-    // tmp = angle / (2*pi).
-    iq15_t tmp = iq15_mul(angle, 5215);
+    iq15_t tmp = iq15_rads_to_pu(angle);
     return iq15_sin_pu(tmp);
 }
 
@@ -123,8 +144,7 @@ ALWAYS_INLINE static iq15_t iq15_sin(iq15_t angle)
 ALWAYS_INLINE static iq15_t iq15_cos(iq15_t angle)
 {
     // Приведение угла в радианах в цикличные единицы.
-    // tmp = angle / (2*pi).
-    iq15_t tmp = iq15_mul(angle, 5215);
+    iq15_t tmp = iq15_rads_to_pu(angle);
     return iq15_cos_pu(tmp);
 }
 
@@ -144,14 +164,7 @@ EXTERN iq15_t iq15_sqrt(iq15_t val);
  * @param x Координата X.
  * @return Угол.
  */
-ALWAYS_INLINE static iq15_t iq15_atan2_pu(iq15_t y, iq15_t x)
-{
-    iq15_t angle = 0;
-
-    iq15_cordic_atan2_hyp_pu(x, y, &angle, NULL);
-
-    return angle;
-}
+EXTERN iq15_t iq15_atan2_pu(iq15_t y, iq15_t x);
 
 /**
  * Вычисляет арктангенс от значений Y и X ( atan(Y/X) ).
@@ -162,11 +175,11 @@ ALWAYS_INLINE static iq15_t iq15_atan2_pu(iq15_t y, iq15_t x)
  */
 ALWAYS_INLINE static iq15_t iq15_atan2(iq15_t y, iq15_t x)
 {
-    iq15_t angle = 0;
+    iq15_t tmp = iq15_atan2_pu(y, x);
+    // Приведение угла в периодических единицах в радианы.
+    tmp = iq15_pu_to_rads(tmp);
 
-    iq15_cordic_atan2_hyp(x, y, &angle, NULL);
-
-    return angle;
+    return tmp;
 }
 
 

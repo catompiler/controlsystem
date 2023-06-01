@@ -1,4 +1,5 @@
 #include "iq15_math.h"
+#include "iq15_cordic.h"
 #include "iq15_sin_table.h"
 
 //#define IQ15_1_DIV_2_PI (5215)
@@ -175,3 +176,12 @@ iq15_t iq15_sqrt(iq15_t val)
 #undef IQ15_SQRT_VALUE_BITS
 }
 
+
+iq15_t iq15_atan2_pu(iq15_t y, iq15_t x)
+{
+    iq15_t angle = 0;
+
+    iq15_cordic_atan2_hyp_pu(x, y, &angle, NULL);
+
+    return angle;
+}

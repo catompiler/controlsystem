@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "iq24.h"
+#include "iq24_math.h"
 #include "defs/defs.h"
 
 
@@ -34,8 +35,7 @@ ALWAYS_INLINE static void iq24_cordic_atan2_hyp(iq24_t x, iq24_t y, iq24_t* angl
 {
     iq24_cordic_atan2_hyp_pu(x, y, angle, hyp);
     // Приведение угла в периодических единицах в радианы.
-    // angle = angle * 2*pi.
-    if(angle) { *angle = iq24_mull(*angle, 105414357); }
+    if(angle) { *angle = iq24_pu_to_rads(*angle); }
 }
 
 /**
@@ -57,8 +57,7 @@ EXTERN void iq24_cordic_sincos_pu(iq24_t angle, iq24_t* sin, iq24_t* cos);
 ALWAYS_INLINE static void iq24_cordic_sincos(iq24_t angle, iq24_t* sin, iq24_t* cos)
 {
     // Приведение угла в радианах в периодические единицы.
-    // tmp = angle / (2*pi).
-    iq24_t tmp = iq24_mul(angle, 2670177);
+    iq24_t tmp = iq24_rads_to_pu(angle);
     iq24_cordic_sincos_pu(tmp, sin, cos);
 }
 

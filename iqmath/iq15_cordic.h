@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "iq15.h"
+#include "iq15_math.h"
 #include "defs/defs.h"
 
 
@@ -34,8 +35,7 @@ ALWAYS_INLINE static void iq15_cordic_atan2_hyp(iq15_t x, iq15_t y, iq15_t* angl
 {
     iq15_cordic_atan2_hyp_pu(x, y, angle, hyp);
     // Приведение угла в периодических единицах в радианы.
-    // angle = angle * 2*pi.
-    if(angle) { *angle = iq15_mull(*angle, 205887); }
+    if(angle) { *angle = iq15_pu_to_rads(*angle); }
 }
 
 /**
@@ -57,8 +57,7 @@ EXTERN void iq15_cordic_sincos_pu(iq15_t angle, iq15_t* sin, iq15_t* cos);
 ALWAYS_INLINE static void iq15_cordic_sincos(iq15_t angle, iq15_t* sin, iq15_t* cos)
 {
     // Приведение угла в радианах в периодические единицы.
-    // tmp = angle / (2*pi).
-    iq15_t tmp = iq15_mul(angle, 5215);
+    iq15_t tmp = iq15_rads_to_pu(angle);
     iq15_cordic_sincos_pu(tmp, sin, cos);
 }
 

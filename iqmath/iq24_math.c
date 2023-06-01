@@ -1,4 +1,5 @@
 #include "iq24_math.h"
+#include "iq24_cordic.h"
 #include "iq24_sin_table.h"
 
 //#define IQ24_1_DIV_2_PI (2670177)
@@ -177,3 +178,12 @@ iq24_t iq24_sqrt(iq24_t val)
 #undef IQ24_SQRT_VALUE_BITS
 }
 
+
+iq24_t iq24_atan2_pu(iq24_t y, iq24_t x)
+{
+    iq24_t angle = 0;
+
+    iq24_cordic_atan2_hyp_pu(x, y, &angle, NULL);
+
+    return angle;
+}
