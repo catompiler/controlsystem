@@ -141,6 +141,17 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     CALLBACK_PROC(adc.on_conversion) = adc_handler;
     CALLBACK_ARG(adc.on_conversion) = (void*)sys;
 
+    // Вычислительные модули.
+    // Фазы и амплитуды.
+    INIT(Ua_phase_ampl);
+    INIT(Ub_phase_ampl);
+    INIT(Uc_phase_ampl);
+    // RMS.
+    INIT(Ua_rms);
+    INIT(Ub_rms);
+    INIT(Uc_rms);
+
+    // Таймеры.
     // Таймер АЦП.
     INIT(adc_tim);
     CALLBACK_PROC(adc_tim.on_timeout) = adc_tim_handler;
@@ -185,16 +196,6 @@ METHOD_INIT_IMPL(M_sys_main, sys)
         }
 
     }
-
-    // Вычислительные модули.
-    // Фазы и амплитуды.
-    INIT(Ua_phase_ampl);
-    INIT(Ub_phase_ampl);
-    INIT(Uc_phase_ampl);
-    // RMS.
-    INIT(Ua_rms);
-    INIT(Ub_rms);
-    INIT(Uc_rms);
 
     // Проверка ошибок инициализации.
     // Если нет ошибок - продолжим инициализацию.
