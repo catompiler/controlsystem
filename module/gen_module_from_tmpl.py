@@ -69,7 +69,7 @@ def check_name(name):
 
 
 def print_usage():
-    print("Usage: %s mod[_]name" % (sys.argv[0]));
+    print("Usage: %s mod_name [this_name]" % (sys.argv[0]));
 
 
 def main():
