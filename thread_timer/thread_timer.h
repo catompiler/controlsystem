@@ -1,6 +1,7 @@
 #ifndef THREAD_TIMER_H
 #define THREAD_TIMER_H
 
+#include <stdint.h>
 #include <pthread.h>
 #include <time.h>
 

@@ -57,7 +57,7 @@ EXTERN METHOD_CONTROL_PROTO(M_adc_timer);
         METHOD_INIT_PTR(M_adc_timer), METHOD_DEINIT_PTR(M_adc_timer),\
         METHOD_CONTROL_PTR(M_adc_timer),\
         CALLBACK_DEFAULTS /* on_timeout */,\
-        {0} /* m_thr_tim */,\
+        {{{0}}} /* m_thr_tim */,\
     }
 
 #endif /* ADC_TIMER_H */
