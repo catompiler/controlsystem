@@ -80,6 +80,13 @@ typedef struct _S_Thread_Timer {
 } thread_timer_t;
 
 
+#if defined(__CYGWIN__)
+  #define THREAD_TIMER_DEFAULTS {0}
+#else // linux
+  #define THREAD_TIMER_DEFAULTS {{{0}}}
+#endif
+
+
 //! Определение EXTERN.
 #ifndef EXTERN
  #ifndef __cplusplus

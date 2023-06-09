@@ -54,7 +54,7 @@ EXTERN METHOD_CONTROL_PROTO(M_ms_timer);
         METHOD_INIT_PTR(M_ms_timer), METHOD_DEINIT_PTR(M_ms_timer),\
         METHOD_CONTROL_PTR(M_ms_timer),\
         CALLBACK_DEFAULTS /* on_timeout */,\
-        {{{0}}} /* m_thr_tim */,\
+        THREAD_TIMER_DEFAULTS /* m_thr_tim */,\
     }
 
 #endif /* MS_TIMER_H */
