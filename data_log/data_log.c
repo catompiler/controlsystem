@@ -4,7 +4,7 @@
 
 static status_t recalc_values(M_data_log* dlog)
 {
-    status_t status = STATUS_READY;
+    status_t res_status = STATUS_READY;
 
     data_log_ch_param_t* ch_par;
     data_log_ch_data_t* ch_dat;
@@ -22,33 +22,25 @@ static status_t recalc_values(M_data_log* dlog)
         }
     }
 
-    return status;
+    return res_status;
 }
 
 
 METHOD_INIT_IMPL(M_data_log, dlog)
 {
-    dlog->status = STATUS_NONE;
-
     dlog->r_count = 0;
     dlog->r_get_index = 0;
     dlog->r_put_index = 0;
 
-    status_t status = recalc_values(dlog);
-
-    if(status & STATUS_READY){
-        dlog->status = STATUS_READY;
-    }
+    IDLE((*dlog));
 }
 
 METHOD_DEINIT_IMPL(M_data_log, dlog)
 {
-    dlog->status = STATUS_NONE;
 }
 
 METHOD_CALC_IMPL(M_data_log, dlog)
 {
-    if(!(dlog->status & STATUS_READY)) return;
     if(!(dlog->control & CONTROL_ENABLE)) return;
 
     data_log_ch_param_t* ch_par;
@@ -96,9 +88,5 @@ METHOD_CALC_IMPL(M_data_log, dlog)
 
 METHOD_IDLE_IMPL(M_data_log, dlog)
 {
-    status_t status = recalc_values(dlog);
-
-    if(status & STATUS_READY){
-        dlog->status |= STATUS_READY;
-    }
+    recalc_values(dlog);
 }

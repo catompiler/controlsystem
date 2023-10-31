@@ -14,7 +14,6 @@ enum _E_Data_Log_Control {
 //! Перечисление возможных бит статуса.
 enum _E_Data_Log_Status {
     DATA_LOG_STATUS_NONE = STATUS_NONE,
-    DATA_LOG_STATUS_READY = STATUS_READY,
 };
 
 //! Число каналов.
