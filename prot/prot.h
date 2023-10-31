@@ -1,11 +1,11 @@
-#ifndef PROT_PROT_H
-#define PROT_PROT_H
+#ifndef PROT_H
+#define PROT_H
 
 #include "module/base.h"
 
 
 //! Перечисление возможных бит ошибок слова 0.
-enum _E_Ptor_Errors0 {
+enum _E_Prot_Errors0 {
     PROT_ERR0_NONE = ERROR_NONE, //!< Нет ошибок.
 
     PROT_ERR0_INTERNAL_SW = 0x01, //!< Ошибка ПО.
@@ -34,10 +34,65 @@ enum _E_Prot_Errors1 {
 
 
 //! Перечисление возможных бит предупреждений.
-enum _E_Prot_Warnings {
+enum _E_Prot_Warnings0 {
     PROT_WARN0_NONE = WARNING_NONE, //!< Нет предупреждений.
 
     //PROT_WARN0_ = 0x00, //!<
 };
 
-#endif /* PROT_PROT_H */
+
+//! Перечисление возможных бит управления.
+enum _E_Prot_Control {
+    PROT_CONTROL_NONE = CONTROL_NONE,
+};
+
+//! Перечисление возможных бит статуса.
+enum _E_Prot_Status {
+    PROT_STATUS_NONE = STATUS_NONE,
+};
+
+//! Предварительная декларация типа модуля.
+typedef struct _S_Prot M_prot;
+
+//! Структура модуля.
+struct _S_Prot {
+    // Базовые поля.
+    control_t control; //!< Слово управления.
+    status_t status; //!< Слово состояния.
+    error_t errors0; //!< Слово ошибок 0.
+    error_t errors1; //!< Слово ошибок 1.
+    error_t warnings0; //!< Слово предупреждений 0.
+    error_t warnings1; //!< Слово предупреждений 1.
+    // Входные данные.
+    // Выходные данные.
+    // Параметры.
+    // Регистры.
+    // Методы.
+    METHOD_INIT(M_prot);
+    METHOD_DEINIT(M_prot);
+    METHOD_CALC(M_prot);
+    METHOD_IDLE(M_prot);
+    // Коллбэки.
+    // Внутренние данные.
+};
+
+EXTERN METHOD_INIT_PROTO(M_prot);
+EXTERN METHOD_DEINIT_PROTO(M_prot);
+EXTERN METHOD_CALC_PROTO(M_prot);
+EXTERN METHOD_IDLE_PROTO(M_prot);
+
+#define PROT_DEFAULTS {\
+        /* Базовые поля */\
+        0, 0, /* control, status */\
+        /* Входные данные */\
+        /* Выходные данные */\
+        /* Параметры */\
+        /* Регистры */\
+        /* Методы */\
+        METHOD_INIT_PTR(M_prot), METHOD_DEINIT_PTR(M_prot),\
+        METHOD_CALC_PTR(M_prot), METHOD_IDLE_PTR(M_prot),\
+        /* Коллбэки */\
+        /* Внутренние данные */\
+    }
+
+#endif /* PROT_H */
