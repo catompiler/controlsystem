@@ -32,7 +32,7 @@ def win(n, width):
 def gen_cmplx_sin_table():
     fract_bits = 14;
     base = (1 << fract_bits);
-    table_size = 32;
+    table_size = 64;
     print("//! Число бит дробной части значений комплексного синуса.");
     print("#define PHASE_AMPL_CMPLX_SIN_TABLE_FRACT_BITS %u\n" % (fract_bits));
     print("//! Число значений комплексного синуса.");
