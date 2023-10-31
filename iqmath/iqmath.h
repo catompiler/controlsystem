@@ -10,5 +10,6 @@
 #include "q15.h"
 #include "q15_math.h"
 #include "iq7.h"
+#include "iqutils.h"
 
 #endif /* IQ_MATH_H */
