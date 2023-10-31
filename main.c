@@ -143,11 +143,11 @@ int main(void)
 #endif
 
     // Ua, Ub. Uc.
-    dlog.p_ch[0].reg_id = REG_ID_ADC_UA; //REG_ID_PHASE_AMPL_UA_VALUE
+    dlog.p_ch[0].reg_id = REG_ID_MEAS_UA;
     dlog.p_ch[0].enabled = 1;
-    dlog.p_ch[1].reg_id = REG_ID_ADC_UB;
+    dlog.p_ch[1].reg_id = REG_ID_MEAS_UB;
     dlog.p_ch[1].enabled = 1;
-    dlog.p_ch[2].reg_id = REG_ID_ADC_UC;
+    dlog.p_ch[2].reg_id = REG_ID_MEAS_UC;
     dlog.p_ch[2].enabled = 1;
     // Ua phase & ampl.
     dlog.p_ch[3].reg_id = REG_ID_PHASE_AMPL_UA_PHASE;
@@ -172,6 +172,12 @@ int main(void)
     dlog.p_ch[11].reg_id = REG_ID_RMS_UC;
     dlog.p_ch[11].enabled = 1;
 
+    dlog.p_ch[12].reg_id = REG_ID_SYS_TIME_COUNTER_MS;
+    dlog.p_ch[12].enabled = 1;
+
+    dlog.p_ch[13].reg_id = REG_ID_LINE_FREQ_UA_FILT;
+    dlog.p_ch[13].enabled = 1;
+
     dlog.control = CONTROL_ENABLE;
 
     INIT(sys);
@@ -185,8 +191,27 @@ int main(void)
         return 0;
     }
 
+    // fake ADC to noise scales.
+    adc_model.in_U_scale = IQ24(0.01);
+    adc_model.in_F_scale = IQ24(100);
+
+    strobe_t old_stb = STROBE_NONE;
+
     for(;;){
         IDLE(sys);
+
+        if(sys.state == STATE_IDLE && adc_tim.out_counter > 256){
+            // fake ADC to normal scales.
+            adc_model.in_U_scale = IQ24(1.0);
+            adc_model.in_F_scale = IQ24(1.3);
+        }
+
+        if(sys.state == STATE_IDLE){
+            if((old_stb == STROBE_NONE) && (zcd_Ua.out_zero_cross == STROBE_ACTIVE)){
+                __asm__("nop");
+            }
+            old_stb = zcd_Ua.out_zero_cross;
+        }
 
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
     }

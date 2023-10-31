@@ -12,6 +12,8 @@
 #include "iqmath/test_q15_math.h"
 #include "iqmath/test_iq24_cordic.h"
 #include "iqmath/test_iq15_cordic.h"
+#include "iqmath/test_iq7.h"
+#include "iqmath/test_iqutils.h"
 
 
 int test_main(void)
@@ -76,6 +78,18 @@ int test_main(void)
 
     if(test_iq15_cordic() != CUE_SUCCESS){
         printf("test_iq15_cordic() cunit error: %s\n", CU_get_error_msg());
+        CU_cleanup_registry();
+        return -1;
+    }
+
+    if(test_iq7() != CUE_SUCCESS){
+        printf("test_iq7() cunit error: %s\n", CU_get_error_msg());
+        CU_cleanup_registry();
+        return -1;
+    }
+
+    if(test_iqutils() != CUE_SUCCESS){
+        printf("test_iqutils() cunit error: %s\n", CU_get_error_msg());
         CU_cleanup_registry();
         return -1;
     }

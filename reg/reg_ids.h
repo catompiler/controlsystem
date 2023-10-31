@@ -15,36 +15,60 @@
 #define REG_ID_CONF_I_NOM    1
 
 
+// SysTime
+#define REG_ID_SYS_TIME_COUNTER_MS    200
+#define REG_ID_SYS_TIME_COUNTER_S    201
+#define REG_ID_SYS_TIME_RUN_COUNTER_S    202
+
 // ADC
 // Phases voltage
 // Raw
-#define REG_ID_ADC_UA_RAW    200
-#define REG_ID_ADC_UB_RAW    201
-#define REG_ID_ADC_UC_RAW    202
+#define REG_ID_ADC_UA_RAW    300
+#define REG_ID_ADC_UB_RAW    301
+#define REG_ID_ADC_UC_RAW    302
 // Rel
-#define REG_ID_ADC_UA    203
-#define REG_ID_ADC_UB    204
-#define REG_ID_ADC_UC    205
+#define REG_ID_ADC_UA    303
+#define REG_ID_ADC_UB    304
+#define REG_ID_ADC_UC    305
 // Calibration
-#define REG_ID_ADC_UA_GAIN    206
-#define REG_ID_ADC_UA_OFFSET    207
-#define REG_ID_ADC_UB_GAIN    208
-#define REG_ID_ADC_UB_OFFSET    209
-#define REG_ID_ADC_UC_GAIN    210
-#define REG_ID_ADC_UC_OFFSET    211
+#define REG_ID_ADC_UA_GAIN    306
+#define REG_ID_ADC_UA_OFFSET    307
+#define REG_ID_ADC_UB_GAIN    308
+#define REG_ID_ADC_UB_OFFSET    309
+#define REG_ID_ADC_UC_GAIN    310
+#define REG_ID_ADC_UC_OFFSET    311
+
+// Measurement
+#define REG_ID_MEAS_UA    500
+#define REG_ID_MEAS_UB    501
+#define REG_ID_MEAS_UC    502
+#define REG_ID_MEAS_IA    503
+#define REG_ID_MEAS_IB    504
+#define REG_ID_MEAS_IC    505
+#define REG_ID_MEAS_UARM    506
+#define REG_ID_MEAS_IARM    507
 
 // Phase and Amplitude.
-#define REG_ID_PHASE_AMPL_UA_PHASE    300
-#define REG_ID_PHASE_AMPL_UA_AMPL    301
-#define REG_ID_PHASE_AMPL_UB_PHASE    302
-#define REG_ID_PHASE_AMPL_UB_AMPL    303
-#define REG_ID_PHASE_AMPL_UC_PHASE    304
-#define REG_ID_PHASE_AMPL_UC_AMPL    305
+#define REG_ID_PHASE_AMPL_UA_PHASE    1000
+#define REG_ID_PHASE_AMPL_UA_AMPL    1001
+#define REG_ID_PHASE_AMPL_UB_PHASE    1002
+#define REG_ID_PHASE_AMPL_UB_AMPL    1003
+#define REG_ID_PHASE_AMPL_UC_PHASE    1004
+#define REG_ID_PHASE_AMPL_UC_AMPL    1005
 
-#define REG_ID_RMS_UA    350
-#define REG_ID_RMS_UB    351
-#define REG_ID_RMS_UC    352
+#define REG_ID_LINE_FREQ_UA    1200
+#define REG_ID_LINE_FREQ_UA_FILTER_T    1201
+#define REG_ID_LINE_FREQ_UA_FILT    1202
+#define REG_ID_LINE_FREQ_UB    1203
+#define REG_ID_LINE_FREQ_UB_FILTER_T    1204
+#define REG_ID_LINE_FREQ_UB_FILT    1205
+#define REG_ID_LINE_FREQ_UC    1206
+#define REG_ID_LINE_FREQ_UC_FILTER_T    1207
+#define REG_ID_LINE_FREQ_UC_FILT    1208
 
+#define REG_ID_RMS_UA    1400
+#define REG_ID_RMS_UB    1401
+#define REG_ID_RMS_UC    1402
 
 // End
 

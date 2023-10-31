@@ -21,8 +21,14 @@ REG I_NOM, conf.p_I_nom, IQ15, CONF
 !REG ERRORS, sys.errors, U32, NONE
 !REG WARNINGS, sys.warnings, U32, NONE
 
+// SysTime
+GROUP SYS_TIME, 200
+REG COUNTER_MS, sys_time.r_counter_ms, U32, NONE
+REG COUNTER_S, sys_time.r_counter_s, U32, NONE
+REG RUN_COUNTER_S, sys_time.r_run_counter_s, U32, NONE
+
 // ADC
-GROUP ADC, 200
+GROUP ADC, 300
 // Phases voltage
 // Raw
 REG UA_RAW, adc.out_Ua_raw, U32, NONE
@@ -40,29 +46,42 @@ REG UB_OFFSET, adc.p_Ub_offset, U32, CONF
 REG UC_GAIN,   adc.p_Uc_gain,  IQ24, CONF
 REG UC_OFFSET, adc.p_Uc_offset, U32, CONF
 
+// Measurement
+GROUP MEAS, 500
+REG UA, mains_U.out_Ua, IQ24, NONE
+REG UB, mains_U.out_Ub, IQ24, NONE
+REG UC, mains_U.out_Uc, IQ24, NONE
+REG IA, mains_I.out_Ia, IQ24, NONE
+REG IB, mains_I.out_Ib, IQ24, NONE
+REG IC, mains_I.out_Ic, IQ24, NONE
+REG UARM, armature_U.out_Uarm, IQ24, NONE
+REG IARM, armature_I.out_Iarm, IQ24, NONE
+
 // Phase and Amplitude.
-GROUP PHASE_AMPL, 300
-!REG UA_VALUE, Ua_phase_ampl.out_value, IQ24, NONE
-REG UA_PHASE, Ua_phase_ampl.out_phase, IQ24, NONE
-REG UA_AMPL, Ua_phase_ampl.out_ampl, IQ24, NONE
-REG UB_PHASE, Ub_phase_ampl.out_phase, IQ24, NONE
-REG UB_AMPL, Ub_phase_ampl.out_ampl, IQ24, NONE
-REG UC_PHASE, Uc_phase_ampl.out_phase, IQ24, NONE
-REG UC_AMPL, Uc_phase_ampl.out_ampl, IQ24, NONE
+GROUP PHASE_AMPL, 1000
+!REG UA_VALUE, phase_ampl_Ua.out_value, IQ24, NONE
+REG UA_PHASE,  phase_ampl_Ua.out_phase, IQ24, NONE
+REG UA_AMPL,   phase_ampl_Ua.out_ampl,  IQ24, NONE
+REG UB_PHASE,  phase_ampl_Ub.out_phase, IQ24, NONE
+REG UB_AMPL,   phase_ampl_Ub.out_ampl,  IQ24, NONE
+REG UC_PHASE,  phase_ampl_Uc.out_phase, IQ24, NONE
+REG UC_AMPL,   phase_ampl_Uc.out_ampl,  IQ24, NONE
 
-GROUP RMS, 350
-REG UA, Ua_rms.out_value, IQ24, NONE
-REG UB, Ub_rms.out_value, IQ24, NONE
-REG UC, Uc_rms.out_value, IQ24, NONE
+GROUP LINE_FREQ, 1200
+REG UA,            zcd_Ua.out_freq,        IQ24, NONE
+REG UA_FILTER_T,   filter_Ua_freq.p_T,        IQ24, CONF
+REG UA_FILT,       filter_Ua_freq.out_value,  IQ24, NONE
+REG UB,            zcd_Ub.out_freq,        IQ24, NONE
+REG UB_FILTER_T,   filter_Ub_freq.p_T,        IQ24, CONF
+REG UB_FILT,       filter_Ub_freq.out_value,  IQ24, NONE
+REG UC,            zcd_Uc.out_freq,        IQ24, NONE
+REG UC_FILTER_T,   filter_Uc_freq.p_T,        IQ24, CONF
+REG UC_FILT,       filter_Uc_freq.out_value,  IQ24, NONE
 
-!// Measurement
-!GROUP MEAS, 400
-!REG UA_GAIN,   meas.gain_Ua,   IQ24, CONF
-!REG UA_OFFSET, meas.offset_Ua, IQ24, CONF
-!REG UB_GAIN,   meas.gain_Ub,   IQ24, CONF
-!REG UB_OFFSET, meas.offset_Ub, IQ24, CONF
-!REG UC_GAIN,   meas.gain_Uc,   IQ24, CONF
-!REG UC_OFFSET, meas.offset_Uc, IQ24, CONF
+GROUP RMS, 1400
+REG UA, rms_Ua.out_value, IQ24, NONE
+REG UB, rms_Ub.out_value, IQ24, NONE
+REG UC, rms_Uc.out_value, IQ24, NONE
 
 // End
 END
