@@ -172,3 +172,15 @@ q15_t q15_sqrt(q15_t val)
 #undef Q15_SQRT_VALUE_BITS
 }
 
+
+q15_t q15_lerp(q15_t a, q15_t b, q15_t t)
+{
+    // res = a * (1.0 - t) + b * t == a + (b - a) * t;
+    q15_t res;
+
+    res = q15_sub(b, a);
+    res = q15_mul(res, t);
+    res = q15_add(res, a);
+
+    return res;
+}

@@ -64,6 +64,17 @@
 //}
 
 /**
+ * Приводит (нормализует) угол в периодических единицах
+ * к диапазону [0; 2*pi).
+ * @param angle Угол в периодических единицах.
+ * @return Нормализованный угол.
+ */
+ALWAYS_INLINE static q15_t q15_angle_norm_pu(q15_t angle)
+{
+    return angle & (Q15_2PI_PU);
+}
+
+/**
  * Функция sin.
  * Аргумент в циклических единицах.
  * @param angle Угол.
@@ -122,6 +133,15 @@ ALWAYS_INLINE static q15_t q15_cos_pu(q15_t angle)
  * @return Квадратный корень.
  */
 EXTERN q15_t q15_sqrt(q15_t val);
+
+/**
+ * Линейная интерполяция.
+ * @param a Значение A.
+ * @param b Значение B.
+ * @param t Коэффициент интерполяции.
+ * @return Интерполированное значение.
+ */
+EXTERN q15_t q15_lerp(q15_t a, q15_t b, q15_t t);
 
 
 #endif /* Q15_MATH_H */

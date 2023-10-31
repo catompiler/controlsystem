@@ -30,6 +30,16 @@ static void test_iq24_round(void)
     CU_ASSERT_EQUAL(IQ24I(4), iq24_round(IQ24(3.5)));
 }
 
+static void test_iq24_inv(void)
+{
+    CU_ASSERT_EQUAL(IQ24(2.0), iq24_inv(IQ24(0.5)));
+}
+
+static void test_iq24_inv_sat(void)
+{
+    CU_ASSERT_EQUAL(IQ24_MAX, iq24_inv_sat(IQ24(0.001)));
+}
+
 #define TEST_IQ24_SIN_PU_ERRMAX_F (1e-6f)
 #define TEST_IQ24_SIN_ERRMAX_F (2e-6f)
 
@@ -195,6 +205,20 @@ static void test_iq24_sqrt(void)
 
 #undef TEST_IQ24_SQRT_ERRMAX_F
 
+static void test_iq24_angle_norm_pu(void)
+{
+    CU_ASSERT_EQUAL(IQ24_2PI_PU-1, iq24_angle_norm_pu(-1));
+}
+
+static void test_iq24_lerp(void)
+{
+    CU_ASSERT_EQUAL(IQ24(0), iq24_lerp(IQ24(0), IQ24(1), IQ24(0)));
+    CU_ASSERT_EQUAL(IQ24(1), iq24_lerp(IQ24(0), IQ24(1), IQ24(1)));
+    CU_ASSERT_EQUAL(IQ24(0.25), iq24_lerp(IQ24(0), IQ24(1), IQ24(0.25)));
+    CU_ASSERT_EQUAL(IQ24(0.5), iq24_lerp(IQ24(0), IQ24(1), IQ24(0.5)));
+    CU_ASSERT_EQUAL(IQ24(0.75), iq24_lerp(IQ24(0), IQ24(1), IQ24(0.75)));
+}
+
 /*
 static void test_iq24_(void)
 {
@@ -213,12 +237,15 @@ static CU_ErrorCode test_iq24_math(void)
     if(CU_add_test(suite, "iq24_floor", test_iq24_floor) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq24_ceil", test_iq24_ceil) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq24_round", test_iq24_round) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "iq24_inv", test_iq24_inv) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "iq24_inv_sat", test_iq24_inv_sat) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq24_sin_pu", test_iq24_sin_pu) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq24_cos_pu", test_iq24_cos_pu) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq24_sin", test_iq24_sin) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq24_cos", test_iq24_cos) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq24_sqrt", test_iq24_sqrt) == NULL) return CU_get_error();
-    //if(CU_add_test(suite, "IQ24", test_) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "iq24_angle_norm_pu", test_iq24_angle_norm_pu) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "iq24_lerp", test_iq24_lerp) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ24", test_) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ24", test_) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ24", test_) == NULL) return CU_get_error();

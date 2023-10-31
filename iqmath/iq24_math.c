@@ -187,3 +187,16 @@ iq24_t iq24_atan2_pu(iq24_t y, iq24_t x)
 
     return angle;
 }
+
+
+iq24_t iq24_lerp(iq24_t a, iq24_t b, iq24_t t)
+{
+    // res = a * (1.0 - t) + b * t == a + (b - a) * t;
+    iq24_t res;
+
+    res = iq24_sub(b, a);
+    res = iq24_mul(res, t);
+    res = iq24_add(res, a);
+
+    return res;
+}

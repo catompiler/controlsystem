@@ -80,6 +80,19 @@ ALWAYS_INLINE static iq15_t iq15_round(iq15_t q)
 }
 
 /**
+ * Инвертирует число с фиксированной запятой.
+ * @param value Значение. Не должно быть 0.
+ * @return Результат.
+ */
+ALWAYS_INLINE static iq15_t iq15_inv(iq15_t value)
+{
+    // IQ(15) = IQ(15+15) - IQ(15).
+    iq15_t res = iq15_div(IQ15(1), value);
+
+    return res;
+}
+
+/**
  * Преобразует радианы в периодические единицы.
  * @param angle Угол в радианах.
  * @return Угол в периодических единицах.
@@ -97,6 +110,17 @@ ALWAYS_INLINE static iq15_t iq15_rads_to_pu(iq15_t angle)
 ALWAYS_INLINE static iq15_t iq15_pu_to_rads(iq15_t angle)
 {
     return iq15_mul(angle, IQ15_2PI);
+}
+
+/**
+ * Приводит (нормализует) угол в периодических единицах
+ * к диапазону [0; 2*pi).
+ * @param angle Угол в периодических единицах.
+ * @return Нормализованный угол.
+ */
+ALWAYS_INLINE static iq15_t iq15_angle_norm_pu(iq15_t angle)
+{
+    return angle & (IQ15_2PI_PU - 1);
 }
 
 /**
@@ -181,6 +205,15 @@ ALWAYS_INLINE static iq15_t iq15_atan2(iq15_t y, iq15_t x)
 
     return tmp;
 }
+
+/**
+ * Линейная интерполяция.
+ * @param a Значение A.
+ * @param b Значение B.
+ * @param t Коэффициент интерполяции.
+ * @return Интерполированное значение.
+ */
+EXTERN iq15_t iq15_lerp(iq15_t a, iq15_t b, iq15_t t);
 
 
 #endif /* IQ15_MATH_H */

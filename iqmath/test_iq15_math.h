@@ -27,6 +27,11 @@ static void test_iq15_round(void)
     CU_ASSERT_EQUAL(IQ15I(4), iq15_round(IQ15(3.5)));
 }
 
+static void test_iq15_inv(void)
+{
+    CU_ASSERT_EQUAL(IQ15(2.0), iq15_inv(IQ15(0.5)));
+}
+
 #define TEST_IQ15_SIN_PU_ERRMAX_F (3e-4f)
 #define TEST_IQ15_SIN_ERRMAX_F (8e-4f)
 
@@ -192,6 +197,20 @@ static void test_iq15_sqrt(void)
 
 #undef TEST_IQ15_SQRT_ERRMAX_F
 
+static void test_iq15_angle_norm_pu(void)
+{
+    CU_ASSERT_EQUAL(IQ15_2PI_PU-1, iq15_angle_norm_pu(-1));
+}
+
+static void test_iq15_lerp(void)
+{
+    CU_ASSERT_EQUAL(IQ15(0), iq15_lerp(IQ15(0), IQ15(1), IQ15(0)));
+    CU_ASSERT_EQUAL(IQ15(1), iq15_lerp(IQ15(0), IQ15(1), IQ15(1)));
+    CU_ASSERT_EQUAL(IQ15(0.25), iq15_lerp(IQ15(0), IQ15(1), IQ15(0.25)));
+    CU_ASSERT_EQUAL(IQ15(0.5), iq15_lerp(IQ15(0), IQ15(1), IQ15(0.5)));
+    CU_ASSERT_EQUAL(IQ15(0.75), iq15_lerp(IQ15(0), IQ15(1), IQ15(0.75)));
+}
+
 /*
 static void test_iq15_(void)
 {
@@ -210,12 +229,14 @@ static CU_ErrorCode test_iq15_math(void)
     if(CU_add_test(suite, "iq15_floor", test_iq15_floor) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq15_ceil", test_iq15_ceil) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq15_round", test_iq15_round) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "iq15_inv", test_iq15_inv) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq15_sin_pu", test_iq15_sin_pu) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq15_cos_pu", test_iq15_cos_pu) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq15_sin", test_iq15_sin) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq15_cos", test_iq15_cos) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq15_sqrt", test_iq15_sqrt) == NULL) return CU_get_error();
-    //if(CU_add_test(suite, "IQ15", test_) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "iq15_angle_norm_pu", test_iq15_angle_norm_pu) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "iq15_lerp", test_iq15_lerp) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ15", test_) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ15", test_) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ15", test_) == NULL) return CU_get_error();

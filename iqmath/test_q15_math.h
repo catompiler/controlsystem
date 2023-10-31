@@ -118,6 +118,19 @@ static void test_q15_sqrt(void)
 
 #undef TEST_Q15_SQRT_ERRMAX_F
 
+static void test_q15_angle_norm_pu(void)
+{
+    CU_ASSERT_EQUAL(Q15_2PI_PU, q15_angle_norm_pu(-1));
+}
+
+static void test_q15_lerp(void)
+{
+    CU_ASSERT_EQUAL(Q15(0), q15_lerp(Q15(0), Q15(0.5), Q15(0)));
+    CU_ASSERT_EQUAL(Q15(0.125), q15_lerp(Q15(0), Q15(0.5), Q15(0.25)));
+    CU_ASSERT_EQUAL(Q15(0.25), q15_lerp(Q15(0), Q15(0.5), Q15(0.5)));
+    CU_ASSERT_EQUAL(Q15(0.375), q15_lerp(Q15(0), Q15(0.5), Q15(0.75)));
+}
+
 /*
 static void test_q15_(void)
 {
@@ -137,7 +150,8 @@ static CU_ErrorCode test_q15_math(void)
     if(CU_add_test(suite, "q15_sin_pu", test_q15_sin_pu) == NULL) return CU_get_error();
     if(CU_add_test(suite, "q15_cos_pu", test_q15_cos_pu) == NULL) return CU_get_error();
     if(CU_add_test(suite, "q15_sqrt", test_q15_sqrt) == NULL) return CU_get_error();
-    //if(CU_add_test(suite, "Q15", test_) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "q15_angle_norm_pu", test_q15_angle_norm_pu) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "q15_lerp", test_q15_lerp) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "Q15", test_) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "Q15", test_) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "Q15", test_) == NULL) return CU_get_error();

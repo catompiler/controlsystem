@@ -80,6 +80,32 @@ ALWAYS_INLINE static iq24_t iq24_round(iq24_t q)
 }
 
 /**
+ * Инвертирует число с фиксированной запятой.
+ * @param value Значение. Не должно быть 0.
+ * @return Результат.
+ */
+ALWAYS_INLINE static iq24_t iq24_inv(iq24_t value)
+{
+    // IQ(24) = IQ(24+24) - IQ(24).
+    iq24_t res = iq24_div(IQ24(1), value);
+
+    return res;
+}
+
+/**
+ * Инвертирует число с фиксированной запятой с насыщением.
+ * @param value Значение. Не должно быть 0.
+ * @return Результат.
+ */
+ALWAYS_INLINE static iq24_t iq24_inv_sat(iq24_t value)
+{
+    // IQ(24) = IQ(24+24) - IQ(24).
+    iq24_t res = iq24_div_sat(IQ24(1), value);
+
+    return res;
+}
+
+/**
  * Преобразует радианы в периодические единицы.
  * @param angle Угол в радианах.
  * @return Угол в периодических единицах.
@@ -97,6 +123,17 @@ ALWAYS_INLINE static iq24_t iq24_rads_to_pu(iq24_t angle)
 ALWAYS_INLINE static iq24_t iq24_pu_to_rads(iq24_t angle)
 {
     return iq24_mul(angle, IQ24_2PI);
+}
+
+/**
+ * Приводит (нормализует) угол в периодических единицах
+ * к диапазону [0; 2*pi).
+ * @param angle Угол в периодических единицах.
+ * @return Нормализованный угол.
+ */
+ALWAYS_INLINE static iq24_t iq24_angle_norm_pu(iq24_t angle)
+{
+    return angle & (IQ24_2PI_PU - 1);
 }
 
 /**
@@ -181,6 +218,15 @@ ALWAYS_INLINE static iq24_t iq24_atan2(iq24_t y, iq24_t x)
 
     return tmp;
 }
+
+/**
+ * Линейная интерполяция.
+ * @param a Значение A.
+ * @param b Значение B.
+ * @param t Коэффициент интерполяции.
+ * @return Интерполированное значение.
+ */
+EXTERN iq24_t iq24_lerp(iq24_t a, iq24_t b, iq24_t t);
 
 
 #endif /* IQ24_MATH_H */

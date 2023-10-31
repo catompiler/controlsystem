@@ -185,3 +185,16 @@ iq15_t iq15_atan2_pu(iq15_t y, iq15_t x)
 
     return angle;
 }
+
+
+iq15_t iq15_lerp(iq15_t a, iq15_t b, iq15_t t)
+{
+    // res = a * (1.0 - t) + b * t == a + (b - a) * t;
+    iq15_t res;
+
+    res = iq15_sub(b, a);
+    res = iq15_mul(res, t);
+    res = iq15_add(res, a);
+
+    return res;
+}
