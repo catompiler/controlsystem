@@ -9,5 +9,6 @@
 #include "iq15_cordic.h"
 #include "q15.h"
 #include "q15_math.h"
+#include "iq7.h"
 
 #endif /* IQ_MATH_H */
