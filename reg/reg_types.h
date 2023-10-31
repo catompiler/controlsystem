@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "iqmath/iq24.h"
 #include "iqmath/iq15.h"
+#include "iqmath/iq7.h"
 
 
 // Перечисление типов.
@@ -12,6 +13,7 @@ typedef enum _E_Reg_Type {
     REG_TYPE_U32 = 1, //!< Целочисленное беззнаковое 32 бит.
     REG_TYPE_IQ24 = 2, //!< Фиксированная запятая с дробной частью 24 бит.
     REG_TYPE_IQ15 = 3, //!< Фиксированная запятая с дробной частью 15 бит.
+    REG_TYPE_IQ7 = 4, //!< Фиксированная запятая с дробной частью 7 бит.
 } reg_type_t;
 
 // Целочисленные типы.
@@ -25,6 +27,8 @@ typedef uint32_t reg_u32_t;
 typedef iq24_t reg_iq24_t;
 //! iq15.
 typedef iq15_t reg_iq15_t;
+//! iq7.
+typedef iq7_t reg_iq7_t;
 
 
 #endif /* BASE_REG_TYPES_H */
