@@ -10,12 +10,13 @@
 //! Перечисление возможных бит управления.
 enum _E_Rms_Control {
     RMS_CONTROL_NONE = CONTROL_NONE,
+    RMS_CONTROL_ENABLE = CONTROL_ENABLE, //!< Разрешает работу.
 };
 
 //! Перечисление возможных бит статуса.
 enum _E_Rms_Status {
     RMS_STATUS_NONE = STATUS_NONE,
-    RMS_STATUS_VALID = STATUS_VALID
+    RMS_STATUS_VALID = STATUS_VALID, //!< Устанавливается после заполнения буфера.
 };
 
 

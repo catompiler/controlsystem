@@ -4,10 +4,15 @@
 #include "phase_ampl_cmplx_sin_table.h"
 
 
+//
+// Возможно, в случае необходимости,
+// реализовать алгоритм Гёрцеля.
+// https://ru.dsplib.org/content/goertzel/goertzel.html
+//
+
+
 METHOD_INIT_IMPL(M_phase_ampl, pa)
 {
-    pa->status = STATUS_NONE;
-
     pa->m_count = 0;
     pa->m_get_index = 0;
     pa->m_put_index = 0;
@@ -159,6 +164,8 @@ static void calc_phase_ampl(M_phase_ampl* pa)
 
 METHOD_CALC_IMPL(M_phase_ampl, pa)
 {
+    if(!(pa->control & CONTROL_ENABLE)) return;
+
     iq14l_t iq_pa_val = __SSAT_ASR(pa->in_value,
                                      PHASE_AMPL_DATA_SAT_BIT,
                                      IQ24_FRACT_BITS - PHASE_AMPL_DATA_FRACT_BITS);
@@ -190,6 +197,6 @@ METHOD_CALC_IMPL(M_phase_ampl, pa)
     calc_phase_ampl(pa);
 
     if(pa->m_count == PHASE_AMPL_SAMPLES_COUNT){
-        pa->status |= STATUS_VALID;
+        pa->status = STATUS_VALID;
     }
 }

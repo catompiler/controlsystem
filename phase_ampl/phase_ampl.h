@@ -36,13 +36,14 @@ typedef iq14s_t phase_ampl_data_t;
 
 //! Перечисление возможных бит управления.
 enum _E_Phase_Ampl_Control {
-    PHASE_AMPL_CONTROL_NONE = CONTROL_NONE,//!< PHASE_AMPL_CONTROL_NONE
+    PHASE_AMPL_CONTROL_NONE = CONTROL_NONE,
+    PHASE_AMPL_CONTROL_ENABLE = CONTROL_ENABLE, //!< Разрешает работу.
 };
 
 //! Перечисление возможных бит статуса.
 enum _E_Phase_Ampl_Status {
     PHASE_AMPL_STATUS_NONE = STATUS_NONE,
-    PHASE_AMPL_STATUS_VALID = STATUS_VALID
+    PHASE_AMPL_STATUS_VALID = STATUS_VALID, //!< Устанавливается после заполнения буфера.
 };
 
 typedef struct _S_Phase_Ampl M_phase_ampl;
@@ -55,7 +56,7 @@ struct _S_Phase_Ampl {
     reg_iq24_t in_value;
     // Выходные данные.
     //reg_iq24_t out_value;
-    reg_iq24_t out_phase;
+    reg_iq24_t out_phase; //!< Фаза в периодических единицах.
     reg_iq24_t out_ampl;
     // Параметры.
     // Регистры.

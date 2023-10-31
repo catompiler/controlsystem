@@ -5,8 +5,6 @@
 
 METHOD_INIT_IMPL(M_rms, rms)
 {
-    rms->status = STATUS_NONE;
-
     rms->m_count = 0;
     rms->m_put_index = 0;
 }
@@ -58,6 +56,8 @@ static void calc_rms(M_rms* rms)
 
 METHOD_CALC_IMPL(M_rms, rms)
 {
+    if(!(rms->control & CONTROL_ENABLE)) return;
+
     iq24_t value_sq = iq24_mul_sat(rms->in_value, rms->in_value);
 
     rms->m_data[rms->m_put_index] = value_sq;
@@ -75,6 +75,6 @@ METHOD_CALC_IMPL(M_rms, rms)
     calc_rms(rms);
 
     if(rms->m_count == RMS_LEN){
-        rms->status |= STATUS_VALID;
+        rms->status = STATUS_VALID;
     }
 }
