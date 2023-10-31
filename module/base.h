@@ -6,6 +6,8 @@
 #include "module/control.h"
 #include "module/status.h"
 #include "module/state.h"
+#include "module/strobe.h"
+#include "module/flag.h"
 #include "module/error.h"
 #include "module/warning.h"
 #include "reg/reg_types.h"
