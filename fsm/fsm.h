@@ -28,6 +28,8 @@ typedef struct _S_Fsm {
     fsm_flag_t m_state_entry; //!< Флаг первого входа в текущее состояние.
 } fsm_t;
 
+//! Значение структуры конечного автомата по-умолчанию.
+#define FSM_DEFAULTS {0}
 
 /**
  * Инициализирует конечный автомат.
@@ -53,6 +55,16 @@ ALWAYS_INLINE static void fsm_deinit(fsm_t* fsm)
 //    fsm->next_state = 0;
     fsm->m_cur_state = 0;
     fsm->m_state_entry = 0;
+}
+
+/**
+ * Сбрасывает конечный автомат.
+ * @param fsm Конечный автомат.
+ */
+ALWAYS_INLINE static void fsm_reset(fsm_t* fsm)
+{
+    fsm->state = 0;
+    fsm->prev_state = 0;
 }
 
 /**
