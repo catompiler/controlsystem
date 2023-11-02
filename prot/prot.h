@@ -84,6 +84,8 @@ EXTERN METHOD_IDLE_PROTO(M_prot);
 #define PROT_DEFAULTS {\
         /* Базовые поля */\
         0, 0, /* control, status */\
+        0, 0, /* errors0, errors1 */\
+        0, 0, /* warnings0, warnings1 */\
         /* Входные данные */\
         /* Выходные данные */\
         /* Параметры */\
