@@ -180,6 +180,10 @@ int main(void)
 
     dlog.control = CONTROL_ENABLE;
 
+    // ADC model set to zero scales.
+    adc_model.in_U_scale = IQ24(0.0);
+    adc_model.in_F_scale = IQ24(0.0);
+
     INIT(sys);
 
     if(sys.status & SYS_MAIN_STATUS_ERROR){
@@ -191,26 +195,35 @@ int main(void)
         return 0;
     }
 
-    // fake ADC to noise scales.
+    // ADC model set to noise scales.
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);
-
-    strobe_t old_stb = STROBE_NONE;
 
     for(;;){
         IDLE(sys);
 
-        if(sys.state == STATE_IDLE && adc_tim.out_counter > 256){
-            // fake ADC to normal scales.
-            adc_model.in_U_scale = IQ24(1.0);
-            adc_model.in_F_scale = IQ24(1.3);
+        if(adc_tim.out_counter >= 64){
+            // On.
+            sys_cmd.out_command = SYS_COMMAND_COMMAND_ON;
         }
 
-        if(sys.state == STATE_IDLE){
-            if((old_stb == STROBE_NONE) && (zcd_Ua.out_zero_cross == STROBE_ACTIVE)){
-                __asm__("nop");
-            }
-            old_stb = zcd_Ua.out_zero_cross;
+        if(adc_tim.out_counter >= 192){
+            // Main contactor is on.
+            sys_cmd.out_command = SYS_COMMAND_COMMAND_ON |
+                                  SYS_COMMAND_COMMAND_CONT_ON;
+        }
+
+        if(adc_tim.out_counter >= 256){
+            // Run.
+            sys_cmd.out_command = SYS_COMMAND_COMMAND_ON |
+                                  SYS_COMMAND_COMMAND_CONT_ON |
+                                  SYS_COMMAND_COMMAND_RUN;
+        }
+
+        if(adc_tim.out_counter >= 128){
+            // ADC model set to normal scales.
+            adc_model.in_U_scale = IQ24(1.0);
+            adc_model.in_F_scale = IQ24(1.3); // 1.3
         }
 
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;

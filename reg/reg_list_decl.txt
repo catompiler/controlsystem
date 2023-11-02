@@ -69,14 +69,14 @@ REG UC_AMPL,   phase_ampl_Uc.out_ampl,  IQ24, NONE
 
 GROUP LINE_FREQ, 1200
 REG UA,            zcd_Ua.out_freq,        IQ24, NONE
-REG UA_FILTER_T,   filter_Ua_freq.p_T,        IQ24, CONF
-REG UA_FILT,       filter_Ua_freq.out_value,  IQ24, NONE
+REG UA_FILTER_T,   filter_freq_Ua.p_T,        IQ24, CONF
+REG UA_FILT,       filter_freq_Ua.out_value,  IQ24, NONE
 REG UB,            zcd_Ub.out_freq,        IQ24, NONE
-REG UB_FILTER_T,   filter_Ub_freq.p_T,        IQ24, CONF
-REG UB_FILT,       filter_Ub_freq.out_value,  IQ24, NONE
+REG UB_FILTER_T,   filter_freq_Ub.p_T,        IQ24, CONF
+REG UB_FILT,       filter_freq_Ub.out_value,  IQ24, NONE
 REG UC,            zcd_Uc.out_freq,        IQ24, NONE
-REG UC_FILTER_T,   filter_Uc_freq.p_T,        IQ24, CONF
-REG UC_FILT,       filter_Uc_freq.out_value,  IQ24, NONE
+REG UC_FILTER_T,   filter_freq_Uc.p_T,        IQ24, CONF
+REG UC_FILT,       filter_freq_Uc.out_value,  IQ24, NONE
 
 GROUP RMS, 1400
 REG UA, rms_Ua.out_value, IQ24, NONE

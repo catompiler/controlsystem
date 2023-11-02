@@ -1,5 +1,5 @@
-#include "modules/modules.h"
 #include "sys_main.h"
+#include "modules/modules.h"
 #include "defs/defs.h"
 #include <assert.h>
 //#include <sys/time.h>
@@ -14,27 +14,6 @@
  * Состояние.
  */
 
-// Макрос для обработки первого входа в состояние.
-#define STATE_ENTRY(sys)\
-            if(sys->m_state_entry)
-
-//! Получение состояния.
-ALWAYS_INLINE static state_t sys_main_state(M_sys_main* sys)
-{
-    return sys->state;
-}
-
-//! Получение предыдущего состояния.
-ALWAYS_INLINE static state_t sys_main_prev_state(M_sys_main* sys)
-{
-    return sys->m_prev_state;
-}
-
-//! Установка состояния.
-ALWAYS_INLINE static void sys_main_set_state(M_sys_main* sys, state_t state)
-{
-    sys->state = state;
-}
 
 /*
  * Обработчики коллбэков.
@@ -80,9 +59,18 @@ static void adc_handler(void* arg)
     sys_tim.control = SYS_TIMER_CONTROL_ENABLE;
     CONTROL(sys_tim);
 
+    // Если произошла ошибка при запуске таймера.
     if(sys_tim.status & SYS_TIMER_STATUS_ERROR){
-        sys->errors |= SYS_MAIN_ERROR_INTERNAL;
-        sys_main_set_state(sys, SYS_MAIN_STATE_FATAL);
+        // Установим ошибку.
+        sys->errors |= SYS_MAIN_ERROR_HARDWARE;
+        sys->status |= SYS_MAIN_STATUS_ERROR;
+
+        // Остановим таймер.
+        sys_tim.control = SYS_TIMER_CONTROL_NONE;
+        CONTROL(sys_tim);
+
+        // Принудительно вызовем обработчик.
+        sys_tim_handler(arg);
     }
 
     #endif
@@ -94,17 +82,20 @@ static void adc_handler(void* arg)
 
 METHOD_INIT_IMPL(M_sys_main, sys)
 {
-    // Сброс состояния.
-    sys->state = STATE_INIT;
-    sys->m_prev_state = STATE_NONE;
+    // Сброс внутренних переменных.
+    sys->control = SYS_MAIN_CONTROL_NONE;
+    sys->status = SYS_MAIN_STATUS_NONE;
+    sys->errors = SYS_MAIN_ERROR_NONE;
+    sys->warnings = SYS_MAIN_WARNING_NONE;
 
     // Конечные автоматы.
-    fsm_init(&sys->fsm_ready_on);
+    // Основной КА.
+    fsm_init(&sys->fsm_state);
 
     // Инициализация модулей.
 
-    // Флаг состояния модулей.
-    status_t init_status = STATUS_NONE;
+    // Ошибки инициализации модулей.
+    error_t init_errors = ERROR_NONE;
 
     // Базовый конфиг.
     INIT(conf);
@@ -112,12 +103,20 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Системное время.
     INIT(sys_time);
 
+    // Осциллограф.
+    INIT(dlog);
+
+    // Лог.
+    //TODO: text_log.
+
+    // Основные системные модули.
+    INIT(sys_cmd);
+    INIT(sys_ctrl);
+    INIT(sys_stat);
+
     // Таймеры мс.
     // Таймер КА.
     INIT(tmr_sys_fsm);
-
-    // Осциллограф.
-    INIT(dlog);
 
     // АЦП.
     INIT(adc);
@@ -130,6 +129,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Мультиплексоры измерений.
     INIT(mains_U);
     INIT(mains_I);
+    INIT(armature_U);
+    INIT(armature_I);
 
     // Вычислительные модули.
     // Фазы и амплитуды.
@@ -144,15 +145,29 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(rms_Ua);
     INIT(rms_Ub);
     INIT(rms_Uc);
+
+    // Фильтры.
+    // Фильтры напряжений для детекта нуля фаз.
+    INIT(filter_Ua_zcd);
+    INIT(filter_Ub_zcd);
+    INIT(filter_Uc_zcd);
+    // Фильтры частоты фаз.
+    INIT(filter_freq_Ua);
+    INIT(filter_freq_Ub);
+    INIT(filter_freq_Uc);
+
+    // Измерения.
+    INIT(meas);
+
     // Пороги.
     // Пороги напряжений при включении контактора.
     INIT(th_rms_Ua);
     INIT(th_rms_Ub);
     INIT(th_rms_Uc);
-    // Фильтры частоты фаз.
-    INIT(filter_Ua_freq);
-    INIT(filter_Ub_freq);
-    INIT(filter_Uc_freq);
+    // Пороги частоты сети при включении контактора.
+    INIT(th_filter_freq_Ua);
+    INIT(th_filter_freq_Ub);
+    INIT(th_filter_freq_Uc);
 
     // Основные модули.
     // СИФУ.
@@ -160,13 +175,16 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Модель 3х фазного выпрямителя.
     INIT(lrm);
 
+    // Защита.
+    INIT(prot);
+
     // Таймеры.
     // Таймер АЦП.
     INIT(adc_tim);
     CALLBACK_PROC(adc_tim.on_timeout) = adc_tim_handler;
     CALLBACK_ARG(adc_tim.on_timeout) = (void*)sys;
     if(adc_tim.status & ADC_TIMER_STATUS_ERROR){
-        init_status = STATUS_ERROR;
+        init_errors |= SYS_MAIN_ERROR_HARDWARE;
     }
 
     // Системный таймер.
@@ -174,7 +192,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     CALLBACK_PROC(sys_tim.on_timeout) = sys_tim_handler;
     CALLBACK_ARG(sys_tim.on_timeout) = (void*)sys;
     if(sys_tim.status & SYS_TIMER_STATUS_ERROR){
-        init_status = STATUS_ERROR;
+        init_errors |= SYS_MAIN_ERROR_HARDWARE;
     }
 
     // Медленный таймер.
@@ -182,36 +200,36 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     CALLBACK_PROC(ms_tim.on_timeout) = ms_tim_handler;
     CALLBACK_ARG(ms_tim.on_timeout) = (void*)sys;
     if(ms_tim.status & MS_TIMER_STATUS_ERROR){
-        init_status = STATUS_ERROR;
+        init_errors |= SYS_MAIN_ERROR_HARDWARE;
     }
 
     // Включение в работу модулей.
     // Не будем включать модули,
     // если инициализация завершена с ошибкой.
-    if(!(init_status & STATUS_ERROR)){
+    if(init_errors == ERROR_NONE){
 
         // Запуск таймера АЦП.
         adc_tim.control = ADC_TIMER_CONTROL_ENABLE;
         CONTROL(adc_tim);
         if(!(adc_tim.status & ADC_TIMER_STATUS_RUN)){
-            init_status = STATUS_ERROR;
+            init_errors |= SYS_MAIN_ERROR_HARDWARE;
         }
 
         // Запуск медленного таймера.
         ms_tim.control = MS_TIMER_CONTROL_ENABLE;
         CONTROL(ms_tim);
         if(!(ms_tim.status & MS_TIMER_STATUS_RUN)){
-            init_status = STATUS_ERROR;
+            init_errors |= SYS_MAIN_ERROR_HARDWARE;
         }
     }
 
     // Проверка ошибок инициализации.
     // Если есть ошибки - установим состояние непоправимой ошибки.
-    if(init_status & STATUS_ERROR){
-        sys->errors |= SYS_MAIN_ERROR_INTERNAL;
-        sys_main_set_state(sys, SYS_MAIN_STATE_FATAL);
+    if(init_errors != ERROR_NONE){
+        sys->errors = init_errors;
+        sys->status = SYS_MAIN_STATUS_ERROR;
     }else{// Если нет ошибок - продолжим инициализацию в КА.
-        //sys_main_set_state(sys, SYS_MAIN_STATE_INIT);
+        fsm_set_state(&sys->fsm_state, SYS_MAIN_STATE_INIT);
     }
 }
 
@@ -228,20 +246,37 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Деинициализация модулей.
     // От основных к базовым.
 
+    // Защита.
+    DEINIT(prot);
+
     // Основные модули.
     DEINIT(lrm);
     DEINIT(ph3c);
 
     // Вычислительные модули.
-    // Фильтры частоты фаз.
-    DEINIT(filter_Ua_freq);
-    DEINIT(filter_Ub_freq);
-    DEINIT(filter_Uc_freq);
+
     // Пороги.
+    // Пороги частоты сети при включении контактора.
+    DEINIT(th_filter_freq_Ua);
+    DEINIT(th_filter_freq_Ub);
+    DEINIT(th_filter_freq_Uc);
     // Пороги напряжений при включении контактора.
     DEINIT(th_rms_Ua);
     DEINIT(th_rms_Ub);
     DEINIT(th_rms_Uc);
+
+    // Измерения.
+    DEINIT(meas);
+
+    // Фильтры.
+    // Фильтры напряжений для детекта нуля фаз.
+    DEINIT(filter_Ua_zcd);
+    DEINIT(filter_Ub_zcd);
+    DEINIT(filter_Uc_zcd);
+    // Фильтры частоты фаз.
+    DEINIT(filter_freq_Ua);
+    DEINIT(filter_freq_Ub);
+    DEINIT(filter_freq_Uc);
     // RMS.
     DEINIT(rms_Ua);
     DEINIT(rms_Ub);
@@ -256,6 +291,8 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(phase_ampl_Uc);
 
     // Мультиплексоры измерений.
+    DEINIT(armature_U);
+    DEINIT(armature_I);
     DEINIT(mains_U);
     DEINIT(mains_I);
 
@@ -265,33 +302,32 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(ms_tim);
     DEINIT(adc_model);
     DEINIT(adc);
-    DEINIT(dlog);
     DEINIT(tmr_sys_fsm);
+    DEINIT(sys_stat);
+    DEINIT(sys_ctrl);
+    DEINIT(sys_cmd);
+    DEINIT(dlog);
     DEINIT(sys_time);
     DEINIT(conf);
 
     // Конечные автоматы.
-    fsm_deinit(&sys->fsm_ready_on);
+    // Основной КА.
+    fsm_deinit(&sys->fsm_state);
 
     // Сброс внутренних переменных.
     sys->control = SYS_MAIN_CONTROL_NONE;
     sys->status = SYS_MAIN_STATUS_NONE;
     sys->errors = SYS_MAIN_ERROR_NONE;
     sys->warnings = SYS_MAIN_WARNING_NONE;
-    sys->state = SYS_MAIN_STATE_NONE;
 }
 
-
-static void FSM_state_none(M_sys_main* sys)
-{
-}
 
 //! Последовательное включение в работу и
 //! ожидание доступности выходных данных
 //! модулей.
 static void FSM_state_init(M_sys_main* sys)
 {
-    STATE_ENTRY(sys){
+    FSM_STATE_ENTRY(&sys->fsm_state){
     }
 
     status_t status = STATUS_VALID;
@@ -326,110 +362,43 @@ static void FSM_state_init(M_sys_main* sys)
 
     // Если все модули имеют валидный выход.
     if(status & STATUS_VALID){
+        // Разрешим систему управления.
+        sys_ctrl.control = SYS_CONTROL_CONTROL_ENABLE;
+
         // Переход в состояние ожидания включения.
-        sys_main_set_state(sys, SYS_MAIN_STATE_READY_ON);
+        fsm_set_state(&sys->fsm_state, SYS_MAIN_STATE_RUN);
     }
-}
-
-static void FSM_state_ready_on(M_sys_main* sys)
-{
-    STATE_ENTRY(sys){
-        // Установим состояние КА включения.
-        fsm_set_state(&sys->fsm_ready_on, SYS_MAIN_READY_ON_WAIT_ON);
-    }
-
-    fsm_begin(&sys->fsm_ready_on);
-
-    switch(fsm_cur_state(&sys->fsm_ready_on)){
-    case SYS_MAIN_READY_ON_NONE:
-        fsm_set_state(&sys->fsm_ready_on, SYS_MAIN_READY_ON_WAIT_ON);
-        break;
-
-    case SYS_MAIN_READY_ON_WAIT_ON:
-        FSM_STATE_ENTRY(&sys->fsm_ready_on){
-            //
-        }
-        break;
-
-    case SYS_MAIN_READY_ON_WAIT_MAINS:
-        FSM_STATE_ENTRY(&sys->fsm_ready_on){
-            //
-        }
-        break;
-
-    case SYS_MAIN_READY_ON_WAIT_FREQ:
-        FSM_STATE_ENTRY(&sys->fsm_ready_on){
-            //
-        }
-        break;
-
-    case SYS_MAIN_READY_ON_DONE:
-        // Переход в состояние ожидания запуска.
-        sys_main_set_state(sys, SYS_MAIN_STATE_READY_RUN);
-        break;
-    }
-
-    fsm_end(&sys->fsm_ready_on);
-}
-
-static void FSM_state_ready_run(M_sys_main* sys)
-{
 }
 
 static void FSM_state_run(M_sys_main* sys)
 {
-}
-
-static void FSM_state_error(M_sys_main* sys)
-{
-}
-
-static void FSM_state_fatal(M_sys_main* sys)
-{
-    //TODO: Fatal state process.
+    FSM_STATE_ENTRY(&sys->fsm_state){
+    }
 }
 
 static void FSM_state(M_sys_main* sys)
 {
-    // Состояние и предыдущее состояние
-    // на момент начала обработки конечного автомата.
-    state_t cur_state = sys->state;
-    state_t prev_state = sys->m_prev_state;
+    // Начнём обработку состояний.
+    fsm_begin(&sys->fsm_state);
 
-    // Если было установлено состояние -
-    // установим флаг первого входа.
-    sys->m_state_entry = cur_state != prev_state;
-
-    switch(cur_state){
+    switch(fsm_cur_state(&sys->fsm_state)){
     case SYS_MAIN_STATE_NONE:
-        FSM_state_none(sys);
         break;
     case SYS_MAIN_STATE_INIT:
         FSM_state_init(sys);
         break;
-    case SYS_MAIN_STATE_READY_ON:
-        FSM_state_ready_on(sys);
-        break;
-    case SYS_MAIN_STATE_READY_RUN:
-        FSM_state_ready_run(sys);
-        break;
     case SYS_MAIN_STATE_RUN:
         FSM_state_run(sys);
         break;
-    case SYS_MAIN_STATE_ERROR:
-        FSM_state_error(sys);
-        break;
-    case SYS_MAIN_STATE_FATAL:
-        FSM_state_fatal(sys);
-        break;
     default:
         sys->errors |= SYS_MAIN_ERROR_SOFTWARE;
-        sys_main_set_state(sys, SYS_MAIN_STATE_FATAL);
+        sys->status |= SYS_MAIN_STATUS_ERROR;
+        //TODO: Unhandled state process.
         break;
     }
 
-    // Установим предыдущее состояние.
-    sys->m_prev_state = cur_state;
+    // Окончим обработку состояний.
+    fsm_end(&sys->fsm_state);
 }
 
 METHOD_CALC_IMPL(M_sys_main, sys)
@@ -441,30 +410,11 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     //CALC(adc); // АЦП вычисляется в коллбэке таймера АЦП.
     CALC(adc_model); // АЦП модель.
 
-    // Мультиплексор измерений напряжения.
-    // Напряжение фазы A.
-    mains_U.in_Ua[0] = adc.out_Ua;
-    mains_U.in_Ua[1] = adc_model.out_Ua;
-    // Напряжение фазы B.
-    mains_U.in_Ub[0] = adc.out_Ub;
-    mains_U.in_Ub[1] = adc_model.out_Ub;
-    // Напряжение фазы C.
-    mains_U.in_Uc[0] = adc.out_Uc;
-    mains_U.in_Uc[1] = adc_model.out_Uc;
-    CALC(mains_U);
 
     // Вычислительные и основные модули.
-    // Фаза и амплитуда.
-    // Фаза A.
-    phase_ampl_Ua.in_value = mains_U.out_Ua;
-    CALC(phase_ampl_Ua);
-    // Фаза B.
-    phase_ampl_Ub.in_value = mains_U.out_Ub;
-    CALC(phase_ampl_Ub);
-    // Фаза C.
-    phase_ampl_Uc.in_value = mains_U.out_Uc;
-    CALC(phase_ampl_Uc);
 
+    // Вычисление измерений для СИФУ.
+    MEAS_CALC_FOR_PHC(meas);
 
     // СИФУ.
     ph3c.in_Uab_angle_pu = phase_ampl_Ua.out_phase;
@@ -485,65 +435,13 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     lrm.in_control_duration_angle_pu = ph3c.out_control_max_duration_angle_pu;
     CALC(lrm);
 
-    // Остальные мультиплексоры измерений.
-    // Мультиплексор измерений тока.
-    // Ток фазы A.
-    mains_I.in_Ia[0] = adc.out_Ia;
-    mains_I.in_Ia[1] = lrm.out_Iab;
-    // Ток фазы B.
-    mains_I.in_Ib[0] = adc.out_Ib;
-    mains_I.in_Ib[1] = lrm.out_Ibc;
-    // Ток фазы C.
-    mains_I.in_Ic[0] = adc.out_Ic;
-    mains_I.in_Ic[1] = lrm.out_Ica;
-    CALC(mains_I);
-    // Мультиплексор измерений выходного напряжения.
-    armature_U.in_Uarm[0] = adc.out_Uarm;
-    armature_U.in_Uarm[1] = lrm.out_U;
-    CALC(armature_U);
-    // Мультиплексор измерений выходного тока.
-    armature_I.in_Iarm[0] = adc.out_Iarm;
-    armature_I.in_Iarm[1] = lrm.out_I;
-    CALC(armature_I);
 
-
-    // Детект нуля и вычисление частоты.
-    // Фаза A.
-    zcd_Ua.in_value = mains_U.out_Ua;
-    CALC(zcd_Ua);
-    // Фаза B.
-    zcd_Ub.in_value = mains_U.out_Ub;
-    CALC(zcd_Ub);
-    // Фаза C.
-    zcd_Uc.in_value = mains_U.out_Uc;
-    CALC(zcd_Uc);
-
-    // Фильтры частоты фаз.
-    // Фаза A.
-    filter_Ua_freq.in_value = zcd_Ua.out_freq;
-    CALC(filter_Ua_freq);
-    // Фаза B.
-    filter_Ub_freq.in_value = zcd_Ub.out_freq;
-    CALC(filter_Ub_freq);
-    // Фаза C.
-    filter_Uc_freq.in_value = zcd_Uc.out_freq;
-    CALC(filter_Uc_freq);
-
-
-    // RMS.
-    // Фаза A.
-    rms_Ua.in_value = mains_U.out_Ua;
-    CALC(rms_Ua);
-    // Фаза B.
-    rms_Ub.in_value = mains_U.out_Ub;
-    CALC(rms_Ub);
-    // Фаза C.
-    rms_Uc.in_value = mains_U.out_Uc;
-    CALC(rms_Uc);
+    // Измерения.
+    CALC(meas);
 
 
     // Пороги,
-    // Пороги напряжений при включении контактора.
+    // Пороги напряжений.
     // Фаза A.
     th_rms_Ua.in_value = rms_Ua.out_value;
     CALC(th_rms_Ua);
@@ -553,15 +451,59 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     // Фаза C.
     th_rms_Uc.in_value = rms_Uc.out_value;
     CALC(th_rms_Uc);
+    // Пороги частоты сети.
+    // Фаза A.
+    th_filter_freq_Ua.in_value = filter_freq_Ua.out_value;
+    CALC(th_filter_freq_Ua);
+    // Фаза B.
+    th_filter_freq_Ub.in_value = filter_freq_Ub.out_value;
+    CALC(th_filter_freq_Ub);
+    // Фаза C.
+    th_filter_freq_Uc.in_value = filter_freq_Uc.out_value;
+    CALC(th_filter_freq_Uc);
 
-
-    // Защиты.
-
-    // Регуляторы.
 
     // Таймеры - счётчики.
     // Таймер КА.
     CALC(tmr_sys_fsm);
+
+
+    // Защиты.
+    CALC(prot);
+
+
+    // Основные модули.
+    // Командный модуль.
+    CALC(sys_cmd);
+
+    // Соединение входов и выходов системных модулей.
+
+    // if(prot.errors == 0){
+
+    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_ON){
+        sys_ctrl.control |= SYS_CONTROL_CONTROL_ON;
+    }else{
+        sys_ctrl.control &= ~SYS_CONTROL_CONTROL_ON;
+    }
+
+    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_CONT_ON){
+        sys_ctrl.control |= SYS_CONTROL_CONTROL_CONT_ON;
+    }else{
+        sys_ctrl.control &= ~SYS_CONTROL_CONTROL_CONT_ON;
+    }
+
+    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_RUN){
+        sys_ctrl.control |= SYS_CONTROL_CONTROL_RUN;
+    }else{
+        sys_ctrl.control &= ~SYS_CONTROL_CONTROL_RUN;
+    }
+
+    //} // prot.errors == 0
+
+    // Модуль управления.
+    CALC(sys_ctrl);
+    // Модуль состояния.
+    CALC(sys_stat);
 
     // Конечный автомат.
     FSM_state(sys);
@@ -577,5 +519,14 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     IDLE(adc_model);
     IDLE(dlog);
     IDLE(lrm);
+    // Фильтры.
+    // Фильтры напряжений для детекта нуля фаз.
+    IDLE(filter_Ua_zcd);
+    IDLE(filter_Ub_zcd);
+    IDLE(filter_Uc_zcd);
+    // Фильтры частоты фаз.
+    IDLE(filter_freq_Ua);
+    IDLE(filter_freq_Ub);
+    IDLE(filter_freq_Uc);
 }
 

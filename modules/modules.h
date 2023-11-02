@@ -6,12 +6,16 @@
 #include "adc/adc.h"
 #include "adc_model/adc_model.h"
 #include "sys_main/sys_main.h"
+#include "sys_command/sys_command.h"
+#include "sys_control/sys_control.h"
+#include "sys_status/sys_status.h"
 #include "adc_timer/adc_timer.h"
 #include "sys_timer/sys_timer.h"
 #include "ms_timer/ms_timer.h"
 #include "sys_time/sys_time.h"
 #include "timer/timer.h"
 #include "data_log/data_log.h"
+#include "meas/meas.h"
 #include "meas_mux/armature_i_mux.h"
 #include "meas_mux/armature_u_mux.h"
 #include "meas_mux/mains_i_mux.h"
@@ -23,10 +27,18 @@
 #include "filter1/filter1.h"
 #include "phase3_control/phase3_control.h"
 #include "larionov_model/larionov_model.h"
+#include "prot/prot.h"
 
 
 //! Основной модуль.
 extern M_sys_main sys;
+//! Основной командный модуль.
+extern M_sys_command sys_cmd;
+//! Основной модуль управления.
+extern M_sys_control sys_ctrl;
+//! Основной модуль состояния.
+extern M_sys_status sys_stat;
+
 //! Конфигурация.
 extern M_conf conf;
 //! АЦП.
@@ -56,6 +68,9 @@ extern M_timer tmr_sys_fld_wait;*/
 //! Осциллограф.
 extern M_data_log dlog;
 
+//! Модуль измерений.
+extern M_meas meas;
+
 // Мультиплексоры измерений.
 //! Мультиплексор измерений входных напряжений.
 extern M_mains_u_mux mains_U;
@@ -82,21 +97,33 @@ extern M_rms rms_Ub;
 extern M_rms rms_Uc;
 
 // Пороги значений.
-// Пороги напряжений при включении контактора.
+// Пороги нормы сетевых напряжений.
 extern M_threshold th_rms_Ua;
 extern M_threshold th_rms_Ub;
 extern M_threshold th_rms_Uc;
+// Пороги нормы частоты сети.
+extern M_threshold th_filter_freq_Ua;
+extern M_threshold th_filter_freq_Ub;
+extern M_threshold th_filter_freq_Uc;
 
 // Фильтры.
+// Напряжения фаз для детекта перехода через ноль.
+extern M_filter1 filter_Ua_zcd;
+extern M_filter1 filter_Ub_zcd;
+extern M_filter1 filter_Uc_zcd;
 // Частота фаз.
-extern M_filter1 filter_Ua_freq;
-extern M_filter1 filter_Ub_freq;
-extern M_filter1 filter_Uc_freq;
+extern M_filter1 filter_freq_Ua;
+extern M_filter1 filter_freq_Ub;
+extern M_filter1 filter_freq_Uc;
 
 //! СИФУ.
 extern M_phase3_control ph3c;
 
 //! Модель ларионова.
 extern M_larionov_model lrm;
+
+// Защиты.
+//! Модуль защиты.
+extern M_prot prot;
 
 #endif /* MODULES_H */

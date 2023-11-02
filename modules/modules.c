@@ -3,6 +3,9 @@
 
 
 M_sys_main sys = SYS_MAIN_DEFAULTS;
+M_sys_command sys_cmd = SYS_COMMAND_DEFAULTS;
+M_sys_control sys_ctrl = SYS_CONTROL_DEFAULTS;
+M_sys_status sys_stat = SYS_STATUS_DEFAULTS;
 
 M_conf conf = CONF_DEFAULTS;
 
@@ -19,6 +22,8 @@ M_sys_time sys_time = SYS_TIME_DEFAULTS;
 M_timer tmr_sys_fsm = TIMER_DEFAULTS;
 
 M_data_log dlog = DATA_LOG_DEFAULTS;
+
+M_meas meas = MEAS_DEFAULTS;
 
 M_mains_u_mux mains_U = MAINS_U_MUX_DEFAULTS;
 M_mains_i_mux mains_I = MAINS_I_MUX_DEFAULTS;
@@ -41,10 +46,20 @@ M_threshold th_rms_Ua = THRESHOLD_DEFCFG(IQ24(0.5), IQ24(1.5));
 M_threshold th_rms_Ub = THRESHOLD_DEFCFG(IQ24(0.5), IQ24(1.5));
 M_threshold th_rms_Uc = THRESHOLD_DEFCFG(IQ24(0.5), IQ24(1.5));
 
-M_filter1 filter_Ua_freq = FILTER1_DEFCFG(CONF_LINE_FREQ_FILTER_T);
-M_filter1 filter_Ub_freq = FILTER1_DEFCFG(CONF_LINE_FREQ_FILTER_T);
-M_filter1 filter_Uc_freq = FILTER1_DEFCFG(CONF_LINE_FREQ_FILTER_T);
+M_threshold th_filter_freq_Ua = THRESHOLD_DEFCFG(IQ24(44.9), IQ24(65.1));
+M_threshold th_filter_freq_Ub = THRESHOLD_DEFCFG(IQ24(44.9), IQ24(65.1));
+M_threshold th_filter_freq_Uc = THRESHOLD_DEFCFG(IQ24(44.9), IQ24(65.1));
+
+M_filter1 filter_Ua_zcd = FILTER1_DEFCFG(IQ24(0.01)); // 100 Hz.
+M_filter1 filter_Ub_zcd = FILTER1_DEFCFG(IQ24(0.01));
+M_filter1 filter_Uc_zcd = FILTER1_DEFCFG(IQ24(0.01));
+
+M_filter1 filter_freq_Ua = FILTER1_DEFCFG(IQ24(0.04)); // 2 periods.
+M_filter1 filter_freq_Ub = FILTER1_DEFCFG(IQ24(0.04));
+M_filter1 filter_freq_Uc = FILTER1_DEFCFG(IQ24(0.04));
 
 M_phase3_control ph3c = PHASE3_CONTROL_DEFAULTS;
 
 M_larionov_model lrm = LARIONOV_MODEL_DEFAULTS;
+
+M_prot prot = PROT_DEFAULTS;
