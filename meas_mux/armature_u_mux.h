@@ -1,5 +1,5 @@
-#ifndef ARMATURE_U_INST_MUX_H
-#define ARMATURE_U_INST_MUX_H
+#ifndef ARMATURE_U_MUX_H
+#define ARMATURE_U_MUX_H
 
 #include "module/base.h"
 
@@ -63,4 +63,4 @@ EXTERN METHOD_CALC_PROTO(M_armature_u_mux);
         /* Внутренние данные */\
     }
 
-#endif /* ARMATURE_MUX_H */
+#endif /* ARMATURE_U_MUX_H */

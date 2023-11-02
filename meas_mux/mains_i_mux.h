@@ -1,5 +1,5 @@
-#ifndef MAINS_I_INST_MUX_H
-#define MAINS_I_INST_MUX_H
+#ifndef MAINS_I_MUX_H
+#define MAINS_I_MUX_H
 
 #include "module/base.h"
 
@@ -71,4 +71,4 @@ EXTERN METHOD_CALC_PROTO(M_mains_i_mux);
         /* Внутренние данные */\
     }
 
-#endif /* MAINS_MUX_H */
+#endif /* MAINS_I_MUX_H */
