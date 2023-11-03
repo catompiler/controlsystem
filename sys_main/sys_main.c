@@ -159,15 +159,11 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Измерения.
     INIT(meas);
 
-    // Пороги.
-    // Пороги напряжений при включении контактора.
-    INIT(vr_rms_Ua);
-    INIT(vr_rms_Ub);
-    INIT(vr_rms_Uc);
-    // Пороги частоты сети при включении контактора.
-    INIT(vr_filter_freq_Ua);
-    INIT(vr_filter_freq_Ub);
-    INIT(vr_filter_freq_Uc);
+    // Допустимые диапазоны.
+    // Допустимый диапазон напряжений при включении контактора.
+    INIT(vr_rms_Umains);
+    // Допустимый диапазон частоты сети при включении контактора.
+    INIT(vr_filter_freq_Umains);
 
     // Основные модули.
     // СИФУ.
@@ -255,15 +251,11 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
 
     // Вычислительные модули.
 
-    // Пороги.
-    // Пороги частоты сети при включении контактора.
-    DEINIT(vr_filter_freq_Ua);
-    DEINIT(vr_filter_freq_Ub);
-    DEINIT(vr_filter_freq_Uc);
-    // Пороги напряжений при включении контактора.
-    DEINIT(vr_rms_Ua);
-    DEINIT(vr_rms_Ub);
-    DEINIT(vr_rms_Uc);
+    // Допустимые диапазоны.
+    // Допустимый диапазон частоты сети при включении контактора.
+    DEINIT(vr_filter_freq_Umains);
+    // Допустимый диапазон напряжений при включении контактора.
+    DEINIT(vr_rms_Umains);
 
     // Измерения.
     DEINIT(meas);
@@ -440,27 +432,17 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     CALC(meas);
 
 
-    // Пороги,
-    // Пороги напряжений.
-    // Фаза A.
-    vr_rms_Ua.in_value = rms_Ua.out_value;
-    CALC(vr_rms_Ua);
-    // Фаза B.
-    vr_rms_Ub.in_value = rms_Ub.out_value;
-    CALC(vr_rms_Ub);
-    // Фаза C.
-    vr_rms_Uc.in_value = rms_Uc.out_value;
-    CALC(vr_rms_Uc);
-    // Пороги частоты сети.
-    // Фаза A.
-    vr_filter_freq_Ua.in_value = filter_freq_Ua.out_value;
-    CALC(vr_filter_freq_Ua);
-    // Фаза B.
-    vr_filter_freq_Ub.in_value = filter_freq_Ub.out_value;
-    CALC(vr_filter_freq_Ub);
-    // Фаза C.
-    vr_filter_freq_Uc.in_value = filter_freq_Uc.out_value;
-    CALC(vr_filter_freq_Uc);
+    // Допустимые диапазоны.
+    // Допустимый диапазон напряжений.
+    vr_rms_Umains.in_value[0] = rms_Ua.out_value;
+    vr_rms_Umains.in_value[1] = rms_Ub.out_value;
+    vr_rms_Umains.in_value[2] = rms_Uc.out_value;
+    CALC(vr_rms_Umains);
+    // Допустимый диапазон частоты сети.
+    vr_filter_freq_Umains.in_value[0] = filter_freq_Ua.out_value;
+    vr_filter_freq_Umains.in_value[1] = filter_freq_Ub.out_value;
+    vr_filter_freq_Umains.in_value[2] = filter_freq_Uc.out_value;
+    CALC(vr_filter_freq_Umains);
 
 
     // Таймеры - счётчики.

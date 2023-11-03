@@ -23,7 +23,7 @@
 #include "phase_ampl/phase_ampl.h"
 #include "zero_cross_detect/zero_cross_detect.h"
 #include "rms/rms.h"
-#include "valid_range/valid_range.h"
+#include "valid_range3/valid_range3.h"
 #include "filter1/filter1.h"
 #include "phase3_control/phase3_control.h"
 #include "larionov_model/larionov_model.h"
@@ -96,15 +96,11 @@ extern M_rms rms_Ua;
 extern M_rms rms_Ub;
 extern M_rms rms_Uc;
 
-// Допустимые диапазоны значений.
-// Допустимые диапазоны сетевых напряжений.
-extern M_valid_range vr_rms_Ua;
-extern M_valid_range vr_rms_Ub;
-extern M_valid_range vr_rms_Uc;
-// Допустимые диапазоны частоты сети.
-extern M_valid_range vr_filter_freq_Ua;
-extern M_valid_range vr_filter_freq_Ub;
-extern M_valid_range vr_filter_freq_Uc;
+// Допустимые диапазоны.
+// Допустимый диапазон сетевых напряжений.
+extern M_valid_range3 vr_rms_Umains;
+// Допустимый диапазон частоты сети.
+extern M_valid_range3 vr_filter_freq_Umains;
 
 // Фильтры.
 // Напряжения фаз для детекта перехода через ноль.
