@@ -42,13 +42,13 @@ M_rms rms_Ua = RMS_DEFAULTS;
 M_rms rms_Ub = RMS_DEFAULTS;
 M_rms rms_Uc = RMS_DEFAULTS;
 
-M_threshold th_rms_Ua = THRESHOLD_DEFCFG(IQ24(0.5), IQ24(1.5));
-M_threshold th_rms_Ub = THRESHOLD_DEFCFG(IQ24(0.5), IQ24(1.5));
-M_threshold th_rms_Uc = THRESHOLD_DEFCFG(IQ24(0.5), IQ24(1.5));
+M_valid_range vr_rms_Ua = VALID_RANGE_DEFCFG(IQ24(0.5), IQ24(1.5));
+M_valid_range vr_rms_Ub = VALID_RANGE_DEFCFG(IQ24(0.5), IQ24(1.5));
+M_valid_range vr_rms_Uc = VALID_RANGE_DEFCFG(IQ24(0.5), IQ24(1.5));
 
-M_threshold th_filter_freq_Ua = THRESHOLD_DEFCFG(IQ24(44.9), IQ24(65.1));
-M_threshold th_filter_freq_Ub = THRESHOLD_DEFCFG(IQ24(44.9), IQ24(65.1));
-M_threshold th_filter_freq_Uc = THRESHOLD_DEFCFG(IQ24(44.9), IQ24(65.1));
+M_valid_range vr_filter_freq_Ua = VALID_RANGE_DEFCFG(IQ24(44.9), IQ24(65.1));
+M_valid_range vr_filter_freq_Ub = VALID_RANGE_DEFCFG(IQ24(44.9), IQ24(65.1));
+M_valid_range vr_filter_freq_Uc = VALID_RANGE_DEFCFG(IQ24(44.9), IQ24(65.1));
 
 M_filter1 filter_Ua_zcd = FILTER1_DEFCFG(IQ24(0.01)); // 100 Hz.
 M_filter1 filter_Ub_zcd = FILTER1_DEFCFG(IQ24(0.01));

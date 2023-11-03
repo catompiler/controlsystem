@@ -93,9 +93,9 @@ static void FSM_state_ready_on(M_sys_control* sys_ctrl)
         }
 
         // Если напряжения в допустимых пределах.
-        if((th_rms_Ua.out_value == THRESHOLD_WITHIN) &&
-           (th_rms_Ub.out_value == THRESHOLD_WITHIN) &&
-           (th_rms_Uc.out_value == THRESHOLD_WITHIN)){
+        if((vr_rms_Ua.out_value == VALID_RANGE_WITHIN) &&
+           (vr_rms_Ub.out_value == VALID_RANGE_WITHIN) &&
+           (vr_rms_Uc.out_value == VALID_RANGE_WITHIN)){
             // Перейдём в состояние ожидания частоты сети.
             fsm_set_state(&sys_ctrl->fsm_ready_on, SYS_CONTROL_READY_ON_WAIT_MAINS_FREQ);
         }
@@ -108,9 +108,9 @@ static void FSM_state_ready_on(M_sys_control* sys_ctrl)
 
         //TODO: Wait for PLL.
         // Если частота в допустимых пределах.
-        if((th_filter_freq_Ua.out_value == THRESHOLD_WITHIN) &&
-           (th_filter_freq_Ub.out_value == THRESHOLD_WITHIN) &&
-           (th_filter_freq_Uc.out_value == THRESHOLD_WITHIN)){
+        if((vr_filter_freq_Ua.out_value == VALID_RANGE_WITHIN) &&
+           (vr_filter_freq_Ub.out_value == VALID_RANGE_WITHIN) &&
+           (vr_filter_freq_Uc.out_value == VALID_RANGE_WITHIN)){
             // Перейдём в состояние ожидания частоты сети.
             fsm_set_state(&sys_ctrl->fsm_ready_on, SYS_CONTROL_READY_ON_WAIT_CONT_ON);
         }

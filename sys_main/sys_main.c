@@ -161,13 +161,13 @@ METHOD_INIT_IMPL(M_sys_main, sys)
 
     // Пороги.
     // Пороги напряжений при включении контактора.
-    INIT(th_rms_Ua);
-    INIT(th_rms_Ub);
-    INIT(th_rms_Uc);
+    INIT(vr_rms_Ua);
+    INIT(vr_rms_Ub);
+    INIT(vr_rms_Uc);
     // Пороги частоты сети при включении контактора.
-    INIT(th_filter_freq_Ua);
-    INIT(th_filter_freq_Ub);
-    INIT(th_filter_freq_Uc);
+    INIT(vr_filter_freq_Ua);
+    INIT(vr_filter_freq_Ub);
+    INIT(vr_filter_freq_Uc);
 
     // Основные модули.
     // СИФУ.
@@ -257,13 +257,13 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
 
     // Пороги.
     // Пороги частоты сети при включении контактора.
-    DEINIT(th_filter_freq_Ua);
-    DEINIT(th_filter_freq_Ub);
-    DEINIT(th_filter_freq_Uc);
+    DEINIT(vr_filter_freq_Ua);
+    DEINIT(vr_filter_freq_Ub);
+    DEINIT(vr_filter_freq_Uc);
     // Пороги напряжений при включении контактора.
-    DEINIT(th_rms_Ua);
-    DEINIT(th_rms_Ub);
-    DEINIT(th_rms_Uc);
+    DEINIT(vr_rms_Ua);
+    DEINIT(vr_rms_Ub);
+    DEINIT(vr_rms_Uc);
 
     // Измерения.
     DEINIT(meas);
@@ -443,24 +443,24 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     // Пороги,
     // Пороги напряжений.
     // Фаза A.
-    th_rms_Ua.in_value = rms_Ua.out_value;
-    CALC(th_rms_Ua);
+    vr_rms_Ua.in_value = rms_Ua.out_value;
+    CALC(vr_rms_Ua);
     // Фаза B.
-    th_rms_Ub.in_value = rms_Ub.out_value;
-    CALC(th_rms_Ub);
+    vr_rms_Ub.in_value = rms_Ub.out_value;
+    CALC(vr_rms_Ub);
     // Фаза C.
-    th_rms_Uc.in_value = rms_Uc.out_value;
-    CALC(th_rms_Uc);
+    vr_rms_Uc.in_value = rms_Uc.out_value;
+    CALC(vr_rms_Uc);
     // Пороги частоты сети.
     // Фаза A.
-    th_filter_freq_Ua.in_value = filter_freq_Ua.out_value;
-    CALC(th_filter_freq_Ua);
+    vr_filter_freq_Ua.in_value = filter_freq_Ua.out_value;
+    CALC(vr_filter_freq_Ua);
     // Фаза B.
-    th_filter_freq_Ub.in_value = filter_freq_Ub.out_value;
-    CALC(th_filter_freq_Ub);
+    vr_filter_freq_Ub.in_value = filter_freq_Ub.out_value;
+    CALC(vr_filter_freq_Ub);
     // Фаза C.
-    th_filter_freq_Uc.in_value = filter_freq_Uc.out_value;
-    CALC(th_filter_freq_Uc);
+    vr_filter_freq_Uc.in_value = filter_freq_Uc.out_value;
+    CALC(vr_filter_freq_Uc);
 
 
     // Таймеры - счётчики.
