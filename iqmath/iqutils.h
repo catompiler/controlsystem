@@ -188,6 +188,75 @@ ALWAYS_INLINE static iq24_t iq15_mul24(iq15_t a, iq15_t b)
     return res;
 }
 
+/**
+ * Безопасное среднее двух чисел.
+ * @param a Число.
+ * @param b Число.
+ * @return Результат.
+ */
+ALWAYS_INLINE static iql_t iql_mean2(iql_t a, iql_t b)
+{
+    iql_t res = (a >> 1) + (b >> 1) + (a & b & 0x1);
 
+    return res;
+}
+
+/**
+ * Безопасное среднее трёх чисел.
+ * @param a Число.
+ * @param b Число.
+ * @param c Число.
+ * @return Результат.
+ */
+ALWAYS_INLINE static iql_t iql_mean3(iql_t a, iql_t b, iql_t c)
+{
+    iqll_t sum = (iqll_t)a + b + c;
+
+    iql_t res = 0;
+
+    if(sum <= INT32_MAX && sum >= INT32_MIN){
+        res = ((iql_t)sum) / (iql_t)3;
+    }else{
+        res = (iql_t)(sum / (iql_t)3);
+    }
+    return res;
+}
+
+/**
+ * Безопасное среднее трёх чисел.
+ * @param q Массив чисел.
+ * @param n Количество чисел, не более INT32_MAX.
+ * @return Результат.
+ */
+ALWAYS_INLINE static iql_t iql_mean(iql_t* q, size_t n)
+{
+    iqll_t sum = 0;
+    size_t i;
+
+    iql_t* q_ptr = q;
+
+    size_t unrolls_count = n >> 2; // /4
+    for(i = 0; i < unrolls_count; i ++){
+        sum += (iqll_t)(*q_ptr ++);
+        sum += (iqll_t)(*q_ptr ++);
+        sum += (iqll_t)(*q_ptr ++);
+        sum += (iqll_t)(*q_ptr ++);
+    }
+
+    size_t unrolls_rem = n & 0x3; // %3
+    for(i = 0; i < unrolls_rem; i ++){
+        sum += (iqll_t)(*q_ptr ++);
+    }
+
+    iql_t res = 0;
+
+    if(sum <= INT32_MAX && sum >= INT32_MIN){
+        res = ((iql_t)sum) / (iql_t)n;
+    }else{
+        res = (iql_t)(sum / (iql_t)n);
+    }
+
+    return res;
+}
 
 #endif /* IQMATH_IQUTILS_H */
