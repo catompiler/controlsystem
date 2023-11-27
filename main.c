@@ -223,7 +223,7 @@ int main(void)
         if(adc_tim.out_counter >= 128){
             // ADC model set to normal scales.
             adc_model.in_U_scale = IQ24(1.0);
-            adc_model.in_F_scale = IQ24(1.3); // 1.3
+            adc_model.in_F_scale = IQ24(1.0); // 1.3
         }
 
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
