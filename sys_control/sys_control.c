@@ -104,10 +104,9 @@ static void FSM_state_ready_on(M_sys_control* sys_ctrl)
         FSM_STATE_ENTRY(&sys_ctrl->fsm_ready_on){
         }
 
-        //TODO: Wait for PLL.
         // Если частота в допустимых пределах.
         if(vr_filter_freq_Umains.out_value_all == VALID_RANGE3_ALL_WITHIN){
-            // Перейдём в состояние ожидания частоты сети.
+            // Перейдём в состояние ожидания включения контактора.
             fsm_set_state(&sys_ctrl->fsm_ready_on, SYS_CONTROL_READY_ON_WAIT_CONT_ON);
         }
         break;
@@ -119,7 +118,7 @@ static void FSM_state_ready_on(M_sys_control* sys_ctrl)
 
         // Если получено подтверждение включения главного контактора.
         if(sys_ctrl->control & SYS_CONTROL_CONTROL_ON){
-            // Перейдём в состояние ожидания сетевого напряжения.
+            // Запуск завершён.
             fsm_set_state(&sys_ctrl->fsm_ready_on, SYS_CONTROL_READY_ON_DONE);
         }
         break;
