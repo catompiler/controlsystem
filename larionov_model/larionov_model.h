@@ -149,13 +149,13 @@ struct _S_Larionov_Model {
     iq24_t m_load_rl_U; //!< Напряжение нагрузки.
     iq24_t m_load_rl_I; //!< Ток нагрузки.
     iq24_t m_load_rl_R; //!< Сопротивление.
-    iq24_t m_load_rl_L; //!< Сопротивление.
+    iq24_t m_load_rl_L; //!< Индуктивность.
     // ДПТ.
     iq24_t m_load_dcm_U; //!< Напряжение нагрузки.
     iq24_t m_load_dcm_I; //!< Ток нагрузки.
     iq24_t m_load_dcm_Unom; //!< Номинальное напряжение.
     iq24_t m_load_dcm_Inom; //!< Номинальный ток.
-    iq24_t m_load_dcm_Tj; //!< Механическая инерционная постоянная.
+    iq15_t m_load_dcm_Tj; //!< Механическая инерционная постоянная.
     iq24_t m_load_dcm_Mr; //!< Момент сопротивления на валу.
     iq24_t m_load_dcm_R; //!< Сопротивление.
     iq24_t m_load_dcm_L; //!< Индуктивность.
@@ -170,7 +170,7 @@ EXTERN METHOD_IDLE_PROTO(M_larionov_model);
 
 #define LARIONOV_MODEL_DEFAULTS {\
         /* Базовые поля */\
-        0, 0, /* control, status */\
+        CONTROL_ENABLE, 0, /* control, status */\
         0, /* warnings*/\
         /* Входные данные */\
         0, /* in_Uab */\
@@ -189,18 +189,18 @@ EXTERN METHOD_IDLE_PROTO(M_larionov_model);
         0, /* out_I */\
         /* Параметры */\
         IQ15(0.05), /* p_I_hold */\
-        0, /* p_load_type */\
+        2, /* p_load_type */\
         /* Сопротивление [0] */\
         IQ15(10.0), /* p_load_r_R */\
         /* RL цепь [1] */\
-        IQ15(0.2), /* p_load_rl_R */\
+        IQ15(0.1), /* p_load_rl_R */\
         IQ15(0.01), /* p_load_rl_L */\
         /* ДПТ [2] */\
         IQ15(440), /* p_load_dcm_Unom */\
         IQ15(361), /* p_load_dcm_Inom */\
         IQ15(1475), /* p_load_dcm_Nnom */\
         IQ15(4.5), /* p_load_dcm_J */\
-        IQ15(50), /* p_load_dcm_Mr */\
+        IQ15(5.0), /* p_load_dcm_Mr */\
         IQ15(0.2), /* p_load_dcm_R */\
         IQ15(0.01), /* p_load_dcm_L */\
         /* Регистры */\

@@ -178,6 +178,12 @@ int main(void)
     dlog.p_ch[13].reg_id = REG_ID_LINE_FREQ_UA_FILT;
     dlog.p_ch[13].enabled = 1;
 
+    dlog.p_ch[14].reg_id = REG_ID_MEAS_UARM;
+    dlog.p_ch[14].enabled = 1;
+
+    dlog.p_ch[15].reg_id = REG_ID_MEAS_IARM;
+    dlog.p_ch[15].enabled = 1;
+
     dlog.control = CONTROL_ENABLE;
 
     // ADC model set to zero scales.

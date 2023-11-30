@@ -139,7 +139,7 @@ static void FSM_state_ready_run(M_sys_control* sys_ctrl)
 
     // Если получена команда "Работа".
     if(sys_ctrl->control & SYS_CONTROL_CONTROL_RUN){
-        // Перейдём в состояние "Готов к включению".
+        // Перейдём в состояние "Работа".
         fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_RUN);
     }
 }
@@ -147,6 +147,8 @@ static void FSM_state_ready_run(M_sys_control* sys_ctrl)
 static void FSM_state_run(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
+        ph3c.control |= CONTROL_ENABLE;
+        ph3c.in_control_angle_pu = IQ24_PI_PU - IQ24_PI_PU/6;
     }
 }
 

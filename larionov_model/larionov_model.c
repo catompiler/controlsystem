@@ -70,19 +70,19 @@ static void larionov_model_load_RL_calc(M_larionov_model *lrm)
 
     iq24_t U = lrm->m_U_rect;
 
+    // dt* = dt / t_base = dt * w_base.
+    iq24_t dt = iq15_mul(lrm->m_cur_dt, conf.r_w_base);
+
     // dI = (U - I * R) * dt / L.
     iq24_t dI;
     // I * R.
     tmp = iq24_mul(lrm->m_load_rl_I, lrm->m_load_rl_R);
     // U - (I * R).
     tmp = iq24_sub(U, tmp);
-    // (U - (I * R) * dt.
-    tmp = iq24_mul(tmp, lrm->m_cur_dt);
-    // * t_base.
-    tmp = iq24_mul(tmp, conf.r_t_base);
-    // (U - (I * R) * dt / L.
+    // (U - (I * R)) * dt.
+    tmp = iq24_mul(tmp, dt);
+    // (U - (I * R)) * dt / L.
     dI = iq24_div(tmp, lrm->m_load_rl_L);
-
 
     iq24_t I = lrm->m_load_rl_I + dI;
 
@@ -116,7 +116,7 @@ static status_t larionov_model_load_RL_update(M_larionov_model *lrm)
     }
 
     lrm->m_load_rl_R = iq15_mul(R, conf.r_R_base_inv);
-    lrm->m_load_rl_L = iq15_mul(L, conf.r_L_base_inv);
+    lrm->m_load_rl_L = iq15_mul24(L, conf.r_L_base_inv);
 
     return res_status;
 }
@@ -132,19 +132,22 @@ static status_t larionov_model_load_RL_update(M_larionov_model *lrm)
 #define LARIONOV_MODEL_LOAD_DCM_L_DEFAULT IQ15(0.01)
 #define LARIONOV_MODEL_LOAD_DCM_Mr_DEFAULT IQ15(1)
 #define LARIONOV_MODEL_LOAD_DCM_J_DEFAULT IQ15(1)
-#define LARIONOV_MODEL_LOAD_DCM_Tj_DEFAULT IQ24(1)
+#define LARIONOV_MODEL_LOAD_DCM_Tj_DEFAULT IQ15(1)
 #define LARIONOV_MODEL_LOAD_DCM_Wnom_pu_DEFAULT IQ24(1475.0/3000)
 
 // Вычисление.
 static void larionov_model_load_DCM_calc(M_larionov_model *lrm)
 {
-    if(lrm->m_load_dcm_L == 0 || lrm->m_load_dcm_Tj){
+    if(lrm->m_load_dcm_L == 0 || lrm->m_load_dcm_Tj == 0){
         return;
     }
 
     iq24_t tmp;
 
     iq24_t U = lrm->m_U_rect;
+
+    // dt* = dt / t_base = dt * w_base.
+    iq24_t dt = iq15_mul(lrm->m_cur_dt, conf.r_w_base);
 
     // E = kF * w.
     iq24_t E = iq24_mul(lrm->m_load_dcm_kF, lrm->m_load_dcm_W);
@@ -153,16 +156,14 @@ static void larionov_model_load_DCM_calc(M_larionov_model *lrm)
     iq24_t dI;
     // I * R.
     tmp = iq24_mul(lrm->m_load_dcm_I, lrm->m_load_dcm_R);
-    // U - E - (I * R).
+    // U - E - (I * R) = U - (E + I * R).
     // E + (I * R).
     tmp = iq24_add(E, tmp);
     // U - (E + I * R).
     tmp = iq24_sub(U, tmp);
-    // (U - (I * R) * dt.
-    tmp = iq24_mul(tmp, lrm->m_cur_dt);
-    // * t_base.
-    tmp = iq24_mul(tmp, conf.r_t_base);
-    // (U - (I * R) * dt / L.
+    // (U - (I * R)) * dt.
+    tmp = iq24_mul(tmp, dt);
+    // (U - (I * R)) * dt / L.
     dI = iq24_div(tmp, lrm->m_load_dcm_L);
 
     iq24_t I = lrm->m_load_dcm_I + dI;
@@ -179,11 +180,10 @@ static void larionov_model_load_DCM_calc(M_larionov_model *lrm)
     // M - Mc.
     tmp = iq24_sub(M, lrm->m_load_dcm_Mr);
     // (M - Mc) * dt.
-    tmp = iq24_mul(tmp, lrm->m_cur_dt);
-    // * t_base.
-    tmp = iq24_mul(tmp, conf.r_t_base);
+    tmp = iq24_mul(tmp, dt);
     // dW = (M - Mc) * dt / Tj.
-    dW = iq24_div(tmp, lrm->m_load_dcm_Tj);
+    // IQ(24) = IQ(24 + 15 - 15).
+    dW = iq15_div(tmp, lrm->m_load_dcm_Tj);
 
     iq24_t W = lrm->m_load_dcm_W + dW;
     if (W < 0) {
@@ -276,8 +276,10 @@ static status_t larionov_model_load_DCM_update(M_larionov_model *lrm)
     // (J * w / Unom) * w.
     tmp = iq15_mul(tmp, Wnom);
     // (J * w^2 / Unom) / Inom.
-    // IQ(24) = IQ(15 + 24 - 15).
-    lrm->m_load_dcm_Tj = iq24_div(tmp, Inom);
+    // IQ(15) = IQ(15 + 15 - 15). // IQ(24) = IQ(15 + 24 - 15).
+    tmp = iq15_div(tmp, Inom);
+    // Tj* = Tj / t_base = Tj * w_base.
+    lrm->m_load_dcm_Tj = iq15_mul(tmp, conf.r_w_base);
 
     if(lrm->m_load_dcm_Tj <= 0){
         res_status = STATUS_ERROR;
@@ -560,7 +562,7 @@ METHOD_CALC_IMPL(M_larionov_model, lrm)
                 lrm->m_need_control = 0;
 
                 // Доля времени до подачи упраления.
-                dt_ratio = lrm->m_control_delay_angle / control_da;
+                dt_ratio = iq24_div(lrm->m_control_delay_angle, control_da);
 
                 // Установим флаг того что управление произошло.
                 control_occurred = 1;
@@ -587,7 +589,7 @@ METHOD_CALC_IMPL(M_larionov_model, lrm)
             lrm->m_cur_Uref_angle = lrm->m_control_ref_angle
                     + lrm->m_control_delay_angle;
             // Установим интервал времени до момент управления.
-            lrm->m_cur_dt = lrm->in_dt * dt_ratio;
+            lrm->m_cur_dt = iq24_mul(lrm->in_dt, dt_ratio);
             // Проинтерполируем напряжения к моменту подачи управления.
             lrm->m_cur_Uab = iq24_lerp(lrm->m_control_ref_Uab,
                     lrm->in_Uab, dt_ratio);
