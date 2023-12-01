@@ -23,6 +23,7 @@
 #include "phase_ampl/phase_ampl.h"
 #include "zero_cross_detect/zero_cross_detect.h"
 #include "rms/rms.h"
+#include "fract_mean/fract_mean.h"
 #include "valid_range3/valid_range3.h"
 #include "filter1/filter1.h"
 #include "phase3_control/phase3_control.h"
@@ -96,6 +97,9 @@ extern M_rms rms_Ua;
 extern M_rms rms_Ub;
 extern M_rms rms_Uc;
 
+// Вычислители среднего.
+extern M_fract_mean mean_Iarm;
+
 // Допустимые диапазоны.
 // Допустимый диапазон сетевых напряжений.
 extern M_valid_range3 vr_rms_Umains;
@@ -111,6 +115,8 @@ extern M_filter1 filter_Uc_zcd;
 extern M_filter1 filter_freq_Ua;
 extern M_filter1 filter_freq_Ub;
 extern M_filter1 filter_freq_Uc;
+// Среднее значение тока выхода.
+extern M_filter1 filter_mean_Iarm;
 
 //! СИФУ.
 extern M_phase3_control ph3c;

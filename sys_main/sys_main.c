@@ -145,6 +145,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(rms_Ua);
     INIT(rms_Ub);
     INIT(rms_Uc);
+    // Mean.
+    INIT(mean_Iarm);
 
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
@@ -155,6 +157,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(filter_freq_Ua);
     INIT(filter_freq_Ub);
     INIT(filter_freq_Uc);
+    // Фильтр выходного тока.
+    INIT(filter_mean_Iarm);
 
     // Измерения.
     INIT(meas);
@@ -269,6 +273,10 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(filter_freq_Ua);
     DEINIT(filter_freq_Ub);
     DEINIT(filter_freq_Uc);
+    // Фильтр выходного тока.
+    DEINIT(filter_mean_Iarm);
+    // Mean.
+    DEINIT(mean_Iarm);
     // RMS.
     DEINIT(rms_Ua);
     DEINIT(rms_Ub);
@@ -432,19 +440,6 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     CALC(meas);
 
 
-    // Допустимые диапазоны.
-    // Допустимый диапазон напряжений.
-    vr_rms_Umains.in_value[0] = rms_Ua.out_value;
-    vr_rms_Umains.in_value[1] = rms_Ub.out_value;
-    vr_rms_Umains.in_value[2] = rms_Uc.out_value;
-    CALC(vr_rms_Umains);
-    // Допустимый диапазон частоты сети.
-    vr_filter_freq_Umains.in_value[0] = filter_freq_Ua.out_value;
-    vr_filter_freq_Umains.in_value[1] = filter_freq_Ub.out_value;
-    vr_filter_freq_Umains.in_value[2] = filter_freq_Uc.out_value;
-    CALC(vr_filter_freq_Umains);
-
-
     // Таймеры - счётчики.
     // Таймер КА.
     CALC(tmr_sys_fsm);
@@ -510,5 +505,7 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     IDLE(filter_freq_Ua);
     IDLE(filter_freq_Ub);
     IDLE(filter_freq_Uc);
+    // Фильтр выходного тока.
+    IDLE(filter_mean_Iarm);
 }
 

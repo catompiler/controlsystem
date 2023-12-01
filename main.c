@@ -184,6 +184,12 @@ int main(void)
     dlog.p_ch[15].reg_id = REG_ID_MEAS_IARM;
     dlog.p_ch[15].enabled = 1;
 
+    dlog.p_ch[16].reg_id = REG_ID_MEAN_IARM;
+    dlog.p_ch[16].enabled = 1;
+
+    dlog.p_ch[17].reg_id = REG_ID_MEAN_IARM_FILT;
+    dlog.p_ch[17].enabled = 1;
+
     dlog.control = CONTROL_ENABLE;
 
     // ADC model set to zero scales.
@@ -204,6 +210,8 @@ int main(void)
     // ADC model set to noise scales.
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);
+
+    //printf("Ks: %f, Kl: %f\n", (float)FRACT_MEAN_KS/(1<<24), (float)FRACT_MEAN_KL/(1<<24));
 
     for(;;){
         IDLE(sys);

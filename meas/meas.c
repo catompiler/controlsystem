@@ -59,6 +59,7 @@ METHOD_CALC_IMPL(M_meas, meas)
     armature_I.in_Iarm[1] = lrm.out_I;
     CALC(armature_I);
 
+
     // Детект нуля и вычисление частоты.
     /*
      *       ________      _____      ________
@@ -108,4 +109,26 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Фаза C.
     rms_Uc.in_value = mains_U.out_Uc;
     CALC(rms_Uc);
+
+
+    // Среднее.
+    // Выходной ток.
+    mean_Iarm.in_value = armature_I.out_Iarm;
+    CALC(mean_Iarm);
+    // Фильтр выходного тока.
+    filter_mean_Iarm.in_value = mean_Iarm.out_value;
+    CALC(filter_mean_Iarm);
+
+
+    // Допустимые диапазоны.
+    // Допустимый диапазон напряжений.
+    vr_rms_Umains.in_value[0] = rms_Ua.out_value;
+    vr_rms_Umains.in_value[1] = rms_Ub.out_value;
+    vr_rms_Umains.in_value[2] = rms_Uc.out_value;
+    CALC(vr_rms_Umains);
+    // Допустимый диапазон частоты сети.
+    vr_filter_freq_Umains.in_value[0] = filter_freq_Ua.out_value;
+    vr_filter_freq_Umains.in_value[1] = filter_freq_Ub.out_value;
+    vr_filter_freq_Umains.in_value[2] = filter_freq_Uc.out_value;
+    CALC(vr_filter_freq_Umains);
 }

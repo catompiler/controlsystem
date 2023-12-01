@@ -189,12 +189,12 @@ EXTERN METHOD_IDLE_PROTO(M_larionov_model);
         0, /* out_I */\
         /* Параметры */\
         IQ15(0.05), /* p_I_hold */\
-        2, /* p_load_type */\
+        1, /* p_load_type */\
         /* Сопротивление [0] */\
         IQ15(10.0), /* p_load_r_R */\
         /* RL цепь [1] */\
-        IQ15(0.1), /* p_load_rl_R */\
-        IQ15(0.01), /* p_load_rl_L */\
+        IQ15(2.0), /* p_load_rl_R */\
+        IQ15(0.002), /* p_load_rl_L */\
         /* ДПТ [2] */\
         IQ15(440), /* p_load_dcm_Unom */\
         IQ15(361), /* p_load_dcm_Inom */\

@@ -70,6 +70,10 @@
 #define REG_ID_RMS_UB    1401
 #define REG_ID_RMS_UC    1402
 
+#define REG_ID_MEAN_IARM    1500
+#define REG_ID_MEAN_IARM_FILTER_T    1501
+#define REG_ID_MEAN_IARM_FILT    1502
+
 // End
 
 #endif /* REG_IDS_H */
