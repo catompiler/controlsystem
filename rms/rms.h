@@ -46,7 +46,8 @@ struct _S_Rms {
     // Внутренние данные.
     uint32_t m_count; //!< Число записанных данных.
     uint32_t m_put_index; //!< Индекс записи данных.
-    iq24_t m_data[RMS_LEN] ALIGNED4; //!< Данные.
+    iq24_t m_data[RMS_LEN]; //!< Данные.
+    liq24_t m_sum; //!< Текущая сумма квадратов.
 };
 
 EXTERN METHOD_INIT_PROTO(M_rms);
