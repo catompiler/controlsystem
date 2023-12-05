@@ -6,7 +6,7 @@
  */
 
 //! Число семплов за период сети.
-#define CONF_PERIOD_SAMPLES (64)
+#define CONF_PERIOD_SAMPLES (72)
 
 
 
