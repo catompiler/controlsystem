@@ -118,7 +118,12 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Фильтр выходного тока.
     filter_mean_Iarm.in_value = mean_Iarm.out_value;
     CALC(filter_mean_Iarm);
-
+    // Выходное напряжение.
+    mean_Uarm.in_value = armature_U.out_Uarm;
+    CALC(mean_Uarm);
+    // Фильтр выходного напряжения.
+    filter_mean_Uarm.in_value = mean_Uarm.out_value;
+    CALC(filter_mean_Uarm);
 
     // Допустимые диапазоны.
     // Допустимый диапазон напряжений.

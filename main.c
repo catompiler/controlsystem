@@ -190,6 +190,12 @@ int main(void)
     dlog.p_ch[17].reg_id = REG_ID_MEAN_IARM_FILT;
     dlog.p_ch[17].enabled = 1;
 
+    dlog.p_ch[18].reg_id = REG_ID_MEAN_UARM;
+    dlog.p_ch[18].enabled = 1;
+
+    dlog.p_ch[19].reg_id = REG_ID_MEAN_UARM_FILT;
+    dlog.p_ch[19].enabled = 1;
+
     dlog.control = CONTROL_ENABLE;
 
     // ADC model set to zero scales.

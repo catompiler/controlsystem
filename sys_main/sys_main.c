@@ -147,6 +147,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(rms_Uc);
     // Mean.
     INIT(mean_Iarm);
+    INIT(mean_Uarm);
 
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
@@ -159,6 +160,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(filter_freq_Uc);
     // Фильтр выходного тока.
     INIT(filter_mean_Iarm);
+    // Фильтр выходного напряжения.
+    INIT(filter_mean_Uarm);
 
     // Измерения.
     INIT(meas);
@@ -273,9 +276,12 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(filter_freq_Ua);
     DEINIT(filter_freq_Ub);
     DEINIT(filter_freq_Uc);
+    // Фильтр выходного напряжения.
+    DEINIT(filter_mean_Uarm);
     // Фильтр выходного тока.
     DEINIT(filter_mean_Iarm);
     // Mean.
+    DEINIT(mean_Uarm);
     DEINIT(mean_Iarm);
     // RMS.
     DEINIT(rms_Ua);
@@ -507,5 +513,7 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     IDLE(filter_freq_Uc);
     // Фильтр выходного тока.
     IDLE(filter_mean_Iarm);
+    // Фильтр выходного напряжения.
+    IDLE(filter_mean_Uarm);
 }
 

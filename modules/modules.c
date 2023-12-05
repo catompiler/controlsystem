@@ -42,7 +42,13 @@ M_rms rms_Ua = RMS_DEFAULTS;
 M_rms rms_Ub = RMS_DEFAULTS;
 M_rms rms_Uc = RMS_DEFAULTS;
 
+#if (CONF_PERIOD_SAMPLES % 6 != 0)
 M_fract_mean mean_Iarm = FRACT_MEAN_DEFAULTS;
+M_fract_mean mean_Uarm = FRACT_MEAN_DEFAULTS;
+#else // (CONF_PERIOD_SAMPLES % 6 != 0)
+M_dc_mean mean_Iarm = DC_MEAN_DEFAULTS;
+M_dc_mean mean_Uarm = DC_MEAN_DEFAULTS;
+#endif // (CONF_PERIOD_SAMPLES % 6 != 0)
 
 M_valid_range3 vr_rms_Umains = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
 
@@ -57,6 +63,7 @@ M_filter1 filter_freq_Ub = FILTER1_DEFCFG(IQ24(0.04));
 M_filter1 filter_freq_Uc = FILTER1_DEFCFG(IQ24(0.04));
 
 M_filter1 filter_mean_Iarm = FILTER1_DEFCFG(IQ24(0.00016));
+M_filter1 filter_mean_Uarm = FILTER1_DEFCFG(IQ24(0.00033));
 
 M_phase3_control ph3c = PHASE3_CONTROL_DEFAULTS;
 

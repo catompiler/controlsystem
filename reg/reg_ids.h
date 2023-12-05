@@ -73,6 +73,9 @@
 #define REG_ID_MEAN_IARM    1500
 #define REG_ID_MEAN_IARM_FILTER_T    1501
 #define REG_ID_MEAN_IARM_FILT    1502
+#define REG_ID_MEAN_UARM    1503
+#define REG_ID_MEAN_UARM_FILTER_T    1504
+#define REG_ID_MEAN_UARM_FILT    1505
 
 // End
 

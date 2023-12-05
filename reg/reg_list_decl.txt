@@ -87,6 +87,9 @@ GROUP MEAN, 1500
 REG IARM, mean_Iarm.out_value, IQ24, NONE
 REG IARM_FILTER_T, filter_mean_Iarm.p_T,       IQ24, CONF
 REG IARM_FILT,     filter_mean_Iarm.out_value, IQ24, NONE
+REG UARM, mean_Uarm.out_value, IQ24, NONE
+REG UARM_FILTER_T, filter_mean_Uarm.p_T,       IQ24, CONF
+REG UARM_FILT,     filter_mean_Uarm.out_value, IQ24, NONE
 
 // End
 END
