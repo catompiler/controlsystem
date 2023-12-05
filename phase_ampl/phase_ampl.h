@@ -34,6 +34,15 @@ typedef iq14s_t phase_ampl_data_t;
 #define PHASE_AMPL_LEN ((PHASE_AMPL_SAMPLES_COUNT)+(PHASE_AMPL_BLOCK_LEN))
 
 
+#if ((PHASE_AMPL_BLOCK_SIZE & (4 - 1)) != 0)
+#error "Block size must be a multiple of the 4!"
+#endif
+
+#if ((PHASE_AMPL_SAMPLES_COUNT & (PHASE_AMPL_BLOCK_SIZE - 1)) != 0)
+#error "Samples count must be a multiple of the block length!"
+#endif
+
+
 //! Перечисление возможных бит управления.
 enum _E_Phase_Ampl_Control {
     PHASE_AMPL_CONTROL_NONE = CONTROL_NONE,
