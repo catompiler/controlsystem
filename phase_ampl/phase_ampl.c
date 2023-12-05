@@ -9,6 +9,8 @@
 // реализовать алгоритм Гёрцеля.
 // https://ru.dsplib.org/content/goertzel/goertzel.html
 //
+// Либо ФАПЧ для эквивалентной двухфазной сети.
+//
 
 
 METHOD_INIT_IMPL(M_phase_ampl, pa)
@@ -137,8 +139,8 @@ static void calc_phase_ampl(M_phase_ampl* pa)
     acc_r >>= (PHASE_AMPL_DATA_FRACT_BITS + PHASE_AMPL_CMPLX_SIN_TABLE_FRACT_BITS - IQ24_FRACT_BITS);
     acc_i >>= (PHASE_AMPL_DATA_FRACT_BITS + PHASE_AMPL_CMPLX_SIN_TABLE_FRACT_BITS - IQ24_FRACT_BITS);
     // acc / (L/2)
-    acc_r /= (PHASE_AMPL_SAMPLES_COUNT/2);
-    acc_i /= (PHASE_AMPL_SAMPLES_COUNT/2);
+    acc_r = (acc_r * IQ24F(1,(PHASE_AMPL_SAMPLES_COUNT/2))) >> 24;
+    acc_i = (acc_i * IQ24F(1,(PHASE_AMPL_SAMPLES_COUNT/2))) >> 24;
 #endif //IS_POW2(PHASE_AMPL_SAMPLES_COUNT)
 
     //printf("%d, %d\n", (int)acc_r, (int)acc_i);
