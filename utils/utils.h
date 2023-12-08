@@ -40,7 +40,7 @@
  * Значение в границах.
  */
 #ifndef CLAMP
-#define CLAMP(v, min_v, max_v) (MIN(MAX(v, min_v), max_v))
+#define CLAMP(v, min_v, max_v) (MIN(MAX((v), (min_v)), (max_v)))
 #endif
 
 /**
