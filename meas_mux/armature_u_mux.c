@@ -12,7 +12,7 @@ METHOD_DEINIT_IMPL(M_armature_u_mux, mux)
 
 METHOD_CALC_IMPL(M_armature_u_mux, mux)
 {
-    uint32_t sel = CLAMP(mux->p_sel, 0, ARMATURE_U_MUX_INPUTS);
+    uint32_t sel = MIN(mux->p_sel, ARMATURE_U_MUX_INPUTS-1);
 
     mux->out_Uarm = mux->in_Uarm[sel];
 }
