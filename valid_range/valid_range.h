@@ -67,6 +67,6 @@ EXTERN METHOD_CALC_PROTO(M_valid_range);
         /* Внутренние данные */\
     }
 
-#define VALID_RANGE_DEFAULTS VALID_RANGE_DEFCFG(0, 1.0)
+#define VALID_RANGE_DEFAULTS VALID_RANGE_DEFCFG(0, INT32_MAX)
 
 #endif /* VALID_RANGE_H */
