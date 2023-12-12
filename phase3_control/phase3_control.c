@@ -2,8 +2,22 @@
 #include "utils/utils.h"
 
 
+static status_t recalc_values(M_phase3_control* ph3c)
+{
+    status_t res_status = STATUS_READY;
+
+    // IQ(24) = IQ(15 + 24 - 15).
+    ph3c->m_min_control_angle_pu = iq24_div(ph3c->p_min_control_angle, IQ15(360));
+
+    // IQ(24) = IQ(15 + 24 - 15).
+    ph3c->m_max_control_angle_pu = iq24_div(ph3c->p_max_control_angle, IQ15(360));
+
+    return res_status;
+}
+
 METHOD_INIT_IMPL(M_phase3_control, ph3c)
 {
+    IDLE((*ph3c));
 }
 
 METHOD_DEINIT_IMPL(M_phase3_control, ph3c)
@@ -19,15 +33,24 @@ METHOD_CALC_IMPL(M_phase3_control, ph3c)
          ph3c->in_Uca_angle_pu, (ph3c->in_Ubc_angle_pu + IQ24_PI_PU) & (IQ24_2PI_PU - 1)
     };
 
+    iq24_t control_value = CLAMP(ph3c->in_control_value, IQ24I(0), IQ24I(1));
+
+    iq24_t control_angle = PHASE3_CONTROL_MAX_CONTROL_ANGLE -
+                           iq24_mul(control_value,
+                                 (PHASE3_CONTROL_MAX_CONTROL_ANGLE - PHASE3_CONTROL_MIN_CONTROL_ANGLE)
+                               );
+
+    control_angle = CLAMP(control_angle,
+                          ph3c->m_min_control_angle_pu,
+                          ph3c->m_max_control_angle_pu);
+
     int i = 0;
 
     // Вычисления фазового управления.
     for(i = 0; i < PHASE3_CONTROL_KEYS_COUNT; i ++){
         ph3c->phc[i].control = ph3c->control & CONTROL_ENABLE;
         ph3c->phc[i].in_angle_pu = angles_values[i];
-        ph3c->phc[i].in_control_angle_pu = ph3c->in_control_angle_pu;
-        ph3c->phc[i].in_min_angle_to_control_pu = ph3c->p_min_angle_to_control_pu;
-        ph3c->phc[i].in_max_angle_to_control_pu = ph3c->p_max_angle_to_control_pu;
+        ph3c->phc[i].in_control_angle_pu = control_angle;
 
         ph3c->phc[i].calc(&ph3c->phc[i]);
     }
@@ -52,7 +75,7 @@ METHOD_CALC_IMPL(M_phase3_control, ph3c)
                 min_angle = ph3c->phc[i].in_angle_pu;
                 control_index = i;
                 control_delay_angle = ph3c->phc[i].out_control_angle_pu - ph3c->phc[i].in_angle_pu;
-                control_duration_angle = MAX(0, ph3c->p_max_angle_to_control_pu - ph3c->phc[i].out_control_angle_pu);
+                control_duration_angle = MAX(0, ph3c->m_max_control_angle_pu - ph3c->phc[i].out_control_angle_pu);
             }
         }
 
@@ -72,4 +95,9 @@ METHOD_CALC_IMPL(M_phase3_control, ph3c)
             ph3c->out_control_max_duration_angle_pu = control_duration_angle;
         }
     } //in_enable
+}
+
+METHOD_IDLE_IMPL(M_phase3_control, ph3c)
+{
+    recalc_values(ph3c);
 }

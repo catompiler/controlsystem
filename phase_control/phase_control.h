@@ -11,6 +11,12 @@
 //! Окно для управления по-умолчанию.
 #define PHASE_CONTROL_ANGLE_WIN_DEFAULT (IQ24_2PI_PU / CONF_PERIOD_SAMPLES)
 
+//! Минимальный угол управления по-умолчанию.
+#define PHASE_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT (0)
+
+//! Максимальный угол управления по-умолчанию.
+#define PHASE_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT (IQ24_PI_PU)
+
 //! Константы углов.
 //! Угол всего цикла управления.
 #define PHASE_CONTROL_CYCLE_ANGLE (IQ24_2PI_PU)
@@ -45,8 +51,6 @@ struct _S_Phase_Control {
     // Входные данные.
     reg_iq24_t in_angle_pu; //!< Угол слежения, в периодических единицах - [0; 2*pi).
     reg_iq24_t in_control_angle_pu; //!< Угол начала управления, в периодических единицах.
-    reg_iq24_t in_min_angle_to_control_pu; //!< Минимальный угол для управления, в периодических единицах.
-    reg_iq24_t in_max_angle_to_control_pu; //!< Максимальный угол для управления, в периодических единицах.
     // Выходные данные.
     strobe_t out_cycle; //!< Строб начала цикла управления.
     strobe_t out_period; //!< Строб начала периода.
@@ -55,8 +59,10 @@ struct _S_Phase_Control {
     flag_t out_control_late; //!< Флаг опоздания (угол текущего семпла больше чем угол начала управления).
     flag_t out_control_between; //!< Флаг нахождения начала управления между текущим и следующим семплом.
     // Параметры.
-    reg_iq24_t p_angle_win_pu; //!< Угол, в периодических единицах, окно для управления от текущего угла.
     // Регистры.
+    reg_iq24_t r_angle_win_pu; //!< Угол, в периодических единицах, окно для управления от текущего угла.
+    reg_iq24_t r_min_angle_to_control_pu; //!< Минимальный угол для управления, в периодических единицах.
+    reg_iq24_t r_max_angle_to_control_pu; //!< Максимальный угол для управления, в периодических единицах.
     // Методы.
     METHOD_INIT(M_phase_control);
     METHOD_DEINIT(M_phase_control);
@@ -74,14 +80,12 @@ EXTERN METHOD_INIT_PROTO(M_phase_control);
 EXTERN METHOD_DEINIT_PROTO(M_phase_control);
 EXTERN METHOD_CALC_PROTO(M_phase_control);
 
-#define PHASE_CONTROL_DEFCFG(P_ANGLE_WIN) {\
+#define PHASE_CONTROL_DEFCFG(R_ANGLE_WIN, R_ANGLE_MIN, R_ANGLE_MAX) {\
         /* Базовые поля */\
         0, 0, /* control, status */\
         /* Входные данные */\
         0, /* in_angle */\
         0, /* in_control_angle */\
-        0, /* in_min_angle_to_control */\
-        0, /* in_max_angle_to_control */\
         /* Выходные данные */\
         0, /* out_cycle */\
         0, /* out_period */\
@@ -90,8 +94,10 @@ EXTERN METHOD_CALC_PROTO(M_phase_control);
         0, /* out_control_late */\
         0, /* out_control_between */\
         /* Параметры */\
-        P_ANGLE_WIN, /* p_angle_win */\
         /* Регистры */\
+        R_ANGLE_WIN, /* r_angle_win */\
+        R_ANGLE_MIN, /* r_min_angle_to_control_pu */\
+        R_ANGLE_MAX, /* r_max_angle_to_control_pu */\
         /* Методы */\
         METHOD_INIT_PTR(M_phase_control), METHOD_DEINIT_PTR(M_phase_control),\
         METHOD_CALC_PTR(M_phase_control),\
@@ -103,6 +109,9 @@ EXTERN METHOD_CALC_PROTO(M_phase_control);
         0, /* m_control_state */\
     }
 
-#define PHASE_CONTROL_DEFAULTS PHASE_CONTROL_DEFCFG(PHASE_CONTROL_ANGLE_WIN_DEFAULT)
+#define PHASE_CONTROL_DEFAULTS\
+            PHASE_CONTROL_DEFCFG(PHASE_CONTROL_ANGLE_WIN_DEFAULT,\
+                                 PHASE_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT,\
+                                 PHASE_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT)
 
 #endif /* PHASE_CONTROL_H */

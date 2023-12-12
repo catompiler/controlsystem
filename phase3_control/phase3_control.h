@@ -44,14 +44,28 @@
 #define PHASE3_CONTROL_C_LO 1
 
 
+//! Минимальный угол управления, PU.
+#define PHASE3_CONTROL_MIN_CONTROL_ANGLE (IQ24_PI_PU / 3)
+
+//! Максимальный угол управления, PU.
+#define PHASE3_CONTROL_MAX_CONTROL_ANGLE (IQ24_PI_PU)
+
+
 //! Окно для управления по-умолчанию.
 #define PHASE3_CONTROL_ANGLE_WIN_DEFAULT (1.0 * IQ24_2PI_PU / CONF_PERIOD_SAMPLES)
 
-//! Минимальный угол управления по-умолчанию.
+//! Минимальный разрешённый угол для управления по-умолчанию, для 1-фазных PHC.
 #define PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT (IQ24_PI_PU / 3)
 
-//! Максимальный угол управления по-умолчанию.
+//! Максимальный разрешённый угол для управления по-умолчанию, для 1-фазных PHC.
 #define PHASE3_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT (IQ24_PI_PU)
+
+
+//! Минимальный угол управления по-умолчанию.
+#define PHASE3_CONTROL_MIN_CONTROL_ANGLE_DEFAULT (IQ15(60))
+
+//! Максимальный угол управления по-умолчанию.
+#define PHASE3_CONTROL_MAX_CONTROL_ANGLE_DEFAULT (IQ15(180))
 
 
 //! Перечисление возможных бит управления.
@@ -77,14 +91,14 @@ struct _S_Phase3_Control {
     reg_iq24_t in_Uab_angle_pu; //!< Угол фазы AB, в периодических единицах, [0; 2*pi).
     reg_iq24_t in_Ubc_angle_pu; //!< Угол фазы BC, в периодических единицах, [0; 2*pi).
     reg_iq24_t in_Uca_angle_pu; //!< Угол фазы CA, в периодических единицах, [0; 2*pi).
-    reg_iq24_t in_control_angle_pu; //!< Угол начала управления, в периодических единицах.
+    reg_iq24_t in_control_value; //!< Величина управления, 0 - 0%, 1 - 100% от максимума (до ограничения).
     // Выходные данные.
     strobe_t out_control[PHASE3_CONTROL_KEYS_COUNT]; //!< Управление.
     reg_iq24_t out_control_delay_angle_pu; //!< Угол до импульса управления, в периодических единицах.
     reg_iq24_t out_control_max_duration_angle_pu; //!< Максимальная продолжительность (угол) управления, в периодических единицах.
     // Параметры.
-    reg_iq24_t p_min_angle_to_control_pu; //!< Минимальный угол для управления, в периодических единицах.
-    reg_iq24_t p_max_angle_to_control_pu; //!< Максимальный угол для управления, в периодических единицах.
+    reg_iq15_t p_min_control_angle; //!< Минимальный угол управления, в электрических градусах.
+    reg_iq15_t p_max_control_angle; //!< Максимальный угол управления, в электрических градусах.
     // Регистры.
     // Внутренние модули.
     M_phase_control phc[PHASE3_CONTROL_KEYS_COUNT];
@@ -92,13 +106,19 @@ struct _S_Phase3_Control {
     METHOD_INIT(M_phase3_control);
     METHOD_DEINIT(M_phase3_control);
     METHOD_CALC(M_phase3_control);
+    METHOD_IDLE(M_phase3_control);
     // Коллбэки.
     // Внутренние данные.
+    reg_iq24_t m_min_control_angle_pu; //!< Минимальный угол управления, в периодических единицах.
+    reg_iq24_t m_max_control_angle_pu; //!< Максимальный угол управления, в периодических единицах.
 };
+
 
 EXTERN METHOD_INIT_PROTO(M_phase3_control);
 EXTERN METHOD_DEINIT_PROTO(M_phase3_control);
 EXTERN METHOD_CALC_PROTO(M_phase3_control);
+EXTERN METHOD_IDLE_PROTO(M_phase3_control);
+
 
 #define PHASE3_CONTROL_DEFAULTS {\
         /* Базовые поля */\
@@ -107,27 +127,41 @@ EXTERN METHOD_CALC_PROTO(M_phase3_control);
         0, /* in_Uab_angle */\
         0, /* in_Ubc_angle */\
         0, /* in_Uca_angle */\
-        0, /* in_control_angle */\
+        0, /* in_control_value */\
         /* Выходные данные */\
         {0}, /* out_control */\
         0, /* out_control_delay_angle */\
         0, /* out_control_max_duration_angle */\
         /* Параметры */\
-        PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT, /* p_min_angle_to_control */\
-        PHASE3_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT, /* p_max_angle_to_control */\
+        PHASE3_CONTROL_MIN_CONTROL_ANGLE_DEFAULT, /* p_min_angle_to_control */\
+        PHASE3_CONTROL_MAX_CONTROL_ANGLE_DEFAULT, /* p_max_angle_to_control */\
         /* Регистры */\
         /* Внутренние модули */\
-        {PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT),\
-         PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT),\
-         PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT),\
-         PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT),\
-         PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT),\
-         PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT)}, /* phc */\
+        {PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT,\
+                              PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT,\
+                              PHASE3_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT),\
+         PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT,\
+                              PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT,\
+                              PHASE3_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT),\
+         PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT,\
+                              PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT,\
+                              PHASE3_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT),\
+         PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT,\
+                              PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT,\
+                              PHASE3_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT),\
+         PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT,\
+                              PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT,\
+                              PHASE3_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT),\
+         PHASE_CONTROL_DEFCFG(PHASE3_CONTROL_ANGLE_WIN_DEFAULT,\
+                              PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT,\
+                              PHASE3_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT)}, /* phc */\
         /* Методы */\
         METHOD_INIT_PTR(M_phase3_control), METHOD_DEINIT_PTR(M_phase3_control),\
-        METHOD_CALC_PTR(M_phase3_control),\
+        METHOD_CALC_PTR(M_phase3_control), METHOD_IDLE_PTR(M_phase3_control),\
         /* Коллбэки */\
         /* Внутренние данные */\
+        0, /* m_min_control_angle_pu */\
+        0, /* m_max_control_angle_pu */\
     }
 
 #endif /* PHASE3_CONTROL_H */

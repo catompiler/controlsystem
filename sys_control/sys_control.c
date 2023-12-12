@@ -148,7 +148,7 @@ static void FSM_state_run(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
         ph3c.control |= CONTROL_ENABLE;
-        ph3c.in_control_angle_pu = IQ24_PI_PU - IQ24_PI_PU/5;
+        ph3c.in_control_value = IQ24(0.25);
     }
 }
 

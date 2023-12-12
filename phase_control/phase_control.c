@@ -54,14 +54,14 @@ METHOD_CALC_IMPL(M_phase_control, phc) {
         iq24_t a_control = phc->in_control_angle_pu;
 
         // Если угол управления находится в разрешённом диапазоне.
-        if (a_control >= phc->in_min_angle_to_control_pu
-                && a_control <= phc->in_max_angle_to_control_pu) {
+        if (a_control >= phc->r_min_angle_to_control_pu
+                && a_control <= phc->r_max_angle_to_control_pu) {
 
             // Общие углы.
             // Текущий угол.
             iq24_t a_cur = phc->m_angle;
             // Следующий угол.
-            iq24_t a_next = phc->m_angle + phc->p_angle_win_pu;
+            iq24_t a_next = phc->m_angle + phc->r_angle_win_pu;
             // Детект конца цикла управления.
             flag_t cycle_at_end = (a_cur < PHASE_CONTROL_CYCLE_ANGLE
                     && a_next >= PHASE_CONTROL_CYCLE_ANGLE);
@@ -86,8 +86,8 @@ METHOD_CALC_IMPL(M_phase_control, phc) {
             }
 
             // Флаг нахождения текущего угла в допустимом диапазоне углов для управления.
-            flag_t allow_late = (a_cur >= phc->in_min_angle_to_control_pu
-                    && a_cur <= phc->in_max_angle_to_control_pu);
+            flag_t allow_late = (a_cur >= phc->r_min_angle_to_control_pu
+                    && a_cur <= phc->r_max_angle_to_control_pu);
 
             late = ((a_control <= a_cur) && allow_late);
             between = ((a_between > a_cur) && (a_between <= a_next));
