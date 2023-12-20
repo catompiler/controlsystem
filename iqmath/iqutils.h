@@ -123,6 +123,20 @@ ALWAYS_INLINE static uint32_t iqn_in_range(iql_t value , iql_t min_value, iql_t 
 }
 
 /**
+ * Проверяет значение на нахождение
+ * в заданном интервале [min_value, max_value].
+ * @param value Значение.
+ * @return 1, если значение находится в интервале, иначе 0.
+ */
+ALWAYS_INLINE static uint32_t liqn_in_range(iqll_t value , iqll_t min_value, iqll_t max_value)
+{
+    if(value < min_value) return 0;
+    if(value > max_value) return 0;
+
+    return 1;
+}
+
+/**
  * Получает целую часть числа с фиксированной запятой.
  * @param q Число.
  * @return Целая часть.

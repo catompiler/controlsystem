@@ -62,6 +62,15 @@ static void test_iqn_in_range(void)
     CU_ASSERT_EQUAL(0, iqn_in_range(15, 1, 10));
 }
 
+static void test_liqn_in_range(void)
+{
+    CU_ASSERT_EQUAL(0, liqn_in_range( 0LL, 1LL, 10LL));
+    CU_ASSERT_EQUAL(1, liqn_in_range( 5LL, 1LL, 10LL));
+    CU_ASSERT_EQUAL(0, liqn_in_range(15LL, 1LL, 10LL));
+    CU_ASSERT_EQUAL(1, liqn_in_range(0x0500000000LL, 0x100000000LL, 0x1000000000LL));
+    CU_ASSERT_EQUAL(0, liqn_in_range(0x1500000000LL, 0x100000000LL, 0x1000000000LL));
+}
+
 static void test_i32_inv24(void)
 {
     CU_ASSERT_EQUAL(IQ24(0.5), i32_inv24(2));
@@ -147,6 +156,7 @@ static CU_ErrorCode test_iqutils(void)
     if(CU_add_test(suite, "iq24_inv15", test_iq24_inv15) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq24_inv7", test_iq24_inv7) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iqn_in_range", test_iqn_in_range) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "liqn_in_range", test_liqn_in_range) == NULL) return CU_get_error();
     if(CU_add_test(suite, "i32_inv24", test_i32_inv24) == NULL) return CU_get_error();
     if(CU_add_test(suite, "liq7_int", test_liq7_int) == NULL) return CU_get_error();
     if(CU_add_test(suite, "liq15_int", test_liq15_int) == NULL) return CU_get_error();
