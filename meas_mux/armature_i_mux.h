@@ -6,7 +6,7 @@
 
 
 //! Число входов мультиплексора.
-#define ARMATURE_I_MUX_INPUTS 2
+#define ARMATURE_I_MUX_INPUTS 3
 
 
 //! Перечисление возможных бит управления.
@@ -54,7 +54,7 @@ EXTERN METHOD_CALC_PROTO(M_armature_i_mux);
         /* Выходные данные */\
         0, /* out_Iarm */\
         /* Параметры */\
-        1, /* p_sel */\
+        0, /* p_sel */\
         /* Регистры */\
         /* Методы */\
         METHOD_INIT_PTR(M_armature_i_mux), METHOD_DEINIT_PTR(M_armature_i_mux),\

@@ -1,6 +1,7 @@
 #include "larionov_model.h"
 #include "modules/modules.h"
 #include "iqmath/iqmath.h"
+#include "motor/motor.h"
 #include "conf/conf.h"
 
 //
@@ -48,7 +49,7 @@ static status_t larionov_model_load_R_update(M_larionov_model *lrm)
         R = LARIONOV_MODEL_LOAD_R_R_DEFAULT;
     }
 
-    lrm->m_load_r_R = iq15_mul(R, conf.r_R_base_inv);
+    lrm->m_load_r_R = iq15_mul(R, motor.r_R_base_inv);
 
     return res_status;
 }
@@ -71,7 +72,7 @@ static void larionov_model_load_RL_calc(M_larionov_model *lrm)
     iq24_t U = lrm->m_U_rect;
 
     // dt* = dt / t_base = dt * w_base.
-    iq24_t dt = iq15_mul(lrm->m_cur_dt, conf.r_w_base);
+    iq24_t dt = iq15_mul(lrm->m_cur_dt, motor.r_w_base);
 
     // dI = (U - I * R) * dt / L.
     iq24_t dI;
@@ -115,8 +116,8 @@ static status_t larionov_model_load_RL_update(M_larionov_model *lrm)
         L = LARIONOV_MODEL_LOAD_LR_L_DEFAULT;
     }
 
-    lrm->m_load_rl_R = iq15_mul(R, conf.r_R_base_inv);
-    lrm->m_load_rl_L = iq15_mul24(L, conf.r_L_base_inv);
+    lrm->m_load_rl_R = iq15_mul(R, motor.r_R_base_inv);
+    lrm->m_load_rl_L = iq15_mul24(L, motor.r_L_base_inv);
 
     return res_status;
 }
@@ -147,7 +148,7 @@ static void larionov_model_load_DCM_calc(M_larionov_model *lrm)
     iq24_t U = lrm->m_U_rect;
 
     // dt* = dt / t_base = dt * w_base.
-    iq24_t dt = iq15_mul(lrm->m_cur_dt, conf.r_w_base);
+    iq24_t dt = iq15_mul(lrm->m_cur_dt, motor.r_w_base);
 
     // E = kF * w.
     iq24_t E = iq24_mul(lrm->m_load_dcm_kF, lrm->m_load_dcm_W);
@@ -253,11 +254,11 @@ static status_t larionov_model_load_DCM_update(M_larionov_model *lrm)
         J = LARIONOV_MODEL_LOAD_DCM_J_DEFAULT;
     }
 
-    lrm->m_load_dcm_Unom = iq15_mul(Unom, conf.r_U_base_inv); // mul(q15, q24) == q24.
-    lrm->m_load_dcm_Inom = iq15_mul(Inom, conf.r_I_base_inv); // mul(q15, q24) == q24.
-    lrm->m_load_dcm_R = iq15_mul(R, conf.r_R_base_inv); // mul(q15, q24) == q24.
-    lrm->m_load_dcm_L = iq15_mul24(L, conf.r_L_base_inv); // mul15_24(q15, q15) == q24.
-    lrm->m_load_dcm_Mr = iq15_mul(Mr, conf.r_M_base_inv); // mul(q15, q24) == q24.
+    lrm->m_load_dcm_Unom = iq15_mul(Unom, motor.r_U_base_inv); // mul(q15, q24) == q24.
+    lrm->m_load_dcm_Inom = iq15_mul(Inom, motor.r_I_base_inv); // mul(q15, q24) == q24.
+    lrm->m_load_dcm_R = iq15_mul(R, motor.r_R_base_inv); // mul(q15, q24) == q24.
+    lrm->m_load_dcm_L = iq15_mul24(L, motor.r_L_base_inv); // mul15_24(q15, q15) == q24.
+    lrm->m_load_dcm_Mr = iq15_mul(Mr, motor.r_M_base_inv); // mul(q15, q24) == q24.
 
     // Wnom = PI * N / 30.
     iq15_t Wnom;
@@ -279,7 +280,7 @@ static status_t larionov_model_load_DCM_update(M_larionov_model *lrm)
     // IQ(15) = IQ(15 + 15 - 15). // IQ(24) = IQ(15 + 24 - 15).
     tmp = iq15_div(tmp, Inom);
     // Tj* = Tj / t_base = Tj * w_base.
-    lrm->m_load_dcm_Tj = iq15_mul(tmp, conf.r_w_base);
+    lrm->m_load_dcm_Tj = iq15_mul(tmp, motor.r_w_base);
 
     if(lrm->m_load_dcm_Tj <= 0){
         res_status = STATUS_ERROR;
@@ -293,7 +294,7 @@ static status_t larionov_model_load_DCM_update(M_larionov_model *lrm)
     // PI * (N / 30).
     //tmp = iq15_mul(tmp, IQ15_PI);
     // /w_base.
-    Wnom_pu = iq15_mul(Wnom, conf.r_w_base_inv);
+    Wnom_pu = iq15_mul(Wnom, motor.r_w_base_inv);
     if(Wnom_pu == 0){
         res_status = STATUS_ERROR;
         Wnom_pu = LARIONOV_MODEL_LOAD_DCM_Wnom_pu_DEFAULT;
@@ -409,7 +410,8 @@ static void larionov_model_update_voltage_and_state(M_larionov_model *lrm)
         }
     }
 
-    lrm->m_U_rect = U;
+    // Напряжение сети переводится в напряжение нагрузки.
+    lrm->m_U_rect = iq24_mul(U, motor.r_k_U_mains_to_mot);
 
     // Установка состояния тиристоров.
     for (i = 0; i < LARIONOV_MODEL_KEYS_COUNT; i++) {
@@ -419,7 +421,6 @@ static void larionov_model_update_voltage_and_state(M_larionov_model *lrm)
             lrm->m_scrs_state[i] = 0;
         }
     }
-
 }
 
 // Вычисляет нагрузку, в зависимости от типа.
@@ -451,18 +452,21 @@ static void larionov_model_update_currents_and_state(M_larionov_model *lrm)
     // Ток через каждый открытый тиристор
     // будет всегда равен току нагрузки.
 
+    // Ток нагрузки переводится в ток сети.
+    iq24_t I_load = iq24_mul(lrm->m_I_load, motor.r_k_I_mot_to_mains);
+
     int i;
 
     // Обновление тока тиристоров.
     for (i = 0; i < LARIONOV_MODEL_KEYS_COUNT; i++) {
         if (lrm->m_scrs_state[i] != 0) {
-            lrm->m_scrs_I[i] = lrm->m_I_load;
+            lrm->m_scrs_I[i] = I_load;
         }
     }
 
     // Обновление состояния тиристоров.
     for (i = 0; i < LARIONOV_MODEL_KEYS_COUNT; i++) {
-        if (lrm->m_scrs_I[i] < lrm->p_I_hold) {
+        if (lrm->m_scrs_I[i] <= 0) { //lrm->m_I_hold
             lrm->m_scrs_state[i] = 0;
         }
     }
@@ -471,9 +475,9 @@ static void larionov_model_update_currents_and_state(M_larionov_model *lrm)
 // Обновляет выходные переменные.
 static void larionov_model_update_outputs(M_larionov_model *lrm)
 {
-    lrm->out_Iab = lrm->m_scrs_I[1] - lrm->m_scrs_I[4];
-    lrm->out_Ibc = lrm->m_scrs_I[3] - lrm->m_scrs_I[6];
-    lrm->out_Ica = lrm->m_scrs_I[5] - lrm->m_scrs_I[2];
+    lrm->out_Iab = lrm->m_scrs_I[LARIONOV_MODEL_A_HI] - lrm->m_scrs_I[LARIONOV_MODEL_A_LO];
+    lrm->out_Ibc = lrm->m_scrs_I[LARIONOV_MODEL_B_HI] - lrm->m_scrs_I[LARIONOV_MODEL_B_LO];
+    lrm->out_Ica = lrm->m_scrs_I[LARIONOV_MODEL_C_HI] - lrm->m_scrs_I[LARIONOV_MODEL_C_LO];
 
     lrm->out_U = lrm->m_U_load;
     lrm->out_I = lrm->m_I_load;
@@ -500,7 +504,8 @@ static status_t recalc_values(M_larionov_model* lrm)
     status_t res_status = STATUS_READY;
     status_t status = STATUS_NONE;
 
-    lrm->m_I_hold = iq15_mul(lrm->p_I_hold, conf.r_I_base_inv);
+    // IQ(24) = IQ(15 + 24 - 15).
+    lrm->m_I_hold = iq15_mul(lrm->p_I_hold, motor.r_I_base_inv);
 
     // Обновим рассчитываемые константы.
     status = larionov_model_load_R_update(lrm);
@@ -576,7 +581,6 @@ METHOD_CALC_IMPL(M_larionov_model, lrm)
                 lrm->m_control_ref_Uca = lrm->in_Uca;
                 lrm->m_control_ref_angle = lrm->in_Uref_angle_pu;
             }
-
         }
 
         // Расчёт.
@@ -620,7 +624,6 @@ METHOD_CALC_IMPL(M_larionov_model, lrm)
 
         // Обновление выходов.
         larionov_model_update_outputs(lrm);
-
     }
 }
 

@@ -52,7 +52,7 @@
 
 
 //! Окно для управления по-умолчанию.
-#define PHASE3_CONTROL_ANGLE_WIN_DEFAULT (1.0 * IQ24_2PI_PU / CONF_PERIOD_SAMPLES)
+#define PHASE3_CONTROL_ANGLE_WIN_DEFAULT IQ24(1.5 / CONF_PERIOD_SAMPLES)
 
 //! Минимальный разрешённый угол для управления по-умолчанию, для 1-фазных PHC.
 #define PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT (IQ24_PI_PU / 3)

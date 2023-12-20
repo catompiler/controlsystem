@@ -25,6 +25,8 @@ M_data_log dlog = DATA_LOG_DEFAULTS;
 
 M_meas meas = MEAS_DEFAULTS;
 
+M_rect_curr rect_curr = RECT_CURR_DEFAULTS;
+
 M_mains_u_mux mains_U = MAINS_U_MUX_DEFAULTS;
 M_mains_i_mux mains_I = MAINS_I_MUX_DEFAULTS;
 M_armature_u_mux armature_U = ARMATURE_U_MUX_DEFAULTS;
@@ -68,5 +70,7 @@ M_filter1 filter_mean_Uarm = FILTER1_DEFCFG(IQ24(0.00033));
 M_phase3_control ph3c = PHASE3_CONTROL_DEFAULTS;
 
 M_larionov_model lrm = LARIONOV_MODEL_DEFAULTS;
+
+M_motor motor = MOTOR_DEFAULTS;
 
 M_prot prot = PROT_DEFAULTS;

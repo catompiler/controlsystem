@@ -16,6 +16,7 @@
 #include "timer/timer.h"
 #include "data_log/data_log.h"
 #include "meas/meas.h"
+#include "rect_curr/rect_curr.h"
 #include "meas_mux/armature_i_mux.h"
 #include "meas_mux/armature_u_mux.h"
 #include "meas_mux/mains_i_mux.h"
@@ -29,6 +30,7 @@
 #include "filter1/filter1.h"
 #include "phase3_control/phase3_control.h"
 #include "larionov_model/larionov_model.h"
+#include "motor/motor.h"
 #include "prot/prot.h"
 
 
@@ -72,6 +74,9 @@ extern M_data_log dlog;
 
 //! Модуль измерений.
 extern M_meas meas;
+
+//! Вычислитель выпрямленного тока по трём входящим.
+extern M_rect_curr rect_curr;
 
 // Мультиплексоры измерений.
 //! Мультиплексор измерений входных напряжений.
@@ -132,6 +137,9 @@ extern M_phase3_control ph3c;
 
 //! Модель ларионова.
 extern M_larionov_model lrm;
+
+//! Модуль мотора.
+extern M_motor motor;
 
 // Защиты.
 //! Модуль защиты.

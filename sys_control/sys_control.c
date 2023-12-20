@@ -148,7 +148,7 @@ static void FSM_state_run(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
         ph3c.control |= CONTROL_ENABLE;
-        ph3c.in_control_value = IQ24(0.25);
+        ph3c.in_control_value = IQ24(0.37667); //0.376658 //0.252
     }
 }
 

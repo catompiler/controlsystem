@@ -50,13 +50,21 @@ METHOD_CALC_IMPL(M_meas, meas)
     mains_I.in_Ic[0] = adc.out_Ic;
     mains_I.in_Ic[1] = lrm.out_Ica;
     CALC(mains_I);
+
+    // Вычисление выходного тока по входным токам фаз.
+    rect_curr.in_Ia = mains_I.out_Ia;
+    rect_curr.in_Ib = mains_I.out_Ib;
+    rect_curr.in_Ic = mains_I.out_Ic;
+    CALC(rect_curr);
+
     // Мультиплексор измерений выходного напряжения.
     armature_U.in_Uarm[0] = adc.out_Uarm;
     armature_U.in_Uarm[1] = lrm.out_U;
     CALC(armature_U);
     // Мультиплексор измерений выходного тока.
-    armature_I.in_Iarm[0] = adc.out_Iarm;
+    armature_I.in_Iarm[0] = rect_curr.out_I;
     armature_I.in_Iarm[1] = lrm.out_I;
+    armature_I.in_Iarm[2] = adc.out_Iarm;
     CALC(armature_I);
 
 

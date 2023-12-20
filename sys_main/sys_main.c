@@ -106,6 +106,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Осциллограф.
     INIT(dlog);
 
+    // Мотор.
+    INIT(motor);
+
     // Лог.
     //TODO: text_log.
 
@@ -125,6 +128,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
 
     // АЦП модель.
     INIT(adc_model);
+
+    // Вычислитель выходного тока по входным токам фаз.
+    INIT(rect_curr);
 
     // Мультиплексоры измерений.
     INIT(mains_U);
@@ -302,6 +308,9 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(mains_U);
     DEINIT(mains_I);
 
+    // Вычислитель выходного тока по входным токам фаз.
+    DEINIT(rect_curr);
+
     // Базовые модули.
     DEINIT(adc_tim);
     DEINIT(sys_tim);
@@ -312,6 +321,10 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(sys_stat);
     DEINIT(sys_ctrl);
     DEINIT(sys_cmd);
+
+    // Мотор.
+    DEINIT(motor);
+
     DEINIT(dlog);
     DEINIT(sys_time);
     DEINIT(conf);
@@ -498,9 +511,11 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 METHOD_IDLE_IMPL(M_sys_main, sys)
 {
     IDLE(conf);
+    IDLE(dlog);
+    // Мотор.
+    IDLE(motor);
     IDLE(adc);
     IDLE(adc_model);
-    IDLE(dlog);
     IDLE(lrm);
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.

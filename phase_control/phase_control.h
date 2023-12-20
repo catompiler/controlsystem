@@ -9,7 +9,7 @@
 
 
 //! Окно для управления по-умолчанию.
-#define PHASE_CONTROL_ANGLE_WIN_DEFAULT (IQ24_2PI_PU / CONF_PERIOD_SAMPLES)
+#define PHASE_CONTROL_ANGLE_WIN_DEFAULT IQ24(1.0 / CONF_PERIOD_SAMPLES)
 
 //! Минимальный угол управления по-умолчанию.
 #define PHASE_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT (0)
