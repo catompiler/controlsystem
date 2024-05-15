@@ -3,6 +3,7 @@
 #include <string.h>
 //#include <sys/time.h>
 //#include <stdio.h>
+#include "utils/barrier.h"
 
 #ifndef __arm__
 #define RUN_TESTS 0
@@ -216,6 +217,8 @@ int main(void)
     // ADC model set to noise scales.
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);
+
+    barrier();
 
     //printf("Ks: %f, Kl: %f\n", (float)FRACT_MEAN_KS/(1<<24), (float)FRACT_MEAN_KL/(1<<24));
 
