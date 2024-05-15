@@ -3,7 +3,8 @@
 #include <string.h>
 //#include <sys/time.h>
 //#include <stdio.h>
-#include "utils/barrier.h"
+#include "clarke/clarke.h"
+#include "clarke/clarke_inv.h"
 
 #ifndef __arm__
 #define RUN_TESTS 0
@@ -218,7 +219,19 @@ int main(void)
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);
 
-    barrier();
+    M_clarke cl = CLARKE_DEFAULTS;
+    cl.in_A = IQ24(0.0);
+    cl.in_B = IQ24(0.8660254);
+    cl.in_C = IQ24(-0.8660254);
+    CALC(cl);
+    printf("clarke: (%f, %f)\n", (float)cl.out_A / IQ24_BASE, (float)cl.out_B / IQ24_BASE);
+
+
+    M_clarke_inv cl_inv = CLARKE_INV_DEFAULTS;
+    cl_inv.in_A = IQ24(0.0);
+    cl_inv.in_B = IQ24(1.0);
+    CALC(cl_inv);
+    printf("clarke inv: (%f, %f, %f)\n", (float)cl_inv.out_A / IQ24_BASE, (float)cl_inv.out_B / IQ24_BASE, (float)cl_inv.out_C / IQ24_BASE);
 
     //printf("Ks: %f, Kl: %f\n", (float)FRACT_MEAN_KS/(1<<24), (float)FRACT_MEAN_KL/(1<<24));
 
