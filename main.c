@@ -3,8 +3,8 @@
 #include <string.h>
 //#include <sys/time.h>
 //#include <stdio.h>
-#include "clarke/clarke.h"
-#include "clarke/clarke_inv.h"
+#include "park/park.h"
+#include "park/park_inv.h"
 
 #ifndef __arm__
 #define RUN_TESTS 0
@@ -219,19 +219,25 @@ int main(void)
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);
 
-    M_clarke cl = CLARKE_DEFAULTS;
-    cl.in_A = IQ24(0.0);
-    cl.in_B = IQ24(0.8660254);
-    cl.in_C = IQ24(-0.8660254);
-    CALC(cl);
-    printf("clarke: (%f, %f)\n", (float)cl.out_A / IQ24_BASE, (float)cl.out_B / IQ24_BASE);
+    iq24_t cos_angle = iq24_cos_pu(-IQ24_PI2_PU);
+    iq24_t sin_angle = iq24_sin_pu(-IQ24_PI2_PU);
+
+    M_park pk = PARK_DEFAULTS;
+    pk.in_cos_angle = cos_angle;
+    pk.in_sin_angle = sin_angle;
+    pk.in_A = IQ24(1.0);
+    pk.in_B = IQ24(0.0);
+    CALC(pk);
+    printf("park: (%f, %f)\n", (float)pk.out_A / IQ24_BASE, (float)pk.out_B / IQ24_BASE);
 
 
-    M_clarke_inv cl_inv = CLARKE_INV_DEFAULTS;
-    cl_inv.in_A = IQ24(0.0);
-    cl_inv.in_B = IQ24(1.0);
-    CALC(cl_inv);
-    printf("clarke inv: (%f, %f, %f)\n", (float)cl_inv.out_A / IQ24_BASE, (float)cl_inv.out_B / IQ24_BASE, (float)cl_inv.out_C / IQ24_BASE);
+    M_park_inv pk_inv = PARK_INV_DEFAULTS;
+    pk_inv.in_cos_angle = cos_angle;
+    pk_inv.in_sin_angle = sin_angle;
+    pk_inv.in_A = IQ24(0.0);
+    pk_inv.in_B = IQ24(1.0);
+    CALC(pk_inv);
+    printf("park inv: (%f, %f)\n", (float)pk_inv.out_A / IQ24_BASE, (float)pk_inv.out_B / IQ24_BASE);
 
     //printf("Ks: %f, Kl: %f\n", (float)FRACT_MEAN_KS/(1<<24), (float)FRACT_MEAN_KL/(1<<24));
 
