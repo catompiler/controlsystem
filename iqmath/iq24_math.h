@@ -12,6 +12,12 @@
 //! Константа 1/sqrt(2) в формате IQ24.
 #define IQ24_INV_SQRT2 (0xB504F3)
 
+//! Константа sqrt(3) в формате IQ24.
+#define IQ24_SQRT3 (0x1BB67AF)
+
+//! Константа 1/sqrt(3) в формате IQ24.
+#define IQ24_INV_SQRT3 (0x93CD3A)
+
 //! Константа Е в формате IQ24.
 #define IQ24_E (0x2B7E151)
 

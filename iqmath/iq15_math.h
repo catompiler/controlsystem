@@ -12,6 +12,12 @@
 //! Константа 1/sqrt(2) в формате IQ15.
 #define IQ15_INV_SQRT2 (0x5A82)
 
+//! Константа sqrt(3) в формате IQ15.
+#define IQ15_SQRT3 (0xDDB4)
+
+//! Константа 1/sqrt(3) в формате IQ15.
+#define IQ15_INV_SQRT3 (0x49E7)
+
 //! Константа Е в формате IQ15.
 #define IQ15_E (0xADF8)
 
