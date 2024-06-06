@@ -3,13 +3,12 @@
 #include <string.h>
 //#include <sys/time.h>
 //#include <stdio.h>
-#include "park/park.h"
-#include "park/park_inv.h"
 
 #ifndef __arm__
 #define RUN_TESTS 0
 #define WRITE_DLOG_TO_CSV 1
 #define WRITE_DLOG_TO_VCD 0
+#define WRITE_DLOG_ABSOLUTE_VALUES 1
 #endif
 
 #if defined(RUN_TESTS) && RUN_TESTS == 1
@@ -28,6 +27,48 @@
 #define WINDOWS_SET_TIMER_RESOLUTION 1
 #endif
 #endif
+
+
+static float get_float_value(reg_type_t type, void* value)
+{
+    switch(type){
+    default:
+        break;
+    case REG_TYPE_I32:
+        return (float)(*(int32_t*)value);
+    case REG_TYPE_U32:
+        return (float)(*(uint32_t*)value);
+    case REG_TYPE_IQ7:
+        return (float)(*(int32_t*)value) / IQ7_BASE;
+    case REG_TYPE_IQ15:
+        return (float)(*(int32_t*)value) / IQ15_BASE;
+    case REG_TYPE_IQ24:
+        return (float)(*(int32_t*)value) / IQ24_BASE;
+    }
+
+    return 0.0f;
+}
+
+static float get_log_ch_data(data_log_ch_data_t* ch_data, uint32_t data_index)
+{
+    reg_t* reg = ch_data->reg;
+
+    if(!reg){
+        return 0.0f;
+    }
+
+    float valuef = get_float_value(reg->type, &ch_data->data[data_index]);
+    float basef = 1.0f;
+
+#if defined(WRITE_DLOG_ABSOLUTE_VALUES) && WRITE_DLOG_ABSOLUTE_VALUES == 1
+    reg_t* base_reg = regs_find(reg->base_id);
+    if(base_reg){
+        basef = get_float_value(base_reg->type, base_reg->data);
+    }
+#endif
+
+    return valuef * basef;
+}
 
 
 #if defined(WRITE_DLOG_TO_CSV) && WRITE_DLOG_TO_CSV == 1
@@ -51,7 +92,8 @@ static void write_dlog_to_file_csv(void)
                 if(first == 0){
                     fprintf(f, ", ");
                 }
-                fprintf(f, "%d", dlog.r_ch[j].data[get_index]);
+                //fprintf(f, "%d", dlog.r_ch[j].data[get_index]);
+                fprintf(f, "%f", get_log_ch_data(&dlog.r_ch[j], get_index));
                 first = 0;
             }
         }
@@ -144,65 +186,60 @@ int main(void)
     windows_timer_set_max_res();
 #endif
 
-    // Ua, Ub. Uc.
-    dlog.p_ch[0].reg_id = REG_ID_MEAS_UA;
+    // Stator Uabc
+    dlog.p_ch[0].reg_id = REG_ID_MODEL_STATOR_UA;
     dlog.p_ch[0].enabled = 1;
-    dlog.p_ch[1].reg_id = REG_ID_MEAS_UB;
+    dlog.p_ch[1].reg_id = REG_ID_MODEL_STATOR_UB;
     dlog.p_ch[1].enabled = 1;
-    dlog.p_ch[2].reg_id = REG_ID_MEAS_UC;
+    dlog.p_ch[2].reg_id = REG_ID_MODEL_STATOR_UC;
     dlog.p_ch[2].enabled = 1;
-    // Ua phase & ampl.
-    dlog.p_ch[3].reg_id = REG_ID_PHASE_AMPL_UA_PHASE;
+    // Stator Iabc
+    dlog.p_ch[3].reg_id = REG_ID_MODEL_STATOR_IA;
     dlog.p_ch[3].enabled = 1;
-    dlog.p_ch[4].reg_id = REG_ID_PHASE_AMPL_UA_AMPL;
+    dlog.p_ch[4].reg_id = REG_ID_MODEL_STATOR_IB;
     dlog.p_ch[4].enabled = 1;
-    // Ub phase & ampl.
-    dlog.p_ch[5].reg_id = REG_ID_PHASE_AMPL_UB_PHASE;
+    dlog.p_ch[5].reg_id = REG_ID_MODEL_STATOR_IC;
     dlog.p_ch[5].enabled = 1;
-    dlog.p_ch[6].reg_id = REG_ID_PHASE_AMPL_UB_AMPL;
+    // Rotor U, I, Irstart
+    dlog.p_ch[6].reg_id = REG_ID_MODEL_ROTOR_U;
     dlog.p_ch[6].enabled = 1;
-    // Uc phase & ampl.
-    dlog.p_ch[7].reg_id = REG_ID_PHASE_AMPL_UC_PHASE;
-    dlog.p_ch[7].enabled = 1;
-    dlog.p_ch[8].reg_id = REG_ID_PHASE_AMPL_UC_AMPL;
+    dlog.p_ch[7].reg_id = REG_ID_MODEL_ROTOR_I;
+    dlog.p_ch[7].enabled = 1;;
+    dlog.p_ch[8].reg_id = REG_ID_MODEL_R_START_I;
     dlog.p_ch[8].enabled = 1;
-    // RMS Ua, Ub, Uc.
-    dlog.p_ch[9].reg_id = REG_ID_RMS_UA;
+    // Motor M, w
+    dlog.p_ch[9].reg_id = REG_ID_MODEL_MOTOR_M;
     dlog.p_ch[9].enabled = 1;
-    dlog.p_ch[10].reg_id = REG_ID_RMS_UB;
+    dlog.p_ch[10].reg_id = REG_ID_MODEL_MOTOR_W;
     dlog.p_ch[10].enabled = 1;
-    dlog.p_ch[11].reg_id = REG_ID_RMS_UC;
+    // Rectifier Uabc
+    dlog.p_ch[11].reg_id = REG_ID_MODEL_RECTIFIER_UA;
     dlog.p_ch[11].enabled = 1;
-
-    dlog.p_ch[12].reg_id = REG_ID_SYS_TIME_COUNTER_MS;
+    dlog.p_ch[12].reg_id = REG_ID_MODEL_RECTIFIER_UB;
     dlog.p_ch[12].enabled = 1;
-
-    dlog.p_ch[13].reg_id = REG_ID_LINE_FREQ_UA_FILT;
+    dlog.p_ch[13].reg_id = REG_ID_MODEL_RECTIFIER_UC;
     dlog.p_ch[13].enabled = 1;
-
-    dlog.p_ch[14].reg_id = REG_ID_MEAS_UARM;
+    // Rectifier Iabc
+    dlog.p_ch[14].reg_id = REG_ID_MODEL_RECTIFIER_IA;
     dlog.p_ch[14].enabled = 1;
-
-    dlog.p_ch[15].reg_id = REG_ID_MEAS_IARM;
+    dlog.p_ch[15].reg_id = REG_ID_MODEL_RECTIFIER_IB;
     dlog.p_ch[15].enabled = 1;
-
-    dlog.p_ch[16].reg_id = REG_ID_MEAN_IARM;
+    dlog.p_ch[16].reg_id = REG_ID_MODEL_RECTIFIER_IC;
     dlog.p_ch[16].enabled = 1;
-
-    dlog.p_ch[17].reg_id = REG_ID_MEAN_IARM_FILT;
-    dlog.p_ch[17].enabled = 1;
-
-    dlog.p_ch[18].reg_id = REG_ID_MEAN_UARM;
-    dlog.p_ch[18].enabled = 1;
-
-    dlog.p_ch[19].reg_id = REG_ID_MEAN_UARM_FILT;
-    dlog.p_ch[19].enabled = 1;
 
     dlog.control = CONTROL_ENABLE;
 
     // ADC model set to zero scales.
     adc_model.in_U_scale = IQ24(0.0);
     adc_model.in_F_scale = IQ24(0.0);
+
+    // meas muxes sel to models.
+    mains_U.p_sel = 1;
+    mains_I.p_sel = 1;
+    armature_U.p_sel = 1;
+    armature_I.p_sel = 1;
+    cell_U.p_sel = 1;
+    cell_I.p_sel = 1;
 
     INIT(sys);
 
@@ -219,26 +256,6 @@ int main(void)
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);
 
-    iq24_t cos_angle = iq24_cos_pu(-IQ24_PI2_PU);
-    iq24_t sin_angle = iq24_sin_pu(-IQ24_PI2_PU);
-
-    M_park pk = PARK_DEFAULTS;
-    pk.in_cos_angle = cos_angle;
-    pk.in_sin_angle = sin_angle;
-    pk.in_A = IQ24(1.0);
-    pk.in_B = IQ24(0.0);
-    CALC(pk);
-    printf("park: (%f, %f)\n", (float)pk.out_A / IQ24_BASE, (float)pk.out_B / IQ24_BASE);
-
-
-    M_park_inv pk_inv = PARK_INV_DEFAULTS;
-    pk_inv.in_cos_angle = cos_angle;
-    pk_inv.in_sin_angle = sin_angle;
-    pk_inv.in_A = IQ24(0.0);
-    pk_inv.in_B = IQ24(1.0);
-    CALC(pk_inv);
-    printf("park inv: (%f, %f)\n", (float)pk_inv.out_A / IQ24_BASE, (float)pk_inv.out_B / IQ24_BASE);
-
     //printf("Ks: %f, Kl: %f\n", (float)FRACT_MEAN_KS/(1<<24), (float)FRACT_MEAN_KL/(1<<24));
 
     for(;;){
@@ -253,9 +270,13 @@ int main(void)
             // Main contactor is on.
             sys_cmd.out_command = SYS_COMMAND_COMMAND_ON |
                                   SYS_COMMAND_COMMAND_CONT_ON;
+            if(lrm.in_stator_on == 0){
+                lrm.in_stator_on = 1;
+                //lrm.in_start_r_on = 1;
+            }
         }
 
-        if(adc_tim.out_counter >= 256){
+        if(adc_tim.out_counter >= 4096){ // 256
             // Run.
             sys_cmd.out_command = SYS_COMMAND_COMMAND_ON |
                                   SYS_COMMAND_COMMAND_CONT_ON |

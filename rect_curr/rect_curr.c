@@ -23,7 +23,7 @@ METHOD_CALC_IMPL(M_rect_curr, rc)
     Ires = MAX(Ires, Ic);
 
     // Ток относительно сети в ток относительно двигателя.
-    Ires = iq24_mul(Ires, motor.r_k_I_mains_to_mot);
+    Ires = iq24_mul(Ires, motor.r_r_k_I_mains_to_mot);
 
     rc->out_I = Ires;
 }

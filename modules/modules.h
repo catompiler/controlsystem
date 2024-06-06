@@ -17,10 +17,9 @@
 #include "data_log/data_log.h"
 #include "meas/meas.h"
 #include "rect_curr/rect_curr.h"
-#include "meas_mux/armature_i_mux.h"
-#include "meas_mux/armature_u_mux.h"
-#include "meas_mux/mains_i_mux.h"
-#include "meas_mux/mains_u_mux.h"
+#include "mux/mux2.h"
+#include "mux/mux3.h"
+#include "mux/mux_abc.h"
 #include "phase_ampl/phase_ampl.h"
 #include "zero_cross_detect/zero_cross_detect.h"
 #include "rms/rms.h"
@@ -29,7 +28,7 @@
 #include "valid_range3/valid_range3.h"
 #include "filter1/filter1.h"
 #include "phase3_control/phase3_control.h"
-#include "larionov_model/larionov_model.h"
+#include "larionov_model/smotor_larionov.h"
 #include "motor/motor.h"
 #include "prot/prot.h"
 
@@ -80,13 +79,17 @@ extern M_rect_curr rect_curr;
 
 // Мультиплексоры измерений.
 //! Мультиплексор измерений входных напряжений.
-extern M_mains_u_mux mains_U;
+extern M_mux_abc mains_U;
 //! Мультиплексор измерений входных токов.
-extern M_mains_i_mux mains_I;
+extern M_mux_abc mains_I;
 //! Мультиплексор измерений выходного напряжения.
-extern M_armature_u_mux armature_U;
+extern M_mux2 armature_U;
 //! Мультиплексор измерений выходного тока.
-extern M_armature_i_mux armature_I;
+extern M_mux3 armature_I;
+//! Мультиплексор измерений напряжений ячейки.
+extern M_mux_abc cell_U;
+//! Мультиплексор измерений токов ячейки.
+extern M_mux_abc cell_I;
 
 // Вычислители фазы и амплитуды фаз.
 extern M_phase_ampl phase_ampl_Ua;
@@ -136,7 +139,8 @@ extern M_filter1 filter_mean_Uarm;
 extern M_phase3_control ph3c;
 
 //! Модель ларионова.
-extern M_larionov_model lrm;
+//extern M_larionov_model lrm;
+extern M_smotor_larionov lrm;
 
 //! Модуль мотора.
 extern M_motor motor;

@@ -13,6 +13,17 @@
 // Nominal values
 #define REG_ID_CONF_U_NOM    0
 #define REG_ID_CONF_I_NOM    1
+#define REG_ID_CONF_F_NOM    2
+
+// Motor
+// Nominal values
+#define REG_ID_MOTOR_F_NOM    50
+// Nominal stator values
+#define REG_ID_MOTOR_S_U_NOM    51
+#define REG_ID_MOTOR_S_I_NOM    52
+// Nominal rotor values
+#define REG_ID_MOTOR_U_NOM    53
+#define REG_ID_MOTOR_I_NOM    54
 
 
 // SysTime
@@ -47,6 +58,31 @@
 #define REG_ID_MEAS_IC    505
 #define REG_ID_MEAS_UARM    506
 #define REG_ID_MEAS_IARM    507
+#define REG_ID_MEAS_CELL_UA    508
+#define REG_ID_MEAS_CELL_UB    509
+#define REG_ID_MEAS_CELL_UC    510
+#define REG_ID_MEAS_CELL_IA    511
+#define REG_ID_MEAS_CELL_IB    512
+#define REG_ID_MEAS_CELL_IC    513
+
+// Model
+#define REG_ID_MODEL_STATOR_UA    700
+#define REG_ID_MODEL_STATOR_UB    701
+#define REG_ID_MODEL_STATOR_UC    702
+#define REG_ID_MODEL_STATOR_IA    703
+#define REG_ID_MODEL_STATOR_IB    704
+#define REG_ID_MODEL_STATOR_IC    705
+#define REG_ID_MODEL_ROTOR_U    706
+#define REG_ID_MODEL_ROTOR_I    707
+#define REG_ID_MODEL_R_START_I    708
+#define REG_ID_MODEL_MOTOR_M    709
+#define REG_ID_MODEL_MOTOR_W    710
+#define REG_ID_MODEL_RECTIFIER_UA    711
+#define REG_ID_MODEL_RECTIFIER_UB    712
+#define REG_ID_MODEL_RECTIFIER_UC    713
+#define REG_ID_MODEL_RECTIFIER_IA    714
+#define REG_ID_MODEL_RECTIFIER_IB    715
+#define REG_ID_MODEL_RECTIFIER_IC    716
 
 // Phase and Amplitude.
 #define REG_ID_PHASE_AMPL_UA_PHASE    1000

@@ -137,6 +137,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(mains_I);
     INIT(armature_U);
     INIT(armature_I);
+    INIT(cell_U);
+    INIT(cell_I);
 
     // Вычислительные модули.
     // Фазы и амплитуды.
@@ -303,6 +305,8 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(phase_ampl_Uc);
 
     // Мультиплексоры измерений.
+    DEINIT(cell_U);
+    DEINIT(cell_I);
     DEINIT(armature_U);
     DEINIT(armature_I);
     DEINIT(mains_U);
@@ -441,17 +445,23 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     ph3c.in_Uca_angle_pu = phase_ampl_Uc.out_phase;
     CALC(ph3c);
 
+    // Вычисление измерений напряжения ячейки
+    // (для модели нужно вычислить это до вычисления модели).
+    MEAS_CALC_FOR_MODEL(meas);
 
     // Модель 3х фазного выпрямителя.
-    lrm.in_Uab = mains_U.out_Ua;
-    lrm.in_Ubc = mains_U.out_Ub;
-    lrm.in_Uca = mains_U.out_Uc;
-    lrm.in_Uref_angle_pu = phase_ampl_Ua.out_phase;
+    lrm.in_Uab = mains_U.out_A;
+    lrm.in_Ubc = mains_U.out_B;
+    lrm.in_Uca = mains_U.out_C;
+    lrm.in_Uref_angle = phase_ampl_Ua.out_phase;
+    lrm.in_stator_Uab = cell_U.out_A;
+    lrm.in_stator_Ubc = cell_U.out_B;
+    lrm.in_stator_Uca = cell_U.out_C;
     // Копирование управления.
     for(i = 0; i < PHASE3_CONTROL_KEYS_COUNT; i ++)
     { lrm.in_control[i] = ph3c.out_control[i]; }
-    lrm.in_control_delay_angle_pu = ph3c.out_control_delay_angle_pu;
-    lrm.in_control_duration_angle_pu = ph3c.out_control_max_duration_angle_pu;
+    lrm.in_control_delay_angle = ph3c.out_control_delay_angle_pu;
+    lrm.in_control_duration_angle = ph3c.out_control_max_duration_angle_pu;
     CALC(lrm);
 
 

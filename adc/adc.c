@@ -18,13 +18,13 @@ static status_t recalc_values(M_adc* adc)
     adc->m_Ic_gain = iq24_mul(adc->p_Ic_gain, conf.r_I_base_inv);
 
     // Напряжение выхода.
-    adc->m_Uarm_gain = iq24_mul(adc->p_Uarm_gain, motor.r_U_base_inv);
+    adc->m_Uarm_gain = iq24_mul(adc->p_Uarm_gain, motor.r_r_U_base_inv);
 
     // Ток выхода.
-    adc->m_Iarm_gain = iq24_mul(adc->p_Iarm_gain, motor.r_I_base_inv);
+    adc->m_Iarm_gain = iq24_mul(adc->p_Iarm_gain, motor.r_r_I_base_inv);
 
     // Ток резистора.
-    adc->m_Ir_gain = iq24_mul(adc->p_Ir_gain, motor.r_I_base_inv);
+    adc->m_Ir_gain = iq24_mul(adc->p_Ir_gain, motor.r_r_I_base_inv);
 
     // Напряжения статора.
     adc->m_s_Ua_gain = iq24_mul(adc->p_s_Ua_gain, motor.r_s_U_base_inv);

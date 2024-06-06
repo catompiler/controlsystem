@@ -49,7 +49,7 @@ static status_t larionov_model_load_R_update(M_larionov_model *lrm)
         R = LARIONOV_MODEL_LOAD_R_R_DEFAULT;
     }
 
-    lrm->m_load_r_R = iq15_mul(R, motor.r_R_base_inv);
+    lrm->m_load_r_R = iq15_mul(R, motor.r_s_R_base_inv);
 
     return res_status;
 }
@@ -116,8 +116,8 @@ static status_t larionov_model_load_RL_update(M_larionov_model *lrm)
         L = LARIONOV_MODEL_LOAD_LR_L_DEFAULT;
     }
 
-    lrm->m_load_rl_R = iq15_mul(R, motor.r_R_base_inv);
-    lrm->m_load_rl_L = iq15_mul24(L, motor.r_L_base_inv);
+    lrm->m_load_rl_R = iq15_mul(R, motor.r_s_R_base_inv);
+    lrm->m_load_rl_L = iq15_mul24(L, motor.r_s_L_base_inv);
 
     return res_status;
 }
@@ -254,11 +254,11 @@ static status_t larionov_model_load_DCM_update(M_larionov_model *lrm)
         J = LARIONOV_MODEL_LOAD_DCM_J_DEFAULT;
     }
 
-    lrm->m_load_dcm_Unom = iq15_mul(Unom, motor.r_U_base_inv); // mul(q15, q24) == q24.
-    lrm->m_load_dcm_Inom = iq15_mul(Inom, motor.r_I_base_inv); // mul(q15, q24) == q24.
-    lrm->m_load_dcm_R = iq15_mul(R, motor.r_R_base_inv); // mul(q15, q24) == q24.
-    lrm->m_load_dcm_L = iq15_mul24(L, motor.r_L_base_inv); // mul15_24(q15, q15) == q24.
-    lrm->m_load_dcm_Mr = iq15_mul(Mr, motor.r_M_base_inv); // mul(q15, q24) == q24.
+    lrm->m_load_dcm_Unom = iq15_mul(Unom, motor.r_r_U_base_inv); // mul(q15, q24) == q24.
+    lrm->m_load_dcm_Inom = iq15_mul(Inom, motor.r_r_I_base_inv); // mul(q15, q24) == q24.
+    lrm->m_load_dcm_R = iq15_mul(R, motor.r_s_R_base_inv); // mul(q15, q24) == q24.
+    lrm->m_load_dcm_L = iq15_mul24(L, motor.r_s_L_base_inv); // mul15_24(q15, q15) == q24.
+    lrm->m_load_dcm_Mr = iq15_mul(Mr, motor.r_s_M_base_inv); // mul(q15, q24) == q24.
 
     // Wnom = PI * N / 30.
     iq15_t Wnom;
@@ -365,7 +365,7 @@ static void larionov_model_update_gates(M_larionov_model *lrm)
         iq24_t gates_da = iq24_angle_norm_pu(
                 lrm->m_cur_Uref_angle - lrm->m_gates_ref_angle);
         // Если превышает заданную продолжительность.
-        if (gates_da > lrm->in_control_duration_angle_pu) {
+        if (gates_da > lrm->in_control_duration_angle) {
             // Сбросим управляющие.
             larionov_model_reset_state(lrm->m_gates_state);
         }
@@ -411,7 +411,7 @@ static void larionov_model_update_voltage_and_state(M_larionov_model *lrm)
     }
 
     // Напряжение сети переводится в напряжение нагрузки.
-    lrm->m_U_rect = iq24_mul(U, motor.r_k_U_mains_to_mot);
+    lrm->m_U_rect = iq24_mul(U, motor.r_r_k_U_mains_to_mot);
 
     // Установка состояния тиристоров.
     for (i = 0; i < LARIONOV_MODEL_KEYS_COUNT; i++) {
@@ -453,7 +453,7 @@ static void larionov_model_update_currents_and_state(M_larionov_model *lrm)
     // будет всегда равен току нагрузки.
 
     // Ток нагрузки переводится в ток сети.
-    iq24_t I_load = iq24_mul(lrm->m_I_load, motor.r_k_I_mot_to_mains);
+    iq24_t I_load = iq24_mul(lrm->m_I_load, motor.r_r_k_I_mot_to_mains);
 
     int i;
 
@@ -505,7 +505,7 @@ static status_t recalc_values(M_larionov_model* lrm)
     status_t status = STATUS_NONE;
 
     // IQ(24) = IQ(15 + 24 - 15).
-    lrm->m_I_hold = iq15_mul(lrm->p_I_hold, motor.r_I_base_inv);
+    lrm->m_I_hold = iq15_mul(lrm->p_I_hold, motor.r_r_I_base_inv);
 
     // Обновим рассчитываемые константы.
     status = larionov_model_load_R_update(lrm);
@@ -548,18 +548,18 @@ METHOD_CALC_IMPL(M_larionov_model, lrm)
             lrm->m_need_control = 1;
             larionov_model_set_states(lrm->m_control, lrm->in_control);
 
-            lrm->m_control_delay_angle = lrm->in_control_delay_angle_pu;
+            lrm->m_control_delay_angle = lrm->in_control_delay_angle;
             lrm->m_control_ref_Uab = lrm->in_Uab;
             lrm->m_control_ref_Ubc = lrm->in_Ubc;
             lrm->m_control_ref_Uca = lrm->in_Uca;
-            lrm->m_control_ref_angle = lrm->in_Uref_angle_pu;
+            lrm->m_control_ref_angle = lrm->in_Uref_angle;
         }
 
         // Если есть текущее управление.
         if (lrm->m_need_control == 1) {
             // Прошедший угол с момента получения управления.
             iq24_t control_da = iq24_angle_norm_pu(
-                    lrm->in_Uref_angle_pu - lrm->m_control_ref_angle);
+                    lrm->in_Uref_angle - lrm->m_control_ref_angle);
 
             // Если с момента получения произошло управление.
             if (control_da > lrm->m_control_delay_angle) {
@@ -579,7 +579,7 @@ METHOD_CALC_IMPL(M_larionov_model, lrm)
                 lrm->m_control_ref_Uab = lrm->in_Uab;
                 lrm->m_control_ref_Ubc = lrm->in_Ubc;
                 lrm->m_control_ref_Uca = lrm->in_Uca;
-                lrm->m_control_ref_angle = lrm->in_Uref_angle_pu;
+                lrm->m_control_ref_angle = lrm->in_Uref_angle;
             }
         }
 
@@ -613,7 +613,7 @@ METHOD_CALC_IMPL(M_larionov_model, lrm)
         }
 
         // Установим текущий угол.
-        lrm->m_cur_Uref_angle = lrm->in_Uref_angle_pu;
+        lrm->m_cur_Uref_angle = lrm->in_Uref_angle;
         // Устновим текущие значения напряжений.
         lrm->m_cur_Uab = lrm->in_Uab;
         lrm->m_cur_Ubc = lrm->in_Ubc;

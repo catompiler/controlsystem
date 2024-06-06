@@ -82,10 +82,10 @@ struct _S_Larionov_Model {
     reg_iq24_t in_Uab; //!< Напряжение фазы AB.
     reg_iq24_t in_Ubc; //!< Напряжение фазы BC.
     reg_iq24_t in_Uca; //!< Напряжение фазы CA.
-    reg_iq24_t in_Uref_angle_pu; //!< Угол опорной фазы, в периодических единицах, [0; 2*pi).
+    reg_iq24_t in_Uref_angle; //!< Угол опорной фазы, в периодических единицах, [0; 2*pi).
     strobe_t in_control[LARIONOV_MODEL_KEYS_COUNT]; //!< Управление.
-    reg_iq24_t in_control_delay_angle_pu; //!< Угол до импульса управления, в периодических единицах.
-    reg_iq24_t in_control_duration_angle_pu; //!< Продолжительность (угол) управления, в периодических единицах.
+    reg_iq24_t in_control_delay_angle; //!< Угол до импульса управления, в периодических единицах.
+    reg_iq24_t in_control_duration_angle; //!< Продолжительность (угол) управления, в периодических единицах.
     reg_iq24_t in_dt; //!< Интервал времени между вычислениями для вычисления модели, с.
     // Выходные данные.
     reg_iq24_t out_Iab; //!< Ток фазы AB.

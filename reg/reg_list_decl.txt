@@ -15,6 +15,18 @@ GROUP CONF, 0
 // Nominal values
 REG U_NOM, conf.p_U_nom, IQ15, CONF
 REG I_NOM, conf.p_I_nom, IQ15, CONF
+REG F_NOM, conf.p_f_nom, IQ15, CONF
+
+// Motor
+GROUP MOTOR, 50
+// Nominal values
+REG F_NOM, motor.p_f_nom, IQ15, CONF
+// Nominal stator values
+REG S_U_NOM, motor.p_s_U_nom, IQ15, CONF
+REG S_I_NOM, motor.p_s_I_nom, IQ15, CONF
+// Nominal rotor values
+REG U_NOM, motor.p_U_nom, IQ15, CONF
+REG I_NOM, motor.p_I_nom, IQ15, CONF
 
 !// Sys
 !GROUP SYS, 100
@@ -48,14 +60,40 @@ REG UC_OFFSET, adc.p_Uc_offset, U32, CONF
 
 // Measurement
 GROUP MEAS, 500
-REG UA, mains_U.out_Ua, IQ24, NONE
-REG UB, mains_U.out_Ub, IQ24, NONE
-REG UC, mains_U.out_Uc, IQ24, NONE
-REG IA, mains_I.out_Ia, IQ24, NONE
-REG IB, mains_I.out_Ib, IQ24, NONE
-REG IC, mains_I.out_Ic, IQ24, NONE
-REG UARM, armature_U.out_Uarm, IQ24, NONE
-REG IARM, armature_I.out_Iarm, IQ24, NONE
+REG UA, mains_U.out_A, IQ24, NONE, CONF.U_NOM
+REG UB, mains_U.out_B, IQ24, NONE, CONF.U_NOM
+REG UC, mains_U.out_C, IQ24, NONE, CONF.U_NOM
+REG IA, mains_I.out_A, IQ24, NONE, CONF.I_NOM
+REG IB, mains_I.out_B, IQ24, NONE, CONF.I_NOM
+REG IC, mains_I.out_C, IQ24, NONE, CONF.I_NOM
+REG UARM, armature_U.out_value, IQ24, NONE, MOTOR.U_NOM
+REG IARM, armature_I.out_value, IQ24, NONE, MOTOR.I_NOM
+REG CELL_UA, cell_U.out_A, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UB, cell_U.out_B, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UC, cell_U.out_C, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_IA, cell_I.out_A, IQ24, NONE, MOTOR.S_I_NOM
+REG CELL_IB, cell_I.out_B, IQ24, NONE, MOTOR.S_I_NOM
+REG CELL_IC, cell_I.out_C, IQ24, NONE, MOTOR.S_I_NOM
+
+// Model
+GROUP MODEL, 700
+REG STATOR_UA, lrm.in_stator_Uab,  IQ24, NONE, MOTOR.S_U_NOM
+REG STATOR_UB, lrm.in_stator_Ubc,  IQ24, NONE, MOTOR.S_U_NOM
+REG STATOR_UC, lrm.in_stator_Uca,  IQ24, NONE, MOTOR.S_U_NOM
+REG STATOR_IA, lrm.out_stator_Iab, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IB, lrm.out_stator_Ibc, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IC, lrm.out_stator_Ica, IQ24, NONE, MOTOR.S_I_NOM
+REG ROTOR_U, lrm.out_U, IQ24, NONE, MOTOR.U_NOM
+REG ROTOR_I, lrm.out_I, IQ24, NONE, MOTOR.I_NOM
+REG R_START_I, lrm.out_Irstart, IQ24, NONE, MOTOR.I_NOM
+REG MOTOR_M, lrm.out_M, IQ24, NONE, NONE
+REG MOTOR_W, lrm.out_w, IQ24, NONE, NONE
+REG RECTIFIER_UA, lrm.in_Uab,  IQ24, NONE, CONF.U_NOM
+REG RECTIFIER_UB, lrm.in_Ubc,  IQ24, NONE, CONF.U_NOM
+REG RECTIFIER_UC, lrm.in_Uca,  IQ24, NONE, CONF.U_NOM
+REG RECTIFIER_IA, lrm.out_Iab, IQ24, NONE, CONF.I_NOM
+REG RECTIFIER_IB, lrm.out_Ibc, IQ24, NONE, CONF.I_NOM
+REG RECTIFIER_IC, lrm.out_Ica, IQ24, NONE, CONF.I_NOM
 
 // Phase and Amplitude.
 GROUP PHASE_AMPL, 1000
