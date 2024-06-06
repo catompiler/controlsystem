@@ -17,10 +17,11 @@
  * ID - идентификатор регистра.
  * DATA - Переменная с данными (берётся указатель).
  * TYPE - Тип данных.
+ * FLAG - Флаги.
+ * BASE - Идентификатор базовой величины, либо REG_ID_NONE.
  * //DEF - Значение по-умолчанию.
- * //FLG - Флаги.
  */
-#define REG(ID, DATA, TYPE, FLAG) {ID, (void*)&DATA, TYPE, FLAG},
+#define REG(ID, DATA, TYPE, FLAG, BASE) {ID, (void*)&DATA, TYPE, FLAG, BASE},
 /*
  * Окончание массива регистров.
  */

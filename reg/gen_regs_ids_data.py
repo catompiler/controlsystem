@@ -3,9 +3,11 @@
 
 import sys;
 
+def make_reg_id(suffix):
+    return "REG_ID_%s" % (suffix);
 
 def make_reg_id_name(group_name, reg_name):
-    return "REG_ID_%s_%s" % (group_name, reg_name);
+    return make_reg_id("_".join([group_name, reg_name]));
 
 
 def make_reg_type_name(reg_type):
@@ -15,6 +17,9 @@ def make_reg_type_name(reg_type):
 def make_reg_flags_str(reg_flags_list):
     flags_strs = ["REG_FLAG_%s" % (flag) for flag in reg_flags_list];
     return " | ".join(flags_strs);
+
+def make_reg_base_id(reg_base):
+    return make_reg_id("_".join(reg_base.split(".")));
 
 
 def gen_ids(decls, f=sys.stdout):
@@ -84,11 +89,13 @@ def gen_regs(decls, f=sys.stdout):
             reg_data = d['data'];
             reg_type = d['type'];
             reg_flags_list = d['flags'];
-            f.write("REG(%s, %s, %s, %s)\n" % (\
+            reg_base = d['base'];
+            f.write("REG(%s, %s, %s, %s, %s)\n" % (\
                     make_reg_id_name(grp_name, reg_name),\
                     reg_data,\
                     make_reg_type_name(reg_type),\
-                    make_reg_flags_str(reg_flags_list)\
+                    make_reg_flags_str(reg_flags_list),\
+                    make_reg_base_id(reg_base)\
                 ));
         elif(t == "begin"):
             beg_name = d['name'];
@@ -195,14 +202,23 @@ def parse_reg(line, line_num):
     reg_token = parts[0].strip();
     tokens    = parts[2].split(',');
 
-    if(reg_token != "REG" or len(tokens) != 4):
-        print("Bad REG line (%d): expected \"REG str_name, str_data, str_type, str_flags\"" % (line_num));
+    tokens_count = len(tokens);
+
+    if(reg_token != "REG" or tokens_count < 3):
+        print("Bad REG line (%d): expected \"REG str_name, str_data, str_type [,str_flags [,str_base]]\"" % (line_num));
         return {};
 
     reg_name  = tokens[0].strip();
     reg_data  = tokens[1].strip();
     reg_type  = tokens[2].strip();
-    reg_flags = tokens[3].strip();
+    reg_flags = "";
+    reg_base  = "";
+
+    if(tokens_count >= 4):
+        reg_flags = tokens[3].strip();
+
+    if(tokens_count >= 5):
+        reg_base  = tokens[4].strip();
 
     if(not check_identifier(reg_name)):
         print("Bad register name: \"%s\" at line %d" % (reg_name, line_num));
@@ -219,10 +235,13 @@ def parse_reg(line, line_num):
     if(not reg_flags):
         reg_flags = "NONE";
 
+    if(not reg_base):
+        reg_base = "NONE";
+
     reg_flags_list = [i.strip() for i in reg_flags.split("|")];
 
     return {'name':reg_name, 'data':reg_data,\
-            'type':reg_type, 'flags':reg_flags_list};
+            'type':reg_type, 'flags':reg_flags_list, 'base':reg_base};
 
 
 def read_decls(f):

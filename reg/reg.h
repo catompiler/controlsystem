@@ -9,6 +9,13 @@
 //! Тип идентификатора регистра.
 typedef uint16_t reg_id_t;
 
+//! Значение отсутствующего идентификатора.
+#define REG_ID_NONE ((reg_id_t)-1)
+//! Синоним отсутствующего идентификатора -
+//! некорректный идентификатор.
+#define REG_ID_INVALID REG_ID_NONE
+
+
 typedef enum _E_Reg_Flag {
     REG_FLAG_NONE = 0x00,
     REG_FLAG_CONF = 0x01,
@@ -20,6 +27,7 @@ typedef struct _S_Reg {
     void* data; //!< Указатель на данные.
     reg_type_t type; //!< Тип данных регистра.
     reg_flags_t flags; //!< Флаги регистра.
+    reg_id_t base_id; //!< Идентификатор базовой величины.
 } reg_t;
 
 
@@ -61,6 +69,17 @@ ALWAYS_INLINE static reg_type_t reg_type(const reg_t* reg)
 ALWAYS_INLINE static reg_flags_t reg_flags(const reg_t* reg)
 {
     return reg->flags;
+}
+
+
+/**
+ * Получает идентификатор регистра базовой величины.
+ * @param reg Регистр.
+ * @return Идентификатор регистра базовой величины.
+ */
+ALWAYS_INLINE static reg_id_t reg_base_id(const reg_t* reg)
+{
+    return reg->base_id;
 }
 
 //! Получает значение регистра reg приведённое к типу T.

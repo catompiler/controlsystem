@@ -23,6 +23,8 @@ static int regs_compare_ids(const void * key, const void * item)
 
 reg_t* regs_find(reg_id_t id)
 {
+    if(id == REG_ID_NONE) return NULL;
+
     reg_t* reg = bsearch((const void*)(unsigned long)id,
                            (const void*)regs, REGS_COUNT, sizeof(reg_t),
                            regs_compare_ids);
