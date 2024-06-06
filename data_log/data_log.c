@@ -17,6 +17,7 @@ static status_t recalc_values(M_data_log* dlog)
 
         if(ch_par->enabled && (reg = regs_find(ch_par->reg_id))){
             ch_dat->reg = reg;//reg_data(reg);
+            ch_dat->base_reg = regs_find(reg->base_id);
         }else{
             ch_dat->reg = NULL;
         }

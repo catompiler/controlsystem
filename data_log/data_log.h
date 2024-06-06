@@ -3,6 +3,7 @@
 
 #include "module/base.h"
 #include "reg/reg.h"
+#include "conf/conf.h"
 
 
 //! Перечисление возможных бит управления.
@@ -19,7 +20,7 @@ enum _E_Data_Log_Status {
 //! Число каналов.
 #define DATA_LOG_CH_COUNT 32
 //! Длина записи данных каждого канала.
-#define DATA_LOG_CH_LEN 8192
+#define DATA_LOG_CH_LEN 16384
 
 
 // Получение осциллограммы.
@@ -48,12 +49,12 @@ typedef int32_t data_log_value_t;
 typedef struct _S_Data_Log_Ch_Param {
     reg_u32_t enabled; //!< Разрешение логгирования канала.
     reg_u32_t reg_id; //!< Идентификатор логгируемого регистра.
-    //reg_u32_t base_reg_id; //!< Идентификатор регистра с базовым значением.
 } data_log_ch_param_t;
 
 //! Структура данных канала.
 typedef struct _S_Data_Log_Ch_Data {
     reg_t* reg; //!< Указатель на логгируемый регистр.
+    reg_t* base_reg; //!< Указатель на регистр базовой величины.
     data_log_value_t data[DATA_LOG_CH_LEN]; //!< Данные.
 } data_log_ch_data_t;
 
