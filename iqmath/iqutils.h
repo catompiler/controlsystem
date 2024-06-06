@@ -203,6 +203,20 @@ ALWAYS_INLINE static iq24_t iq15_mul24(iq15_t a, iq15_t b)
 }
 
 /**
+ * Делит два числа IQ15 с результатом IQ24.
+ * @param a Число.
+ * @param b Число.
+ * @return Результат.
+ */
+ALWAYS_INLINE static iq24_t iq15_div24(iq15_t a, iq15_t b)
+{
+    iq39ll_t ext = (iq39ll_t)a << IQ24_FRACT_BITS;
+    iq24_t res = (iq24_t)(ext / b);
+
+    return res;
+}
+
+/**
  * Безопасное среднее двух чисел.
  * @param a Число.
  * @param b Число.

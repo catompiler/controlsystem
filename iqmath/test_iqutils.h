@@ -107,6 +107,14 @@ static void test_iq15_mul24(void)
     CU_ASSERT_EQUAL(IQ24(10), iq15_mul24(IQ15(-5), IQ15(-2)));
 }
 
+static void test_iq15_div24(void)
+{
+    CU_ASSERT_EQUAL(IQ24(2), iq15_div24(IQ15(4), IQ15(2)));
+    CU_ASSERT_EQUAL(IQ24(-2), iq15_div24(IQ15(-4), IQ15(2)));
+    CU_ASSERT_EQUAL(IQ24(-0.5), iq15_div24(IQ15(2), IQ15(-4)));
+    CU_ASSERT_EQUAL(IQ24(0.5), iq15_div24(IQ15(-2), IQ15(-4)));
+}
+
 static void test_iql_mean2(void)
 {
     CU_ASSERT_EQUAL(0, iql_mean2(0, 0));
@@ -163,10 +171,10 @@ static CU_ErrorCode test_iqutils(void)
     if(CU_add_test(suite, "liq24_int", test_liq24_int) == NULL) return CU_get_error();
     if(CU_add_test(suite, "i32_div_iq15", test_i32_div_iq15) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iq15_mul24", test_iq15_mul24) == NULL) return CU_get_error();
+    if(CU_add_test(suite, "iq15_div24", test_iq15_div24) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iql_mean2", test_iql_mean2) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iql_mean", test_iql_mean) == NULL) return CU_get_error();
     if(CU_add_test(suite, "iql_mean3", test_iql_mean3) == NULL) return CU_get_error();
-    //if(CU_add_test(suite, "IQ24", test_) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ24", test_) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ24", test_) == NULL) return CU_get_error();
     //if(CU_add_test(suite, "IQ24", test_) == NULL) return CU_get_error();
