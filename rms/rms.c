@@ -34,7 +34,7 @@ METHOD_CALC_IMPL(M_rms, rms)
 {
     if(!(rms->control & CONTROL_ENABLE)) return;
 
-    iq24_t value_sq = iq24_mul(rms->in_value, rms->in_value);
+    liq24_t value_sq = iq24_mull(rms->in_value, rms->in_value);
 
     rms->m_sum -= rms->m_data[rms->m_put_index];
     rms->m_data[rms->m_put_index] = value_sq;
