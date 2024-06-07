@@ -153,6 +153,15 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(rms_Ua);
     INIT(rms_Ub);
     INIT(rms_Uc);
+    INIT(rms_Ia);
+    INIT(rms_Ib);
+    INIT(rms_Ic);
+    INIT(rms_cell_Ua);
+    INIT(rms_cell_Ub);
+    INIT(rms_cell_Uc);
+    INIT(rms_cell_Ia);
+    INIT(rms_cell_Ib);
+    INIT(rms_cell_Ic);
     // Mean.
     INIT(mean_Iarm);
     INIT(mean_Uarm);
@@ -175,9 +184,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(meas);
 
     // Допустимые диапазоны.
-    // Допустимый диапазон напряжений при включении контактора.
+    // Допустимый диапазон напряжений сети.
     INIT(vr_rms_Umains);
-    // Допустимый диапазон частоты сети при включении контактора.
+    // Допустимый диапазон частоты сети.
     INIT(vr_filter_freq_Umains);
 
     // Основные модули.
@@ -267,9 +276,9 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Вычислительные модули.
 
     // Допустимые диапазоны.
-    // Допустимый диапазон частоты сети при включении контактора.
+    // Допустимый диапазон частоты сети.
     DEINIT(vr_filter_freq_Umains);
-    // Допустимый диапазон напряжений при включении контактора.
+    // Допустимый диапазон напряжений сети.
     DEINIT(vr_rms_Umains);
 
     // Измерения.
@@ -295,6 +304,15 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(rms_Ua);
     DEINIT(rms_Ub);
     DEINIT(rms_Uc);
+    DEINIT(rms_Ia);
+    DEINIT(rms_Ib);
+    DEINIT(rms_Ic);
+    DEINIT(rms_cell_Ua);
+    DEINIT(rms_cell_Ub);
+    DEINIT(rms_cell_Uc);
+    DEINIT(rms_cell_Ia);
+    DEINIT(rms_cell_Ib);
+    DEINIT(rms_cell_Ic);
     // ZCD.
     DEINIT(zcd_Ua);
     DEINIT(zcd_Ub);
@@ -366,9 +384,20 @@ static void FSM_state_init(M_sys_main* sys)
         zcd_Ua.control = CONTROL_ENABLE;
         zcd_Ub.control = CONTROL_ENABLE;
         zcd_Uc.control = CONTROL_ENABLE;
+
         rms_Ua.control = CONTROL_ENABLE;
         rms_Ub.control = CONTROL_ENABLE;
         rms_Uc.control = CONTROL_ENABLE;
+        rms_Ia.control = CONTROL_ENABLE;
+        rms_Ib.control = CONTROL_ENABLE;
+        rms_Ic.control = CONTROL_ENABLE;
+
+        rms_cell_Ua.control = CONTROL_ENABLE;
+        rms_cell_Ub.control = CONTROL_ENABLE;
+        rms_cell_Uc.control = CONTROL_ENABLE;
+        rms_cell_Ia.control = CONTROL_ENABLE;
+        rms_cell_Ib.control = CONTROL_ENABLE;
+        rms_cell_Ic.control = CONTROL_ENABLE;
     }
 
     status &= phase_ampl_Ua.status;
@@ -382,6 +411,16 @@ static void FSM_state_init(M_sys_main* sys)
     status &= rms_Ua.status;
     status &= rms_Ub.status;
     status &= rms_Uc.status;
+    status &= rms_Ia.status;
+    status &= rms_Ib.status;
+    status &= rms_Ic.status;
+
+    status &= rms_cell_Ua.status;
+    status &= rms_cell_Ub.status;
+    status &= rms_cell_Uc.status;
+    status &= rms_cell_Ia.status;
+    status &= rms_cell_Ib.status;
+    status &= rms_cell_Ic.status;
 
     // Если все модули имеют валидный выход.
     if(status & STATUS_VALID){

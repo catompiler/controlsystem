@@ -106,28 +106,37 @@ REG UC_PHASE,  phase_ampl_Uc.out_phase, IQ24, NONE
 REG UC_AMPL,   phase_ampl_Uc.out_ampl,  IQ24, NONE
 
 GROUP LINE_FREQ, 1200
-REG UA,            zcd_Ua.out_freq,        IQ24, NONE
+REG UA,            zcd_Ua.out_freq,           IQ24, NONE
 REG UA_FILTER_T,   filter_freq_Ua.p_T,        IQ24, CONF
 REG UA_FILT,       filter_freq_Ua.out_value,  IQ24, NONE
-REG UB,            zcd_Ub.out_freq,        IQ24, NONE
+REG UB,            zcd_Ub.out_freq,           IQ24, NONE
 REG UB_FILTER_T,   filter_freq_Ub.p_T,        IQ24, CONF
 REG UB_FILT,       filter_freq_Ub.out_value,  IQ24, NONE
-REG UC,            zcd_Uc.out_freq,        IQ24, NONE
+REG UC,            zcd_Uc.out_freq,           IQ24, NONE
 REG UC_FILTER_T,   filter_freq_Uc.p_T,        IQ24, CONF
 REG UC_FILT,       filter_freq_Uc.out_value,  IQ24, NONE
 
 GROUP RMS, 1400
-REG UA, rms_Ua.out_value, IQ24, NONE
-REG UB, rms_Ub.out_value, IQ24, NONE
-REG UC, rms_Uc.out_value, IQ24, NONE
+REG UA, rms_Ua.out_value, IQ24, NONE, CONF.U_NOM
+REG UB, rms_Ub.out_value, IQ24, NONE, CONF.U_NOM
+REG UC, rms_Uc.out_value, IQ24, NONE, CONF.U_NOM
+REG IA, rms_Ia.out_value, IQ24, NONE, CONF.I_NOM
+REG IB, rms_Ib.out_value, IQ24, NONE, CONF.I_NOM
+REG IC, rms_Ic.out_value, IQ24, NONE, CONF.I_NOM
+REG CELL_UA, rms_cell_Ua.out_value, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UB, rms_cell_Ub.out_value, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UC, rms_cell_Uc.out_value, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_IA, rms_cell_Ia.out_value, IQ24, NONE, MOTOR.S_I_NOM
+REG CELL_IB, rms_cell_Ib.out_value, IQ24, NONE, MOTOR.S_I_NOM
+REG CELL_IC, rms_cell_Ic.out_value, IQ24, NONE, MOTOR.S_I_NOM
 
 GROUP MEAN, 1500
-REG IARM, mean_Iarm.out_value, IQ24, NONE
-REG IARM_FILTER_T, filter_mean_Iarm.p_T,       IQ24, CONF
-REG IARM_FILT,     filter_mean_Iarm.out_value, IQ24, NONE
-REG UARM, mean_Uarm.out_value, IQ24, NONE
-REG UARM_FILTER_T, filter_mean_Uarm.p_T,       IQ24, CONF
-REG UARM_FILT,     filter_mean_Uarm.out_value, IQ24, NONE
+REG UARM,          mean_Uarm.out_value,        IQ24, NONE, MOTOR.U_NOM
+REG UARM_FILTER_T, filter_mean_Uarm.p_T,       IQ24, CONF, NONE
+REG UARM_FILT,     filter_mean_Uarm.out_value, IQ24, NONE, MOTOR.U_NOM
+REG IARM,          mean_Iarm.out_value,        IQ24, NONE, MOTOR.I_NOM
+REG IARM_FILTER_T, filter_mean_Iarm.p_T,       IQ24, CONF, NONE
+REG IARM_FILT,     filter_mean_Iarm.out_value, IQ24, NONE, MOTOR.I_NOM
 
 // End
 END

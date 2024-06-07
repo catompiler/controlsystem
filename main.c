@@ -226,6 +226,19 @@ int main(void)
     dlog.p_ch[15].enabled = 1;
     dlog.p_ch[16].reg_id = REG_ID_MODEL_RECTIFIER_IC;
     dlog.p_ch[16].enabled = 1;
+    // Cell RMS.
+    dlog.p_ch[17].reg_id = REG_ID_RMS_CELL_UA;
+    dlog.p_ch[17].enabled = 1;
+    dlog.p_ch[18].reg_id = REG_ID_RMS_CELL_UB;
+    dlog.p_ch[18].enabled = 1;
+    dlog.p_ch[19].reg_id = REG_ID_RMS_CELL_UC;
+    dlog.p_ch[19].enabled = 1;
+    dlog.p_ch[20].reg_id = REG_ID_RMS_CELL_IA;
+    dlog.p_ch[20].enabled = 1;
+    dlog.p_ch[21].reg_id = REG_ID_RMS_CELL_IB;
+    dlog.p_ch[21].enabled = 1;
+    dlog.p_ch[22].reg_id = REG_ID_RMS_CELL_IC;
+    dlog.p_ch[22].enabled = 1;
 
     dlog.control = CONTROL_ENABLE;
 

@@ -105,13 +105,22 @@
 #define REG_ID_RMS_UA    1400
 #define REG_ID_RMS_UB    1401
 #define REG_ID_RMS_UC    1402
+#define REG_ID_RMS_IA    1403
+#define REG_ID_RMS_IB    1404
+#define REG_ID_RMS_IC    1405
+#define REG_ID_RMS_CELL_UA    1406
+#define REG_ID_RMS_CELL_UB    1407
+#define REG_ID_RMS_CELL_UC    1408
+#define REG_ID_RMS_CELL_IA    1409
+#define REG_ID_RMS_CELL_IB    1410
+#define REG_ID_RMS_CELL_IC    1411
 
-#define REG_ID_MEAN_IARM    1500
-#define REG_ID_MEAN_IARM_FILTER_T    1501
-#define REG_ID_MEAN_IARM_FILT    1502
-#define REG_ID_MEAN_UARM    1503
-#define REG_ID_MEAN_UARM_FILTER_T    1504
-#define REG_ID_MEAN_UARM_FILT    1505
+#define REG_ID_MEAN_UARM    1500
+#define REG_ID_MEAN_UARM_FILTER_T    1501
+#define REG_ID_MEAN_UARM_FILT    1502
+#define REG_ID_MEAN_IARM    1503
+#define REG_ID_MEAN_IARM_FILTER_T    1504
+#define REG_ID_MEAN_IARM_FILT    1505
 
 // End
 

@@ -45,6 +45,15 @@ M_zero_cross_detect zcd_Uc = ZERO_CROSS_DETECT_DEFAULTS;
 M_rms rms_Ua = RMS_DEFAULTS;
 M_rms rms_Ub = RMS_DEFAULTS;
 M_rms rms_Uc = RMS_DEFAULTS;
+M_rms rms_Ia = RMS_DEFAULTS;
+M_rms rms_Ib = RMS_DEFAULTS;
+M_rms rms_Ic = RMS_DEFAULTS;
+M_rms rms_cell_Ua = RMS_DEFAULTS;
+M_rms rms_cell_Ub = RMS_DEFAULTS;
+M_rms rms_cell_Uc = RMS_DEFAULTS;
+M_rms rms_cell_Ia = RMS_DEFAULTS;
+M_rms rms_cell_Ib = RMS_DEFAULTS;
+M_rms rms_cell_Ic = RMS_DEFAULTS;
 
 #if (CONF_PERIOD_SAMPLES % 6 != 0)
 M_fract_mean mean_Iarm = FRACT_MEAN_DEFAULTS;

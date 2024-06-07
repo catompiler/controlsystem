@@ -105,6 +105,15 @@ extern M_zero_cross_detect zcd_Uc;
 extern M_rms rms_Ua;
 extern M_rms rms_Ub;
 extern M_rms rms_Uc;
+extern M_rms rms_Ia;
+extern M_rms rms_Ib;
+extern M_rms rms_Ic;
+extern M_rms rms_cell_Ua;
+extern M_rms rms_cell_Ub;
+extern M_rms rms_cell_Uc;
+extern M_rms rms_cell_Ia;
+extern M_rms rms_cell_Ib;
+extern M_rms rms_cell_Ic;
 
 // Вычислители среднего.
 #if (CONF_PERIOD_SAMPLES % 6 != 0)

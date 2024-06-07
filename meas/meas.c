@@ -138,6 +138,8 @@ METHOD_CALC_IMPL(M_meas, meas)
 
 
     // RMS.
+    // Основной ввод.
+    // Напряжения.
     // Фаза A.
     rms_Ua.in_value = mains_U.out_A;
     CALC(rms_Ua);
@@ -147,6 +149,37 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Фаза C.
     rms_Uc.in_value = mains_U.out_C;
     CALC(rms_Uc);
+    // Токи.
+    // Фаза A.
+    rms_Ia.in_value = mains_I.out_A;
+    CALC(rms_Ia);
+    // Фаза B.
+    rms_Ib.in_value = mains_I.out_B;
+    CALC(rms_Ib);
+    // Фаза C.
+    rms_Ic.in_value = mains_I.out_C;
+    CALC(rms_Ic);
+    // Ячейка.
+    // Напряжения.
+    // Фаза A.
+    rms_cell_Ua.in_value = cell_U.out_A;
+    CALC(rms_cell_Ua);
+    // Фаза B.
+    rms_cell_Ub.in_value = cell_U.out_B;
+    CALC(rms_cell_Ub);
+    // Фаза C.
+    rms_cell_Uc.in_value = cell_U.out_C;
+    CALC(rms_cell_Uc);
+    // Токи.
+    // Фаза A.
+    rms_cell_Ia.in_value = cell_I.out_A;
+    CALC(rms_cell_Ia);
+    // Фаза B.
+    rms_cell_Ib.in_value = cell_I.out_B;
+    CALC(rms_cell_Ib);
+    // Фаза C.
+    rms_cell_Ic.in_value = cell_I.out_C;
+    CALC(rms_cell_Ic);
 
 
     // Среднее.
@@ -164,7 +197,7 @@ METHOD_CALC_IMPL(M_meas, meas)
     CALC(filter_mean_Uarm);
 
     // Допустимые диапазоны.
-    // Допустимый диапазон напряжений.
+    // Допустимый диапазон напряжений сети.
     vr_rms_Umains.in_value[0] = rms_Ua.out_value;
     vr_rms_Umains.in_value[1] = rms_Ub.out_value;
     vr_rms_Umains.in_value[2] = rms_Uc.out_value;
