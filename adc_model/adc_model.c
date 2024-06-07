@@ -1,6 +1,7 @@
 #include "adc_model.h"
 #include "iqmath/iqmath.h"
 #include "modules/modules.h"
+#include "utils/utils.h"
 
 
 static status_t recalc_values(M_adc_model* adc)
@@ -74,6 +75,10 @@ static void calc_Uabc(M_adc_model* adc)
     int32_t Ub_raw = iq15_int(iq15_round(Ub_adc)) + ADC_MODEL_MAINS_U_OFFSET;
     int32_t Uc_raw = iq15_int(iq15_round(Uc_adc)) + ADC_MODEL_MAINS_U_OFFSET;
 
+    Ua_raw = CLAMP(Ua_raw, ADC_MODEL_MAINS_RAW_MIN, ADC_MODEL_MAINS_RAW_MAX);
+    Ub_raw = CLAMP(Ub_raw, ADC_MODEL_MAINS_RAW_MIN, ADC_MODEL_MAINS_RAW_MAX);
+    Uc_raw = CLAMP(Uc_raw, ADC_MODEL_MAINS_RAW_MIN, ADC_MODEL_MAINS_RAW_MAX);
+
 //    int32_t Ua_raw = iq24_mul(Ua_inst_k, ADC_MODEL_MAINS_U_AMPL_RAW) + ADC_MODEL_MAINS_U_OFFSET;
 //    int32_t Ub_raw = iq24_mul(Ub_inst_k, ADC_MODEL_MAINS_U_AMPL_RAW) + ADC_MODEL_MAINS_U_OFFSET;
 //    int32_t Uc_raw = iq24_mul(Uc_inst_k, ADC_MODEL_MAINS_U_AMPL_RAW) + ADC_MODEL_MAINS_U_OFFSET;
@@ -125,6 +130,10 @@ static void calc_s_Uabc(M_adc_model* adc)
     int32_t Ua_raw = iq15_int(iq15_round(Ua_adc)) + ADC_MODEL_STATOR_U_OFFSET;
     int32_t Ub_raw = iq15_int(iq15_round(Ub_adc)) + ADC_MODEL_STATOR_U_OFFSET;
     int32_t Uc_raw = iq15_int(iq15_round(Uc_adc)) + ADC_MODEL_STATOR_U_OFFSET;
+
+    Ua_raw = CLAMP(Ua_raw, ADC_MODEL_STATOR_RAW_MIN, ADC_MODEL_STATOR_RAW_MAX);
+    Ub_raw = CLAMP(Ub_raw, ADC_MODEL_STATOR_RAW_MIN, ADC_MODEL_STATOR_RAW_MAX);
+    Uc_raw = CLAMP(Uc_raw, ADC_MODEL_STATOR_RAW_MIN, ADC_MODEL_STATOR_RAW_MAX);
 
 //    int32_t Ua_raw = iq24_mul(Ua_inst_k, ADC_MODEL_STATOR_U_AMPL_RAW) + ADC_MODEL_STATOR_U_OFFSET;
 //    int32_t Ub_raw = iq24_mul(Ub_inst_k, ADC_MODEL_STATOR_U_AMPL_RAW) + ADC_MODEL_STATOR_U_OFFSET;
