@@ -42,7 +42,7 @@ struct _S_Dc_Mean {
     // Внутренние данные.
     iq24_t m_buf[DC_MEAN_BUF_LEN]; //!< Данные для вычисления среднего.
     size_t m_index; //!< Индекс в буфере.
-    iq24_t m_sum; //!< Текущая сумма.
+    liq24_t m_sum; //!< Текущая сумма.
 };
 
 EXTERN METHOD_INIT_PROTO(M_dc_mean);
