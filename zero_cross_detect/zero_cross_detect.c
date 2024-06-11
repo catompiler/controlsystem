@@ -3,16 +3,16 @@
 
 static iq24_t zero_cross_detect_mean(iq24_t *buf, size_t index, size_t count)
 {
-    iq24_t val = 0;
+    liq24_t val = 0;
 
     size_t i;
     for (i = index; i < index + count; i++) {
-        val = iq24_add(val, buf[i]);
+        val = val + buf[i];
     }
 
-    val = iq24_idiv(val, count);
+    iq24_t res = iq24_sat(val / (int32_t)count);
 
-    return val;
+    return res;
 }
 
 static void zero_cross_detect_calc_zero_cross(M_zero_cross_detect *zcd)
