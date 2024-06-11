@@ -239,6 +239,15 @@ int main(void)
     dlog.p_ch[21].enabled = 1;
     dlog.p_ch[22].reg_id = REG_ID_RMS_CELL_IC;
     dlog.p_ch[22].enabled = 1;
+    // Freq arm.
+    // I.
+    dlog.p_ch[23].reg_id = REG_ID_ARM_FREQ_IRSTART_FILT;
+    dlog.p_ch[23].enabled = 1;
+    dlog.p_ch[24].reg_id = REG_ID_ARM_FREQ_IRSTART_FREQ;
+    dlog.p_ch[24].enabled = 1;
+
+    dlog.p_ch[25].reg_id = REG_ID_ARM_FREQ_SLIP;
+    dlog.p_ch[25].enabled = 1;
 
     dlog.control = CONTROL_ENABLE;
 
@@ -251,8 +260,10 @@ int main(void)
     mains_I.p_sel = 1;
     armature_U.p_sel = 1;
     armature_I.p_sel = 1;
+    rstart_I.p_sel = 1;
     cell_U.p_sel = 1;
     cell_I.p_sel = 1;
+    mux_slip.p_sel = 0;
 
     INIT(sys);
 
@@ -279,13 +290,25 @@ int main(void)
             sys_cmd.out_command = SYS_COMMAND_COMMAND_ON;
         }
 
+        if(adc_tim.out_counter >= 128){
+            // ADC model set to normal scales.
+            adc_model.in_U_scale = IQ24(1.0);
+            adc_model.in_F_scale = IQ24(1.0); // 1.3
+        }
+
         if(adc_tim.out_counter >= 192){
             // Main contactor is on.
             sys_cmd.out_command = SYS_COMMAND_COMMAND_ON |
                                   SYS_COMMAND_COMMAND_CONT_ON;
             if(lrm.in_stator_on == 0){
                 lrm.in_stator_on = 1;
-                //lrm.in_start_r_on = 1;
+                lrm.in_start_r_on = 1;
+            }
+        }
+
+        if(adc_tim.out_counter >= CONF_PERIOD_SAMPLES * 50){
+            if(lrm.in_start_r_on == 1){
+                lrm.in_start_r_on = 0;
             }
         }
 
@@ -294,12 +317,6 @@ int main(void)
             sys_cmd.out_command = SYS_COMMAND_COMMAND_ON |
                                   SYS_COMMAND_COMMAND_CONT_ON |
                                   SYS_COMMAND_COMMAND_RUN;
-        }
-
-        if(adc_tim.out_counter >= 128){
-            // ADC model set to normal scales.
-            adc_model.in_U_scale = IQ24(1.0);
-            adc_model.in_F_scale = IQ24(1.0); // 1.3
         }
 
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;

@@ -137,8 +137,10 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(mains_I);
     INIT(armature_U);
     INIT(armature_I);
+    INIT(rstart_I);
     INIT(cell_U);
     INIT(cell_I);
+    INIT(mux_slip);
 
     // Вычислительные модули.
     // Фазы и амплитуды.
@@ -149,6 +151,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(zcd_Ua);
     INIT(zcd_Ub);
     INIT(zcd_Uc);
+    INIT(zcd_slip);
+    // Slip.
+    INIT(slip);
     // RMS.
     INIT(rms_Ua);
     INIT(rms_Ub);
@@ -171,10 +176,12 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(filter_Ua_zcd);
     INIT(filter_Ub_zcd);
     INIT(filter_Uc_zcd);
+    INIT(filter_slip_zcd);
     // Фильтры частоты фаз.
     INIT(filter_freq_Ua);
     INIT(filter_freq_Ub);
     INIT(filter_freq_Uc);
+    INIT(filter_freq_slip);
     // Фильтр выходного тока.
     INIT(filter_mean_Iarm);
     // Фильтр выходного напряжения.
@@ -289,10 +296,12 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(filter_Ua_zcd);
     DEINIT(filter_Ub_zcd);
     DEINIT(filter_Uc_zcd);
+    DEINIT(filter_slip_zcd);
     // Фильтры частоты фаз.
     DEINIT(filter_freq_Ua);
     DEINIT(filter_freq_Ub);
     DEINIT(filter_freq_Uc);
+    DEINIT(filter_freq_slip);
     // Фильтр выходного напряжения.
     DEINIT(filter_mean_Uarm);
     // Фильтр выходного тока.
@@ -317,16 +326,21 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(zcd_Ua);
     DEINIT(zcd_Ub);
     DEINIT(zcd_Uc);
+    DEINIT(zcd_slip);
+    // Slip.
+    DEINIT(slip);
     // Фазы и амплитуды.
     DEINIT(phase_ampl_Ua);
     DEINIT(phase_ampl_Ub);
     DEINIT(phase_ampl_Uc);
 
     // Мультиплексоры измерений.
+    DEINIT(mux_slip);
     DEINIT(cell_U);
     DEINIT(cell_I);
     DEINIT(armature_U);
     DEINIT(armature_I);
+    DEINIT(rstart_I);
     DEINIT(mains_U);
     DEINIT(mains_I);
 
@@ -384,6 +398,9 @@ static void FSM_state_init(M_sys_main* sys)
         zcd_Ua.control = CONTROL_ENABLE;
         zcd_Ub.control = CONTROL_ENABLE;
         zcd_Uc.control = CONTROL_ENABLE;
+        zcd_slip.control = CONTROL_ENABLE;
+
+        slip.control = CONTROL_ENABLE;
 
         rms_Ua.control = CONTROL_ENABLE;
         rms_Ub.control = CONTROL_ENABLE;
@@ -407,6 +424,9 @@ static void FSM_state_init(M_sys_main* sys)
     status &= zcd_Ua.status;
     status &= zcd_Ub.status;
     status &= zcd_Uc.status;
+    status &= zcd_slip.status;
+
+    status &= slip.status;
 
     status &= rms_Ua.status;
     status &= rms_Ub.status;
@@ -571,10 +591,12 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     IDLE(filter_Ua_zcd);
     IDLE(filter_Ub_zcd);
     IDLE(filter_Uc_zcd);
+    IDLE(filter_slip_zcd);
     // Фильтры частоты фаз.
     IDLE(filter_freq_Ua);
     IDLE(filter_freq_Ub);
     IDLE(filter_freq_Uc);
+    IDLE(filter_freq_slip);
     // Фильтр выходного тока.
     IDLE(filter_mean_Iarm);
     // Фильтр выходного напряжения.

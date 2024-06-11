@@ -82,6 +82,10 @@ METHOD_CALC_IMPL(M_meas, meas)
     armature_I.in_value[1] = lrm.out_I;
     armature_I.in_value[2] = adc.out_Iarm;
     CALC(armature_I);
+    // Мультиплексор измерений тока пускового сопротивления.
+    rstart_I.in_value[0] = adc.out_Ir;
+    rstart_I.in_value[1] = lrm.out_Irstart;
+    CALC(rstart_I);
 
 
     // Ячейка.
@@ -105,6 +109,7 @@ METHOD_CALC_IMPL(M_meas, meas)
      *       --------      -----      --------
      *
      */
+    // Основной ввод.
     // Фаза A.
     // Фильтр напряжения.
     filter_Ua_zcd.in_value = mains_U.out_A;
@@ -136,6 +141,24 @@ METHOD_CALC_IMPL(M_meas, meas)
     filter_freq_Uc.in_value = zcd_Uc.out_freq;
     CALC(filter_freq_Uc);
 
+    // Скольжение.
+    // Мультиплексор используемого значения.
+    mux_slip.in_value[0] = rstart_I.out_value;
+    mux_slip.in_value[1] = armature_U.out_value;
+    CALC(mux_slip);
+    // Ток пускового сопротивления.
+    // Фильтр значения.
+    filter_slip_zcd.in_value = mux_slip.out_value;
+    CALC(filter_slip_zcd);
+    // Детект нуля.
+    zcd_slip.in_value = filter_slip_zcd.out_value;
+    CALC(zcd_slip);
+    // Фильтр частоты.
+    filter_freq_slip.in_value = zcd_slip.out_freq;
+    CALC(filter_freq_slip);
+    // Вычисление скольжения.
+    slip.in_value = filter_freq_slip.out_value;
+    CALC(slip);
 
     // RMS.
     // Основной ввод.

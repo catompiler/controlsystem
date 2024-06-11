@@ -22,6 +22,7 @@
 #include "mux/mux_abc.h"
 #include "phase_ampl/phase_ampl.h"
 #include "zero_cross_detect/zero_cross_detect.h"
+#include "slip/slip.h"
 #include "rms/rms.h"
 #include "dc_mean/dc_mean.h"
 #include "fract_mean/fract_mean.h"
@@ -86,10 +87,14 @@ extern M_mux_abc mains_I;
 extern M_mux2 armature_U;
 //! Мультиплексор измерений выходного тока.
 extern M_mux3 armature_I;
+//! Мультиплексор измерений тока пускового сопротивления.
+extern M_mux2 rstart_I;
 //! Мультиплексор измерений напряжений ячейки.
 extern M_mux_abc cell_U;
 //! Мультиплексор измерений токов ячейки.
 extern M_mux_abc cell_I;
+//! Мультиплексор скольжения.
+extern M_mux2 mux_slip;
 
 // Вычислители фазы и амплитуды фаз.
 extern M_phase_ampl phase_ampl_Ua;
@@ -100,6 +105,10 @@ extern M_phase_ampl phase_ampl_Uc;
 extern M_zero_cross_detect zcd_Ua;
 extern M_zero_cross_detect zcd_Ub;
 extern M_zero_cross_detect zcd_Uc;
+extern M_zero_cross_detect zcd_slip;
+
+// Скольжение.
+extern M_slip slip;
 
 // Вычислители RMS.
 extern M_rms rms_Ua;
@@ -135,10 +144,12 @@ extern M_valid_range3 vr_filter_freq_Umains;
 extern M_filter1 filter_Ua_zcd;
 extern M_filter1 filter_Ub_zcd;
 extern M_filter1 filter_Uc_zcd;
+extern M_filter1 filter_slip_zcd;
 // Частота фаз.
 extern M_filter1 filter_freq_Ua;
 extern M_filter1 filter_freq_Ub;
 extern M_filter1 filter_freq_Uc;
+extern M_filter1 filter_freq_slip;
 // Среднее значение тока выхода.
 extern M_filter1 filter_mean_Iarm;
 // Среднее значение напряжения выхода.

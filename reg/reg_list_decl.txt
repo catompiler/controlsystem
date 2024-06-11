@@ -68,6 +68,7 @@ REG IB, mains_I.out_B, IQ24, NONE, CONF.I_NOM
 REG IC, mains_I.out_C, IQ24, NONE, CONF.I_NOM
 REG UARM, armature_U.out_value, IQ24, NONE, MOTOR.U_NOM
 REG IARM, armature_I.out_value, IQ24, NONE, MOTOR.I_NOM
+REG IRSTART, rstart_I.out_value, IQ24, NONE, MOTOR.I_NOM
 REG CELL_UA, cell_U.out_A, IQ24, NONE, MOTOR.S_U_NOM
 REG CELL_UB, cell_U.out_B, IQ24, NONE, MOTOR.S_U_NOM
 REG CELL_UC, cell_U.out_C, IQ24, NONE, MOTOR.S_U_NOM
@@ -106,15 +107,36 @@ REG UC_PHASE,  phase_ampl_Uc.out_phase, IQ24, NONE
 REG UC_AMPL,   phase_ampl_Uc.out_ampl,  IQ24, NONE
 
 GROUP LINE_FREQ, 1200
-REG UA,            zcd_Ua.out_freq,           IQ24, NONE
-REG UA_FILTER_T,   filter_freq_Ua.p_T,        IQ24, CONF
-REG UA_FILT,       filter_freq_Ua.out_value,  IQ24, NONE
-REG UB,            zcd_Ub.out_freq,           IQ24, NONE
-REG UB_FILTER_T,   filter_freq_Ub.p_T,        IQ24, CONF
-REG UB_FILT,       filter_freq_Ub.out_value,  IQ24, NONE
-REG UC,            zcd_Uc.out_freq,           IQ24, NONE
-REG UC_FILTER_T,   filter_freq_Uc.p_T,        IQ24, CONF
-REG UC_FILT,       filter_freq_Uc.out_value,  IQ24, NONE
+// Phase A.
+REG UA_FILTER_T,      filter_Ua_zcd.p_T,        IQ24, CONF, NONE
+REG UA_FILT,          filter_Ua_zcd.out_value,  IQ24, NONE, MOTOR.U_NOM
+REG UA_FREQ,          zcd_Ua.out_freq,          IQ24, NONE, NONE
+REG UA_FREQ_FILTER_T, filter_freq_Ua.p_T,       IQ24, CONF, NONE
+REG UA_FREQ_FILT,     filter_freq_Ua.out_value, IQ24, NONE, NONE
+// Phase B.
+REG UB_FILTER_T,      filter_Ub_zcd.p_T,        IQ24, CONF, NONE
+REG UB_FILT,          filter_Ub_zcd.out_value,  IQ24, NONE, MOTOR.U_NOM
+REG UB_FREQ,          zcd_Ub.out_freq,          IQ24, NONE, NONE
+REG UB_FREQ_FILTER_T, filter_freq_Ub.p_T,       IQ24, CONF, NONE
+REG UB_FREQ_FILT,     filter_freq_Ub.out_value, IQ24, NONE, NONE
+// Phase C.
+REG UC_FILTER_T,      filter_Uc_zcd.p_T,        IQ24, CONF, NONE
+REG UC_FILT,          filter_Uc_zcd.out_value,  IQ24, NONE, MOTOR.U_NOM
+REG UC_FREQ,          zcd_Uc.out_freq,          IQ24, NONE, NONE
+REG UC_FREQ_FILTER_T, filter_freq_Uc.p_T,       IQ24, CONF, NONE
+REG UC_FREQ_FILT,     filter_freq_Uc.out_value, IQ24, NONE, NONE
+
+
+GROUP ARM_FREQ, 1250
+// I r start.
+REG IRSTART_FILTER_T,      filter_Irstart_zcd.p_T,        IQ24, CONF, NONE
+REG IRSTART_FILT,          filter_Irstart_zcd.out_value,  IQ24, NONE, MOTOR.I_NOM
+REG IRSTART_FREQ,          zcd_Irstart.out_freq,          IQ24, NONE, NONE
+REG IRSTART_FREQ_FILTER_T, filter_freq_Irstart.p_T,       IQ24, CONF, NONE
+REG IRSTART_FREQ_FILT,     filter_freq_Irstart.out_value, IQ24, NONE, NONE
+// Slip.
+REG SLIP, slip.out_value, IQ24, NONE, NONE
+
 
 GROUP RMS, 1400
 REG UA, rms_Ua.out_value, IQ24, NONE, CONF.U_NOM
