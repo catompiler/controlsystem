@@ -218,6 +218,12 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Фильтр выходного напряжения.
     filter_mean_Uarm.in_value = mean_Uarm.out_value;
     CALC(filter_mean_Uarm);
+    // Ток пускового сопротивления.
+    mean_Irstart.in_value = rstart_I.out_value;
+    CALC(mean_Irstart);
+    // Фильтр тока пускового сопротивления.
+    filter_mean_Irstart.in_value = mean_Irstart.out_value;
+    CALC(filter_mean_Irstart);
 
     // Допустимые диапазоны.
     // Допустимый диапазон напряжений сети.

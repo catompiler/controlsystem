@@ -64,9 +64,11 @@ M_rms rms_cell_Ic = RMS_DEFAULTS;
 #if (CONF_PERIOD_SAMPLES % 6 != 0)
 M_fract_mean mean_Iarm = FRACT_MEAN_DEFAULTS;
 M_fract_mean mean_Uarm = FRACT_MEAN_DEFAULTS;
+M_fract_mean mean_Irstart = FRACT_MEAN_DEFAULTS;
 #else // (CONF_PERIOD_SAMPLES % 6 != 0)
 M_dc_mean mean_Iarm = DC_MEAN_DEFAULTS;
 M_dc_mean mean_Uarm = DC_MEAN_DEFAULTS;
+M_dc_mean mean_Irstart = DC_MEAN_DEFAULTS;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
 
 M_valid_range3 vr_rms_Umains = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
@@ -85,6 +87,7 @@ M_filter1 filter_freq_slip = FILTER1_DEFCFG(IQ24(0.001));
 
 M_filter1 filter_mean_Iarm = FILTER1_DEFCFG(IQ24(0.00016));
 M_filter1 filter_mean_Uarm = FILTER1_DEFCFG(IQ24(0.00033));
+M_filter1 filter_mean_Irstart = FILTER1_DEFCFG(IQ24(0.00016));
 
 M_phase3_control ph3c = PHASE3_CONTROL_DEFAULTS;
 

@@ -8,7 +8,7 @@
 #define RUN_TESTS 0
 #define WRITE_DLOG_TO_CSV 1
 #define WRITE_DLOG_TO_VCD 0
-#define WRITE_DLOG_ABSOLUTE_VALUES 1
+#define WRITE_DLOG_ABSOLUTE_VALUES 0
 #endif
 
 #if defined(RUN_TESTS) && RUN_TESTS == 1
@@ -248,6 +248,9 @@ int main(void)
 
     dlog.p_ch[25].reg_id = REG_ID_ARM_FREQ_SLIP;
     dlog.p_ch[25].enabled = 1;
+
+    dlog.p_ch[26].reg_id = REG_ID_MEAN_IRSTART_FILT;
+    dlog.p_ch[26].enabled = 1;
 
     dlog.control = CONTROL_ENABLE;
 

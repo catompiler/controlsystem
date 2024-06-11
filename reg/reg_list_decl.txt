@@ -129,11 +129,11 @@ REG UC_FREQ_FILT,     filter_freq_Uc.out_value, IQ24, NONE, NONE
 
 GROUP ARM_FREQ, 1250
 // I r start.
-REG IRSTART_FILTER_T,      filter_Irstart_zcd.p_T,        IQ24, CONF, NONE
-REG IRSTART_FILT,          filter_Irstart_zcd.out_value,  IQ24, NONE, MOTOR.I_NOM
-REG IRSTART_FREQ,          zcd_Irstart.out_freq,          IQ24, NONE, NONE
-REG IRSTART_FREQ_FILTER_T, filter_freq_Irstart.p_T,       IQ24, CONF, NONE
-REG IRSTART_FREQ_FILT,     filter_freq_Irstart.out_value, IQ24, NONE, NONE
+REG IRSTART_FILTER_T,      filter_slip_zcd.p_T,        IQ24, CONF, NONE
+REG IRSTART_FILT,          filter_slip_zcd.out_value,  IQ24, NONE, MOTOR.I_NOM
+REG IRSTART_FREQ,          zcd_slip.out_freq,          IQ24, NONE, NONE
+REG IRSTART_FREQ_FILTER_T, filter_freq_slip.p_T,       IQ24, CONF, NONE
+REG IRSTART_FREQ_FILT,     filter_freq_slip.out_value, IQ24, NONE, NONE
 // Slip.
 REG SLIP, slip.out_value, IQ24, NONE, NONE
 
@@ -159,6 +159,9 @@ REG UARM_FILT,     filter_mean_Uarm.out_value, IQ24, NONE, MOTOR.U_NOM
 REG IARM,          mean_Iarm.out_value,        IQ24, NONE, MOTOR.I_NOM
 REG IARM_FILTER_T, filter_mean_Iarm.p_T,       IQ24, CONF, NONE
 REG IARM_FILT,     filter_mean_Iarm.out_value, IQ24, NONE, MOTOR.I_NOM
+REG IRSTART,          mean_Irstart.out_value,        IQ24, NONE, MOTOR.I_NOM
+REG IRSTART_FILTER_T, filter_mean_Irstart.p_T,       IQ24, CONF, NONE
+REG IRSTART_FILT,     filter_mean_Irstart.out_value, IQ24, NONE, MOTOR.I_NOM
 
 // End
 END

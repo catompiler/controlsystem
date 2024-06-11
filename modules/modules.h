@@ -128,9 +128,11 @@ extern M_rms rms_cell_Ic;
 #if (CONF_PERIOD_SAMPLES % 6 != 0)
 extern M_fract_mean mean_Iarm;
 extern M_fract_mean mean_Uarm;
+extern M_fract_mean mean_Irstart;
 #else // (CONF_PERIOD_SAMPLES % 6 != 0)
 extern M_dc_mean mean_Iarm;
 extern M_dc_mean mean_Uarm;
+extern M_dc_mean mean_Irstart;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
 
 // Допустимые диапазоны.
@@ -154,6 +156,8 @@ extern M_filter1 filter_freq_slip;
 extern M_filter1 filter_mean_Iarm;
 // Среднее значение напряжения выхода.
 extern M_filter1 filter_mean_Uarm;
+// Среднее значение тока пускового сопротивления.
+extern M_filter1 filter_mean_Irstart;
 
 //! СИФУ.
 extern M_phase3_control ph3c;
