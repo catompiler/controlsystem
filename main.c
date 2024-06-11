@@ -252,6 +252,11 @@ int main(void)
     dlog.p_ch[26].reg_id = REG_ID_MEAN_IRSTART_FILT;
     dlog.p_ch[26].enabled = 1;
 
+    dlog.p_ch[27].reg_id = REG_ID_MEAS_CELL_PWR_U;
+    dlog.p_ch[27].enabled = 1;
+    dlog.p_ch[28].reg_id = REG_ID_MEAS_CELL_PWR_I;
+    dlog.p_ch[28].enabled = 1;
+
     dlog.control = CONTROL_ENABLE;
 
     // ADC model set to zero scales.
@@ -266,6 +271,7 @@ int main(void)
     rstart_I.p_sel = 1;
     cell_U.p_sel = 1;
     cell_I.p_sel = 1;
+    mux_cell_pwr_ui.p_sel = 0;
     mux_slip.p_sel = 0;
 
     INIT(sys);

@@ -75,6 +75,8 @@ REG CELL_UC, cell_U.out_C, IQ24, NONE, MOTOR.S_U_NOM
 REG CELL_IA, cell_I.out_A, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IB, cell_I.out_B, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IC, cell_I.out_C, IQ24, NONE, MOTOR.S_I_NOM
+REG CELL_PWR_U, mux_cell_pwr_ui.out_U, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_PWR_I, mux_cell_pwr_ui.out_I, IQ24, NONE, MOTOR.S_I_NOM
 
 // Model
 GROUP MODEL, 700

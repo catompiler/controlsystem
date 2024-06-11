@@ -65,6 +65,8 @@
 #define REG_ID_MEAS_CELL_IA    512
 #define REG_ID_MEAS_CELL_IB    513
 #define REG_ID_MEAS_CELL_IC    514
+#define REG_ID_MEAS_CELL_PWR_U    515
+#define REG_ID_MEAS_CELL_PWR_I    516
 
 // Model
 #define REG_ID_MODEL_STATOR_UA    700

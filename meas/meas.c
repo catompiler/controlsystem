@@ -101,6 +101,15 @@ METHOD_CALC_IMPL(M_meas, meas)
     cell_I.in_C[1] = lrm.out_stator_Ica;
     CALC(cell_I);
 
+    // Мультиплексор фазы для вычисления величин статора.
+    mux_cell_pwr_ui.in_U[0] = cell_U.out_A;
+    mux_cell_pwr_ui.in_U[1] = cell_U.out_B;
+    mux_cell_pwr_ui.in_U[2] = cell_U.out_C;
+    mux_cell_pwr_ui.in_I[0] = cell_I.out_A;
+    mux_cell_pwr_ui.in_I[1] = cell_I.out_B;
+    mux_cell_pwr_ui.in_I[2] = cell_I.out_C;
+    CALC(mux_cell_pwr_ui);
+
 
     // Детект нуля и вычисление частоты.
     /*
