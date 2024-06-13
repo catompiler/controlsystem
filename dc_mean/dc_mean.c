@@ -30,6 +30,7 @@ METHOD_CALC_IMPL(M_dc_mean, mean)
 #if IS_POW2(DC_MEAN_BUF_LEN)
     mean->out_value = mean->m_sum >> GET_POW2(DC_MEAN_BUF_LEN);
 #else //IS_POW2(DC_MEAN_BUF_LEN)
-    mean->out_value = iq24_sat(mean->m_sum / DC_MEAN_BUF_LEN);
+    mean->out_value = (mean->m_sum * IQ24F(1, DC_MEAN_BUF_LEN)) >> 24;
+    //mean->out_value = iq24_sat(mean->m_sum / DC_MEAN_BUF_LEN);
 #endif //IS_POW2(DC_MEAN_BUF_LEN)
 }
