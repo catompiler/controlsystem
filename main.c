@@ -273,7 +273,6 @@ int main(void)
     rstart_I.p_sel = 1;
     cell_U.p_sel = 1;
     cell_I.p_sel = 1;
-    mux_cell_pwr_ui.p_sel = 0;
     mux_slip.p_sel = 0;
 
     INIT(sys);

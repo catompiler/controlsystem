@@ -140,7 +140,6 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(rstart_I);
     INIT(cell_U);
     INIT(cell_I);
-    INIT(mux_cell_pwr_ui);
     INIT(mux_slip);
 
     // Вычислительные модули.
@@ -357,7 +356,6 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(mux_slip);
     DEINIT(cell_U);
     DEINIT(cell_I);
-    DEINIT(mux_cell_pwr_ui);
     DEINIT(armature_U);
     DEINIT(armature_I);
     DEINIT(rstart_I);

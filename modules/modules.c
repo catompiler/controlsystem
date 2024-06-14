@@ -35,7 +35,6 @@ M_mux2 rstart_I = MUX2_DEFAULTS;
 M_mux_abc cell_U = MUX_ABC_DEFAULTS;
 M_mux_abc cell_I = MUX_ABC_DEFAULTS;
 M_mux2 mux_slip = MUX2_DEFAULTS;
-M_mux_ui mux_cell_pwr_ui = MUX_UI_DEFAULTS;
 
 M_phase_ampl phase_ampl_Ua = PHASE_AMPL_DEFAULTS;
 M_phase_ampl phase_ampl_Ub = PHASE_AMPL_DEFAULTS;

@@ -98,8 +98,6 @@ extern M_mux_abc cell_U;
 extern M_mux_abc cell_I;
 //! Мультиплексор скольжения.
 extern M_mux2 mux_slip;
-//! Мультиплексор фазы для вычисления величин статора.
-extern M_mux_ui mux_cell_pwr_ui;
 
 // Вычислители фазы и амплитуды фаз.
 extern M_phase_ampl phase_ampl_Ua;
