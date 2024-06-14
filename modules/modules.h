@@ -24,6 +24,7 @@
 #include "phase_ampl/phase_ampl.h"
 #include "zero_cross_detect/zero_cross_detect.h"
 #include "slip/slip.h"
+#include "phase_to_line/phase_to_line.h"
 #include "rms/rms.h"
 #include "dc_mean/dc_mean.h"
 #include "power/power.h"
@@ -113,6 +114,9 @@ extern M_zero_cross_detect zcd_slip;
 
 // Скольжение.
 extern M_slip slip;
+
+// Преобразование фазных напряжений ячейки в линейные.
+extern M_phase_to_line cell_U_line;
 
 // Вычислители RMS.
 extern M_rms rms_Ua;

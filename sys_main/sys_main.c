@@ -155,6 +155,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(zcd_slip);
     // Slip.
     INIT(slip);
+    // Phase to line.
+    INIT(cell_U_line);
     // RMS.
     INIT(rms_Ua);
     INIT(rms_Ub);
@@ -342,6 +344,8 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(zcd_Ub);
     DEINIT(zcd_Uc);
     DEINIT(zcd_slip);
+    // Phase to line.
+    DEINIT(cell_U_line);
     // Slip.
     DEINIT(slip);
     // Фазы и амплитуды.
@@ -540,9 +544,9 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     lrm.in_Ubc = mains_U.out_B;
     lrm.in_Uca = mains_U.out_C;
     lrm.in_Uref_angle = phase_ampl_Ua.out_phase;
-    lrm.in_stator_Uab = cell_U.out_A;
-    lrm.in_stator_Ubc = cell_U.out_B;
-    lrm.in_stator_Uca = cell_U.out_C;
+    lrm.in_stator_Uab = cell_U_line.out_A;
+    lrm.in_stator_Ubc = cell_U_line.out_B;
+    lrm.in_stator_Uca = cell_U_line.out_C;
     // Копирование управления.
     for(i = 0; i < PHASE3_CONTROL_KEYS_COUNT; i ++)
     { lrm.in_control[i] = ph3c.out_control[i]; }

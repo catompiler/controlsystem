@@ -49,6 +49,8 @@ M_zero_cross_detect zcd_slip = ZERO_CROSS_DETECT_DEFAULTS;
 // Скольжение.
 M_slip slip = SLIP_DEFAULTS;
 
+M_phase_to_line cell_U_line = PHASE_TO_LINE_DEFAULTS;
+
 M_rms rms_Ua = RMS_DEFAULTS;
 M_rms rms_Ub = RMS_DEFAULTS;
 M_rms rms_Uc = RMS_DEFAULTS;

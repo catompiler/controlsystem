@@ -50,6 +50,12 @@ MEAS_METHOD_CALC_FOR_MODEL_IMPL(M_meas, meas)
     cell_U.in_C[0] = adc.out_s_Uc;
     cell_U.in_C[1] = adc_model.out_s_Uc;
     CALC(cell_U);
+
+    // Преобразование фазных напряжений ячейки в линейные.
+    cell_U_line.in_A = cell_U.out_A;
+    cell_U_line.in_B = cell_U.out_B;
+    cell_U_line.in_C = cell_U.out_C;
+    CALC(cell_U_line);
 }
 
 METHOD_CALC_IMPL(M_meas, meas)
