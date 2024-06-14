@@ -24,6 +24,8 @@ REG F_NOM, motor.p_f_nom, IQ15, CONF
 // Nominal stator values
 REG S_U_NOM, motor.p_s_U_nom, IQ15, CONF
 REG S_I_NOM, motor.p_s_I_nom, IQ15, CONF
+REG S_P_NOM, motor.r_s_P_base, IQ7, NONE
+REG S_M_NOM, motor.r_s_M_base, IQ15, NONE
 // Nominal rotor values
 REG U_NOM, motor.p_U_nom, IQ15, CONF
 REG I_NOM, motor.p_I_nom, IQ15, CONF
@@ -75,8 +77,6 @@ REG CELL_UC, cell_U.out_C, IQ24, NONE, MOTOR.S_U_NOM
 REG CELL_IA, cell_I.out_A, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IB, cell_I.out_B, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IC, cell_I.out_C, IQ24, NONE, MOTOR.S_I_NOM
-REG CELL_PWR_U, mux_cell_pwr_ui.out_U, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_PWR_I, mux_cell_pwr_ui.out_I, IQ24, NONE, MOTOR.S_I_NOM
 
 // Model
 GROUP MODEL, 700
@@ -89,8 +89,8 @@ REG STATOR_IC, lrm.out_stator_Ica, IQ24, NONE, MOTOR.S_I_NOM
 REG ROTOR_U, lrm.out_U, IQ24, NONE, MOTOR.U_NOM
 REG ROTOR_I, lrm.out_I, IQ24, NONE, MOTOR.I_NOM
 REG R_START_I, lrm.out_Irstart, IQ24, NONE, MOTOR.I_NOM
-REG MOTOR_M, lrm.out_M, IQ24, NONE, NONE
-REG MOTOR_W, lrm.out_w, IQ24, NONE, NONE
+REG MOTOR_M, lrm.out_M, IQ24, NONE, MOTOR.S_M_NOM
+REG MOTOR_W, lrm.out_w, IQ24, NONE, MOTOR.F_NOM
 REG RECTIFIER_UA, lrm.in_Uab,  IQ24, NONE, CONF.U_NOM
 REG RECTIFIER_UB, lrm.in_Ubc,  IQ24, NONE, CONF.U_NOM
 REG RECTIFIER_UC, lrm.in_Uca,  IQ24, NONE, CONF.U_NOM
@@ -164,6 +164,17 @@ REG IARM_FILT,     filter_mean_Iarm.out_value, IQ24, NONE, MOTOR.I_NOM
 REG IRSTART,          mean_Irstart.out_value,        IQ24, NONE, MOTOR.I_NOM
 REG IRSTART_FILTER_T, filter_mean_Irstart.p_T,       IQ24, CONF, NONE
 REG IRSTART_FILT,     filter_mean_Irstart.out_value, IQ24, NONE, MOTOR.I_NOM
+
+GROUP POWER, 1600
+REG A_S, power_A.out_S, IQ24, NONE, MOTOR.S_P_NOM
+REG A_P, power_A.out_P, IQ24, NONE, MOTOR.S_P_NOM
+REG A_Q, power_A.out_Q, IQ24, NONE, MOTOR.S_P_NOM
+REG B_S, power_B.out_S, IQ24, NONE, MOTOR.S_P_NOM
+REG B_P, power_B.out_P, IQ24, NONE, MOTOR.S_P_NOM
+REG B_Q, power_B.out_Q, IQ24, NONE, MOTOR.S_P_NOM
+REG C_S, power_C.out_S, IQ24, NONE, MOTOR.S_P_NOM
+REG C_P, power_C.out_P, IQ24, NONE, MOTOR.S_P_NOM
+REG C_Q, power_C.out_Q, IQ24, NONE, MOTOR.S_P_NOM
 
 // End
 END

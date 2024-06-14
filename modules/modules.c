@@ -72,6 +72,10 @@ M_dc_mean mean_Uarm = DC_MEAN_DEFAULTS;
 M_dc_mean mean_Irstart = DC_MEAN_DEFAULTS;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
 
+M_power power_A = POWER_DEFAULTS;
+M_power power_B = POWER_DEFAULTS;
+M_power power_C = POWER_DEFAULTS;
+
 M_valid_range3 vr_rms_Umains = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
 
 M_valid_range3 vr_filter_freq_Umains = VALID_RANGE3_DEFCFG(IQ24(44.9), IQ24(65.1));

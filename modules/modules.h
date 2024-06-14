@@ -26,6 +26,7 @@
 #include "slip/slip.h"
 #include "rms/rms.h"
 #include "dc_mean/dc_mean.h"
+#include "power/power.h"
 #include "fract_mean/fract_mean.h"
 #include "valid_range3/valid_range3.h"
 #include "filter1/filter1.h"
@@ -137,6 +138,11 @@ extern M_dc_mean mean_Iarm;
 extern M_dc_mean mean_Uarm;
 extern M_dc_mean mean_Irstart;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
+
+// Вычислители мощности.
+extern M_power power_A;
+extern M_power power_B;
+extern M_power power_C;
 
 // Допустимые диапазоны.
 // Допустимый диапазон сетевых напряжений.

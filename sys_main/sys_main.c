@@ -172,6 +172,10 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(mean_Iarm);
     INIT(mean_Uarm);
     INIT(mean_Irstart);
+    // Power.
+    INIT(power_A);
+    INIT(power_B);
+    INIT(power_C);
 
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
@@ -312,6 +316,10 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(filter_mean_Uarm);
     // Фильтр выходного тока.
     DEINIT(filter_mean_Iarm);
+    // Power.
+    DEINIT(power_A);
+    DEINIT(power_B);
+    DEINIT(power_C);
     // Mean.
     DEINIT(mean_Irstart);
     DEINIT(mean_Uarm);
@@ -449,6 +457,17 @@ static void FSM_state_init(M_sys_main* sys)
     status &= rms_cell_Ia.status;
     status &= rms_cell_Ib.status;
     status &= rms_cell_Ic.status;
+
+    if(status & STATUS_VALID){
+        power_A.control = CONTROL_ENABLE;
+        power_B.control = CONTROL_ENABLE;
+        power_C.control = CONTROL_ENABLE;
+    }
+
+    status &= power_A.status;
+    status &= power_B.status;
+    status &= power_C.status;
+
 
     // Если все модули имеют валидный выход.
     if(status & STATUS_VALID){

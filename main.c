@@ -252,10 +252,12 @@ int main(void)
     dlog.p_ch[26].reg_id = REG_ID_MEAN_IRSTART_FILT;
     dlog.p_ch[26].enabled = 1;
 
-    dlog.p_ch[27].reg_id = REG_ID_MEAS_CELL_PWR_U;
+    dlog.p_ch[27].reg_id = REG_ID_POWER_A_S;
     dlog.p_ch[27].enabled = 1;
-    dlog.p_ch[28].reg_id = REG_ID_MEAS_CELL_PWR_I;
+    dlog.p_ch[28].reg_id = REG_ID_POWER_A_P;
     dlog.p_ch[28].enabled = 1;
+    dlog.p_ch[29].reg_id = REG_ID_POWER_A_Q;
+    dlog.p_ch[29].enabled = 1;
 
     dlog.control = CONTROL_ENABLE;
 
@@ -315,7 +317,7 @@ int main(void)
             }
         }
 
-        if(adc_tim.out_counter >= CONF_PERIOD_SAMPLES * 50){
+        if(adc_tim.out_counter >= CONF_PERIOD_SAMPLES * 10){
             if(lrm.in_start_r_on == 1){
                 lrm.in_start_r_on = 0;
             }

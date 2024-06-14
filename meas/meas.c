@@ -234,6 +234,28 @@ METHOD_CALC_IMPL(M_meas, meas)
     filter_mean_Irstart.in_value = mean_Irstart.out_value;
     CALC(filter_mean_Irstart);
 
+
+    // Мощности статора.
+    // Фаза A.
+    power_A.in_U = cell_U.out_A;
+    power_A.in_I = cell_I.out_A;
+    power_A.in_rms_U = rms_cell_Ua.out_value;
+    power_A.in_rms_I = rms_cell_Ia.out_value;
+    CALC(power_A);
+    // Фаза B.
+    power_B.in_U = cell_U.out_B;
+    power_B.in_I = cell_I.out_B;
+    power_B.in_rms_U = rms_cell_Ub.out_value;
+    power_B.in_rms_I = rms_cell_Ib.out_value;
+    CALC(power_B);
+    // Фаза A.
+    power_C.in_U = cell_U.out_C;
+    power_C.in_I = cell_I.out_C;
+    power_C.in_rms_U = rms_cell_Uc.out_value;
+    power_C.in_rms_I = rms_cell_Ic.out_value;
+    CALC(power_C);
+
+
     // Допустимые диапазоны.
     // Допустимый диапазон напряжений сети.
     vr_rms_Umains.in_value[0] = rms_Ua.out_value;

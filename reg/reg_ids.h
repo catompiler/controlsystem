@@ -21,9 +21,11 @@
 // Nominal stator values
 #define REG_ID_MOTOR_S_U_NOM    51
 #define REG_ID_MOTOR_S_I_NOM    52
+#define REG_ID_MOTOR_S_P_NOM    53
+#define REG_ID_MOTOR_S_M_NOM    54
 // Nominal rotor values
-#define REG_ID_MOTOR_U_NOM    53
-#define REG_ID_MOTOR_I_NOM    54
+#define REG_ID_MOTOR_U_NOM    55
+#define REG_ID_MOTOR_I_NOM    56
 
 
 // SysTime
@@ -65,8 +67,6 @@
 #define REG_ID_MEAS_CELL_IA    512
 #define REG_ID_MEAS_CELL_IB    513
 #define REG_ID_MEAS_CELL_IC    514
-#define REG_ID_MEAS_CELL_PWR_U    515
-#define REG_ID_MEAS_CELL_PWR_I    516
 
 // Model
 #define REG_ID_MODEL_STATOR_UA    700
@@ -147,6 +147,16 @@
 #define REG_ID_MEAN_IRSTART    1506
 #define REG_ID_MEAN_IRSTART_FILTER_T    1507
 #define REG_ID_MEAN_IRSTART_FILT    1508
+
+#define REG_ID_POWER_A_S    1600
+#define REG_ID_POWER_A_P    1601
+#define REG_ID_POWER_A_Q    1602
+#define REG_ID_POWER_B_S    1603
+#define REG_ID_POWER_B_P    1604
+#define REG_ID_POWER_B_Q    1605
+#define REG_ID_POWER_C_S    1606
+#define REG_ID_POWER_C_P    1607
+#define REG_ID_POWER_C_Q    1608
 
 // End
 
