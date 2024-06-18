@@ -32,8 +32,8 @@ M_mux_abc mains_I = MUX_ABC_DEFAULTS;
 M_mux2 armature_U = MUX2_DEFAULTS;
 M_mux3 armature_I = MUX3_DEFAULTS;
 M_mux2 rstart_I = MUX2_DEFAULTS;
-M_mux_abc cell_U = MUX_ABC_DEFAULTS;
-M_mux_abc cell_I = MUX_ABC_DEFAULTS;
+M_mux_abc mux_cell_U = MUX_ABC_DEFAULTS;
+M_mux_abc mux_cell_I = MUX_ABC_DEFAULTS;
 M_mux2 mux_slip = MUX2_DEFAULTS;
 
 M_phase_ampl phase_ampl_Ua = PHASE_AMPL_DEFAULTS;
@@ -49,6 +49,9 @@ M_zero_cross_detect zcd_slip = ZERO_CROSS_DETECT_DEFAULTS;
 M_slip slip = SLIP_DEFAULTS;
 
 M_phase_to_line cell_U_line = PHASE_TO_LINE_DEFAULTS;
+
+M_value_3phase cell_U = VALUE_3PHASE_DEFAULTS;
+M_value_3phase cell_I = VALUE_3PHASE_DEFAULTS;
 
 M_rms rms_Ua = RMS_DEFAULTS;
 M_rms rms_Ub = RMS_DEFAULTS;

@@ -41,14 +41,20 @@ MEAS_METHOD_CALC_FOR_MODEL_IMPL(M_meas, meas)
     // Ячейка.
     // Мультиплексор измерений напряжения.
     // Напряжение фазы A.
-    cell_U.in_A[0] = adc.out_s_Ua;
-    cell_U.in_A[1] = adc_model.out_s_Ua;
+    mux_cell_U.in_A[0] = adc.out_s_Ua;
+    mux_cell_U.in_A[1] = adc_model.out_s_Ua;
     // Напряжение фазы B.
-    cell_U.in_B[0] = adc.out_s_Ub;
-    cell_U.in_B[1] = adc_model.out_s_Ub;
+    mux_cell_U.in_B[0] = adc.out_s_Ub;
+    mux_cell_U.in_B[1] = adc_model.out_s_Ub;
     // Напряжение фазы C.
-    cell_U.in_C[0] = adc.out_s_Uc;
-    cell_U.in_C[1] = adc_model.out_s_Uc;
+    mux_cell_U.in_C[0] = adc.out_s_Uc;
+    mux_cell_U.in_C[1] = adc_model.out_s_Uc;
+    CALC(mux_cell_U);
+
+    // Вычисление напряжения одной из фаз.
+    cell_U.in_A = mux_cell_U.out_A;
+    cell_U.in_B = mux_cell_U.out_B;
+    cell_U.in_C = mux_cell_U.out_C;
     CALC(cell_U);
 
     // Преобразование фазных напряжений ячейки в линейные.
@@ -97,14 +103,20 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Ячейка.
     // Мультиплексоры измерений тока.
     // Ток фазы A.
-    cell_I.in_A[0] = adc.out_s_Ia;
-    cell_I.in_A[1] = lrm.out_stator_Iab;
+    mux_cell_I.in_A[0] = adc.out_s_Ia;
+    mux_cell_I.in_A[1] = lrm.out_stator_Iab;
     // Ток фазы B.
-    cell_I.in_B[0] = adc.out_s_Ib;
-    cell_I.in_B[1] = lrm.out_stator_Ibc;
+    mux_cell_I.in_B[0] = adc.out_s_Ib;
+    mux_cell_I.in_B[1] = lrm.out_stator_Ibc;
     // Ток фазы C.
-    cell_I.in_C[0] = adc.out_s_Ic;
-    cell_I.in_C[1] = lrm.out_stator_Ica;
+    mux_cell_I.in_C[0] = adc.out_s_Ic;
+    mux_cell_I.in_C[1] = lrm.out_stator_Ica;
+    CALC(mux_cell_I);
+
+    // Вычисление тока одной из фаз.
+    cell_I.in_A = mux_cell_I.out_A;
+    cell_I.in_B = mux_cell_I.out_B;
+    cell_I.in_C = mux_cell_I.out_C;
     CALC(cell_I);
 
 

@@ -25,6 +25,7 @@
 #include "zero_cross_detect/zero_cross_detect.h"
 #include "slip/slip.h"
 #include "phase_to_line/phase_to_line.h"
+#include "value_3phase/value_3phase.h"
 #include "rms/rms.h"
 #include "dc_mean/dc_mean.h"
 #include "power/power.h"
@@ -93,9 +94,9 @@ extern M_mux3 armature_I;
 //! Мультиплексор измерений тока пускового сопротивления.
 extern M_mux2 rstart_I;
 //! Мультиплексор измерений напряжений ячейки.
-extern M_mux_abc cell_U;
+extern M_mux_abc mux_cell_U;
 //! Мультиплексор измерений токов ячейки.
-extern M_mux_abc cell_I;
+extern M_mux_abc mux_cell_I;
 //! Мультиплексор скольжения.
 extern M_mux2 mux_slip;
 
@@ -115,6 +116,10 @@ extern M_slip slip;
 
 // Преобразование фазных напряжений ячейки в линейные.
 extern M_phase_to_line cell_U_line;
+
+// Вычисление значения одной из фаз тока и напряжения.
+extern M_value_3phase cell_U;
+extern M_value_3phase cell_I;
 
 // Вычислители RMS.
 extern M_rms rms_Ua;

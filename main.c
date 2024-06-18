@@ -271,9 +271,11 @@ int main(void)
     armature_U.p_sel = 1;
     armature_I.p_sel = 1;
     rstart_I.p_sel = 1;
-    cell_U.p_sel = 1;
-    cell_I.p_sel = 1;
+    mux_cell_U.p_sel = 1;
+    mux_cell_I.p_sel = 1;
     mux_slip.p_sel = 0;
+    cell_U.p_sel = 0;
+    cell_I.p_sel = 0;
 
     INIT(sys);
 

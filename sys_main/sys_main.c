@@ -138,8 +138,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(armature_U);
     INIT(armature_I);
     INIT(rstart_I);
-    INIT(cell_U);
-    INIT(cell_I);
+    INIT(mux_cell_U);
+    INIT(mux_cell_I);
     INIT(mux_slip);
 
     // Вычислительные модули.
@@ -154,6 +154,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(zcd_slip);
     // Slip.
     INIT(slip);
+    // 3phase value.
+    INIT(cell_U);
+    INIT(cell_I);
     // Phase to line.
     INIT(cell_U_line);
     // RMS.
@@ -343,6 +346,9 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(zcd_Ub);
     DEINIT(zcd_Uc);
     DEINIT(zcd_slip);
+    // 3phase value.
+    DEINIT(cell_U);
+    DEINIT(cell_I);
     // Phase to line.
     DEINIT(cell_U_line);
     // Slip.
@@ -354,8 +360,8 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
 
     // Мультиплексоры измерений.
     DEINIT(mux_slip);
-    DEINIT(cell_U);
-    DEINIT(cell_I);
+    DEINIT(mux_cell_U);
+    DEINIT(mux_cell_I);
     DEINIT(armature_U);
     DEINIT(armature_I);
     DEINIT(rstart_I);
