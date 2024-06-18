@@ -77,6 +77,9 @@ REG CELL_UC, cell_U.out_C, IQ24, NONE, MOTOR.S_U_NOM
 REG CELL_IA, cell_I.out_A, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IB, cell_I.out_B, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IC, cell_I.out_C, IQ24, NONE, MOTOR.S_I_NOM
+REG CELL_UA_LINE, cell_U_line.out_A, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UB_LINE, cell_U_line.out_B, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UC_LINE, cell_U_line.out_C, IQ24, NONE, MOTOR.S_U_NOM
 
 // Model
 GROUP MODEL, 700
@@ -153,6 +156,9 @@ REG CELL_UC, rms_cell_Uc.out_value, IQ24, NONE, MOTOR.S_U_NOM
 REG CELL_IA, rms_cell_Ia.out_value, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IB, rms_cell_Ib.out_value, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IC, rms_cell_Ic.out_value, IQ24, NONE, MOTOR.S_I_NOM
+REG CELL_UA_LINE, rms_cell_Ua_line.out_value, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UB_LINE, rms_cell_Ub_line.out_value, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UC_LINE, rms_cell_Uc_line.out_value, IQ24, NONE, MOTOR.S_U_NOM
 
 GROUP MEAN, 1500
 REG UARM,          mean_Uarm.out_value,        IQ24, NONE, MOTOR.U_NOM

@@ -18,7 +18,7 @@ enum _E_Data_Log_Status {
 };
 
 //! Число каналов.
-#define DATA_LOG_CH_COUNT 32
+#define DATA_LOG_CH_COUNT 48
 //! Длина записи данных каждого канала.
 #define DATA_LOG_CH_LEN 16384
 

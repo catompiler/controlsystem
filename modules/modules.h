@@ -134,6 +134,9 @@ extern M_rms rms_cell_Uc;
 extern M_rms rms_cell_Ia;
 extern M_rms rms_cell_Ib;
 extern M_rms rms_cell_Ic;
+extern M_rms rms_cell_Ua_line;
+extern M_rms rms_cell_Ub_line;
+extern M_rms rms_cell_Uc_line;
 
 // Вычислители среднего.
 #if (CONF_PERIOD_SAMPLES % 6 != 0)

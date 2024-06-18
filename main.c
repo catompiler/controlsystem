@@ -259,6 +259,13 @@ int main(void)
     dlog.p_ch[29].reg_id = REG_ID_POWER_A_Q;
     dlog.p_ch[29].enabled = 1;
 
+    dlog.p_ch[30].reg_id = REG_ID_RMS_CELL_UA_LINE;
+    dlog.p_ch[30].enabled = 1;
+    dlog.p_ch[31].reg_id = REG_ID_RMS_CELL_UB_LINE;
+    dlog.p_ch[31].enabled = 1;
+    dlog.p_ch[32].reg_id = REG_ID_RMS_CELL_UC_LINE;
+    dlog.p_ch[32].enabled = 1;
+
     dlog.control = CONTROL_ENABLE;
 
     // ADC model set to zero scales.

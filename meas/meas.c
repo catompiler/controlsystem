@@ -201,7 +201,7 @@ METHOD_CALC_IMPL(M_meas, meas)
     rms_Ic.in_value = mains_I.out_C;
     CALC(rms_Ic);
     // Ячейка.
-    // Напряжения.
+    // Фазные напряжения.
     // Фаза A.
     rms_cell_Ua.in_value = cell_U.out_A;
     CALC(rms_cell_Ua);
@@ -211,6 +211,16 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Фаза C.
     rms_cell_Uc.in_value = cell_U.out_C;
     CALC(rms_cell_Uc);
+    // Линейные напряжения.
+    // Фаза A.
+    rms_cell_Ua_line.in_value = cell_U_line.out_A;
+    CALC(rms_cell_Ua_line);
+    // Фаза B.
+    rms_cell_Ub_line.in_value = cell_U_line.out_B;
+    CALC(rms_cell_Ub_line);
+    // Фаза C.
+    rms_cell_Uc_line.in_value = cell_U_line.out_C;
+    CALC(rms_cell_Uc_line);
     // Токи.
     // Фаза A.
     rms_cell_Ia.in_value = cell_I.out_A;

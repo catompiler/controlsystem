@@ -65,6 +65,9 @@ M_rms rms_cell_Uc = RMS_DEFAULTS;
 M_rms rms_cell_Ia = RMS_DEFAULTS;
 M_rms rms_cell_Ib = RMS_DEFAULTS;
 M_rms rms_cell_Ic = RMS_DEFAULTS;
+M_rms rms_cell_Ua_line = RMS_DEFAULTS;
+M_rms rms_cell_Ub_line = RMS_DEFAULTS;
+M_rms rms_cell_Uc_line = RMS_DEFAULTS;
 
 #if (CONF_PERIOD_SAMPLES % 6 != 0)
 M_fract_mean mean_Iarm = FRACT_MEAN_DEFAULTS;
