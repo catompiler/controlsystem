@@ -93,7 +93,8 @@ static void FSM_state_ready_on(M_sys_control* sys_ctrl)
         }
 
         // Если напряжения в допустимых пределах.
-        if(vr_rms_Umains.out_value_all == VALID_RANGE3_ALL_WITHIN){
+        if(vr_rms_Umains.out_value_all == VALID_RANGE3_ALL_WITHIN &&
+           vr_rms_Ucell.out_value_all == VALID_RANGE3_ALL_WITHIN){
             // Перейдём в состояние ожидания частоты сети.
             fsm_set_state(&sys_ctrl->fsm_ready_on, SYS_CONTROL_READY_ON_WAIT_MAINS_FREQ);
         }

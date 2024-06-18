@@ -293,4 +293,9 @@ METHOD_CALC_IMPL(M_meas, meas)
     vr_filter_freq_Umains.in_value[1] = filter_freq_Ub.out_value;
     vr_filter_freq_Umains.in_value[2] = filter_freq_Uc.out_value;
     CALC(vr_filter_freq_Umains);
+    // Допустимый диапазон напряжений ячейки.
+    vr_rms_Ucell.in_value[0] = rms_cell_Ua_line.out_value;
+    vr_rms_Ucell.in_value[1] = rms_cell_Ub_line.out_value;
+    vr_rms_Ucell.in_value[2] = rms_cell_Uc_line.out_value;
+    CALC(vr_rms_Ucell);
 }

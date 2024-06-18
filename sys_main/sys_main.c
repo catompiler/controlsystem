@@ -212,6 +212,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(vr_rms_Umains);
     // Допустимый диапазон частоты сети.
     INIT(vr_filter_freq_Umains);
+    // Допустимый диапазон напряжений ячейки.
+    INIT(vr_rms_Ucell);
 
     // Основные модули.
     // СИФУ.
@@ -300,6 +302,8 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Вычислительные модули.
 
     // Допустимые диапазоны.
+    // Допустимый диапазон напряжений ячейки.
+    DEINIT(vr_rms_Ucell);
     // Допустимый диапазон частоты сети.
     DEINIT(vr_filter_freq_Umains);
     // Допустимый диапазон напряжений сети.

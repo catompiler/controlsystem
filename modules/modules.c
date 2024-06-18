@@ -89,6 +89,8 @@ M_valid_range3 vr_rms_Umains = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
 
 M_valid_range3 vr_filter_freq_Umains = VALID_RANGE3_DEFCFG(IQ24(44.9), IQ24(65.1));
 
+M_valid_range3 vr_rms_Ucell = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
+
 M_filter1 filter_Ua_zcd = FILTER1_DEFCFG(IQ24(0.01)); // 100 Hz.
 M_filter1 filter_Ub_zcd = FILTER1_DEFCFG(IQ24(0.01));
 M_filter1 filter_Uc_zcd = FILTER1_DEFCFG(IQ24(0.01));

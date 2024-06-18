@@ -163,6 +163,8 @@ extern M_power_factor power_factor;
 extern M_valid_range3 vr_rms_Umains;
 // Допустимый диапазон частоты сети.
 extern M_valid_range3 vr_filter_freq_Umains;
+// Допустимый диапазон напряжений ячейки.
+extern M_valid_range3 vr_rms_Ucell;
 
 // Фильтры.
 // Напряжения фаз для детекта перехода через ноль.
