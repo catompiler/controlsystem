@@ -164,6 +164,10 @@
 #define REG_ID_POWER_C_P    1607
 #define REG_ID_POWER_C_Q    1608
 
+#define REG_ID_POWER_FACTOR_COS_PHI    1700
+#define REG_ID_POWER_FACTOR_SIN_PHI    1701
+#define REG_ID_POWER_FACTOR_TAN_PHI    1702
+
 // End
 
 #endif /* REG_IDS_H */

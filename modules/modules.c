@@ -83,6 +83,8 @@ M_power power_A = POWER_DEFAULTS;
 M_power power_B = POWER_DEFAULTS;
 M_power power_C = POWER_DEFAULTS;
 
+M_power_factor power_factor = POWER_FACTOR_DEFAULTS;
+
 M_valid_range3 vr_rms_Umains = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
 
 M_valid_range3 vr_filter_freq_Umains = VALID_RANGE3_DEFCFG(IQ24(44.9), IQ24(65.1));

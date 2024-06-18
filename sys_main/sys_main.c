@@ -183,6 +183,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(power_A);
     INIT(power_B);
     INIT(power_C);
+    // Power factor.
+    INIT(power_factor);
 
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
@@ -323,6 +325,8 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(filter_mean_Uarm);
     // Фильтр выходного тока.
     DEINIT(filter_mean_Iarm);
+    // Power factor.
+    DEINIT(power_factor);
     // Power.
     DEINIT(power_A);
     DEINIT(power_B);

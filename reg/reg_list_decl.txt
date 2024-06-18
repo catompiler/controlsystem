@@ -182,5 +182,10 @@ REG C_S, power_C.out_S, IQ24, NONE, MOTOR.S_P_NOM
 REG C_P, power_C.out_P, IQ24, NONE, MOTOR.S_P_NOM
 REG C_Q, power_C.out_Q, IQ24, NONE, MOTOR.S_P_NOM
 
+GROUP POWER_FACTOR, 1700
+REG COS_PHI, power_factor.out_cos_phi, IQ24, NONE, NONE
+REG SIN_PHI, power_factor.out_sin_phi, IQ24, NONE, NONE
+REG TAN_PHI, power_factor.out_tan_phi, IQ24, NONE, NONE
+
 // End
 END

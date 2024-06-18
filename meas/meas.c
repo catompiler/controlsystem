@@ -275,6 +275,13 @@ METHOD_CALC_IMPL(M_meas, meas)
     CALC(power_C);
 
 
+    // Коэффициент мощности.
+    power_factor.in_S = power_A.out_S + power_B.out_S + power_C.out_S;
+    power_factor.in_P = power_A.out_P + power_B.out_P + power_C.out_P;
+    power_factor.in_Q = power_A.out_Q + power_B.out_Q + power_C.out_Q;
+    CALC(power_factor);
+
+
     // Допустимые диапазоны.
     // Допустимый диапазон напряжений сети.
     vr_rms_Umains.in_value[0] = rms_Ua.out_value;

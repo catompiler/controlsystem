@@ -266,6 +266,15 @@ int main(void)
     dlog.p_ch[32].reg_id = REG_ID_RMS_CELL_UC_LINE;
     dlog.p_ch[32].enabled = 1;
 
+    dlog.p_ch[33].reg_id = REG_ID_POWER_FACTOR_COS_PHI;
+    dlog.p_ch[33].enabled = 1;
+
+    dlog.p_ch[34].reg_id = REG_ID_POWER_FACTOR_SIN_PHI;
+    dlog.p_ch[34].enabled = 1;
+
+    dlog.p_ch[35].reg_id = REG_ID_POWER_FACTOR_TAN_PHI;
+    dlog.p_ch[35].enabled = 1;
+
     dlog.control = CONTROL_ENABLE;
 
     // ADC model set to zero scales.
