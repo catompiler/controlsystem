@@ -386,7 +386,7 @@ EXTERN METHOD_IDLE_PROTO(M_smotor_larionov);
         IQ15(368.539889e-3), /* p_Lmsfd */\
         IQ15(368.539889e-3), /* p_Lmrfd */\
         2, /* p_p */\
-        IQ15(1000), /* p_Mc */\
+        IQ15(5000), /* p_Mc */\
         IQ15(0.05), /* p_Kf */\
         IQ15(150), /* p_J */\
         /* Цепь пускового сопротивления. */\

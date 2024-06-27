@@ -14,6 +14,8 @@
 #include "ms_timer/ms_timer.h"
 #include "sys_time/sys_time.h"
 #include "timer/timer.h"
+#include "timer/timer_on.h"
+#include "timer/counter.h"
 #include "data_log/data_log.h"
 #include "meas/meas.h"
 #include "rect_curr/rect_curr.h"
@@ -28,10 +30,16 @@
 #include "value_3phase/value_3phase.h"
 #include "rms/rms.h"
 #include "dc_mean/dc_mean.h"
+#include "mean/mean3.h"
 #include "power/power.h"
 #include "power_factor/power_factor.h"
 #include "fract_mean/fract_mean.h"
 #include "valid_range3/valid_range3.h"
+#include "threshold/threshold_lt.h"
+#include "threshold/threshold_gt.h"
+#include "logic/and3_mask.h"
+#include "logic/or2_mask.h"
+#include "logic/or2.h"
 #include "filter1/filter1.h"
 #include "phase3_control/phase3_control.h"
 #include "larionov_model/smotor_larionov.h"
@@ -149,6 +157,7 @@ extern M_dc_mean mean_Iarm;
 extern M_dc_mean mean_Uarm;
 extern M_dc_mean mean_Irstart;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
+extern M_mean3 mean_rms_I_cell;
 
 // Вычислители мощности.
 extern M_power power_A;
@@ -165,6 +174,50 @@ extern M_valid_range3 vr_rms_Umains;
 extern M_valid_range3 vr_filter_freq_Umains;
 // Допустимый диапазон напряжений ячейки.
 extern M_valid_range3 vr_rms_Ucell;
+
+// Триггеры подачи возбуждения.
+// Порог превышения током статора заданного значения.
+extern M_threshold_gt thr_start_trig_I_s;
+// Объединение условий запуска.
+extern M_or2_mask om_start_trig;
+// Таймер до включения по порогу тока статора.
+extern M_timer_on tmr_start_trig_I_s;
+
+// Подача возбуждения.
+// Основной критерий подачи возбуждения.
+// Порог снижения скольжения.
+extern M_threshold_lt thr_prim_Slip;
+// Порог снижения тока статора.
+extern M_threshold_lt thr_prim_I_s;
+// Порог минимального времени.
+extern M_threshold_gt thr_prim_T;
+// И по маске.
+extern M_and3_mask am_prim_field_on;
+// Дополнительный критерий подачи возбуждения.
+// Порог снижения скольжения.
+extern M_threshold_lt thr_sec_Slip;
+// Порог снижения тока статора.
+extern M_threshold_lt thr_sec_I_s;
+// Порог минимального времени.
+extern M_threshold_gt thr_sec_T;
+// И по маске.
+extern M_and3_mask am_sec_field_on;
+// ИЛИ двух критериев.
+extern M_or2 or_field_on;
+// Таймер разрешения включения.
+extern M_timer_on tmr_field_on;
+// Порог тока ротора при втягивании ротора
+// в синхронизм без подачи возбуждения.
+extern M_threshold_lt thr_field_on_I_s_sync;
+// Таймер разрешения включения
+// при втягивании в синхронизм (нет детекта отрицательной полуволны).
+extern M_timer_on tmr_field_on_I_s_sync;
+// Таймер отключения пускового сопротивления.
+extern M_timer tmr_field_on_rstart_off;
+
+// Таймеры / счётчики.
+// Счётчик времени старта.
+extern M_counter cnt_start;
 
 // Фильтры.
 // Напряжения фаз для детекта перехода через ноль.

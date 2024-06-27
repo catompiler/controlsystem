@@ -179,6 +179,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(mean_Iarm);
     INIT(mean_Uarm);
     INIT(mean_Irstart);
+    INIT(mean_rms_I_cell);
     // Power.
     INIT(power_A);
     INIT(power_B);
@@ -220,6 +221,35 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(ph3c);
     // Модель 3х фазного выпрямителя.
     INIT(lrm);
+
+    // Триггеры пуска.
+    // Триггер пуска по превышению током статора заданного значения.
+    INIT(thr_start_trig_I_s);
+    // Объединение критериев пуска.
+    INIT(om_start_trig);
+    // Таймер включения по току статора.
+    INIT(tmr_start_trig_I_s);
+
+    // Критерии подачи возбуждения.
+    // Основной.
+    INIT(thr_prim_Slip);
+    INIT(thr_prim_I_s);
+    INIT(thr_prim_T);
+    INIT(am_prim_field_on);
+    // Основной.
+    INIT(thr_sec_Slip);
+    INIT(thr_sec_I_s);
+    INIT(thr_sec_T);
+    INIT(am_sec_field_on);
+    // Общие модули критериев.
+    INIT(or_field_on);
+    INIT(tmr_field_on);
+    INIT(thr_field_on_I_s_sync);
+    INIT(tmr_field_on_I_s_sync);
+    INIT(tmr_field_on_rstart_off);
+
+    // Таймеры / счётчики.
+    INIT(cnt_start);
 
     // Защита.
     INIT(prot);
@@ -299,6 +329,34 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(lrm);
     DEINIT(ph3c);
 
+    // Таймеры / счётчики.
+    DEINIT(cnt_start);
+
+    // Критерии подачи возбуждения.
+    DEINIT(thr_prim_Slip);
+    DEINIT(thr_prim_I_s);
+    DEINIT(thr_prim_T);
+    DEINIT(am_prim_field_on);
+    // Основной.
+    DEINIT(thr_sec_Slip);
+    DEINIT(thr_sec_I_s);
+    DEINIT(thr_sec_T);
+    DEINIT(am_sec_field_on);
+    // Общие модули критериев.
+    DEINIT(or_field_on);
+    DEINIT(tmr_field_on);
+    DEINIT(thr_field_on_I_s_sync);
+    DEINIT(tmr_field_on_I_s_sync);
+    DEINIT(tmr_field_on_rstart_off);
+
+    // Триггеры пуска.
+    // Триггер пуска по превышению током статора заданного значения.
+    DEINIT(thr_start_trig_I_s);
+    // Объединение критериев пуска.
+    DEINIT(om_start_trig);
+    // Таймер включения по току статора.
+    DEINIT(tmr_start_trig_I_s);
+
     // Вычислительные модули.
 
     // Допустимые диапазоны.
@@ -336,6 +394,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(power_B);
     DEINIT(power_C);
     // Mean.
+    DEINIT(mean_rms_I_cell);
     DEINIT(mean_Irstart);
     DEINIT(mean_Uarm);
     DEINIT(mean_Iarm);
@@ -600,22 +659,28 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
     // if(prot.errors == 0){
 
-    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_ON){
-        sys_ctrl.control |= SYS_CONTROL_CONTROL_ON;
+    // Входные команды.
+    // Опробование.
+    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_TEST){
+        sys_ctrl.control |= SYS_CONTROL_CONTROL_TEST;
     }else{
-        sys_ctrl.control &= ~SYS_CONTROL_CONTROL_ON;
+        sys_ctrl.control &= ~SYS_CONTROL_CONTROL_TEST;
     }
-
-    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_CONT_ON){
-        sys_ctrl.control |= SYS_CONTROL_CONTROL_CONT_ON;
-    }else{
-        sys_ctrl.control &= ~SYS_CONTROL_CONTROL_CONT_ON;
-    }
-
-    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_RUN){
+    // Включение.
+    if((sys_cmd.out_command & SYS_COMMAND_COMMAND_CB_ON) || (tmr_start_trig_I_s.out_value == FLAG_ACTIVE)){
         sys_ctrl.control |= SYS_CONTROL_CONTROL_RUN;
     }else{
         sys_ctrl.control &= ~SYS_CONTROL_CONTROL_RUN;
+    }
+    // Защиты ячейки.
+    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_PROT){
+    }
+    // Выходные команды.
+    // Включение пускового сопротивления.
+    if(sys_ctrl.out_command & SYS_CONTROL_COMMAND_R_START_ON){
+        sys_stat.in_command |= SYS_STATUS_COMMAND_R_START_ON;
+    }else{
+        sys_stat.in_command &= ~SYS_STATUS_COMMAND_R_START_ON;
     }
 
     //} // prot.errors == 0

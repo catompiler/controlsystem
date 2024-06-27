@@ -313,38 +313,44 @@ int main(void)
     for(;;){
         IDLE(sys);
 
-        if(adc_tim.out_counter >= 64){
-            // On.
-            sys_cmd.out_command = SYS_COMMAND_COMMAND_ON;
+        if(adc_tim.out_counter <= 16){
+            // Off.
+            sys_cmd.out_command = SYS_COMMAND_COMMAND_CB_OFF;
         }
 
-        if(adc_tim.out_counter >= 128){
+        if(adc_tim.out_counter >= 64){
             // ADC model set to normal scales.
             adc_model.in_U_scale = IQ24(1.0);
-            adc_model.in_F_scale = IQ24(1.0); // 1.3
+            adc_model.in_F_scale = IQ24(1.0);
         }
 
-        if(adc_tim.out_counter >= 192){
-            // Main contactor is on.
-            sys_cmd.out_command = SYS_COMMAND_COMMAND_ON |
-                                  SYS_COMMAND_COMMAND_CONT_ON;
+        if(adc_tim.out_counter >= 256){
             if(lrm.in_stator_on == 0){
+                // Main contactor is on.
+                sys_cmd.out_command = SYS_COMMAND_COMMAND_CB_ON;
                 lrm.in_stator_on = 1;
-                lrm.in_start_r_on = 1;
+//                lrm.in_start_r_on = 1;
             }
         }
 
-        if(adc_tim.out_counter >= CONF_PERIOD_SAMPLES * 10){
-            if(lrm.in_start_r_on == 1){
-                lrm.in_start_r_on = 0;
-            }
+        if(sys_stat.in_command & SYS_STATUS_COMMAND_R_START_ON){
+            lrm.in_start_r_on = 1;
+        }else{
+            lrm.in_start_r_on = 0;
         }
 
-        if(adc_tim.out_counter >= 4096){ // 256
-            // Run.
-            sys_cmd.out_command = SYS_COMMAND_COMMAND_ON |
-                                  SYS_COMMAND_COMMAND_CONT_ON |
-                                  SYS_COMMAND_COMMAND_RUN;
+//        if(adc_tim.out_counter >= CONF_PERIOD_SAMPLES * 100){
+//            if(lrm.in_start_r_on == 1){
+//                lrm.in_start_r_on = 0;
+//            }
+//        }
+
+        if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
+            if(lrm.in_stator_on == 1){
+                // Stop.
+                sys_cmd.out_command = SYS_COMMAND_COMMAND_CB_OFF;
+                lrm.in_stator_on = 0;
+            }
         }
 
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;

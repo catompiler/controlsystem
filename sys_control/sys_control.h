@@ -6,16 +6,18 @@
 
 //! Перечисление возможных бит управления.
 enum _E_Sys_Control_Control {
-    SYS_CONTROL_CONTROL_NONE    = CONTROL_NONE,
-    SYS_CONTROL_CONTROL_ENABLE  = 0x01,
-    SYS_CONTROL_CONTROL_ON      = 0x02,
-    SYS_CONTROL_CONTROL_CONT_ON = 0x04,
-    SYS_CONTROL_CONTROL_RUN     = 0x08,
+    SYS_CONTROL_CONTROL_NONE  = CONTROL_NONE,
+    SYS_CONTROL_CONTROL_RESET = CONTROL_RESET,
+    SYS_CONTROL_CONTROL_ENABLE = CONTROL_ENABLE,
+    SYS_CONTROL_CONTROL_RUN   = CONTROL_START,
+    SYS_CONTROL_CONTROL_TEST  = (CONTROL_USER),
 };
 
 //! Перечисление возможных бит статуса.
 enum _E_Sys_Control_Status {
     SYS_CONTROL_STATUS_NONE = STATUS_NONE,
+    SYS_CONTROL_STATUS_READY = STATUS_READY,
+    SYS_CONTROL_STATUS_RUN = STATUS_RUN,
     SYS_CONTROL_STATUS_ERROR = STATUS_ERROR,
 };
 
@@ -38,22 +40,39 @@ enum _E_Sys_Control_Warnings {
 enum _E_Sys_Control_State {
     SYS_CONTROL_STATE_NONE = 0x00,
     SYS_CONTROL_STATE_INIT,
-    SYS_CONTROL_STATE_OFF,
-    SYS_CONTROL_STATE_READY_ON,
-    SYS_CONTROL_STATE_READY_RUN,
+    SYS_CONTROL_STATE_CHECK,
+    SYS_CONTROL_STATE_IDLE,
+    SYS_CONTROL_STATE_READY,
+    SYS_CONTROL_STATE_TEST,
+    SYS_CONTROL_STATE_START,
     SYS_CONTROL_STATE_RUN,
+    SYS_CONTROL_STATE_FIELD_SUPP, // Field Suppression
     SYS_CONTROL_STATE_ERROR,
 };
 
-//! Перечисление состояний включения.
-enum _E_Sys_Control_Ready_On_State {
-    SYS_CONTROL_READY_ON_NONE = 0x00,
-    SYS_CONTROL_READY_ON_WAIT_ON,
-    SYS_CONTROL_READY_ON_WAIT_MAINS,
-    SYS_CONTROL_READY_ON_WAIT_MAINS_FREQ,
-    SYS_CONTROL_READY_ON_WAIT_CONT_ON,
-    SYS_CONTROL_READY_ON_DONE
+//! Перечисление состояний проверки входа.
+enum _E_Sys_Control_Check_State {
+    SYS_CONTROL_CHECK_NONE = 0x00,
+    SYS_CONTROL_CHECK_WAIT_MAINS,
+    SYS_CONTROL_CHECK_WAIT_MAINS_FREQ,
+    SYS_CONTROL_CHECK_DONE
 };
+
+//! Перечисление состояний простоя.
+enum _E_Sys_Control_Idle_State {
+    SYS_CONTROL_IDLE_NONE = 0x00,
+    SYS_CONTROL_IDLE_WAIT_CELL,
+    SYS_CONTROL_IDLE_DONE
+};
+
+//! Командное слово 0.
+enum _E_Sys_Control_Command0 {
+    SYS_CONTROL_COMMAND_NONE       = 0x00,
+    SYS_CONTROL_COMMAND_R_START_ON = 0x01, //!< Включение пускового сопротивления.
+};
+
+//! Тип командного слова.
+typedef reg_u32_t sys_control_out_command_t;
 
 //! Предварительная декларация типа модуля.
 typedef struct _S_Sys_Control M_sys_control;
@@ -68,6 +87,7 @@ struct _S_Sys_Control {
     fsm_t fsm_state; //!< Основной КА.
     // Входные данные.
     // Выходные данные.
+    sys_control_out_command_t out_command; //!< Выходное командное слово.
     // Параметры.
     // Регистры.
     // Методы.
@@ -76,7 +96,8 @@ struct _S_Sys_Control {
     METHOD_CALC(M_sys_control);
     // Коллбэки.
     // Внутренние данные.
-    fsm_t fsm_ready_on; //!< Конечный автомат включения.
+    fsm_t fsm_check; //!< Конечный автомат проверки силового входа.
+    fsm_t fsm_idle; //!< Конечный автомат простоя (ожидание статора).
 };
 
 EXTERN METHOD_INIT_PROTO(M_sys_control);
@@ -90,6 +111,7 @@ EXTERN METHOD_CALC_PROTO(M_sys_control);
         FSM_DEFAULTS, /* fsm_state */\
         /* Входные данные */\
         /* Выходные данные */\
+        0, /* out_command */\
         /* Параметры */\
         /* Регистры */\
         /* Методы */\
@@ -97,7 +119,8 @@ EXTERN METHOD_CALC_PROTO(M_sys_control);
         METHOD_CALC_PTR(M_sys_control),\
         /* Коллбэки */\
         /* Внутренние данные */\
-        FSM_DEFAULTS, /* fsm_ready_on */\
+        FSM_DEFAULTS, /* fsm_check */\
+        FSM_DEFAULTS, /* fsm_idle */\
     }
 
 #endif /* SYS_CONTROL_H */

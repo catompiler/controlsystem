@@ -1,5 +1,8 @@
 #include "meas.h"
 #include "modules/modules.h"
+#include "utils/utils.h"
+#include "iqmath/iqmath.h"
+
 
 
 METHOD_INIT_IMPL(M_meas, meas)
@@ -64,7 +67,7 @@ MEAS_METHOD_CALC_FOR_MODEL_IMPL(M_meas, meas)
     CALC(cell_U_line);
 }
 
-METHOD_CALC_IMPL(M_meas, meas)
+static void meas_calc_mains(M_meas* meas)
 {
     // Остальные мультиплексоры измерений.
     // Мультиплексоры измерений тока.
@@ -84,7 +87,10 @@ METHOD_CALC_IMPL(M_meas, meas)
     rect_curr.in_Ib = mains_I.out_B;
     rect_curr.in_Ic = mains_I.out_C;
     CALC(rect_curr);
+}
 
+static void meas_calc_armature(M_meas* meas)
+{
     // Мультиплексор измерений выходного напряжения.
     armature_U.in_value[0] = adc.out_Uarm;
     armature_U.in_value[1] = lrm.out_U;
@@ -98,8 +104,10 @@ METHOD_CALC_IMPL(M_meas, meas)
     rstart_I.in_value[0] = adc.out_Ir;
     rstart_I.in_value[1] = lrm.out_Irstart;
     CALC(rstart_I);
+}
 
-
+static void meas_calc_cell(M_meas* meas)
+{
     // Ячейка.
     // Мультиплексоры измерений тока.
     // Ток фазы A.
@@ -118,13 +126,16 @@ METHOD_CALC_IMPL(M_meas, meas)
     cell_I.in_B = mux_cell_I.out_B;
     cell_I.in_C = mux_cell_I.out_C;
     CALC(cell_I);
+}
 
-
+static void meas_calc_mains_freq(M_meas* meas)
+{
     // Детект нуля и вычисление частоты.
+    // echo "[ Ua ] {border:none} -> [ filter1 ] {label:filter} -> [ zcd freq ] - freq -> [ filter2 ]{label:filter} -> [ Freq ] {border: none}" | graph-easy
     /*
-     *       ________      _____      ________
-     * U -> | Filter | -> | ZCD | -> | Filter | -> Freq
-     *       --------      -----      --------
+     *         +--------+     +----------+  freq   +--------+
+     * Ua  --> | filter | --> | zcd freq | ------> | filter | -->  Freq
+     *         +--------+     +----------+         +--------+
      *
      */
     // Основной ввод.
@@ -158,7 +169,10 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Фильтр частоты.
     filter_freq_Uc.in_value = zcd_Uc.out_freq;
     CALC(filter_freq_Uc);
+}
 
+static void meas_calc_slip(M_meas* meas)
+{
     // Скольжение.
     // Мультиплексор используемого значения.
     mux_slip.in_value[0] = rstart_I.out_value;
@@ -177,7 +191,10 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Вычисление скольжения.
     slip.in_value = filter_freq_slip.out_value;
     CALC(slip);
+}
 
+static void meas_calc_rms_mains(M_meas* meas)
+{
     // RMS.
     // Основной ввод.
     // Напряжения.
@@ -200,6 +217,11 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Фаза C.
     rms_Ic.in_value = mains_I.out_C;
     CALC(rms_Ic);
+}
+
+static void meas_calc_rms_cell(M_meas* meas)
+{
+    // RMS.
     // Ячейка.
     // Фазные напряжения.
     // Фаза A.
@@ -232,7 +254,15 @@ METHOD_CALC_IMPL(M_meas, meas)
     rms_cell_Ic.in_value = cell_I.out_C;
     CALC(rms_cell_Ic);
 
+    // Среднее значение действующих значений токов ячейки.
+    mean_rms_I_cell.in_value[0] = rms_cell_Ia.out_value;
+    mean_rms_I_cell.in_value[1] = rms_cell_Ib.out_value;
+    mean_rms_I_cell.in_value[2] = rms_cell_Ic.out_value;
+    CALC(mean_rms_I_cell);
+}
 
+static void meas_calc_mean_armature(M_meas* meas)
+{
     // Среднее.
     // Выходной ток.
     mean_Iarm.in_value = armature_I.out_value;
@@ -252,8 +282,10 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Фильтр тока пускового сопротивления.
     filter_mean_Irstart.in_value = mean_Irstart.out_value;
     CALC(filter_mean_Irstart);
+}
 
-
+static void meas_calc_power(M_meas* meas)
+{
     // Мощности статора.
     // Фаза A.
     power_A.in_U = cell_U.out_A;
@@ -273,15 +305,19 @@ METHOD_CALC_IMPL(M_meas, meas)
     power_C.in_rms_U = rms_cell_Uc.out_value;
     power_C.in_rms_I = rms_cell_Ic.out_value;
     CALC(power_C);
+}
 
-
+static void meas_calc_power_factor(M_meas* meas)
+{
     // Коэффициент мощности.
     power_factor.in_S = power_A.out_S + power_B.out_S + power_C.out_S;
     power_factor.in_P = power_A.out_P + power_B.out_P + power_C.out_P;
     power_factor.in_Q = power_A.out_Q + power_B.out_Q + power_C.out_Q;
     CALC(power_factor);
+}
 
-
+static void meas_calc_valid_ranges(M_meas* meas)
+{
     // Допустимые диапазоны.
     // Допустимый диапазон напряжений сети.
     vr_rms_Umains.in_value[0] = rms_Ua.out_value;
@@ -298,4 +334,134 @@ METHOD_CALC_IMPL(M_meas, meas)
     vr_rms_Ucell.in_value[1] = rms_cell_Ub_line.out_value;
     vr_rms_Ucell.in_value[2] = rms_cell_Uc_line.out_value;
     CALC(vr_rms_Ucell);
+}
+
+static void meas_calc_start_time(M_meas* meas)
+{
+    (void) meas;
+
+    CALC(cnt_start);
+}
+
+static void meas_calc_start_trig_I_s(M_meas* meas)
+{
+    // Ток статора больше порогового.
+    thr_start_trig_I_s.in_value = mean_rms_I_cell.out_value;
+    CALC(thr_start_trig_I_s);
+
+    // Объединение условий.
+    // TODO: Условие пуска по включению выключателя ячейки.
+    om_start_trig.in_value[0] = 0;
+    om_start_trig.in_value[1] = thr_start_trig_I_s.out_value;
+    CALC(om_start_trig);
+
+    // Таймер включения.
+    tmr_start_trig_I_s.in_value = om_start_trig.out_value;
+    CALC(tmr_start_trig_I_s);
+}
+
+static void meas_calc_field_on_conds(M_meas* meas)
+{
+    // Ток статора для условий пуска.
+    iq24_t I_stator = mean_rms_I_cell.out_value;
+
+    // Основное условие пуска.
+    // Порог скольжения.
+    thr_prim_Slip.in_value = slip.out_value;
+    CALC(thr_prim_Slip);
+    // Порог тока.
+    thr_prim_I_s.in_value = I_stator;
+    CALC(thr_prim_I_s);
+    // Порог времени.
+    thr_prim_T.in_value = cnt_start.out_value;
+    CALC(thr_prim_T);
+    // И с маской.
+    am_prim_field_on.in_value[0] = thr_prim_Slip.out_value;
+    am_prim_field_on.in_value[1] = thr_prim_I_s.out_value;
+    am_prim_field_on.in_value[2] = thr_prim_T.out_value;
+    CALC(am_prim_field_on);
+
+    // Дополнительное условие пуска.
+    // Порог скольжения.
+    thr_sec_Slip.in_value = slip.out_value;
+    CALC(thr_sec_Slip);
+    // Порог тока.
+    thr_sec_I_s.in_value = I_stator;
+    CALC(thr_sec_I_s);
+    // Порог времени.
+    thr_sec_T.in_value = cnt_start.out_value;
+    CALC(thr_sec_T);
+    // И с маской.
+    am_sec_field_on.in_value[0] = thr_sec_Slip.out_value;
+    am_sec_field_on.in_value[1] = thr_sec_I_s.out_value;
+    am_sec_field_on.in_value[2] = thr_sec_T.out_value;
+    CALC(am_sec_field_on);
+
+    // Объединение условий.
+    or_field_on.in_value[0] = am_prim_field_on.out_value;
+    or_field_on.in_value[1] = am_sec_field_on.out_value;
+    CALC(or_field_on);
+
+    tmr_field_on.in_value = or_field_on.out_value;
+    CALC(tmr_field_on);
+
+    thr_field_on_I_s_sync.in_value = mean_Irstart.out_value;
+    CALC(thr_field_on_I_s_sync);
+
+    tmr_field_on_I_s_sync.in_value = thr_field_on_I_s_sync.out_value;
+    CALC(tmr_field_on_I_s_sync);
+
+    CALC(tmr_field_on_rstart_off);
+}
+
+/*
+
+static void meas_calc_(M_meas* meas)
+{
+}
+*/
+
+METHOD_CALC_IMPL(M_meas, meas)
+{
+    // Mains.
+    meas_calc_mains(meas);
+
+    // Armature.
+    meas_calc_armature(meas);
+
+    // Cell.
+    meas_calc_cell(meas);
+
+    // Mains zcd & freq.
+    meas_calc_mains_freq(meas);
+
+    // Slip.
+    meas_calc_slip(meas);
+
+    // RMS mains.
+    meas_calc_rms_mains(meas);
+
+    // RMS cell.
+    meas_calc_rms_cell(meas);
+
+    // Mean.
+    meas_calc_mean_armature(meas);
+
+    // Power.
+    meas_calc_power(meas);
+
+    // Power factor.
+    meas_calc_power_factor(meas);
+
+    // Valid ranges.
+    meas_calc_valid_ranges(meas);
+
+    // Start time (ms) counter.
+    meas_calc_start_time(meas);
+
+    // Start trig by Istator > Ithreshold.
+    meas_calc_start_trig_I_s(meas);
+
+    // Field on conditions.
+    meas_calc_field_on_conds(meas);
 }

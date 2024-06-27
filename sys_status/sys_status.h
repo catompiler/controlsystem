@@ -13,6 +13,15 @@ enum _E_Sys_Status_Status {
     SYS_STATUS_STATUS_NONE = STATUS_NONE,
 };
 
+//! Командное слово 0.
+enum _E_Sys_Status_Command0 {
+    SYS_STATUS_COMMAND_NONE       = 0x00,
+    SYS_STATUS_COMMAND_R_START_ON = 0x01, //!< Включение пускового сопротивления.
+};
+
+//! Тип командного слова.
+typedef reg_u32_t sys_status_in_command_t;
+
 //! Предварительная декларация типа модуля.
 typedef struct _S_Sys_Status M_sys_status;
 
@@ -22,6 +31,7 @@ struct _S_Sys_Status {
     control_t control; //!< Слово управления.
     status_t status; //!< Слово состояния.
     // Входные данные.
+    sys_status_in_command_t in_command; //!< Входное командное слово.
     // Выходные данные.
     // Параметры.
     // Регистры.
@@ -41,6 +51,7 @@ EXTERN METHOD_CALC_PROTO(M_sys_status);
         /* Базовые поля */\
         0, 0, /* control, status */\
         /* Входные данные */\
+        0, /* in_command */\
         /* Выходные данные */\
         /* Параметры */\
         /* Регистры */\

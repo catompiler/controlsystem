@@ -78,6 +78,7 @@ M_dc_mean mean_Iarm = DC_MEAN_DEFAULTS;
 M_dc_mean mean_Uarm = DC_MEAN_DEFAULTS;
 M_dc_mean mean_Irstart = DC_MEAN_DEFAULTS;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
+M_mean3 mean_rms_I_cell = MEAN3_DEFAULTS;
 
 M_power power_A = POWER_DEFAULTS;
 M_power power_B = POWER_DEFAULTS;
@@ -86,10 +87,28 @@ M_power power_C = POWER_DEFAULTS;
 M_power_factor power_factor = POWER_FACTOR_DEFAULTS;
 
 M_valid_range3 vr_rms_Umains = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
-
 M_valid_range3 vr_filter_freq_Umains = VALID_RANGE3_DEFCFG(IQ24(44.9), IQ24(65.1));
-
 M_valid_range3 vr_rms_Ucell = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
+
+M_threshold_gt thr_start_trig_I_s = THRESHOLD_GT_DEFCFG(IQ24(0.1));
+M_or2_mask om_start_trig = OR2_MASK_DEFCFG(3);
+M_timer_on tmr_start_trig_I_s = TIMER_ON_DEFCFG(20);
+
+M_threshold_lt thr_prim_Slip = THRESHOLD_LT_DEFCFG(IQ24(0.05));
+M_threshold_lt thr_prim_I_s = THRESHOLD_LT_DEFCFG(IQ24(1.5));
+M_threshold_gt thr_prim_T = THRESHOLD_GT_DEFCFG(2000);
+M_and3_mask am_prim_field_on = AND3_MASK_DEFCFG(5);
+M_threshold_lt thr_sec_Slip = THRESHOLD_LT_DEFCFG(IQ24(0.05));
+M_threshold_lt thr_sec_I_s = THRESHOLD_LT_DEFCFG(IQ24(2.5));
+M_threshold_gt thr_sec_T = THRESHOLD_GT_DEFCFG(5000);
+M_and3_mask am_sec_field_on = AND3_MASK_DEFCFG(6);
+M_or2 or_field_on = OR2_DEFAULTS;
+M_timer_on tmr_field_on = TIMER_ON_DEFCFG(10);
+M_threshold_lt thr_field_on_I_s_sync = THRESHOLD_LT_DEFCFG(IQ24(0.02));
+M_timer_on tmr_field_on_I_s_sync = TIMER_ON_DEFCFG(1000);
+M_timer tmr_field_on_rstart_off = TIMER_DEFCFG(10);
+
+M_counter cnt_start = COUNTER_DEFAULTS;
 
 M_filter1 filter_Ua_zcd = FILTER1_DEFCFG(IQ24(0.01)); // 100 Hz.
 M_filter1 filter_Ub_zcd = FILTER1_DEFCFG(IQ24(0.01));
