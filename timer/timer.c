@@ -1,5 +1,6 @@
 #include "timer.h"
 #include "modules/modules.h"
+#include "utils/counter.h"
 
 
 METHOD_INIT_IMPL(M_timer, tim)
@@ -32,14 +33,6 @@ static void timer_control(M_timer* tim)
     tim->control = CONTROL_NONE;
 }
 
-static uint32_t timer_calc_diff(uint32_t ref, uint32_t cur)
-{
-    // Текущее значение больше опорного - счётчик не переполнился.
-    if(cur >= ref) return cur - ref;
-    // Иначе cur < ref - счётчик переполнился.
-    return UINT32_MAX - ref + cur + 1;
-}
-
 METHOD_CALC_IMPL(M_timer, tim)
 {
     tim->out_timeout = STROBE_NONE;
@@ -48,7 +41,7 @@ METHOD_CALC_IMPL(M_timer, tim)
 
     if(tim->status & STATUS_RUN){
         // Пройденное время с начала счёта.
-        uint32_t elapsed_time = timer_calc_diff(tim->m_ref_counter, sys_time.r_counter_ms);
+        uint32_t elapsed_time = counter_calc_diff(sys_time.r_counter_ms, tim->m_ref_counter);
         // Если времени прошло больше чем интервал таймера.
         if(elapsed_time >= tim->r_interval){
             tim->status = STATUS_NONE;

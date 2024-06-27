@@ -19,6 +19,7 @@ enum _E_Timer_Control {
 //! Перечисление возможных бит статуса.
 enum _E_Timer_Status {
     TIMER_STATUS_NONE = STATUS_NONE,
+    TIMER_STATUS_RUN = STATUS_RUN,
 };
 
 //! Предварительная декларация типа модуля.
