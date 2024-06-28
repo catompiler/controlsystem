@@ -333,11 +333,11 @@ int main(void)
             }
         }
 
-        if(sys_stat.in_command & SYS_STATUS_COMMAND_R_START_ON){
-            lrm.in_start_r_on = 1;
-        }else{
-            lrm.in_start_r_on = 0;
-        }
+//        if(sys_stat.in_command & SYS_STATUS_COMMAND_R_START_ON){
+//            lrm.in_start_r_on = 1;
+//        }else{
+//            lrm.in_start_r_on = 0;
+//        }
 
 //        if(adc_tim.out_counter >= CONF_PERIOD_SAMPLES * 100){
 //            if(lrm.in_start_r_on == 1){

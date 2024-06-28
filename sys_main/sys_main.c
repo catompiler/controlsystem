@@ -641,6 +641,7 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     { lrm.in_control[i] = ph3c.out_control[i]; }
     lrm.in_control_delay_angle = ph3c.out_control_delay_angle_pu;
     lrm.in_control_duration_angle = ph3c.out_control_max_duration_angle_pu;
+    lrm.in_start_r_on = (sys_stat.in_command & SYS_STATUS_COMMAND_R_START_ON) ? FLAG_ACTIVE : FLAG_NONE;
     CALC(lrm);
 
 
