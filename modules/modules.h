@@ -17,6 +17,7 @@
 #include "timer/timer_on.h"
 #include "timer/counter.h"
 #include "data_log/data_log.h"
+#include "filter1/filter1.h"
 #include "meas/meas.h"
 #include "rect_curr/rect_curr.h"
 #include "mux/mux2.h"
@@ -40,7 +41,7 @@
 #include "logic/and3_mask.h"
 #include "logic/or2_mask.h"
 #include "logic/or2.h"
-#include "filter1/filter1.h"
+#include "cell_cb/cell_cb.h"
 #include "phase3_control/phase3_control.h"
 #include "larionov_model/smotor_larionov.h"
 #include "motor/motor.h"
@@ -174,6 +175,9 @@ extern M_valid_range3 vr_rms_Umains;
 extern M_valid_range3 vr_filter_freq_Umains;
 // Допустимый диапазон напряжений ячейки.
 extern M_valid_range3 vr_rms_Ucell;
+
+// Состояние ячейки.
+extern M_cell_cb cell_cb;
 
 // Триггеры подачи возбуждения.
 // Порог превышения током статора заданного значения.

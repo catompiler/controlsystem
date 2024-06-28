@@ -90,6 +90,8 @@ M_valid_range3 vr_rms_Umains = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
 M_valid_range3 vr_filter_freq_Umains = VALID_RANGE3_DEFCFG(IQ24(44.9), IQ24(65.1));
 M_valid_range3 vr_rms_Ucell = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
 
+M_cell_cb cell_cb = CELL_CB_DEFAULTS;
+
 M_threshold_gt thr_start_trig_I_s = THRESHOLD_GT_DEFCFG(IQ24(0.1));
 M_or2_mask om_start_trig = OR2_MASK_DEFCFG(3);
 M_timer_on tmr_start_trig_I_s = TIMER_ON_DEFCFG(20);

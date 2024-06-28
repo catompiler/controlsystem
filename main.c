@@ -315,7 +315,7 @@ int main(void)
 
         if(adc_tim.out_counter <= 16){
             // Off.
-            sys_cmd.out_command = SYS_COMMAND_COMMAND_CB_OFF;
+            sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
         }
 
         if(adc_tim.out_counter >= 64){
@@ -327,7 +327,7 @@ int main(void)
         if(adc_tim.out_counter >= 256){
             if(lrm.in_stator_on == 0){
                 // Main contactor is on.
-                sys_cmd.out_command = SYS_COMMAND_COMMAND_CB_ON;
+                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
                 lrm.in_stator_on = 1;
 //                lrm.in_start_r_on = 1;
             }
@@ -348,7 +348,7 @@ int main(void)
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
             if(lrm.in_stator_on == 1){
                 // Stop.
-                sys_cmd.out_command = SYS_COMMAND_COMMAND_CB_OFF;
+                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
                 lrm.in_stator_on = 0;
             }
         }

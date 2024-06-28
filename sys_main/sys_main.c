@@ -222,6 +222,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Модель 3х фазного выпрямителя.
     INIT(lrm);
 
+    // Состояние ячейки.
+    INIT(cell_cb);
+
     // Триггеры пуска.
     // Триггер пуска по превышению током статора заданного значения.
     INIT(thr_start_trig_I_s);
@@ -356,6 +359,9 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(om_start_trig);
     // Таймер включения по току статора.
     DEINIT(tmr_start_trig_I_s);
+
+    // Состояние ячейки.
+    DEINIT(cell_cb);
 
     // Вычислительные модули.
 
@@ -657,6 +663,11 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
     // Соединение входов и выходов системных модулей.
 
+    // Состояние выключателя ячейки.
+    cell_cb.in_no_state = (sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_CB_NO) ? FLAG_ACTIVE : FLAG_NONE;
+    cell_cb.in_nc_state = (sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_CB_NC) ? FLAG_ACTIVE : FLAG_NONE;
+    CALC(cell_cb);
+
     // if(prot.errors == 0){
 
     // Входные команды.
@@ -667,13 +678,13 @@ METHOD_CALC_IMPL(M_sys_main, sys)
         sys_ctrl.control &= ~SYS_CONTROL_CONTROL_TEST;
     }
     // Включение.
-    if((sys_cmd.out_command & SYS_COMMAND_COMMAND_CB_ON) || (tmr_start_trig_I_s.out_value == FLAG_ACTIVE)){
+    if(tmr_start_trig_I_s.out_value == FLAG_ACTIVE){
         sys_ctrl.control |= SYS_CONTROL_CONTROL_RUN;
     }else{
         sys_ctrl.control &= ~SYS_CONTROL_CONTROL_RUN;
     }
     // Защиты ячейки.
-    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_PROT){
+    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_PROT){
     }
     // Выходные команды.
     // Включение пускового сопротивления.

@@ -16,9 +16,9 @@ enum _E_Sys_Command_Status {
 //! Командное слово 0.
 enum _E_Sys_Command_Command0 {
     SYS_COMMAND_COMMAND_NONE   = 0x00,
-    SYS_COMMAND_COMMAND_CB_ON  = 0x01,
-    SYS_COMMAND_COMMAND_CB_OFF = 0x02,
-    SYS_COMMAND_COMMAND_PROT   = 0x04,
+    SYS_COMMAND_COMMAND_CELL_CB_NO  = 0x01,
+    SYS_COMMAND_COMMAND_CELL_CB_NC = 0x02,
+    SYS_COMMAND_COMMAND_CELL_PROT   = 0x04,
     SYS_COMMAND_COMMAND_TEST   = 0x08,
 };
 

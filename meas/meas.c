@@ -350,8 +350,7 @@ static void meas_calc_start_trig_I_s(M_meas* meas)
     CALC(thr_start_trig_I_s);
 
     // Объединение условий.
-    // TODO: Условие пуска по включению выключателя ячейки.
-    om_start_trig.in_value[0] = 0;
+    om_start_trig.in_value[0] = (cell_cb.out_state == CELL_CB_ON) ? FLAG_ACTIVE : FLAG_NONE;
     om_start_trig.in_value[1] = thr_start_trig_I_s.out_value;
     CALC(om_start_trig);
 
