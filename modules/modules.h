@@ -46,6 +46,8 @@
 #include "larionov_model/smotor_larionov.h"
 #include "motor/motor.h"
 #include "prot/prot.h"
+#include "pid/pid.h"
+#include "pid/pid_coefs.h"
 
 
 //! Основной модуль.
@@ -240,6 +242,12 @@ extern M_filter1 filter_mean_Iarm;
 extern M_filter1 filter_mean_Uarm;
 // Среднее значение тока пускового сопротивления.
 extern M_filter1 filter_mean_Irstart;
+
+// Регуляторы.
+//! ПИД тока.
+extern M_pid pid_i;
+//! Коэффициенты ПИД тока.
+extern M_pid_coefs pid_coefs_i;
 
 //! СИФУ.
 extern M_phase3_control ph3c;

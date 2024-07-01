@@ -210,10 +210,16 @@ static void FSM_state_start(M_sys_control* sys_ctrl)
 static void FSM_state_run(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
-        ph3c.control |= CONTROL_ENABLE;
-        //ph3c.in_control_value = IQ24(0.37667); //0.376658 //0.252
-        ph3c.in_control_value = IQ24(0.6); //0.376658 //0.252
+        pid_i.control = CONTROL_ENABLE;
+        ph3c.control = CONTROL_ENABLE;
     }
+
+    pid_i.in_ref = IQ24(0.35);
+    pid_i.in_fbk = mean_Iarm.out_value;
+    CALC(pid_i);
+
+    ph3c.in_control_value = pid_i.out_value;
+
 
     // Если отменена команда "Работа".
     if(!(sys_ctrl->control & SYS_CONTROL_CONTROL_RUN)){
@@ -265,6 +271,17 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
             // Остановим таймер отключения пускового сопротивления.
             tmr_field_on_rstart_off.control = CONTROL_STOP;
             CONTROL(tmr_field_on_rstart_off);
+        }
+        // Если это не состояние работы, опробования и гашения поля.
+        if(state != SYS_CONTROL_STATE_RUN &&
+           state != SYS_CONTROL_STATE_FIELD_SUPP &&
+           state != SYS_CONTROL_STATE_TEST){
+            // Сбросим и отключим СИФУ.
+            ph3c.control = CONTROL_NONE;
+            ph3c.in_control_value = 0;
+            // Сбросим и отключим регулятор тока.
+            pid_i.control = CONTROL_RESET;
+            CONTROL(pid_i);
         }
 
         // Если новое состояние не предполагает управление тиристорами.

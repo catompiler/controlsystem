@@ -217,6 +217,15 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(vr_rms_Ucell);
 
     // Основные модули.
+    // Регуляторы.
+    //! ПИД тока.
+    INIT(pid_i);
+    //! Коэффициенты ПИД тока.
+    INIT(pid_coefs_i);
+    pid_i.r_kp = pid_coefs_i.out_kp;
+    pid_i.r_ki = pid_coefs_i.out_ki;
+    pid_i.r_kd = pid_coefs_i.out_kd;
+    pid_i.r_kf = pid_coefs_i.out_kf;
     // СИФУ.
     INIT(ph3c);
     // Модель 3х фазного выпрямителя.
@@ -331,6 +340,11 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Основные модули.
     DEINIT(lrm);
     DEINIT(ph3c);
+    // Регуляторы.
+    //! ПИД тока.
+    DEINIT(pid_i);
+    //! Коэффициенты ПИД тока.
+    DEINIT(pid_coefs_i);
 
     // Таймеры / счётчики.
     DEINIT(cnt_start);
@@ -718,6 +732,13 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     IDLE(adc);
     IDLE(adc_model);
     IDLE(lrm);
+    // Коэффициенты регуляторов.
+    // Тока.
+    IDLE(pid_coefs_i);
+    pid_i.r_kp = pid_coefs_i.out_kp;
+    pid_i.r_ki = pid_coefs_i.out_ki;
+    pid_i.r_kd = pid_coefs_i.out_kd;
+    pid_i.r_kf = pid_coefs_i.out_kf;
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
     IDLE(filter_Ua_zcd);
