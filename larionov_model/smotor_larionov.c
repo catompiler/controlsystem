@@ -367,10 +367,10 @@ static status_t smotor_model_update(M_smotor_larionov* lrm)
     // S = Unom * Inom.
     // -----------------
     iq15_t Wnom = motor.r_w_base / lrm->m_p; //
-    // J * w.
-    tmp = iq15_mul(lrm->p_J, Wnom);
-    // (J * w) / Unom.
-    tmp = iq15_div(tmp, motor.r_s_U_base);
+    // J / Unom.
+    tmp = iq15_div(lrm->p_J, motor.r_s_U_base);
+    // (J / Unom) * w.
+    tmp = iq15_mul(tmp, Wnom);
     // (J * w / Unom) * w.
     tmp = iq15_mul(tmp, Wnom);
     // (J * w^2 / Unom) / Inom.
