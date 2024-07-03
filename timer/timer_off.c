@@ -1,15 +1,15 @@
-#include "timer_on.h"
+#include "timer_off.h"
 
 
-METHOD_INIT_IMPL(M_timer_on, tmr)
+METHOD_INIT_IMPL(M_timer_off, tmr)
 {
 }
 
-METHOD_DEINIT_IMPL(M_timer_on, tmr)
+METHOD_DEINIT_IMPL(M_timer_off, tmr)
 {
 }
 
-METHOD_CALC_IMPL(M_timer_on, tmr)
+METHOD_CALC_IMPL(M_timer_off, tmr)
 {
     tmr->m_ed.in_value = tmr->in_value;
     CALC(tmr->m_ed);
@@ -25,17 +25,17 @@ METHOD_CALC_IMPL(M_timer_on, tmr)
         cur = FLAG_ACTIVE;
         break;
     case EDGE_DETECT_LEADING:
-        tmr->r_tmr.control = CONTROL_START;
+        tmr->r_tmr.control = CONTROL_STOP;
         //CONTROL(tmr->r_tmr);
         break;
     case EDGE_DETECT_FALLING:
-        tmr->r_tmr.control = CONTROL_STOP;
+        tmr->r_tmr.control = CONTROL_START;
         //CONTROL(tmr->r_tmr);
         break;
     }
     CALC(tmr->r_tmr);
 
-    res = (cur & tmr->r_tmr.out_expired);
+    res = (cur | ((tmr->r_tmr.status & STATUS_RUN) ? (FLAG_ACTIVE) : (FLAG_NONE)));
 
     tmr->out_value = res;
 }
