@@ -217,6 +217,10 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(vr_rms_Ucell);
 
     // Основные модули.
+    // СИФУ.
+    INIT(ph3c);
+    // Модель 3х фазного выпрямителя.
+    INIT(lrm);
     // Регуляторы.
     //! ПИД тока.
     INIT(pid_i);
@@ -226,21 +230,21 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     pid_i.r_ki = pid_coefs_i.out_ki;
     pid_i.r_kd = pid_coefs_i.out_kd;
     pid_i.r_kf = pid_coefs_i.out_kf;
-    // СИФУ.
-    INIT(ph3c);
-    // Модель 3х фазного выпрямителя.
-    INIT(lrm);
+    pid_i.r_min = ph3c.out_min_control_value;
+    pid_i.r_max = ph3c.out_max_control_value;
 
     // Состояние ячейки.
     INIT(cell_cb);
 
     // Триггеры пуска.
     // Триггер пуска по превышению током статора заданного значения.
-    INIT(thr_start_trig_I_s);
-    // Объединение критериев пуска.
-    INIT(om_start_trig);
+    INIT(thr_run_trig_I_s);
+    // Разрешение учитывания тока статора.
+    INIT(am_run_trig_I_s);
+    // Выбор условий запуска в зависимости от состояния контактов выключателя ячейки.
+    INIT(mux_run_trig);
     // Таймер включения по току статора.
-    INIT(tmr_start_trig_I_s);
+    INIT(tmr_run_trig);
 
     // Критерии подачи возбуждения.
     // Основной.
@@ -259,6 +263,10 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(thr_field_on_I_s_sync);
     INIT(tmr_field_on_I_s_sync);
     INIT(tmr_field_on_rstart_off);
+
+    // Гашение поля.
+    INIT(thr_field_supp_I_r);
+    INIT(tmr_field_supp);
 
     // Таймеры / счётчики.
     INIT(cnt_start);
@@ -349,6 +357,10 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Таймеры / счётчики.
     DEINIT(cnt_start);
 
+    // Гашение поля.
+    DEINIT(thr_field_supp_I_r);
+    DEINIT(tmr_field_supp);
+
     // Критерии подачи возбуждения.
     DEINIT(thr_prim_Slip);
     DEINIT(thr_prim_I_s);
@@ -368,11 +380,13 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
 
     // Триггеры пуска.
     // Триггер пуска по превышению током статора заданного значения.
-    DEINIT(thr_start_trig_I_s);
-    // Объединение критериев пуска.
-    DEINIT(om_start_trig);
+    DEINIT(thr_run_trig_I_s);
+    // Разрешение учитывания тока статора.
+    DEINIT(am_run_trig_I_s);
+    // Выбор условий запуска в зависимости от состояния контактов выключателя ячейки.
+    DEINIT(mux_run_trig);
     // Таймер включения по току статора.
-    DEINIT(tmr_start_trig_I_s);
+    DEINIT(tmr_run_trig);
 
     // Состояние ячейки.
     DEINIT(cell_cb);
@@ -693,7 +707,7 @@ METHOD_CALC_IMPL(M_sys_main, sys)
         sys_ctrl.control &= ~SYS_CONTROL_CONTROL_TEST;
     }
     // Включение.
-    if(tmr_start_trig_I_s.out_value == FLAG_ACTIVE){
+    if(tmr_run_trig.out_value == FLAG_ACTIVE){
         sys_ctrl.control |= SYS_CONTROL_CONTROL_RUN;
     }else{
         sys_ctrl.control &= ~SYS_CONTROL_CONTROL_RUN;
@@ -739,6 +753,10 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     pid_i.r_ki = pid_coefs_i.out_ki;
     pid_i.r_kd = pid_coefs_i.out_kd;
     pid_i.r_kf = pid_coefs_i.out_kf;
+    // СИФУ.
+    IDLE(ph3c);
+    pid_i.r_min = ph3c.out_min_control_value;
+    pid_i.r_max = ph3c.out_max_control_value;
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
     IDLE(filter_Ua_zcd);

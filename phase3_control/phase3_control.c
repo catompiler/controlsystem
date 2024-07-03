@@ -12,6 +12,12 @@ static status_t recalc_values(M_phase3_control* ph3c)
     // IQ(24) = IQ(15 + 24 - 15).
     ph3c->m_max_control_angle_pu = iq24_div(ph3c->p_max_control_angle, IQ15(360));
 
+    ph3c->out_max_control_value = IQ24(1.0);
+    ph3c->out_min_control_value = iq24_div(
+                iq24_sub(IQ24_PI_PU, ph3c->m_max_control_angle_pu),
+                iq24_sub(IQ24_PI_PU, ph3c->m_min_control_angle_pu)
+            );
+
     return res_status;
 }
 
@@ -33,12 +39,9 @@ METHOD_CALC_IMPL(M_phase3_control, ph3c)
          ph3c->in_Uca_angle_pu, (ph3c->in_Ubc_angle_pu + IQ24_PI_PU) & (IQ24_2PI_PU - 1)
     };
 
-    iq24_t control_value = CLAMP(ph3c->in_control_value, IQ24I(0), IQ24I(1));
+    iq24_t control_value = CLAMP(ph3c->in_control_value, ph3c->out_min_control_value, ph3c->out_max_control_value);
 
-    iq24_t control_angle = PHASE3_CONTROL_MAX_CONTROL_ANGLE -
-                           iq24_mul(control_value,
-                                 (PHASE3_CONTROL_MAX_CONTROL_ANGLE - PHASE3_CONTROL_MIN_CONTROL_ANGLE)
-                               );
+    iq24_t control_angle = iq24_lerp(IQ24_PI_PU, ph3c->out_min_control_value, control_value);
 
     control_angle = CLAMP(control_angle,
                           ph3c->m_min_control_angle_pu,

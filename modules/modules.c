@@ -92,9 +92,10 @@ M_valid_range3 vr_rms_Ucell = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
 
 M_cell_cb cell_cb = CELL_CB_DEFAULTS;
 
-M_threshold_gt thr_start_trig_I_s = THRESHOLD_GT_DEFCFG(IQ24(0.1));
-M_or2_mask om_start_trig = OR2_MASK_DEFCFG(3);
-M_timer_on tmr_start_trig_I_s = TIMER_ON_DEFCFG(20);
+M_threshold_gt thr_run_trig_I_s = THRESHOLD_GT_DEFCFG(IQ24(0.1));
+M_and1_mask am_run_trig_I_s = AND1_MASK_DEFCFG(1);
+M_mux2 mux_run_trig = MUX2_DEFAULTS;
+M_timer_on tmr_run_trig = TIMER_ON_DEFCFG(10);
 
 M_threshold_lt thr_prim_Slip = THRESHOLD_LT_DEFCFG(IQ24(0.05));
 M_threshold_lt thr_prim_I_s = THRESHOLD_LT_DEFCFG(IQ24(1.5));
@@ -109,6 +110,9 @@ M_timer_on tmr_field_on = TIMER_ON_DEFCFG(10);
 M_threshold_lt thr_field_on_I_s_sync = THRESHOLD_LT_DEFCFG(IQ24(0.01));
 M_timer_on tmr_field_on_I_s_sync = TIMER_ON_DEFCFG(2500);
 M_timer tmr_field_on_rstart_off = TIMER_DEFCFG(10);
+
+M_threshold_lt thr_field_supp_I_r = THRESHOLD_LT_DEFCFG(IQ24(0.01));
+M_timer tmr_field_supp = TIMER_DEFCFG(1000);
 
 M_counter cnt_start = COUNTER_DEFAULTS;
 

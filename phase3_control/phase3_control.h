@@ -45,27 +45,27 @@
 
 
 //! Минимальный угол управления, PU.
-#define PHASE3_CONTROL_MIN_CONTROL_ANGLE (IQ24_PI_PU / 3)
+//#define PHASE3_CONTROL_MIN_CONTROL_ANGLE (IQ24_PI_PU / 3)
 
 //! Максимальный угол управления, PU.
-#define PHASE3_CONTROL_MAX_CONTROL_ANGLE (IQ24_PI_PU)
+//#define PHASE3_CONTROL_MAX_CONTROL_ANGLE (IQ24_PI_PU + 2 * IQ24_PI_PU / 3)
 
 
 //! Окно для управления по-умолчанию.
 #define PHASE3_CONTROL_ANGLE_WIN_DEFAULT IQ24(1.5 / CONF_PERIOD_SAMPLES)
 
 //! Минимальный разрешённый угол для управления по-умолчанию, для 1-фазных PHC.
-#define PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT (IQ24_PI_PU / 3)
+#define PHASE3_CONTROL_MIN_ANGLE_TO_CONTROL_DEFAULT (0)
 
 //! Максимальный разрешённый угол для управления по-умолчанию, для 1-фазных PHC.
-#define PHASE3_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT (IQ24_PI_PU)
+#define PHASE3_CONTROL_MAX_ANGLE_TO_CONTROL_DEFAULT (IQ24_2PI_PU)
 
 
 //! Минимальный угол управления по-умолчанию.
 #define PHASE3_CONTROL_MIN_CONTROL_ANGLE_DEFAULT (IQ15(60))
 
 //! Максимальный угол управления по-умолчанию.
-#define PHASE3_CONTROL_MAX_CONTROL_ANGLE_DEFAULT (IQ15(180))
+#define PHASE3_CONTROL_MAX_CONTROL_ANGLE_DEFAULT (IQ15(300))
 
 
 //! Перечисление возможных бит управления.
@@ -96,6 +96,9 @@ struct _S_Phase3_Control {
     strobe_t out_control[PHASE3_CONTROL_KEYS_COUNT]; //!< Управление.
     reg_iq24_t out_control_delay_angle_pu; //!< Угол до импульса управления, в периодических единицах.
     reg_iq24_t out_control_max_duration_angle_pu; //!< Максимальная продолжительность (угол) управления, в периодических единицах.
+    // Границы значения величины управления.
+    reg_iq24_t out_min_control_value; //!< Минимальная величина управления (максимальный электрический угол коммутации).
+    reg_iq24_t out_max_control_value; //!< Максимальная величина управления (минимальный электрический угол коммутации).
     // Параметры.
     reg_iq15_t p_min_control_angle; //!< Минимальный угол управления, в электрических градусах.
     reg_iq15_t p_max_control_angle; //!< Максимальный угол управления, в электрических градусах.
@@ -132,6 +135,9 @@ EXTERN METHOD_IDLE_PROTO(M_phase3_control);
         {0}, /* out_control */\
         0, /* out_control_delay_angle */\
         0, /* out_control_max_duration_angle */\
+        /* Границы значения величины управления */\
+        0, /* out_min_control_value */\
+        0, /* out_max_control_value */\
         /* Параметры */\
         PHASE3_CONTROL_MIN_CONTROL_ANGLE_DEFAULT, /* p_min_angle_to_control */\
         PHASE3_CONTROL_MAX_CONTROL_ANGLE_DEFAULT, /* p_max_angle_to_control */\

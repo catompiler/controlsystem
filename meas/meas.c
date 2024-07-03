@@ -60,6 +60,7 @@ MEAS_METHOD_CALC_FOR_MODEL_IMPL(M_meas, meas)
     cell_U.in_C = mux_cell_U.out_C;
     CALC(cell_U);
 
+    // TODO: С ячейки приходит линейное напряжение.
     // Преобразование фазных напряжений ячейки в линейные.
     cell_U_line.in_A = cell_U.out_A;
     cell_U_line.in_B = cell_U.out_B;
@@ -343,20 +344,28 @@ static void meas_calc_start_time(M_meas* meas)
     CALC(cnt_start);
 }
 
-static void meas_calc_start_trig_I_s(M_meas* meas)
+static void meas_calc_run_trig(M_meas* meas)
 {
     // Ток статора больше порогового.
-    thr_start_trig_I_s.in_value = mean_rms_I_cell.out_value;
-    CALC(thr_start_trig_I_s);
+    thr_run_trig_I_s.in_value = mean_rms_I_cell.out_value;
+    CALC(thr_run_trig_I_s);
 
-    // Объединение условий.
-    om_start_trig.in_value[0] = (cell_cb.out_state == CELL_CB_ON) ? FLAG_ACTIVE : FLAG_NONE;
-    om_start_trig.in_value[1] = thr_start_trig_I_s.out_value;
-    CALC(om_start_trig);
+    // Разрешение учитывания тока статора.
+    am_run_trig_I_s.in_value[0] = thr_run_trig_I_s.out_value;
+    CALC(am_run_trig_I_s);
+    // Выбор условий запуска в зависимости от состояния контактов выключателя ячейки.
+    mux_run_trig.in_value[0] = am_run_trig_I_s.out_value;
+    mux_run_trig.in_value[1] = (cell_cb.out_state == CELL_CB_ON) ? FLAG_ACTIVE : FLAG_NONE;
+    if(cell_cb.out_state == CELL_CB_ON || cell_cb.out_state == CELL_CB_OFF){
+        mux_run_trig.p_sel = 1;
+    }else{
+        mux_run_trig.p_sel = 0;
+    }
+    CALC(mux_run_trig);
 
     // Таймер включения.
-    tmr_start_trig_I_s.in_value = om_start_trig.out_value;
-    CALC(tmr_start_trig_I_s);
+    tmr_run_trig.in_value = mux_run_trig.out_value;
+    CALC(tmr_run_trig);
 }
 
 static void meas_calc_field_on_conds(M_meas* meas)
@@ -401,16 +410,30 @@ static void meas_calc_field_on_conds(M_meas* meas)
     or_field_on.in_value[1] = am_sec_field_on.out_value;
     CALC(or_field_on);
 
+    // Таймер подачи возбуждения по условиям.
     tmr_field_on.in_value = or_field_on.out_value;
     CALC(tmr_field_on);
 
+    // Подача возбуждения при самопроизвольном втягивании двигателя в синхронизм.
+    // Триггер.
     thr_field_on_I_s_sync.in_value = mean_Irstart.out_value;
     CALC(thr_field_on_I_s_sync);
-
+    // Таймер.
     tmr_field_on_I_s_sync.in_value = thr_field_on_I_s_sync.out_value;
     CALC(tmr_field_on_I_s_sync);
 
+    // Таймер отключения пускового сопротивления при пуске.
     CALC(tmr_field_on_rstart_off);
+}
+
+static void meas_calc_field_supp(M_meas* meas)
+{
+    (void) meas;
+
+    thr_field_supp_I_r.in_value = mean_Iarm.out_value;
+    CALC(thr_field_supp_I_r);
+
+    CALC(tmr_field_supp);
 }
 
 /*
@@ -459,8 +482,11 @@ METHOD_CALC_IMPL(M_meas, meas)
     meas_calc_start_time(meas);
 
     // Start trig by Istator > Ithreshold.
-    meas_calc_start_trig_I_s(meas);
+    meas_calc_run_trig(meas);
 
     // Field on conditions.
     meas_calc_field_on_conds(meas);
+
+    // Field suppression.
+    meas_calc_field_supp(meas);
 }

@@ -231,13 +231,25 @@ static void FSM_state_run(M_sys_control* sys_ctrl)
 static void FSM_state_field_supp(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
+        pid_i.control = CONTROL_ENABLE;
+        ph3c.control = CONTROL_ENABLE;
+
+        tmr_field_supp.control = CONTROL_START;
+        CONTROL(tmr_field_supp);
     }
 
+    pid_i.in_ref = 0;
+    pid_i.in_fbk = mean_Iarm.out_value;
+    CALC(pid_i);
+
+    ph3c.in_control_value = pid_i.out_value;
+
     // Если поле погашено.
-    //if( /* Условие окончания гашения поля */ ){
+    if(tmr_field_supp.out_expired ||
+       thr_field_supp_I_r.out_value == FLAG_ACTIVE){
         // Перейдём в состояние "Инициализация".
         fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_INIT);
-    //}
+    }
 }
 
 static void FSM_state_error(M_sys_control* sys_ctrl)

@@ -38,6 +38,7 @@
 #include "valid_range3/valid_range3.h"
 #include "threshold/threshold_lt.h"
 #include "threshold/threshold_gt.h"
+#include "logic/and1_mask.h"
 #include "logic/and3_mask.h"
 #include "logic/or2_mask.h"
 #include "logic/or2.h"
@@ -181,13 +182,15 @@ extern M_valid_range3 vr_rms_Ucell;
 // Состояние ячейки.
 extern M_cell_cb cell_cb;
 
-// Триггеры подачи возбуждения.
+// Триггеры работы двигателя.
 // Порог превышения током статора заданного значения.
-extern M_threshold_gt thr_start_trig_I_s;
-// Объединение условий запуска.
-extern M_or2_mask om_start_trig;
+extern M_threshold_gt thr_run_trig_I_s;
+// Разрешение учитывания тока статора.
+extern M_and1_mask am_run_trig_I_s;
+// Выбор условий запуска в зависимости от состояния контактов выключателя ячейки.
+extern M_mux2 mux_run_trig;
 // Таймер до включения по порогу тока статора.
-extern M_timer_on tmr_start_trig_I_s;
+extern M_timer_on tmr_run_trig;
 
 // Подача возбуждения.
 // Основной критерий подачи возбуждения.
@@ -208,10 +211,13 @@ extern M_threshold_lt thr_sec_I_s;
 extern M_threshold_gt thr_sec_T;
 // И по маске.
 extern M_and3_mask am_sec_field_on;
+
+// Триггер пуска.
 // ИЛИ двух критериев.
 extern M_or2 or_field_on;
 // Таймер разрешения включения.
 extern M_timer_on tmr_field_on;
+
 // Порог тока ротора при втягивании ротора
 // в синхронизм без подачи возбуждения.
 extern M_threshold_lt thr_field_on_I_s_sync;
@@ -221,9 +227,16 @@ extern M_timer_on tmr_field_on_I_s_sync;
 // Таймер отключения пускового сопротивления.
 extern M_timer tmr_field_on_rstart_off;
 
+// Гашение поля.
+// Порог тока ротора, при котором гашения поля прекращается.
+extern M_threshold_lt thr_field_supp_I_r;
+// Таймер максимальной продолжительности гашения поля.
+extern M_timer tmr_field_supp;
+
 // Таймеры / счётчики.
 // Счётчик времени старта.
 extern M_counter cnt_start;
+
 
 // Фильтры.
 // Напряжения фаз для детекта перехода через ноль.
