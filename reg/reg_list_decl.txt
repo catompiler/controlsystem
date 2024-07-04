@@ -71,24 +71,27 @@ REG IC, mains_I.out_C, IQ24, NONE, CONF.I_NOM
 REG UARM, armature_U.out_value, IQ24, NONE, MOTOR.U_NOM
 REG IARM, armature_I.out_value, IQ24, NONE, MOTOR.I_NOM
 REG IRSTART, rstart_I.out_value, IQ24, NONE, MOTOR.I_NOM
-REG CELL_UA, cell_U.out_A, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UB, cell_U.out_B, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UC, cell_U.out_C, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UAB, cell_U.out_A, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UBC, cell_U.out_B, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UCA, cell_U.out_C, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UA, cell_U_phase.out_A, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UB, cell_U_phase.out_B, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UC, cell_U_phase.out_C, IQ24, NONE, MOTOR.S_U_NOM
 REG CELL_IA, cell_I.out_A, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IB, cell_I.out_B, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IC, cell_I.out_C, IQ24, NONE, MOTOR.S_I_NOM
-REG CELL_UA_LINE, cell_U_line.out_A, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UB_LINE, cell_U_line.out_B, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UC_LINE, cell_U_line.out_C, IQ24, NONE, MOTOR.S_U_NOM
 
 // Model
 GROUP MODEL, 700
 REG STATOR_UA, lrm.in_stator_Uab,  IQ24, NONE, MOTOR.S_U_NOM
 REG STATOR_UB, lrm.in_stator_Ubc,  IQ24, NONE, MOTOR.S_U_NOM
 REG STATOR_UC, lrm.in_stator_Uca,  IQ24, NONE, MOTOR.S_U_NOM
-REG STATOR_IA, lrm.out_stator_Iab, IQ24, NONE, MOTOR.S_I_NOM
-REG STATOR_IB, lrm.out_stator_Ibc, IQ24, NONE, MOTOR.S_I_NOM
-REG STATOR_IC, lrm.out_stator_Ica, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IAB, lrm.out_stator_Iab, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IBC, lrm.out_stator_Ibc, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_ICA, lrm.out_stator_Ica, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IA, lrm_I_stator_phase.out_A, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IB, lrm_I_stator_phase.out_B, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IC, lrm_I_stator_phase.out_C, IQ24, NONE, MOTOR.S_I_NOM
 REG ROTOR_U, lrm.out_U, IQ24, NONE, MOTOR.U_NOM
 REG ROTOR_I, lrm.out_I, IQ24, NONE, MOTOR.I_NOM
 REG R_START_I, lrm.out_Irstart, IQ24, NONE, MOTOR.I_NOM
@@ -153,12 +156,12 @@ REG IC, rms_Ic.out_value, IQ24, NONE, CONF.I_NOM
 REG CELL_UA, rms_cell_Ua.out_value, IQ24, NONE, MOTOR.S_U_NOM
 REG CELL_UB, rms_cell_Ub.out_value, IQ24, NONE, MOTOR.S_U_NOM
 REG CELL_UC, rms_cell_Uc.out_value, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UA_PHASE, rms_cell_Ua_phase.out_value, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UB_PHASE, rms_cell_Ub_phase.out_value, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UC_PHASE, rms_cell_Uc_phase.out_value, IQ24, NONE, MOTOR.S_U_NOM
 REG CELL_IA, rms_cell_Ia.out_value, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IB, rms_cell_Ib.out_value, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IC, rms_cell_Ic.out_value, IQ24, NONE, MOTOR.S_I_NOM
-REG CELL_UA_LINE, rms_cell_Ua_line.out_value, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UB_LINE, rms_cell_Ub_line.out_value, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UC_LINE, rms_cell_Uc_line.out_value, IQ24, NONE, MOTOR.S_U_NOM
 
 GROUP MEAN, 1500
 REG UARM,          mean_Uarm.out_value,        IQ24, NONE, MOTOR.U_NOM

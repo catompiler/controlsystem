@@ -48,7 +48,9 @@ M_zero_cross_detect zcd_slip = ZERO_CROSS_DETECT_DEFAULTS;
 // Скольжение.
 M_slip slip = SLIP_DEFAULTS;
 
-M_phase_to_line cell_U_line = PHASE_TO_LINE_DEFAULTS;
+M_delta_line_to_phase lrm_I_stator_phase = DELTA_LINE_TO_PHASE_DEFAULTS;
+
+M_star_line_to_phase cell_U_phase = STAR_LINE_TO_PHASE_DEFAULTS;
 
 M_value_3phase cell_U = VALUE_3PHASE_DEFAULTS;
 M_value_3phase cell_I = VALUE_3PHASE_DEFAULTS;
@@ -62,12 +64,12 @@ M_rms rms_Ic = RMS_DEFAULTS;
 M_rms rms_cell_Ua = RMS_DEFAULTS;
 M_rms rms_cell_Ub = RMS_DEFAULTS;
 M_rms rms_cell_Uc = RMS_DEFAULTS;
+M_rms rms_cell_Ua_phase = RMS_DEFAULTS;
+M_rms rms_cell_Ub_phase = RMS_DEFAULTS;
+M_rms rms_cell_Uc_phase = RMS_DEFAULTS;
 M_rms rms_cell_Ia = RMS_DEFAULTS;
 M_rms rms_cell_Ib = RMS_DEFAULTS;
 M_rms rms_cell_Ic = RMS_DEFAULTS;
-M_rms rms_cell_Ua_line = RMS_DEFAULTS;
-M_rms rms_cell_Ub_line = RMS_DEFAULTS;
-M_rms rms_cell_Uc_line = RMS_DEFAULTS;
 
 #if (CONF_PERIOD_SAMPLES % 6 != 0)
 M_fract_mean mean_Iarm = FRACT_MEAN_DEFAULTS;
@@ -99,16 +101,16 @@ M_timer_on tmr_run_trig = TIMER_ON_DEFCFG(10);
 
 M_threshold_lt thr_prim_Slip = THRESHOLD_LT_DEFCFG(IQ24(0.05));
 M_threshold_lt thr_prim_I_s = THRESHOLD_LT_DEFCFG(IQ24(1.5));
-M_threshold_gt thr_prim_T = THRESHOLD_GT_DEFCFG(1000);
+M_threshold_gt thr_prim_T = THRESHOLD_GT_DEFCFG(500);
 M_and3_mask am_prim_field_on = AND3_MASK_DEFCFG(7);
 M_threshold_lt thr_sec_Slip = THRESHOLD_LT_DEFCFG(IQ24(0.05));
 M_threshold_lt thr_sec_I_s = THRESHOLD_LT_DEFCFG(IQ24(2.0));
-M_threshold_gt thr_sec_T = THRESHOLD_GT_DEFCFG(10000);
+M_threshold_gt thr_sec_T = THRESHOLD_GT_DEFCFG(5000);
 M_and3_mask am_sec_field_on = AND3_MASK_DEFCFG(6);
 M_or2 or_field_on = OR2_DEFAULTS;
 M_timer_on tmr_field_on = TIMER_ON_DEFCFG(10);
-M_threshold_lt thr_field_on_I_s_sync = THRESHOLD_LT_DEFCFG(IQ24(0.01));
-M_timer_on tmr_field_on_I_s_sync = TIMER_ON_DEFCFG(2500);
+M_threshold_lt thr_field_on_I_r_sync = THRESHOLD_LT_DEFCFG(IQ24(0.01));
+M_timer_on tmr_field_on_I_r_sync = TIMER_ON_DEFCFG(2500);
 M_timer tmr_field_on_rstart_off = TIMER_DEFCFG(10);
 
 M_threshold_lt thr_field_supp_I_r = THRESHOLD_LT_DEFCFG(IQ24(0.01));

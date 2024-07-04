@@ -157,8 +157,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // 3phase value.
     INIT(cell_U);
     INIT(cell_I);
-    // Phase to line.
-    INIT(cell_U_line);
+    // Line to phase.
+    INIT(lrm_I_stator_phase);
+    INIT(cell_U_phase);
     // RMS.
     INIT(rms_Ua);
     INIT(rms_Ub);
@@ -169,12 +170,12 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(rms_cell_Ua);
     INIT(rms_cell_Ub);
     INIT(rms_cell_Uc);
+    INIT(rms_cell_Ua_phase);
+    INIT(rms_cell_Ub_phase);
+    INIT(rms_cell_Uc_phase);
     INIT(rms_cell_Ia);
     INIT(rms_cell_Ib);
     INIT(rms_cell_Ic);
-    INIT(rms_cell_Ua_line);
-    INIT(rms_cell_Ub_line);
-    INIT(rms_cell_Uc_line);
     // Mean.
     INIT(mean_Iarm);
     INIT(mean_Uarm);
@@ -260,8 +261,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Общие модули критериев.
     INIT(or_field_on);
     INIT(tmr_field_on);
-    INIT(thr_field_on_I_s_sync);
-    INIT(tmr_field_on_I_s_sync);
+    INIT(thr_field_on_I_r_sync);
+    INIT(tmr_field_on_I_r_sync);
     INIT(tmr_field_on_rstart_off);
 
     // Гашение поля.
@@ -374,8 +375,8 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Общие модули критериев.
     DEINIT(or_field_on);
     DEINIT(tmr_field_on);
-    DEINIT(thr_field_on_I_s_sync);
-    DEINIT(tmr_field_on_I_s_sync);
+    DEINIT(thr_field_on_I_r_sync);
+    DEINIT(tmr_field_on_I_r_sync);
     DEINIT(tmr_field_on_rstart_off);
 
     // Триггеры пуска.
@@ -439,15 +440,15 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(rms_Ia);
     DEINIT(rms_Ib);
     DEINIT(rms_Ic);
+    DEINIT(rms_cell_Ua_phase);
+    DEINIT(rms_cell_Ub_phase);
+    DEINIT(rms_cell_Uc_phase);
     DEINIT(rms_cell_Ua);
     DEINIT(rms_cell_Ub);
     DEINIT(rms_cell_Uc);
     DEINIT(rms_cell_Ia);
     DEINIT(rms_cell_Ib);
     DEINIT(rms_cell_Ic);
-    DEINIT(rms_cell_Ua_line);
-    DEINIT(rms_cell_Ub_line);
-    DEINIT(rms_cell_Uc_line);
     // ZCD.
     DEINIT(zcd_Ua);
     DEINIT(zcd_Ub);
@@ -456,8 +457,9 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // 3phase value.
     DEINIT(cell_U);
     DEINIT(cell_I);
-    // Phase to line.
-    DEINIT(cell_U_line);
+    // Line to phase.
+    DEINIT(cell_U_phase);
+    DEINIT(lrm_I_stator_phase);
     // Slip.
     DEINIT(slip);
     // Фазы и амплитуды.
@@ -543,12 +545,12 @@ static void FSM_state_init(M_sys_main* sys)
         rms_cell_Ua.control = CONTROL_ENABLE;
         rms_cell_Ub.control = CONTROL_ENABLE;
         rms_cell_Uc.control = CONTROL_ENABLE;
+        rms_cell_Ua_phase.control = CONTROL_ENABLE;
+        rms_cell_Ub_phase.control = CONTROL_ENABLE;
+        rms_cell_Uc_phase.control = CONTROL_ENABLE;
         rms_cell_Ia.control = CONTROL_ENABLE;
         rms_cell_Ib.control = CONTROL_ENABLE;
         rms_cell_Ic.control = CONTROL_ENABLE;
-        rms_cell_Ua_line.control = CONTROL_ENABLE;
-        rms_cell_Ub_line.control = CONTROL_ENABLE;
-        rms_cell_Uc_line.control = CONTROL_ENABLE;
     }
 
     status &= phase_ampl_Ua.status;
@@ -572,12 +574,12 @@ static void FSM_state_init(M_sys_main* sys)
     status &= rms_cell_Ua.status;
     status &= rms_cell_Ub.status;
     status &= rms_cell_Uc.status;
+    status &= rms_cell_Ua_phase.status;
+    status &= rms_cell_Ub_phase.status;
+    status &= rms_cell_Uc_phase.status;
     status &= rms_cell_Ia.status;
     status &= rms_cell_Ib.status;
     status &= rms_cell_Ic.status;
-    status &= rms_cell_Ua_line.status;
-    status &= rms_cell_Ub_line.status;
-    status &= rms_cell_Uc_line.status;
 
     if(status & STATUS_VALID){
         power_A.control = CONTROL_ENABLE;
@@ -661,9 +663,9 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     lrm.in_Ubc = mains_U.out_B;
     lrm.in_Uca = mains_U.out_C;
     lrm.in_Uref_angle = phase_ampl_Ua.out_phase;
-    lrm.in_stator_Uab = cell_U_line.out_A;
-    lrm.in_stator_Ubc = cell_U_line.out_B;
-    lrm.in_stator_Uca = cell_U_line.out_C;
+    lrm.in_stator_Uab = cell_U.out_A;
+    lrm.in_stator_Ubc = cell_U.out_B;
+    lrm.in_stator_Uca = cell_U.out_C;
     // Копирование управления.
     for(i = 0; i < PHASE3_CONTROL_KEYS_COUNT; i ++)
     { lrm.in_control[i] = ph3c.out_control[i]; }

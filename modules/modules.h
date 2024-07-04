@@ -2,6 +2,7 @@
 #define MODULES_H
 
 
+#include <phase_line/star_phase_to_line.h>
 #include "conf/conf.h"
 #include "adc/adc.h"
 #include "adc_model/adc_model.h"
@@ -27,7 +28,8 @@
 #include "phase_ampl/phase_ampl.h"
 #include "zero_cross_detect/zero_cross_detect.h"
 #include "slip/slip.h"
-#include "phase_to_line/phase_to_line.h"
+#include "phase_line/delta_line_to_phase.h"
+#include "phase_line/star_line_to_phase.h"
 #include "value_3phase/value_3phase.h"
 #include "rms/rms.h"
 #include "dc_mean/dc_mean.h"
@@ -128,7 +130,10 @@ extern M_zero_cross_detect zcd_slip;
 extern M_slip slip;
 
 // Преобразование фазных напряжений ячейки в линейные.
-extern M_phase_to_line cell_U_line;
+extern M_delta_line_to_phase lrm_I_stator_phase;
+
+// Преобразование линейных напряжений в фазные.
+extern M_star_line_to_phase cell_U_phase;
 
 // Вычисление значения одной из фаз тока и напряжения.
 extern M_value_3phase cell_U;
@@ -144,12 +149,12 @@ extern M_rms rms_Ic;
 extern M_rms rms_cell_Ua;
 extern M_rms rms_cell_Ub;
 extern M_rms rms_cell_Uc;
+extern M_rms rms_cell_Ua_phase;
+extern M_rms rms_cell_Ub_phase;
+extern M_rms rms_cell_Uc_phase;
 extern M_rms rms_cell_Ia;
 extern M_rms rms_cell_Ib;
 extern M_rms rms_cell_Ic;
-extern M_rms rms_cell_Ua_line;
-extern M_rms rms_cell_Ub_line;
-extern M_rms rms_cell_Uc_line;
 
 // Вычислители среднего.
 #if (CONF_PERIOD_SAMPLES % 6 != 0)
@@ -220,10 +225,10 @@ extern M_timer_on tmr_field_on;
 
 // Порог тока ротора при втягивании ротора
 // в синхронизм без подачи возбуждения.
-extern M_threshold_lt thr_field_on_I_s_sync;
+extern M_threshold_lt thr_field_on_I_r_sync;
 // Таймер разрешения включения
 // при втягивании в синхронизм (нет детекта отрицательной полуволны).
-extern M_timer_on tmr_field_on_I_s_sync;
+extern M_timer_on tmr_field_on_I_r_sync;
 // Таймер отключения пускового сопротивления.
 extern M_timer tmr_field_on_rstart_off;
 

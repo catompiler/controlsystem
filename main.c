@@ -259,21 +259,35 @@ int main(void)
     dlog.p_ch[29].reg_id = REG_ID_POWER_A_Q;
     dlog.p_ch[29].enabled = 1;
 
-    dlog.p_ch[30].reg_id = REG_ID_RMS_CELL_UA_LINE;
+    dlog.p_ch[30].reg_id = REG_ID_MODEL_STATOR_IAB;
     dlog.p_ch[30].enabled = 1;
-    dlog.p_ch[31].reg_id = REG_ID_RMS_CELL_UB_LINE;
+    dlog.p_ch[31].reg_id = REG_ID_MODEL_STATOR_IBC;
     dlog.p_ch[31].enabled = 1;
-    dlog.p_ch[32].reg_id = REG_ID_RMS_CELL_UC_LINE;
+    dlog.p_ch[32].reg_id = REG_ID_MODEL_STATOR_ICA;
     dlog.p_ch[32].enabled = 1;
 
-    dlog.p_ch[33].reg_id = REG_ID_POWER_FACTOR_COS_PHI;
+    dlog.p_ch[33].reg_id = REG_ID_MODEL_STATOR_IA;
     dlog.p_ch[33].enabled = 1;
-
-    dlog.p_ch[34].reg_id = REG_ID_POWER_FACTOR_SIN_PHI;
+    dlog.p_ch[34].reg_id = REG_ID_MODEL_STATOR_IB;
     dlog.p_ch[34].enabled = 1;
-
-    dlog.p_ch[35].reg_id = REG_ID_POWER_FACTOR_TAN_PHI;
+    dlog.p_ch[35].reg_id = REG_ID_MODEL_STATOR_IC;
     dlog.p_ch[35].enabled = 1;
+
+    dlog.p_ch[36].reg_id = REG_ID_POWER_FACTOR_COS_PHI;
+    dlog.p_ch[36].enabled = 1;
+
+    dlog.p_ch[37].reg_id = REG_ID_POWER_FACTOR_SIN_PHI;
+    dlog.p_ch[37].enabled = 1;
+
+    dlog.p_ch[38].reg_id = REG_ID_POWER_FACTOR_TAN_PHI;
+    dlog.p_ch[38].enabled = 1;
+
+    dlog.p_ch[39].reg_id = REG_ID_MEAS_CELL_UA;
+    dlog.p_ch[39].enabled = 1;
+    dlog.p_ch[40].reg_id = REG_ID_MEAS_CELL_UB;
+    dlog.p_ch[40].enabled = 1;
+    dlog.p_ch[41].reg_id = REG_ID_MEAS_CELL_UC;
+    dlog.p_ch[41].enabled = 1;
 
     dlog.control = CONTROL_ENABLE;
 
