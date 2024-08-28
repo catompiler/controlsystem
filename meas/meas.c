@@ -17,25 +17,25 @@ MEAS_METHOD_CALC_FOR_PHC_IMPL(M_meas, meas)
 {
     // Мультиплексор измерений напряжения.
     // Напряжение фазы A.
-    mains_U.in_A[0] = adc.out_Ua;
-    mains_U.in_A[1] = adc_model.out_Ua;
+    mux_Umains.in_A[0] = adc.out_Ua;
+    mux_Umains.in_A[1] = adc_model.out_Ua;
     // Напряжение фазы B.
-    mains_U.in_B[0] = adc.out_Ub;
-    mains_U.in_B[1] = adc_model.out_Ub;
+    mux_Umains.in_B[0] = adc.out_Ub;
+    mux_Umains.in_B[1] = adc_model.out_Ub;
     // Напряжение фазы C.
-    mains_U.in_C[0] = adc.out_Uc;
-    mains_U.in_C[1] = adc_model.out_Uc;
-    CALC(mains_U);
+    mux_Umains.in_C[0] = adc.out_Uc;
+    mux_Umains.in_C[1] = adc_model.out_Uc;
+    CALC(mux_Umains);
 
     // Фаза и амплитуда.
     // Фаза A.
-    phase_ampl_Ua.in_value = mains_U.out_A;
+    phase_ampl_Ua.in_value = mux_Umains.out_A;
     CALC(phase_ampl_Ua);
     // Фаза B.
-    phase_ampl_Ub.in_value = mains_U.out_B;
+    phase_ampl_Ub.in_value = mux_Umains.out_B;
     CALC(phase_ampl_Ub);
     // Фаза C.
-    phase_ampl_Uc.in_value = mains_U.out_C;
+    phase_ampl_Uc.in_value = mux_Umains.out_C;
     CALC(phase_ampl_Uc);
 }
 
@@ -44,21 +44,21 @@ MEAS_METHOD_CALC_FOR_MODEL_IMPL(M_meas, meas)
     // Ячейка.
     // Мультиплексор измерений напряжения.
     // Напряжение фазы A.
-    mux_cell_U.in_A[0] = adc.out_s_Ua;
-    mux_cell_U.in_A[1] = adc_model.out_s_Ua;
+    mux_Ucell.in_A[0] = adc.out_s_Ua;
+    mux_Ucell.in_A[1] = adc_model.out_s_Ua;
     // Напряжение фазы B.
-    mux_cell_U.in_B[0] = adc.out_s_Ub;
-    mux_cell_U.in_B[1] = adc_model.out_s_Ub;
+    mux_Ucell.in_B[0] = adc.out_s_Ub;
+    mux_Ucell.in_B[1] = adc_model.out_s_Ub;
     // Напряжение фазы C.
-    mux_cell_U.in_C[0] = adc.out_s_Uc;
-    mux_cell_U.in_C[1] = adc_model.out_s_Uc;
-    CALC(mux_cell_U);
+    mux_Ucell.in_C[0] = adc.out_s_Uc;
+    mux_Ucell.in_C[1] = adc_model.out_s_Uc;
+    CALC(mux_Ucell);
 
     // Вычисление напряжения одной из фаз.
-    cell_U.in_A = mux_cell_U.out_A;
-    cell_U.in_B = mux_cell_U.out_B;
-    cell_U.in_C = mux_cell_U.out_C;
-    CALC(cell_U);
+    calc_Ucell.in_A = mux_Ucell.out_A;
+    calc_Ucell.in_B = mux_Ucell.out_B;
+    calc_Ucell.in_C = mux_Ucell.out_C;
+    CALC(calc_Ucell);
 }
 
 static void meas_calc_mains(M_meas* meas)
@@ -66,76 +66,76 @@ static void meas_calc_mains(M_meas* meas)
     // Остальные мультиплексоры измерений.
     // Мультиплексоры измерений тока.
     // Ток фазы A.
-    mains_I.in_A[0] = adc.out_Ia;
-    mains_I.in_A[1] = lrm.out_Iab;
+    mux_Imains.in_A[0] = adc.out_Ia;
+    mux_Imains.in_A[1] = lrm.out_Ia;
     // Ток фазы B.
-    mains_I.in_B[0] = adc.out_Ib;
-    mains_I.in_B[1] = lrm.out_Ibc;
+    mux_Imains.in_B[0] = adc.out_Ib;
+    mux_Imains.in_B[1] = lrm.out_Ib;
     // Ток фазы C.
-    mains_I.in_C[0] = adc.out_Ic;
-    mains_I.in_C[1] = lrm.out_Ica;
-    CALC(mains_I);
+    mux_Imains.in_C[0] = adc.out_Ic;
+    mux_Imains.in_C[1] = lrm.out_Ic;
+    CALC(mux_Imains);
 
     // Вычисление выходного тока по входным токам фаз.
-    rect_curr.in_Ia = mains_I.out_A;
-    rect_curr.in_Ib = mains_I.out_B;
-    rect_curr.in_Ic = mains_I.out_C;
+    rect_curr.in_Ia = mux_Imains.out_A;
+    rect_curr.in_Ib = mux_Imains.out_B;
+    rect_curr.in_Ic = mux_Imains.out_C;
     CALC(rect_curr);
 }
 
 static void meas_calc_armature(M_meas* meas)
 {
     // Мультиплексор измерений выходного напряжения.
-    armature_U.in_value[0] = adc.out_Uarm;
-    armature_U.in_value[1] = lrm.out_U;
-    CALC(armature_U);
+    mux_Uarm.in_value[0] = adc.out_Uarm;
+    mux_Uarm.in_value[1] = lrm.out_Ufld;
+    CALC(mux_Uarm);
     // Мультиплексор измерений выходного тока.
-    armature_I.in_value[0] = rect_curr.out_I;
-    armature_I.in_value[1] = lrm.out_I;
-    armature_I.in_value[2] = adc.out_Iarm;
-    CALC(armature_I);
+    mux_Iarm.in_value[0] = rect_curr.out_I;
+    mux_Iarm.in_value[1] = lrm.out_Ifld;
+    mux_Iarm.in_value[2] = adc.out_Iarm;
+    CALC(mux_Iarm);
     // Мультиплексор измерений тока пускового сопротивления.
-    rstart_I.in_value[0] = adc.out_Ir;
-    rstart_I.in_value[1] = lrm.out_Irstart;
-    CALC(rstart_I);
+    mux_Irstart.in_value[0] = adc.out_Irstart;
+    mux_Irstart.in_value[1] = lrm.out_Irstart;
+    CALC(mux_Irstart);
 }
 
 static void meas_calc_cell(M_meas* meas)
 {
     // Из ячейки приходят линейные напряжения.
     // Преобразуем из в фазные.
-    cell_U_phase.in_A = cell_U.out_A;
-    cell_U_phase.in_B = cell_U.out_B;
-    cell_U_phase.in_C = cell_U.out_C;
-    CALC(cell_U_phase);
+    phase_Ucell.in_A = calc_Ucell.out_A;
+    phase_Ucell.in_B = calc_Ucell.out_B;
+    phase_Ucell.in_C = calc_Ucell.out_C;
+    CALC(phase_Ucell);
 
 
     // Модель отдаёт линейные токи,
     // а в ячейке измеряются фазные.
     // Преобразование линейных токов в фазные.
-    lrm_I_stator_phase.in_A = lrm.out_stator_Iab;
-    lrm_I_stator_phase.in_B = lrm.out_stator_Ibc;
-    lrm_I_stator_phase.in_C = lrm.out_stator_Ica;
-    CALC(lrm_I_stator_phase);
+    phase_lrm_I_stator.in_A = lrm.out_stator_Ia;
+    phase_lrm_I_stator.in_B = lrm.out_stator_Ib;
+    phase_lrm_I_stator.in_C = lrm.out_stator_Ic;
+    CALC(phase_lrm_I_stator);
 
     // Ячейка.
     // Мультиплексоры измерений тока.
     // Ток фазы A.
-    mux_cell_I.in_A[0] = adc.out_s_Ia;
-    mux_cell_I.in_A[1] = lrm_I_stator_phase.out_A;
+    mux_Icell.in_A[0] = adc.out_s_Ia;
+    mux_Icell.in_A[1] = phase_lrm_I_stator.out_A;
     // Ток фазы B.
-    mux_cell_I.in_B[0] = adc.out_s_Ib;
-    mux_cell_I.in_B[1] = lrm_I_stator_phase.out_B;
+    mux_Icell.in_B[0] = adc.out_s_Ib;
+    mux_Icell.in_B[1] = phase_lrm_I_stator.out_B;
     // Ток фазы C.
-    mux_cell_I.in_C[0] = adc.out_s_Ic;
-    mux_cell_I.in_C[1] = lrm_I_stator_phase.out_C;
-    CALC(mux_cell_I);
+    mux_Icell.in_C[0] = adc.out_s_Ic;
+    mux_Icell.in_C[1] = phase_lrm_I_stator.out_C;
+    CALC(mux_Icell);
 
     // Вычисление тока одной из фаз.
-    cell_I.in_A = mux_cell_I.out_A;
-    cell_I.in_B = mux_cell_I.out_B;
-    cell_I.in_C = mux_cell_I.out_C;
-    CALC(cell_I);
+    calc_Icell.in_A = mux_Icell.out_A;
+    calc_Icell.in_B = mux_Icell.out_B;
+    calc_Icell.in_C = mux_Icell.out_C;
+    CALC(calc_Icell);
 }
 
 static void meas_calc_mains_freq(M_meas* meas)
@@ -151,30 +151,30 @@ static void meas_calc_mains_freq(M_meas* meas)
     // Основной ввод.
     // Фаза A.
     // Фильтр напряжения.
-    filter_Ua_zcd.in_value = mains_U.out_A;
-    CALC(filter_Ua_zcd);
+    filter_zcd_Ua.in_value = mux_Umains.out_A;
+    CALC(filter_zcd_Ua);
     // Детект нуля.
-    zcd_Ua.in_value = filter_Ua_zcd.out_value;
+    zcd_Ua.in_value = filter_zcd_Ua.out_value;
     CALC(zcd_Ua);
     // Фильтр частоты.
     filter_freq_Ua.in_value = zcd_Ua.out_freq;
     CALC(filter_freq_Ua);
     // Фаза B.
     // Фильтр напряжения.
-    filter_Ub_zcd.in_value = mains_U.out_B;
-    CALC(filter_Ub_zcd);
+    filter_zcd_Ub.in_value = mux_Umains.out_B;
+    CALC(filter_zcd_Ub);
     // Детект нуля.
-    zcd_Ub.in_value = filter_Ub_zcd.out_value;
+    zcd_Ub.in_value = filter_zcd_Ub.out_value;
     CALC(zcd_Ub);
     // Фильтр частоты.
     filter_freq_Ub.in_value = zcd_Ub.out_freq;
     CALC(filter_freq_Ub);
     // Фаза C.
     // Фильтр напряжения.
-    filter_Uc_zcd.in_value = mains_U.out_C;
-    CALC(filter_Uc_zcd);
+    filter_zcd_Uc.in_value = mux_Umains.out_C;
+    CALC(filter_zcd_Uc);
     // Детект нуля.
-    zcd_Uc.in_value = filter_Uc_zcd.out_value;
+    zcd_Uc.in_value = filter_zcd_Uc.out_value;
     CALC(zcd_Uc);
     // Фильтр частоты.
     filter_freq_Uc.in_value = zcd_Uc.out_freq;
@@ -185,15 +185,15 @@ static void meas_calc_slip(M_meas* meas)
 {
     // Скольжение.
     // Мультиплексор используемого значения.
-    mux_slip.in_value[0] = rstart_I.out_value;
-    mux_slip.in_value[1] = armature_U.out_value;
+    mux_slip.in_value[0] = mux_Irstart.out_value;
+    mux_slip.in_value[1] = mux_Uarm.out_value;
     CALC(mux_slip);
     // Ток пускового сопротивления.
     // Фильтр значения.
-    filter_slip_zcd.in_value = mux_slip.out_value;
-    CALC(filter_slip_zcd);
+    filter_zcd_slip.in_value = mux_slip.out_value;
+    CALC(filter_zcd_slip);
     // Детект нуля.
-    zcd_slip.in_value = filter_slip_zcd.out_value;
+    zcd_slip.in_value = filter_zcd_slip.out_value;
     CALC(zcd_slip);
     // Фильтр частоты.
     filter_freq_slip.in_value = zcd_slip.out_freq;
@@ -209,23 +209,23 @@ static void meas_calc_rms_mains(M_meas* meas)
     // Основной ввод.
     // Напряжения.
     // Фаза A.
-    rms_Ua.in_value = mains_U.out_A;
+    rms_Ua.in_value = mux_Umains.out_A;
     CALC(rms_Ua);
     // Фаза B.
-    rms_Ub.in_value = mains_U.out_B;
+    rms_Ub.in_value = mux_Umains.out_B;
     CALC(rms_Ub);
     // Фаза C.
-    rms_Uc.in_value = mains_U.out_C;
+    rms_Uc.in_value = mux_Umains.out_C;
     CALC(rms_Uc);
     // Токи.
     // Фаза A.
-    rms_Ia.in_value = mains_I.out_A;
+    rms_Ia.in_value = mux_Imains.out_A;
     CALC(rms_Ia);
     // Фаза B.
-    rms_Ib.in_value = mains_I.out_B;
+    rms_Ib.in_value = mux_Imains.out_B;
     CALC(rms_Ib);
     // Фаза C.
-    rms_Ic.in_value = mains_I.out_C;
+    rms_Ic.in_value = mux_Imains.out_C;
     CALC(rms_Ic);
 }
 
@@ -235,59 +235,59 @@ static void meas_calc_rms_cell(M_meas* meas)
     // Ячейка.
     // Линейные напряжения.
     // Фаза A.
-    rms_cell_Ua.in_value = cell_U.out_A;
+    rms_cell_Ua.in_value = calc_Ucell.out_A;
     CALC(rms_cell_Ua);
     // Фаза B.
-    rms_cell_Ub.in_value = cell_U.out_B;
+    rms_cell_Ub.in_value = calc_Ucell.out_B;
     CALC(rms_cell_Ub);
     // Фаза C.
-    rms_cell_Uc.in_value = cell_U.out_C;
+    rms_cell_Uc.in_value = calc_Ucell.out_C;
     CALC(rms_cell_Uc);
     // Фазные напряжения.
     // Фаза A.
-    rms_cell_Ua_phase.in_value = cell_U_phase.out_A;
+    rms_cell_Ua_phase.in_value = phase_Ucell.out_A;
     CALC(rms_cell_Ua_phase);
     // Фаза B.
-    rms_cell_Ub_phase.in_value = cell_U_phase.out_B;
+    rms_cell_Ub_phase.in_value = phase_Ucell.out_B;
     CALC(rms_cell_Ub_phase);
     // Фаза C.
-    rms_cell_Uc_phase.in_value = cell_U_phase.out_C;
+    rms_cell_Uc_phase.in_value = phase_Ucell.out_C;
     CALC(rms_cell_Uc_phase);
     // Токи.
     // Фаза A.
-    rms_cell_Ia.in_value = cell_I.out_A;
+    rms_cell_Ia.in_value = calc_Icell.out_A;
     CALC(rms_cell_Ia);
     // Фаза B.
-    rms_cell_Ib.in_value = cell_I.out_B;
+    rms_cell_Ib.in_value = calc_Icell.out_B;
     CALC(rms_cell_Ib);
     // Фаза C.
-    rms_cell_Ic.in_value = cell_I.out_C;
+    rms_cell_Ic.in_value = calc_Icell.out_C;
     CALC(rms_cell_Ic);
 
     // Среднее значение действующих значений токов ячейки.
-    mean_rms_I_cell.in_value[0] = rms_cell_Ia.out_value;
-    mean_rms_I_cell.in_value[1] = rms_cell_Ib.out_value;
-    mean_rms_I_cell.in_value[2] = rms_cell_Ic.out_value;
-    CALC(mean_rms_I_cell);
+    mean_rms_Icell.in_value[0] = rms_cell_Ia.out_value;
+    mean_rms_Icell.in_value[1] = rms_cell_Ib.out_value;
+    mean_rms_Icell.in_value[2] = rms_cell_Ic.out_value;
+    CALC(mean_rms_Icell);
 }
 
 static void meas_calc_mean_armature(M_meas* meas)
 {
     // Среднее.
     // Выходной ток.
-    mean_Iarm.in_value = armature_I.out_value;
+    mean_Iarm.in_value = mux_Iarm.out_value;
     CALC(mean_Iarm);
     // Фильтр выходного тока.
     filter_mean_Iarm.in_value = mean_Iarm.out_value;
     CALC(filter_mean_Iarm);
     // Выходное напряжение.
-    mean_Uarm.in_value = armature_U.out_value;
+    mean_Uarm.in_value = mux_Uarm.out_value;
     CALC(mean_Uarm);
     // Фильтр выходного напряжения.
     filter_mean_Uarm.in_value = mean_Uarm.out_value;
     CALC(filter_mean_Uarm);
     // Ток пускового сопротивления.
-    mean_Irstart.in_value = rstart_I.out_value;
+    mean_Irstart.in_value = mux_Irstart.out_value;
     CALC(mean_Irstart);
     // Фильтр тока пускового сопротивления.
     filter_mean_Irstart.in_value = mean_Irstart.out_value;
@@ -298,27 +298,24 @@ static void meas_calc_power(M_meas* meas)
 {
     // Мощности статора.
     // Фаза A.
-    power_A.in_U = cell_U_phase.out_A;
-    power_A.in_I = cell_I.out_A;
+    power_A.in_U = phase_Ucell.out_A;
+    power_A.in_I = calc_Icell.out_A;
     power_A.in_rms_U = rms_cell_Ua_phase.out_value;
     power_A.in_rms_I = rms_cell_Ia.out_value;
     CALC(power_A);
     // Фаза B.
-    power_B.in_U = cell_U_phase.out_B;
-    power_B.in_I = cell_I.out_B;
+    power_B.in_U = phase_Ucell.out_B;
+    power_B.in_I = calc_Icell.out_B;
     power_B.in_rms_U = rms_cell_Ub_phase.out_value;
     power_B.in_rms_I = rms_cell_Ib.out_value;
     CALC(power_B);
     // Фаза A.
-    power_C.in_U = cell_U_phase.out_C;
-    power_C.in_I = cell_I.out_C;
+    power_C.in_U = phase_Ucell.out_C;
+    power_C.in_I = calc_Icell.out_C;
     power_C.in_rms_U = rms_cell_Uc_phase.out_value;
     power_C.in_rms_I = rms_cell_Ic.out_value;
     CALC(power_C);
-}
 
-static void meas_calc_power_factor(M_meas* meas)
-{
     // Коэффициент мощности.
     power_factor.in_S = power_A.out_S + power_B.out_S + power_C.out_S;
     power_factor.in_P = power_A.out_P + power_B.out_P + power_C.out_P;
@@ -356,7 +353,7 @@ static void meas_calc_start_time(M_meas* meas)
 static void meas_calc_run_trig(M_meas* meas)
 {
     // Ток статора больше порогового.
-    thr_run_trig_I_s.in_value = mean_rms_I_cell.out_value;
+    thr_run_trig_I_s.in_value = mean_rms_Icell.out_value;
     CALC(thr_run_trig_I_s);
 
     // Разрешение учитывания тока статора.
@@ -380,7 +377,7 @@ static void meas_calc_run_trig(M_meas* meas)
 static void meas_calc_field_on_conds(M_meas* meas)
 {
     // Ток статора для условий пуска.
-    iq24_t I_stator = mean_rms_I_cell.out_value;
+    iq24_t I_stator = mean_rms_Icell.out_value;
 
     // Основное условие пуска.
     // Порог скольжения.
@@ -478,11 +475,8 @@ METHOD_CALC_IMPL(M_meas, meas)
     // Mean.
     meas_calc_mean_armature(meas);
 
-    // Power.
+    // Power and power factor.
     meas_calc_power(meas);
-
-    // Power factor.
-    meas_calc_power_factor(meas);
 
     // Valid ranges.
     meas_calc_valid_ranges(meas);

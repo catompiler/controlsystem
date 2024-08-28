@@ -1081,9 +1081,9 @@ static void smotor_model_calc(M_smotor_larionov* lrm)
     lrm->m_clarke_inv.in_A = lrm->m_Isa;
     lrm->m_clarke_inv.in_B = lrm->m_Isb;
     CALC(lrm->m_clarke_inv);
-    lrm->out_stator_Iab = lrm->m_clarke_inv.out_A;
-    lrm->out_stator_Ibc = lrm->m_clarke_inv.out_B;
-    lrm->out_stator_Ica = lrm->m_clarke_inv.out_C;
+    lrm->out_stator_Ia = lrm->m_clarke_inv.out_A;
+    lrm->out_stator_Ib = lrm->m_clarke_inv.out_B;
+    lrm->out_stator_Ic = lrm->m_clarke_inv.out_C;
 
     lrm->out_M = lrm->m_M;
     lrm->out_w = lrm->m_w;
@@ -1092,9 +1092,9 @@ static void smotor_model_calc(M_smotor_larionov* lrm)
     lrm->m_I_load = lrm->m_Irect;
 
     // Напряжение нагрузки переводится в с.е. двигателя.
-    lrm->out_U = iq24_mul(lrm->m_U_load, lrm->m_rfpu_k_U_rf2mt);
+    lrm->out_Ufld = iq24_mul(lrm->m_U_load, lrm->m_rfpu_k_U_rf2mt);
     // Ток нагрузки переводится в с.е. двигателя.
-    lrm->out_I = iq24_mul(lrm->m_I_load, lrm->m_rfpu_k_I_rf2mt);
+    lrm->out_Ifld = iq24_mul(lrm->m_I_load, lrm->m_rfpu_k_I_rf2mt);
     // Ток пускового сопротивления переводится в с.е. двигателя.
     lrm->out_Irstart = iq24_mul(lrm->m_Irstart, lrm->m_rfpu_k_I_rf2mt);
 
@@ -1299,9 +1299,9 @@ static void smotor_larionov_update_currents_and_state(M_smotor_larionov* lrm)
 // Обновляет выходные переменные.
 static void smotor_larionov_update_outputs(M_smotor_larionov* lrm)
 {
-    lrm->out_Iab = lrm->m_scrs_I[SMOTOR_LARIONOV_A_HI] - lrm->m_scrs_I[SMOTOR_LARIONOV_A_LO];
-    lrm->out_Ibc = lrm->m_scrs_I[SMOTOR_LARIONOV_B_HI] - lrm->m_scrs_I[SMOTOR_LARIONOV_B_LO];
-    lrm->out_Ica = lrm->m_scrs_I[SMOTOR_LARIONOV_C_HI] - lrm->m_scrs_I[SMOTOR_LARIONOV_C_LO];
+    lrm->out_Ia = lrm->m_scrs_I[SMOTOR_LARIONOV_A_HI] - lrm->m_scrs_I[SMOTOR_LARIONOV_A_LO];
+    lrm->out_Ib = lrm->m_scrs_I[SMOTOR_LARIONOV_B_HI] - lrm->m_scrs_I[SMOTOR_LARIONOV_B_LO];
+    lrm->out_Ic = lrm->m_scrs_I[SMOTOR_LARIONOV_C_HI] - lrm->m_scrs_I[SMOTOR_LARIONOV_C_LO];
 
     // Эти значения присваиваются в
     // smotor_model_calc
@@ -1350,13 +1350,13 @@ static void smotor_larionov_calc(M_smotor_larionov* lrm)
             smotor_larionov_set_states(lrm->m_control, lrm->in_control);
 
             lrm->m_control_delay_angle = lrm->in_control_delay_angle;
-            lrm->m_control_ref_Uab = lrm->in_Uab;
-            lrm->m_control_ref_Ubc = lrm->in_Ubc;
-            lrm->m_control_ref_Uca = lrm->in_Uca;
+            lrm->m_control_ref_Uab = lrm->in_Ua;
+            lrm->m_control_ref_Ubc = lrm->in_Ub;
+            lrm->m_control_ref_Uca = lrm->in_Uc;
 
-            lrm->m_control_ref_stator_Uab = lrm->in_stator_Uab;
-            lrm->m_control_ref_stator_Ubc = lrm->in_stator_Ubc;
-            lrm->m_control_ref_stator_Uca = lrm->in_stator_Uca;
+            lrm->m_control_ref_stator_Uab = lrm->in_stator_Ua;
+            lrm->m_control_ref_stator_Ubc = lrm->in_stator_Ub;
+            lrm->m_control_ref_stator_Uca = lrm->in_stator_Uc;
 
             lrm->m_control_ref_angle = lrm->in_Uref_angle;
         }
@@ -1381,13 +1381,13 @@ static void smotor_larionov_calc(M_smotor_larionov* lrm)
             }else if(has_control == 0){
                 // Иначе сохраним текущий момент как опорный.
                 lrm->m_control_delay_angle = lrm->m_control_delay_angle - control_da;
-                lrm->m_control_ref_Uab = lrm->in_Uab;
-                lrm->m_control_ref_Ubc = lrm->in_Ubc;
-                lrm->m_control_ref_Uca = lrm->in_Uca;
+                lrm->m_control_ref_Uab = lrm->in_Ua;
+                lrm->m_control_ref_Ubc = lrm->in_Ub;
+                lrm->m_control_ref_Uca = lrm->in_Uc;
 
-                lrm->m_control_ref_stator_Uab = lrm->in_stator_Uab;
-                lrm->m_control_ref_stator_Ubc = lrm->in_stator_Ubc;
-                lrm->m_control_ref_stator_Uca = lrm->in_stator_Uca;
+                lrm->m_control_ref_stator_Uab = lrm->in_stator_Ua;
+                lrm->m_control_ref_stator_Ubc = lrm->in_stator_Ub;
+                lrm->m_control_ref_stator_Uca = lrm->in_stator_Uc;
 
                 lrm->m_control_ref_angle = lrm->in_Uref_angle;
             }
@@ -1417,13 +1417,13 @@ static void smotor_larionov_calc(M_smotor_larionov* lrm)
                 // Установим текущий угол.
                 lrm->m_cur_Uref_angle = lrm->m_control_ref_angle + lrm->m_control_delay_angle;
                 // Проинтерполируем напряжения к моменту подачи управления.
-                lrm->m_cur_Uab = iq24_lerp(lrm->m_control_ref_Uab, lrm->in_Uab, dt_ratio);
-                lrm->m_cur_Ubc = iq24_lerp(lrm->m_control_ref_Ubc, lrm->in_Ubc, dt_ratio);
-                lrm->m_cur_Uca = iq24_lerp(lrm->m_control_ref_Uca, lrm->in_Uca, dt_ratio);
+                lrm->m_cur_Uab = iq24_lerp(lrm->m_control_ref_Uab, lrm->in_Ua, dt_ratio);
+                lrm->m_cur_Ubc = iq24_lerp(lrm->m_control_ref_Ubc, lrm->in_Ub, dt_ratio);
+                lrm->m_cur_Uca = iq24_lerp(lrm->m_control_ref_Uca, lrm->in_Uc, dt_ratio);
 
-                lrm->m_cur_stator_Uab = iq24_lerp(lrm->m_control_ref_stator_Uab, lrm->in_stator_Uab, dt_ratio);
-                lrm->m_cur_stator_Ubc = iq24_lerp(lrm->m_control_ref_stator_Ubc, lrm->in_stator_Ubc, dt_ratio);
-                lrm->m_cur_stator_Uca = iq24_lerp(lrm->m_control_ref_stator_Uca, lrm->in_stator_Uca, dt_ratio);
+                lrm->m_cur_stator_Uab = iq24_lerp(lrm->m_control_ref_stator_Uab, lrm->in_stator_Ua, dt_ratio);
+                lrm->m_cur_stator_Ubc = iq24_lerp(lrm->m_control_ref_stator_Ubc, lrm->in_stator_Ub, dt_ratio);
+                lrm->m_cur_stator_Uca = iq24_lerp(lrm->m_control_ref_stator_Uca, lrm->in_stator_Uc, dt_ratio);
 
                 smotor_larionov_sim(lrm);
 
@@ -1440,13 +1440,13 @@ static void smotor_larionov_calc(M_smotor_larionov* lrm)
             // Установим текущий угол.
             lrm->m_cur_Uref_angle = lrm->in_Uref_angle;
             // Устновим текущие значения напряжений.
-            lrm->m_cur_Uab = lrm->in_Uab;
-            lrm->m_cur_Ubc = lrm->in_Ubc;
-            lrm->m_cur_Uca = lrm->in_Uca;
+            lrm->m_cur_Uab = lrm->in_Ua;
+            lrm->m_cur_Ubc = lrm->in_Ub;
+            lrm->m_cur_Uca = lrm->in_Uc;
 
-            lrm->m_cur_stator_Uab = lrm->in_stator_Uab;
-            lrm->m_cur_stator_Ubc = lrm->in_stator_Ubc;
-            lrm->m_cur_stator_Uca = lrm->in_stator_Uca;
+            lrm->m_cur_stator_Uab = lrm->in_stator_Ua;
+            lrm->m_cur_stator_Ubc = lrm->in_stator_Ub;
+            lrm->m_cur_stator_Uca = lrm->in_stator_Uc;
 
             // Симуляция модели.
             smotor_larionov_sim(lrm);

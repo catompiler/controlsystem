@@ -188,7 +188,7 @@ static void FSM_state_start(M_sys_control* sys_ctrl)
     if(tmr_field_on.out_value == FLAG_ACTIVE){
         // Если значение величины для определения скольжения отрицательно
         // либо согласно тока двигатель сам втянулся в синхронизм.
-        if(filter_slip_zcd.out_value < 0 || tmr_field_on_I_r_sync.out_value == FLAG_ACTIVE){
+        if(filter_zcd_slip.out_value < 0 || tmr_field_on_I_r_sync.out_value == FLAG_ACTIVE){
             // Выключим пусковое сопротивление.
             sys_ctrl->out_command &= ~SYS_CONTROL_COMMAND_R_START_ON;
 

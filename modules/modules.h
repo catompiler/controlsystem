@@ -99,19 +99,19 @@ extern M_rect_curr rect_curr;
 
 // Мультиплексоры измерений.
 //! Мультиплексор измерений входных напряжений.
-extern M_mux_abc mains_U;
+extern M_mux_abc mux_Umains;
 //! Мультиплексор измерений входных токов.
-extern M_mux_abc mains_I;
+extern M_mux_abc mux_Imains;
 //! Мультиплексор измерений выходного напряжения.
-extern M_mux2 armature_U;
+extern M_mux2 mux_Uarm;
 //! Мультиплексор измерений выходного тока.
-extern M_mux3 armature_I;
+extern M_mux3 mux_Iarm;
 //! Мультиплексор измерений тока пускового сопротивления.
-extern M_mux2 rstart_I;
+extern M_mux2 mux_Irstart;
 //! Мультиплексор измерений напряжений ячейки.
-extern M_mux_abc mux_cell_U;
+extern M_mux_abc mux_Ucell;
 //! Мультиплексор измерений токов ячейки.
-extern M_mux_abc mux_cell_I;
+extern M_mux_abc mux_Icell;
 //! Мультиплексор скольжения.
 extern M_mux2 mux_slip;
 
@@ -130,14 +130,14 @@ extern M_zero_cross_detect zcd_slip;
 extern M_slip slip;
 
 // Преобразование фазных напряжений ячейки в линейные.
-extern M_delta_line_to_phase lrm_I_stator_phase;
+extern M_delta_line_to_phase phase_lrm_I_stator;
 
 // Преобразование линейных напряжений в фазные.
-extern M_star_line_to_phase cell_U_phase;
+extern M_star_line_to_phase phase_Ucell;
 
 // Вычисление значения одной из фаз тока и напряжения.
-extern M_value_3phase cell_U;
-extern M_value_3phase cell_I;
+extern M_value_3phase calc_Ucell;
+extern M_value_3phase calc_Icell;
 
 // Вычислители RMS.
 extern M_rms rms_Ua;
@@ -166,7 +166,7 @@ extern M_dc_mean mean_Iarm;
 extern M_dc_mean mean_Uarm;
 extern M_dc_mean mean_Irstart;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
-extern M_mean3 mean_rms_I_cell;
+extern M_mean3 mean_rms_Icell;
 
 // Вычислители мощности.
 extern M_power power_A;
@@ -245,10 +245,10 @@ extern M_counter cnt_start;
 
 // Фильтры.
 // Напряжения фаз для детекта перехода через ноль.
-extern M_filter1 filter_Ua_zcd;
-extern M_filter1 filter_Ub_zcd;
-extern M_filter1 filter_Uc_zcd;
-extern M_filter1 filter_slip_zcd;
+extern M_filter1 filter_zcd_Ua;
+extern M_filter1 filter_zcd_Ub;
+extern M_filter1 filter_zcd_Uc;
+extern M_filter1 filter_zcd_slip;
 // Частота фаз.
 extern M_filter1 filter_freq_Ua;
 extern M_filter1 filter_freq_Ub;

@@ -296,16 +296,16 @@ int main(void)
     adc_model.in_F_scale = IQ24(0.0);
 
     // meas muxes sel to models.
-    mains_U.p_sel = 1;
-    mains_I.p_sel = 1;
-    armature_U.p_sel = 1;
-    armature_I.p_sel = 1;
-    rstart_I.p_sel = 1;
-    mux_cell_U.p_sel = 1;
-    mux_cell_I.p_sel = 1;
+    mux_Umains.p_sel = 1;
+    mux_Imains.p_sel = 1;
+    mux_Uarm.p_sel = 1;
+    mux_Iarm.p_sel = 1;
+    mux_Irstart.p_sel = 1;
+    mux_Ucell.p_sel = 1;
+    mux_Icell.p_sel = 1;
     mux_slip.p_sel = 0;
-    cell_U.p_sel = 0;
-    cell_I.p_sel = 0;
+    calc_Ucell.p_sel = 0;
+    calc_Icell.p_sel = 0;
 
     INIT(sys);
 

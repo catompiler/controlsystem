@@ -34,9 +34,9 @@ METHOD_CALC_IMPL(M_phase3_control, ph3c)
 {
     // [ AB, AC, BC, BA, CA, CB ]
     iq24_t angles_values[PHASE3_CONTROL_KEYS_COUNT] = {
-         ph3c->in_Uab_angle_pu, (ph3c->in_Uca_angle_pu + IQ24_PI_PU) & (IQ24_2PI_PU - 1),
-         ph3c->in_Ubc_angle_pu, (ph3c->in_Uab_angle_pu + IQ24_PI_PU) & (IQ24_2PI_PU - 1),
-         ph3c->in_Uca_angle_pu, (ph3c->in_Ubc_angle_pu + IQ24_PI_PU) & (IQ24_2PI_PU - 1)
+         ph3c->in_Ua_angle, (ph3c->in_Uc_angle + IQ24_PI_PU) & (IQ24_2PI_PU - 1),
+         ph3c->in_Ub_angle, (ph3c->in_Ua_angle + IQ24_PI_PU) & (IQ24_2PI_PU - 1),
+         ph3c->in_Uc_angle, (ph3c->in_Ub_angle + IQ24_PI_PU) & (IQ24_2PI_PU - 1)
     };
 
     iq24_t control_value = CLAMP(ph3c->in_control_value, ph3c->out_min_control_value, ph3c->out_max_control_value);
@@ -94,8 +94,8 @@ METHOD_CALC_IMPL(M_phase3_control, ph3c)
             ph3c->out_control[self_index] = STROBE_ACTIVE;
             ph3c->out_control[pair_index] = STROBE_ACTIVE;
 
-            ph3c->out_control_delay_angle_pu = control_delay_angle;
-            ph3c->out_control_max_duration_angle_pu = control_duration_angle;
+            ph3c->out_control_delay_angle = control_delay_angle;
+            ph3c->out_control_max_duration_angle = control_duration_angle;
         }
     } //in_enable
 }

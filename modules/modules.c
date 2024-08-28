@@ -27,13 +27,13 @@ M_meas meas = MEAS_DEFAULTS;
 
 M_rect_curr rect_curr = RECT_CURR_DEFAULTS;
 
-M_mux_abc mains_U = MUX_ABC_DEFAULTS;
-M_mux_abc mains_I = MUX_ABC_DEFAULTS;
-M_mux2 armature_U = MUX2_DEFAULTS;
-M_mux3 armature_I = MUX3_DEFAULTS;
-M_mux2 rstart_I = MUX2_DEFAULTS;
-M_mux_abc mux_cell_U = MUX_ABC_DEFAULTS;
-M_mux_abc mux_cell_I = MUX_ABC_DEFAULTS;
+M_mux_abc mux_Umains = MUX_ABC_DEFAULTS;
+M_mux_abc mux_Imains = MUX_ABC_DEFAULTS;
+M_mux2 mux_Uarm = MUX2_DEFAULTS;
+M_mux3 mux_Iarm = MUX3_DEFAULTS;
+M_mux2 mux_Irstart = MUX2_DEFAULTS;
+M_mux_abc mux_Ucell = MUX_ABC_DEFAULTS;
+M_mux_abc mux_Icell = MUX_ABC_DEFAULTS;
 M_mux2 mux_slip = MUX2_DEFAULTS;
 
 M_phase_ampl phase_ampl_Ua = PHASE_AMPL_DEFAULTS;
@@ -48,12 +48,12 @@ M_zero_cross_detect zcd_slip = ZERO_CROSS_DETECT_DEFAULTS;
 // Скольжение.
 M_slip slip = SLIP_DEFAULTS;
 
-M_delta_line_to_phase lrm_I_stator_phase = DELTA_LINE_TO_PHASE_DEFAULTS;
+M_delta_line_to_phase phase_lrm_I_stator = DELTA_LINE_TO_PHASE_DEFAULTS;
 
-M_star_line_to_phase cell_U_phase = STAR_LINE_TO_PHASE_DEFAULTS;
+M_star_line_to_phase phase_Ucell = STAR_LINE_TO_PHASE_DEFAULTS;
 
-M_value_3phase cell_U = VALUE_3PHASE_DEFAULTS;
-M_value_3phase cell_I = VALUE_3PHASE_DEFAULTS;
+M_value_3phase calc_Ucell = VALUE_3PHASE_DEFAULTS;
+M_value_3phase calc_Icell = VALUE_3PHASE_DEFAULTS;
 
 M_rms rms_Ua = RMS_DEFAULTS;
 M_rms rms_Ub = RMS_DEFAULTS;
@@ -80,7 +80,7 @@ M_dc_mean mean_Iarm = DC_MEAN_DEFAULTS;
 M_dc_mean mean_Uarm = DC_MEAN_DEFAULTS;
 M_dc_mean mean_Irstart = DC_MEAN_DEFAULTS;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
-M_mean3 mean_rms_I_cell = MEAN3_DEFAULTS;
+M_mean3 mean_rms_Icell = MEAN3_DEFAULTS;
 
 M_power power_A = POWER_DEFAULTS;
 M_power power_B = POWER_DEFAULTS;
@@ -118,10 +118,10 @@ M_timer tmr_field_supp = TIMER_DEFCFG(1000);
 
 M_counter cnt_start = COUNTER_DEFAULTS;
 
-M_filter1 filter_Ua_zcd = FILTER1_DEFCFG(IQ24(0.01)); // 100 Hz.
-M_filter1 filter_Ub_zcd = FILTER1_DEFCFG(IQ24(0.01));
-M_filter1 filter_Uc_zcd = FILTER1_DEFCFG(IQ24(0.01));
-M_filter1 filter_slip_zcd = FILTER1_DEFCFG(IQ24(0.001));
+M_filter1 filter_zcd_Ua = FILTER1_DEFCFG(IQ24(0.01)); // 100 Hz.
+M_filter1 filter_zcd_Ub = FILTER1_DEFCFG(IQ24(0.01));
+M_filter1 filter_zcd_Uc = FILTER1_DEFCFG(IQ24(0.01));
+M_filter1 filter_zcd_slip = FILTER1_DEFCFG(IQ24(0.001));
 
 M_filter1 filter_freq_Ua = FILTER1_DEFCFG(IQ24(0.04)); // 2 periods.
 M_filter1 filter_freq_Ub = FILTER1_DEFCFG(IQ24(0.04));

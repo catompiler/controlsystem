@@ -62,47 +62,47 @@ REG UC_OFFSET, adc.p_Uc_offset, U32, CONF
 
 // Measurement
 GROUP MEAS, 500
-REG UA, mains_U.out_A, IQ24, NONE, CONF.U_NOM
-REG UB, mains_U.out_B, IQ24, NONE, CONF.U_NOM
-REG UC, mains_U.out_C, IQ24, NONE, CONF.U_NOM
-REG IA, mains_I.out_A, IQ24, NONE, CONF.I_NOM
-REG IB, mains_I.out_B, IQ24, NONE, CONF.I_NOM
-REG IC, mains_I.out_C, IQ24, NONE, CONF.I_NOM
-REG UARM, armature_U.out_value, IQ24, NONE, MOTOR.U_NOM
-REG IARM, armature_I.out_value, IQ24, NONE, MOTOR.I_NOM
-REG IRSTART, rstart_I.out_value, IQ24, NONE, MOTOR.I_NOM
-REG CELL_UAB, cell_U.out_A, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UBC, cell_U.out_B, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UCA, cell_U.out_C, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UA, cell_U_phase.out_A, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UB, cell_U_phase.out_B, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_UC, cell_U_phase.out_C, IQ24, NONE, MOTOR.S_U_NOM
-REG CELL_IA, cell_I.out_A, IQ24, NONE, MOTOR.S_I_NOM
-REG CELL_IB, cell_I.out_B, IQ24, NONE, MOTOR.S_I_NOM
-REG CELL_IC, cell_I.out_C, IQ24, NONE, MOTOR.S_I_NOM
+REG UA, mux_Umains.out_A, IQ24, NONE, CONF.U_NOM
+REG UB, mux_Umains.out_B, IQ24, NONE, CONF.U_NOM
+REG UC, mux_Umains.out_C, IQ24, NONE, CONF.U_NOM
+REG IA, mux_Imains.out_A, IQ24, NONE, CONF.I_NOM
+REG IB, mux_Imains.out_B, IQ24, NONE, CONF.I_NOM
+REG IC, mux_Imains.out_C, IQ24, NONE, CONF.I_NOM
+REG UARM, mux_Uarm.out_value, IQ24, NONE, MOTOR.U_NOM
+REG IARM, mux_Iarm.out_value, IQ24, NONE, MOTOR.I_NOM
+REG IRSTART, mux_Irstart.out_value, IQ24, NONE, MOTOR.I_NOM
+REG CELL_UAB, mux_Ucell.out_A, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UBC, mux_Ucell.out_B, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UCA, mux_Ucell.out_C, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UA, phase_Ucell.out_A, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UB, phase_Ucell.out_B, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_UC, phase_Ucell.out_C, IQ24, NONE, MOTOR.S_U_NOM
+REG CELL_IA, mux_Icell.out_A, IQ24, NONE, MOTOR.S_I_NOM
+REG CELL_IB, mux_Icell.out_B, IQ24, NONE, MOTOR.S_I_NOM
+REG CELL_IC, mux_Icell.out_C, IQ24, NONE, MOTOR.S_I_NOM
 
 // Model
 GROUP MODEL, 700
-REG STATOR_UA, lrm.in_stator_Uab,  IQ24, NONE, MOTOR.S_U_NOM
-REG STATOR_UB, lrm.in_stator_Ubc,  IQ24, NONE, MOTOR.S_U_NOM
-REG STATOR_UC, lrm.in_stator_Uca,  IQ24, NONE, MOTOR.S_U_NOM
-REG STATOR_IAB, lrm.out_stator_Iab, IQ24, NONE, MOTOR.S_I_NOM
-REG STATOR_IBC, lrm.out_stator_Ibc, IQ24, NONE, MOTOR.S_I_NOM
-REG STATOR_ICA, lrm.out_stator_Ica, IQ24, NONE, MOTOR.S_I_NOM
-REG STATOR_IA, lrm_I_stator_phase.out_A, IQ24, NONE, MOTOR.S_I_NOM
-REG STATOR_IB, lrm_I_stator_phase.out_B, IQ24, NONE, MOTOR.S_I_NOM
-REG STATOR_IC, lrm_I_stator_phase.out_C, IQ24, NONE, MOTOR.S_I_NOM
-REG ROTOR_U, lrm.out_U, IQ24, NONE, MOTOR.U_NOM
-REG ROTOR_I, lrm.out_I, IQ24, NONE, MOTOR.I_NOM
+REG STATOR_UA, lrm.in_stator_Ua,  IQ24, NONE, MOTOR.S_U_NOM
+REG STATOR_UB, lrm.in_stator_Ub,  IQ24, NONE, MOTOR.S_U_NOM
+REG STATOR_UC, lrm.in_stator_Uc,  IQ24, NONE, MOTOR.S_U_NOM
+REG STATOR_IAB, lrm.out_stator_Ia, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IBC, lrm.out_stator_Ib, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_ICA, lrm.out_stator_Ic, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IA, phase_lrm_I_stator.out_A, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IB, phase_lrm_I_stator.out_B, IQ24, NONE, MOTOR.S_I_NOM
+REG STATOR_IC, phase_lrm_I_stator.out_C, IQ24, NONE, MOTOR.S_I_NOM
+REG ROTOR_U, lrm.out_Ufld, IQ24, NONE, MOTOR.U_NOM
+REG ROTOR_I, lrm.out_Ifld, IQ24, NONE, MOTOR.I_NOM
 REG R_START_I, lrm.out_Irstart, IQ24, NONE, MOTOR.I_NOM
 REG MOTOR_M, lrm.out_M, IQ24, NONE, MOTOR.S_M_NOM
 REG MOTOR_W, lrm.out_w, IQ24, NONE, MOTOR.F_NOM
-REG RECTIFIER_UA, lrm.in_Uab,  IQ24, NONE, CONF.U_NOM
-REG RECTIFIER_UB, lrm.in_Ubc,  IQ24, NONE, CONF.U_NOM
-REG RECTIFIER_UC, lrm.in_Uca,  IQ24, NONE, CONF.U_NOM
-REG RECTIFIER_IA, lrm.out_Iab, IQ24, NONE, CONF.I_NOM
-REG RECTIFIER_IB, lrm.out_Ibc, IQ24, NONE, CONF.I_NOM
-REG RECTIFIER_IC, lrm.out_Ica, IQ24, NONE, CONF.I_NOM
+REG RECTIFIER_UA, lrm.in_Ua,  IQ24, NONE, CONF.U_NOM
+REG RECTIFIER_UB, lrm.in_Ub,  IQ24, NONE, CONF.U_NOM
+REG RECTIFIER_UC, lrm.in_Uc,  IQ24, NONE, CONF.U_NOM
+REG RECTIFIER_IA, lrm.out_Ia, IQ24, NONE, CONF.I_NOM
+REG RECTIFIER_IB, lrm.out_Ib, IQ24, NONE, CONF.I_NOM
+REG RECTIFIER_IC, lrm.out_Ic, IQ24, NONE, CONF.I_NOM
 
 // Phase and Amplitude.
 GROUP PHASE_AMPL, 1000
@@ -116,20 +116,20 @@ REG UC_AMPL,   phase_ampl_Uc.out_ampl,  IQ24, NONE
 
 GROUP LINE_FREQ, 1200
 // Phase A.
-REG UA_FILTER_T,      filter_Ua_zcd.p_T,        IQ24, CONF, NONE
-REG UA_FILT,          filter_Ua_zcd.out_value,  IQ24, NONE, MOTOR.U_NOM
+REG UA_FILTER_T,      filter_zcd_Ua.p_T,        IQ24, CONF, NONE
+REG UA_FILT,          filter_zcd_Ua.out_value,  IQ24, NONE, MOTOR.U_NOM
 REG UA_FREQ,          zcd_Ua.out_freq,          IQ24, NONE, NONE
 REG UA_FREQ_FILTER_T, filter_freq_Ua.p_T,       IQ24, CONF, NONE
 REG UA_FREQ_FILT,     filter_freq_Ua.out_value, IQ24, NONE, NONE
 // Phase B.
-REG UB_FILTER_T,      filter_Ub_zcd.p_T,        IQ24, CONF, NONE
-REG UB_FILT,          filter_Ub_zcd.out_value,  IQ24, NONE, MOTOR.U_NOM
+REG UB_FILTER_T,      filter_zcd_Ub.p_T,        IQ24, CONF, NONE
+REG UB_FILT,          filter_zcd_Ub.out_value,  IQ24, NONE, MOTOR.U_NOM
 REG UB_FREQ,          zcd_Ub.out_freq,          IQ24, NONE, NONE
 REG UB_FREQ_FILTER_T, filter_freq_Ub.p_T,       IQ24, CONF, NONE
 REG UB_FREQ_FILT,     filter_freq_Ub.out_value, IQ24, NONE, NONE
 // Phase C.
-REG UC_FILTER_T,      filter_Uc_zcd.p_T,        IQ24, CONF, NONE
-REG UC_FILT,          filter_Uc_zcd.out_value,  IQ24, NONE, MOTOR.U_NOM
+REG UC_FILTER_T,      filter_zcd_Uc.p_T,        IQ24, CONF, NONE
+REG UC_FILT,          filter_zcd_Uc.out_value,  IQ24, NONE, MOTOR.U_NOM
 REG UC_FREQ,          zcd_Uc.out_freq,          IQ24, NONE, NONE
 REG UC_FREQ_FILTER_T, filter_freq_Uc.p_T,       IQ24, CONF, NONE
 REG UC_FREQ_FILT,     filter_freq_Uc.out_value, IQ24, NONE, NONE
@@ -137,8 +137,8 @@ REG UC_FREQ_FILT,     filter_freq_Uc.out_value, IQ24, NONE, NONE
 
 GROUP ARM_FREQ, 1250
 // I r start.
-REG IRSTART_FILTER_T,      filter_slip_zcd.p_T,        IQ24, CONF, NONE
-REG IRSTART_FILT,          filter_slip_zcd.out_value,  IQ24, NONE, MOTOR.I_NOM
+REG IRSTART_FILTER_T,      filter_zcd_slip.p_T,        IQ24, CONF, NONE
+REG IRSTART_FILT,          filter_zcd_slip.out_value,  IQ24, NONE, MOTOR.I_NOM
 REG IRSTART_FREQ,          zcd_slip.out_freq,          IQ24, NONE, NONE
 REG IRSTART_FREQ_FILTER_T, filter_freq_slip.p_T,       IQ24, CONF, NONE
 REG IRSTART_FREQ_FILT,     filter_freq_slip.out_value, IQ24, NONE, NONE

@@ -94,18 +94,18 @@ struct _S_Smotor_Larionov {
     warning_t warnings; //!< Слово предупреждений.
     // Входные данные.
     // Выпрямитель.
-    reg_iq24_t in_Uab; // Напряжение фазы AB.
-    reg_iq24_t in_Ubc; // Напряжение фазы BC.
-    reg_iq24_t in_Uca; // Напряжение фазы CA.
+    reg_iq24_t in_Ua; // Напряжение фазы AB.
+    reg_iq24_t in_Ub; // Напряжение фазы BC.
+    reg_iq24_t in_Uc; // Напряжение фазы CA.
     reg_iq24_t in_Uref_angle; // Угол опорной фазы, в относительных единицах, [0; 2*pi).
     strobe_t in_control[SMOTOR_LARIONOV_KEYS_COUNT]; // Управление.
     reg_iq24_t in_control_delay_angle; // Угол до импульса управления, в относительных единицах.
     reg_iq24_t in_control_duration_angle; // Продолжительность (угол) управления, в относительных единицах.
     reg_iq24_t in_dt; // Интервал времени между вычислениями для вычисления модели.
     // СД.
-    reg_iq24_t in_stator_Uab; // Напряжение статора СД фазы AB.
-    reg_iq24_t in_stator_Ubc; // Напряжение статора СД фазы BC.
-    reg_iq24_t in_stator_Uca; // Напряжение статора СД фазы CA.
+    reg_iq24_t in_stator_Ua; // Напряжение статора СД фазы AB.
+    reg_iq24_t in_stator_Ub; // Напряжение статора СД фазы BC.
+    reg_iq24_t in_stator_Uc; // Напряжение статора СД фазы CA.
     flag_t in_stator_on; // Флаг коммутации обмотки статора.
     // Цепь пускового сопротивления.
     flag_t in_start_r_on; // Наличие сигнала управляющего на тиристорах.
@@ -113,17 +113,17 @@ struct _S_Smotor_Larionov {
     reg_iq24_t in_k_Mc; // Масштабирование заданного момента сопротивления вращения на валу.
     // Выходные данные.
     // Выпрямитель.
-    reg_iq24_t out_Iab; // Ток фазы AB.
-    reg_iq24_t out_Ibc; // Ток фазы BC.
-    reg_iq24_t out_Ica; // Ток фазы CA.
-    reg_iq24_t out_U; // Выходное напряжение.
-    reg_iq24_t out_I; // Выходной ток.
+    reg_iq24_t out_Ia; // Ток фазы AB.
+    reg_iq24_t out_Ib; // Ток фазы BC.
+    reg_iq24_t out_Ic; // Ток фазы CA.
+    reg_iq24_t out_Ufld; // Выходное напряжение.
+    reg_iq24_t out_Ifld; // Выходной ток.
     // СД.
     reg_iq24_t out_M; // Момент двигателя.
     reg_iq24_t out_w; // Угловая скорость двигателя.
-    reg_iq24_t out_stator_Iab; // Ток фазы AB.
-    reg_iq24_t out_stator_Ibc; // Ток фазы BC.
-    reg_iq24_t out_stator_Ica; // Ток фазы CA.
+    reg_iq24_t out_stator_Ia; // Ток фазы AB.
+    reg_iq24_t out_stator_Ib; // Ток фазы BC.
+    reg_iq24_t out_stator_Ic; // Ток фазы CA.
     // Цепь пускового сопротивления.
     reg_iq24_t out_Irstart; // Ток пускового сопротивления.
     // Параметры.

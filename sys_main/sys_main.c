@@ -133,13 +133,13 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(rect_curr);
 
     // Мультиплексоры измерений.
-    INIT(mains_U);
-    INIT(mains_I);
-    INIT(armature_U);
-    INIT(armature_I);
-    INIT(rstart_I);
-    INIT(mux_cell_U);
-    INIT(mux_cell_I);
+    INIT(mux_Umains);
+    INIT(mux_Imains);
+    INIT(mux_Uarm);
+    INIT(mux_Iarm);
+    INIT(mux_Irstart);
+    INIT(mux_Ucell);
+    INIT(mux_Icell);
     INIT(mux_slip);
 
     // Вычислительные модули.
@@ -155,11 +155,11 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Slip.
     INIT(slip);
     // 3phase value.
-    INIT(cell_U);
-    INIT(cell_I);
+    INIT(calc_Ucell);
+    INIT(calc_Icell);
     // Line to phase.
-    INIT(lrm_I_stator_phase);
-    INIT(cell_U_phase);
+    INIT(phase_lrm_I_stator);
+    INIT(phase_Ucell);
     // RMS.
     INIT(rms_Ua);
     INIT(rms_Ub);
@@ -180,7 +180,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(mean_Iarm);
     INIT(mean_Uarm);
     INIT(mean_Irstart);
-    INIT(mean_rms_I_cell);
+    INIT(mean_rms_Icell);
     // Power.
     INIT(power_A);
     INIT(power_B);
@@ -190,10 +190,10 @@ METHOD_INIT_IMPL(M_sys_main, sys)
 
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
-    INIT(filter_Ua_zcd);
-    INIT(filter_Ub_zcd);
-    INIT(filter_Uc_zcd);
-    INIT(filter_slip_zcd);
+    INIT(filter_zcd_Ua);
+    INIT(filter_zcd_Ub);
+    INIT(filter_zcd_Uc);
+    INIT(filter_zcd_slip);
     // Фильтры частоты фаз.
     INIT(filter_freq_Ua);
     INIT(filter_freq_Ub);
@@ -407,10 +407,10 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
 
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
-    DEINIT(filter_Ua_zcd);
-    DEINIT(filter_Ub_zcd);
-    DEINIT(filter_Uc_zcd);
-    DEINIT(filter_slip_zcd);
+    DEINIT(filter_zcd_Ua);
+    DEINIT(filter_zcd_Ub);
+    DEINIT(filter_zcd_Uc);
+    DEINIT(filter_zcd_slip);
     // Фильтры частоты фаз.
     DEINIT(filter_freq_Ua);
     DEINIT(filter_freq_Ub);
@@ -429,7 +429,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(power_B);
     DEINIT(power_C);
     // Mean.
-    DEINIT(mean_rms_I_cell);
+    DEINIT(mean_rms_Icell);
     DEINIT(mean_Irstart);
     DEINIT(mean_Uarm);
     DEINIT(mean_Iarm);
@@ -455,11 +455,11 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(zcd_Uc);
     DEINIT(zcd_slip);
     // 3phase value.
-    DEINIT(cell_U);
-    DEINIT(cell_I);
+    DEINIT(calc_Ucell);
+    DEINIT(calc_Icell);
     // Line to phase.
-    DEINIT(cell_U_phase);
-    DEINIT(lrm_I_stator_phase);
+    DEINIT(phase_Ucell);
+    DEINIT(phase_lrm_I_stator);
     // Slip.
     DEINIT(slip);
     // Фазы и амплитуды.
@@ -469,13 +469,13 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
 
     // Мультиплексоры измерений.
     DEINIT(mux_slip);
-    DEINIT(mux_cell_U);
-    DEINIT(mux_cell_I);
-    DEINIT(armature_U);
-    DEINIT(armature_I);
-    DEINIT(rstart_I);
-    DEINIT(mains_U);
-    DEINIT(mains_I);
+    DEINIT(mux_Ucell);
+    DEINIT(mux_Icell);
+    DEINIT(mux_Uarm);
+    DEINIT(mux_Iarm);
+    DEINIT(mux_Irstart);
+    DEINIT(mux_Umains);
+    DEINIT(mux_Imains);
 
     // Вычислитель выходного тока по входным токам фаз.
     DEINIT(rect_curr);
@@ -649,9 +649,9 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     MEAS_CALC_FOR_PHC(meas);
 
     // СИФУ.
-    ph3c.in_Uab_angle_pu = phase_ampl_Ua.out_phase;
-    ph3c.in_Ubc_angle_pu = phase_ampl_Ub.out_phase;
-    ph3c.in_Uca_angle_pu = phase_ampl_Uc.out_phase;
+    ph3c.in_Ua_angle = phase_ampl_Ua.out_phase;
+    ph3c.in_Ub_angle = phase_ampl_Ub.out_phase;
+    ph3c.in_Uc_angle = phase_ampl_Uc.out_phase;
     CALC(ph3c);
 
     // Вычисление измерений напряжения ячейки
@@ -659,18 +659,18 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     MEAS_CALC_FOR_MODEL(meas);
 
     // Модель 3х фазного выпрямителя.
-    lrm.in_Uab = mains_U.out_A;
-    lrm.in_Ubc = mains_U.out_B;
-    lrm.in_Uca = mains_U.out_C;
+    lrm.in_Ua = mux_Umains.out_A;
+    lrm.in_Ub = mux_Umains.out_B;
+    lrm.in_Uc = mux_Umains.out_C;
     lrm.in_Uref_angle = phase_ampl_Ua.out_phase;
-    lrm.in_stator_Uab = cell_U.out_A;
-    lrm.in_stator_Ubc = cell_U.out_B;
-    lrm.in_stator_Uca = cell_U.out_C;
+    lrm.in_stator_Ua = calc_Ucell.out_A;
+    lrm.in_stator_Ub = calc_Ucell.out_B;
+    lrm.in_stator_Uc = calc_Ucell.out_C;
     // Копирование управления.
     for(i = 0; i < PHASE3_CONTROL_KEYS_COUNT; i ++)
     { lrm.in_control[i] = ph3c.out_control[i]; }
-    lrm.in_control_delay_angle = ph3c.out_control_delay_angle_pu;
-    lrm.in_control_duration_angle = ph3c.out_control_max_duration_angle_pu;
+    lrm.in_control_delay_angle = ph3c.out_control_delay_angle;
+    lrm.in_control_duration_angle = ph3c.out_control_max_duration_angle;
     lrm.in_start_r_on = (sys_stat.in_command & SYS_STATUS_COMMAND_R_START_ON) ? FLAG_ACTIVE : FLAG_NONE;
     CALC(lrm);
 
@@ -761,10 +761,10 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     pid_i.r_max = ph3c.out_max_control_value;
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
-    IDLE(filter_Ua_zcd);
-    IDLE(filter_Ub_zcd);
-    IDLE(filter_Uc_zcd);
-    IDLE(filter_slip_zcd);
+    IDLE(filter_zcd_Ua);
+    IDLE(filter_zcd_Ub);
+    IDLE(filter_zcd_Uc);
+    IDLE(filter_zcd_slip);
     // Фильтры частоты фаз.
     IDLE(filter_freq_Ua);
     IDLE(filter_freq_Ub);
