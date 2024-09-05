@@ -176,35 +176,20 @@ static void FSM_state_test(M_sys_control* sys_ctrl)
 static void FSM_state_start(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
-        // Включим пусковое сопротивление.
-        sys_ctrl->out_command |= SYS_CONTROL_COMMAND_R_START_ON;
-
         // Запустим счётчик времени пуска.
         cnt_start.control = CONTROL_START;
         CONTROL(cnt_start);
     }
 
-    // Если сработал какой-либо критерий подачи возбуждения.
-    if(tmr_field_on.out_value == FLAG_ACTIVE){
-        // Если значение величины для определения скольжения отрицательно
-        // либо согласно тока двигатель сам втянулся в синхронизм.
-        if(filter_zcd_slip.out_value < 0 || tmr_field_on_I_r_sync.out_value == FLAG_ACTIVE){
-            // Выключим пусковое сопротивление.
-            sys_ctrl->out_command &= ~SYS_CONTROL_COMMAND_R_START_ON;
-
-            // Запустим таймер отключения пускового сопротивления.
-            if(!(tmr_field_on_rstart_off.out_expired) && !(tmr_field_on_rstart_off.status & STATUS_RUN)){
-                tmr_field_on_rstart_off.control = CONTROL_START;
-                CONTROL(tmr_field_on_rstart_off);
-            }
-
-            // Если время ожидания отключения пускового сопротивления вышло.
-            if(tmr_field_on_rstart_off.out_expired){
-                // Перейдём в состояние "Работа".
-                fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_RUN);
-            }
-        }
+    // Если время ожидания отключения пускового сопротивления вышло.
+    if(tmr_field_on_rstart_off.out_value == FLAG_ACTIVE){
+        // Остановим счётчик времени пуска.
+        cnt_start.control = CONTROL_STOP;
+        CONTROL(cnt_start);
+        // Перейдём в состояние "Работа".
+        fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_RUN);
     }
+
 }
 
 static void FSM_state_run(M_sys_control* sys_ctrl)
@@ -290,47 +275,44 @@ static void FSM_pre_state(M_sys_control* sys_ctrl)
 //! После обработки состояний.
 static void FSM_post_state(M_sys_control* sys_ctrl)
 {
-    fsm_state_t state = fsm_state(&sys_ctrl->fsm_state);
+    //fsm_state_t state = fsm_state(&sys_ctrl->fsm_state);
     fsm_state_t cur_state = fsm_cur_state(&sys_ctrl->fsm_state);
 
-    // Если произошёл переход в другое состояние.
-    if(cur_state != state){
-        // Если это не состояние запуска.
-        if(state != SYS_CONTROL_STATE_START){
-            // Отключить пусковое сопротивление.
-            sys_ctrl->out_command &= ~SYS_CONTROL_COMMAND_NONE;
 
-            // Остановить счётчик времени пуска.
-            cnt_start.control = CONTROL_STOP;
-            CONTROL(cnt_start);
+    // Пусковое сопротивление.
+    if(and_rstart_on.out_value == FLAG_ACTIVE){
+        sys_ctrl->out_command |= SYS_CONTROL_COMMAND_R_START_ON;
+    }else{
+        sys_ctrl->out_command &= ~SYS_CONTROL_COMMAND_R_START_ON;
+    }
 
-            // Остановим таймер отключения пускового сопротивления.
-            tmr_field_on_rstart_off.control = CONTROL_STOP;
-            CONTROL(tmr_field_on_rstart_off);
-        }
-        // Если это не состояние работы, опробования и гашения поля.
-        if(state != SYS_CONTROL_STATE_RUN &&
-           state != SYS_CONTROL_STATE_FIELD_SUPP &&
-           state != SYS_CONTROL_STATE_TEST){
-            // Сбросим и отключим СИФУ.
-            ph3c.control = CONTROL_NONE;
-            ph3c.in_control_value = 0;
-            // Сбросим и отключим регулятор тока.
-            pid_i.control = CONTROL_RESET;
-            CONTROL(pid_i);
-        }
 
-        // Если новое состояние не предполагает управление тиристорами.
-        if(state != SYS_CONTROL_STATE_START &&
-           state != SYS_CONTROL_STATE_RUN &&
-           state != SYS_CONTROL_STATE_TEST &&
-           state != SYS_CONTROL_STATE_FIELD_SUPP){
-            //TODO: Переместить разрешение работы тиристоров в sys_main.
-            // Отключим управление тиристорами.
-            ph3c.control &= ~CONTROL_ENABLE;
-            // Сбросим задание.
-            ph3c.in_control_value = 0;
-        }
+    // Включение / выключение модулей в зависимости от состояния.
+    switch(cur_state){
+    case SYS_CONTROL_STATE_NONE:
+        break;
+    case SYS_CONTROL_STATE_INIT:
+        break;
+    case SYS_CONTROL_STATE_CHECK:
+        break;
+    case SYS_CONTROL_STATE_IDLE:
+        break;
+    case SYS_CONTROL_STATE_READY:
+        break;
+    case SYS_CONTROL_STATE_TEST:
+        break;
+    case SYS_CONTROL_STATE_START:
+        break;
+    case SYS_CONTROL_STATE_RUN:
+        break;
+    case SYS_CONTROL_STATE_FIELD_FORCE:
+        break;
+    case SYS_CONTROL_STATE_FIELD_SUPP:
+        break;
+    case SYS_CONTROL_STATE_ERROR:
+        break;
+    default:
+        break;
     }
 }
 

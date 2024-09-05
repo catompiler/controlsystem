@@ -427,9 +427,48 @@ static void meas_calc_field_on_conds(M_meas* meas)
     // Таймер.
     tmr_field_on_I_r_sync.in_value = thr_field_on_I_r_sync.out_value;
     CALC(tmr_field_on_I_r_sync);
+}
 
-    // Таймер отключения пускового сопротивления при пуске.
+static void meas_calc_start_exc(M_meas* meas)
+{
+    (void) meas;
+
+    // Цепочка завершения запуска и переход к подаче возбуждения.
+
+    // Компаратор отрицательного значения величины для определения скольжения.
+    cmp_value_for_slip_lt_zero.in_A = filter_zcd_slip.out_value;
+    cmp_value_for_slip_lt_zero.in_B = 0;
+    CALC(cmp_value_for_slip_lt_zero);
+
+    // Величина для определения меньше нуля ИЛИ ротор сам втянулся в синхронизм.
+    or_value_slip_lt_zero_I_r_sync.in_value[0] = cmp_value_for_slip_lt_zero.out_value;
+    or_value_slip_lt_zero_I_r_sync.in_value[1] = tmr_field_on_I_r_sync.out_value;
+    CALC(or_value_slip_lt_zero_I_r_sync);
+
+    // Нужно подавать возбуждение И можно открывать тиристоры.
+    and_ready_to_exc.in_value[0] = tmr_field_on.out_value;
+    and_ready_to_exc.in_value[1] = or_value_slip_lt_zero_I_r_sync.out_value;
+    CALC(and_ready_to_exc);
+
+    // Таймер отключения пускового сопротивления.
+    tmr_field_on_rstart_off.in_value = and_ready_to_exc.out_value;
     CALC(tmr_field_on_rstart_off);
+
+    // Цепочка управления пусковым сопротивлением.
+
+    // НЕ готовность подачи возбуждения.
+    not_ready_to_exc.in_value = and_ready_to_exc.out_value;
+    CALC(not_ready_to_exc);
+
+    // Компаратор состояния системы управления.
+    cmp_ctrl_state_is_start.in_A = fsm_state(&sys_ctrl.fsm_state);
+    cmp_ctrl_state_is_start.in_B = SYS_CONTROL_STATE_START;
+    CALC(cmp_ctrl_state_is_start);
+
+    // Включение пускового сопротивления == Не готов к подаче возбуждения И запуск.
+    and_rstart_on.in_value[0] = not_ready_to_exc.out_value;
+    and_rstart_on.in_value[1] = cmp_ctrl_state_is_start.out_value;
+    CALC(and_rstart_on);
 }
 
 static void meas_calc_field_supp(M_meas* meas)
@@ -489,6 +528,9 @@ METHOD_CALC_IMPL(M_meas, meas)
 
     // Field on conditions.
     meas_calc_field_on_conds(meas);
+
+    // Field start.
+    meas_calc_start_exc(meas);
 
     // Field suppression.
     meas_calc_field_supp(meas);

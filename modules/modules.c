@@ -111,7 +111,14 @@ M_or2 or_field_on = OR2_DEFAULTS;
 M_timer_on tmr_field_on = TIMER_ON_DEFCFG(10);
 M_threshold_lt thr_field_on_I_r_sync = THRESHOLD_LT_DEFCFG(IQ24(0.01));
 M_timer_on tmr_field_on_I_r_sync = TIMER_ON_DEFCFG(2500);
-M_timer tmr_field_on_rstart_off = TIMER_DEFCFG(10);
+
+M_comp_lt cmp_value_for_slip_lt_zero = COMP_LT_DEFAULTS;
+M_or2 or_value_slip_lt_zero_I_r_sync = OR2_DEFAULTS;
+M_and2 and_ready_to_exc = AND2_DEFAULTS;
+M_timer_on tmr_field_on_rstart_off = TIMER_ON_DEFCFG(10);
+M_not not_ready_to_exc = NOT_DEFAULTS;
+M_comp_eq cmp_ctrl_state_is_start = COMP_EQ_DEFAULTS;
+M_and2 and_rstart_on = AND2_DEFAULTS;
 
 M_threshold_lt thr_field_supp_I_r = THRESHOLD_LT_DEFCFG(IQ24(0.01));
 M_timer tmr_field_supp = TIMER_DEFCFG(1000);

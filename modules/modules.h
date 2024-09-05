@@ -40,10 +40,14 @@
 #include "valid_range3/valid_range3.h"
 #include "threshold/threshold_lt.h"
 #include "threshold/threshold_gt.h"
+#include "comp/comp_lt.h"
+#include "comp/comp_eq.h"
 #include "logic/and1_mask.h"
 #include "logic/and3_mask.h"
+#include "logic/and2.h"
 #include "logic/or2_mask.h"
 #include "logic/or2.h"
+#include "logic/not.h"
 #include "cell_cb/cell_cb.h"
 #include "phase3_control/phase3_control.h"
 #include "larionov_model/smotor_larionov.h"
@@ -223,14 +227,30 @@ extern M_or2 or_field_on;
 // Таймер разрешения включения.
 extern M_timer_on tmr_field_on;
 
+// Цепочка завершения запуска и переход к подаче возбуждения.
+// Компаратор отрицательного значения величины для определения скольжения.
+extern M_comp_lt cmp_value_for_slip_lt_zero;
+// Величина для определения меньше нуля ИЛИ ротор сам втянулся в синхронизм.
+extern M_or2 or_value_slip_lt_zero_I_r_sync;
+// Нужно подавать возбуждение И можно открывать тиристоры.
+extern M_and2 and_ready_to_exc; // and_field_on_slip_sync
+// Таймер отключения пускового сопротивления.
+extern M_timer_on tmr_field_on_rstart_off;
+// Цепочка управления пусковым сопротивлением.
+// НЕ готовность подачи возбуждения.
+extern M_not not_ready_to_exc;
+// Компаратор состояния системы управления.
+extern M_comp_eq cmp_ctrl_state_is_start;
+// Включение пускового сопротивления == Не готов к подаче возбуждения И запуск.
+extern M_and2 and_rstart_on;
+
+
 // Порог тока ротора при втягивании ротора
 // в синхронизм без подачи возбуждения.
 extern M_threshold_lt thr_field_on_I_r_sync;
 // Таймер разрешения включения
 // при втягивании в синхронизм (нет детекта отрицательной полуволны).
 extern M_timer_on tmr_field_on_I_r_sync;
-// Таймер отключения пускового сопротивления.
-extern M_timer tmr_field_on_rstart_off;
 
 // Гашение поля.
 // Порог тока ротора, при котором гашения поля прекращается.

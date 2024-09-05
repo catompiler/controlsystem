@@ -2,6 +2,7 @@
 #include "modules/modules.h"
 #include "defs/defs.h"
 #include <assert.h>
+#include <stdbool.h>
 //#include <sys/time.h>
 //#include <stdio.h>
 
@@ -263,7 +264,14 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(tmr_field_on);
     INIT(thr_field_on_I_r_sync);
     INIT(tmr_field_on_I_r_sync);
+    // Модули старта подачи возбуждения.
+    INIT(cmp_value_for_slip_lt_zero);
+    INIT(or_value_slip_lt_zero_I_r_sync);
+    INIT(and_ready_to_exc);
     INIT(tmr_field_on_rstart_off);
+    INIT(not_ready_to_exc);
+    INIT(cmp_ctrl_state_is_start);
+    INIT(and_rstart_on);
 
     // Гашение поля.
     INIT(thr_field_supp_I_r);
@@ -377,7 +385,14 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(tmr_field_on);
     DEINIT(thr_field_on_I_r_sync);
     DEINIT(tmr_field_on_I_r_sync);
+    // Модули старта подачи возбуждения.
+    DEINIT(cmp_value_for_slip_lt_zero);
+    DEINIT(or_value_slip_lt_zero_I_r_sync);
+    DEINIT(and_ready_to_exc);
     DEINIT(tmr_field_on_rstart_off);
+    DEINIT(not_ready_to_exc);
+    DEINIT(cmp_ctrl_state_is_start);
+    DEINIT(and_rstart_on);
 
     // Триггеры пуска.
     // Триггер пуска по превышению током статора заданного значения.
@@ -605,6 +620,20 @@ static void FSM_state_init(M_sys_main* sys)
 static void FSM_state_run(M_sys_main* sys)
 {
     FSM_STATE_ENTRY(&sys->fsm_state){
+    }
+
+    fsm_state_t ctrl_state = fsm_state(&sys_ctrl.fsm_state);
+
+    bool ctrl_need_triacs =
+            (ctrl_state == SYS_CONTROL_STATE_TEST) ||
+            (ctrl_state == SYS_CONTROL_STATE_RUN) ||
+            (ctrl_state == SYS_CONTROL_STATE_FIELD_FORCE) ||
+            (ctrl_state == SYS_CONTROL_STATE_FIELD_SUPP);
+
+    if(ctrl_need_triacs){
+        ph3c.control = CONTROL_ENABLE;
+    }else{
+        ph3c.control = CONTROL_NONE;
     }
 }
 
