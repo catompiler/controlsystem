@@ -230,6 +230,28 @@ static void FSM_state_run(M_sys_control* sys_ctrl)
     }
 }
 
+static void FSM_state_field_force(M_sys_control* sys_ctrl)
+{
+    FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
+        pid_i.control = CONTROL_ENABLE;
+        ph3c.control = CONTROL_ENABLE;
+
+        pid_i.in_ref = IQ24(1.2);
+    }
+
+    pid_i.in_fbk = mean_Iarm.out_value;
+    CALC(pid_i);
+
+    ph3c.in_control_value = pid_i.out_value;
+
+
+    // Если отменена команда "Форсировка".
+    if(!(sys_ctrl->control & SYS_CONTROL_CONTROL_FORCE)){
+        // Перейдём в состояние "Работа".
+        fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_RUN);
+    }
+}
+
 static void FSM_state_field_supp(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
@@ -343,6 +365,9 @@ static void FSM_state(M_sys_control* sys_ctrl)
         break;
     case SYS_CONTROL_STATE_RUN:
         FSM_state_run(sys_ctrl);
+        break;
+    case SYS_CONTROL_STATE_FIELD_FORCE:
+        FSM_state_field_force(sys_ctrl);
         break;
     case SYS_CONTROL_STATE_FIELD_SUPP:
         FSM_state_field_supp(sys_ctrl);
