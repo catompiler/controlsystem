@@ -109,10 +109,10 @@ M_threshold_gt thr_sec_T = THRESHOLD_GT_DEFCFG(5000);
 M_and3_mask am_sec_field_on = AND3_MASK_DEFCFG(6);
 M_or2 or_field_on = OR2_DEFAULTS;
 M_timer_on tmr_field_on = TIMER_ON_DEFCFG(10);
-M_threshold_lt thr_field_on_I_r_sync = THRESHOLD_LT_DEFCFG(IQ24(0.01));
+M_threshold_lt thr_field_on_I_r_sync = THRESHOLD_LT_DEFCFG(IQ24(0.001));
 M_timer_on tmr_field_on_I_r_sync = TIMER_ON_DEFCFG(2500);
 
-M_comp_lt cmp_value_for_slip_lt_zero = COMP_LT_DEFAULTS;
+M_threshold_lt thr_value_for_slip_lt_zero = THRESHOLD_LT_DEFCFG(IQ24(0));
 M_or2 or_value_slip_lt_zero_I_r_sync = OR2_DEFAULTS;
 M_and2 and_ready_to_exc = AND2_DEFAULTS;
 M_timer_on tmr_field_on_rstart_off = TIMER_ON_DEFCFG(10);
@@ -139,6 +139,12 @@ M_filter1 filter_mean_Iarm = FILTER1_DEFCFG(IQ24(0.00016));
 M_filter1 filter_mean_Uarm = FILTER1_DEFCFG(IQ24(0.00033));
 M_filter1 filter_mean_Irstart = FILTER1_DEFCFG(IQ24(0.00016));
 
+M_mux4 mux_field_regs = MUX4_DEFAULTS;
+M_limit lim_field_regs_curr_ref = LIMIT_DEFCFG(IQ24(0.0), IQ24(1.0));
+M_mux2 mux_field_force_ref = MUX2_DEFAULTS;
+M_mot_pot mot_pot_field_test = MOT_POT_DEFCFG(0, IQ24(1.0), MOT_POT_T_DEFAULT, MOT_POT_Ts_DEFAULT);
+M_mot_pot mot_pot_manual_curr_ref = MOT_POT_DEFCFG(0, IQ24(1.0), MOT_POT_T_DEFAULT, MOT_POT_Ts_DEFAULT);
+M_mux4 mux_curr_ref = MUX4_DEFAULTS;
 M_pid pid_i = PID_DEFCFG(IQ24(1), IQ24(1), IQ24(0), IQ24(0), IQ24(0), IQ24(1));
 M_pid_coefs pid_coefs_i = PID_COEFS_DEFCFG(IQ24(0.5), IQ24(0.025), IQ24(0.0), IQ24(0.0));
 

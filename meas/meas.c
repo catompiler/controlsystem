@@ -436,12 +436,11 @@ static void meas_calc_start_exc(M_meas* meas)
     // Цепочка завершения запуска и переход к подаче возбуждения.
 
     // Компаратор отрицательного значения величины для определения скольжения.
-    cmp_value_for_slip_lt_zero.in_A = filter_zcd_slip.out_value;
-    cmp_value_for_slip_lt_zero.in_B = 0;
-    CALC(cmp_value_for_slip_lt_zero);
+    thr_value_for_slip_lt_zero.in_value = filter_zcd_slip.out_value;
+    CALC(thr_value_for_slip_lt_zero);
 
     // Величина для определения меньше нуля ИЛИ ротор сам втянулся в синхронизм.
-    or_value_slip_lt_zero_I_r_sync.in_value[0] = cmp_value_for_slip_lt_zero.out_value;
+    or_value_slip_lt_zero_I_r_sync.in_value[0] = thr_value_for_slip_lt_zero.out_value;
     or_value_slip_lt_zero_I_r_sync.in_value[1] = tmr_field_on_I_r_sync.out_value;
     CALC(or_value_slip_lt_zero_I_r_sync);
 
@@ -469,6 +468,56 @@ static void meas_calc_start_exc(M_meas* meas)
     and_rstart_on.in_value[0] = not_ready_to_exc.out_value;
     and_rstart_on.in_value[1] = cmp_ctrl_state_is_start.out_value;
     CALC(and_rstart_on);
+}
+
+static void meas_calc_current_regulator(M_meas* meas)
+{
+    (void) meas;
+
+    // Цифровой потенциометр ручного задания тока.
+    // TODO: mot_pot_manual_curr_ref inc / dec.
+    CALC(mot_pot_manual_curr_ref);
+
+    //! Мультиплексор регуляторов.
+    mux_field_regs.in_value[0] = mot_pot_manual_curr_ref.r_value; // Ручной.
+    //mux_field_regs.in_value[1] = 0;
+    //mux_field_regs.in_value[2] = 0;
+    //mux_field_regs.in_value[3] = 0;
+    CALC(mux_field_regs);
+
+    //! Ограничитель тока регуляторов.
+    // lim_field_regs_curr_ref.p_max_value => Parameter - field current max value.
+    lim_field_regs_curr_ref.in_value = mux_field_regs.out_value;
+    CALC(lim_field_regs_curr_ref);
+
+    //! Мультиплексор задания тока при форсировке.
+    // TODO: I2T -> sel.
+    mux_field_force_ref.p_sel = 0;
+
+    // in_value[0] => Parameter - field force current.
+    //mux_field_force_ref.in_value[0] = IQ24(1.4);
+    // in_value[1] => Max current value.
+    mux_field_force_ref.in_value[1] = lim_field_regs_curr_ref.p_max_value;
+    CALC(mux_field_force_ref);
+
+    //! Цифровой потенциометр для опробования.
+    // TODO: mot_pot_field_test inc / dec.
+    CALC(mot_pot_field_test);
+
+    //! Мультиплексор задания тока.
+    mux_curr_ref.in_value[0] = 0;
+    mux_curr_ref.in_value[1] = mot_pot_field_test.r_value;
+    mux_curr_ref.in_value[2] = mux_field_force_ref.out_value;
+    mux_curr_ref.in_value[3] = lim_field_regs_curr_ref.out_value;
+    CALC(mux_curr_ref);
+
+    //! ПИД тока.
+    pid_i.in_ref = mux_curr_ref.out_value;
+    pid_i.in_fbk = mean_Iarm.out_value;
+    CALC(pid_i);
+
+    // СИФУ.
+    ph3c.in_control_value = pid_i.out_value;
 }
 
 static void meas_calc_field_supp(M_meas* meas)
@@ -531,6 +580,9 @@ METHOD_CALC_IMPL(M_meas, meas)
 
     // Field start.
     meas_calc_start_exc(meas);
+
+    // Контур тока.
+    meas_calc_current_regulator(meas);
 
     // Field suppression.
     meas_calc_field_supp(meas);

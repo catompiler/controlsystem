@@ -23,6 +23,7 @@
 #include "rect_curr/rect_curr.h"
 #include "mux/mux2.h"
 #include "mux/mux3.h"
+#include "mux/mux4.h"
 #include "mux/mux_abc.h"
 #include "mux/mux_ui.h"
 #include "phase_ampl/phase_ampl.h"
@@ -40,6 +41,7 @@
 #include "valid_range3/valid_range3.h"
 #include "threshold/threshold_lt.h"
 #include "threshold/threshold_gt.h"
+#include "limit/limit.h"
 #include "comp/comp_lt.h"
 #include "comp/comp_eq.h"
 #include "logic/and1_mask.h"
@@ -55,6 +57,7 @@
 #include "prot/prot.h"
 #include "pid/pid.h"
 #include "pid/pid_coefs.h"
+#include "mot_pot/mot_pot.h"
 
 
 //! Основной модуль.
@@ -229,7 +232,7 @@ extern M_timer_on tmr_field_on;
 
 // Цепочка завершения запуска и переход к подаче возбуждения.
 // Компаратор отрицательного значения величины для определения скольжения.
-extern M_comp_lt cmp_value_for_slip_lt_zero;
+extern M_threshold_lt thr_value_for_slip_lt_zero;
 // Величина для определения меньше нуля ИЛИ ротор сам втянулся в синхронизм.
 extern M_or2 or_value_slip_lt_zero_I_r_sync;
 // Нужно подавать возбуждение И можно открывать тиристоры.
@@ -282,6 +285,24 @@ extern M_filter1 filter_mean_Uarm;
 extern M_filter1 filter_mean_Irstart;
 
 // Регуляторы.
+// Контур тока.
+//! Мультиплексор регуляторов.
+//! 0 - Ручной.
+extern M_mux4 mux_field_regs;
+//! Ограничитель тока регуляторов.
+extern M_limit lim_field_regs_curr_ref;
+//! Мультиплексор задания тока при форсировке.
+extern M_mux2 mux_field_force_ref;
+//! Цифровой потенциометр для опробования.
+extern M_mot_pot mot_pot_field_test;
+//! Цифровой потенциометр ручного задания тока.
+extern M_mot_pot mot_pot_manual_curr_ref;
+//! Мультиплексор задания тока.
+//! 0 - Задание гашения поля.
+//! 1 - Задание опробования.
+//! 2 - Задание форсировки.
+//! 3 - Задание работы.
+extern M_mux4 mux_curr_ref;
 //! ПИД тока.
 extern M_pid pid_i;
 //! Коэффициенты ПИД тока.

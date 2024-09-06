@@ -2,6 +2,14 @@
 #include "modules/modules.h"
 
 
+// Константы мультиплексора задания тока.
+#define MUX_CURR_REF_NONE 0
+#define MUX_CURR_REF_FIELD_SUPP 0
+#define MUX_CURR_REF_TEST 1
+#define MUX_CURR_REF_FIELD_FORCE 2
+#define MUX_CURR_REF_RUN 3
+
+
 METHOD_INIT_IMPL(M_sys_control, sys_ctrl)
 {
     // Сброс внутренних переменных.
@@ -195,18 +203,11 @@ static void FSM_state_start(M_sys_control* sys_ctrl)
 static void FSM_state_run(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
-        pid_i.control = CONTROL_ENABLE;
-        ph3c.control = CONTROL_ENABLE;
-
-        pid_i.in_ref = IQ24(0.15);
+        mot_pot_manual_curr_ref.r_value = 0;
     }
 
-    pid_i.in_ref = pid_i.in_ref + IQ24(0.000025);//0.35
-    pid_i.in_fbk = mean_Iarm.out_value;
-    CALC(pid_i);
-
-    ph3c.in_control_value = pid_i.out_value;
-
+    mot_pot_manual_curr_ref.in_inc = FLAG_ACTIVE;
+    //mux_field_regs.in_value[0] = mux_field_regs.in_value[0] + IQ24(0.000025);//0.35
 
     // Если отменена команда "Работа".
     if(!(sys_ctrl->control & SYS_CONTROL_CONTROL_RUN)){
@@ -218,17 +219,7 @@ static void FSM_state_run(M_sys_control* sys_ctrl)
 static void FSM_state_field_force(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
-        pid_i.control = CONTROL_ENABLE;
-        ph3c.control = CONTROL_ENABLE;
-
-        pid_i.in_ref = IQ24(1.2);
     }
-
-    pid_i.in_fbk = mean_Iarm.out_value;
-    CALC(pid_i);
-
-    ph3c.in_control_value = pid_i.out_value;
-
 
     // Если отменена команда "Форсировка".
     if(!(sys_ctrl->control & SYS_CONTROL_CONTROL_FORCE)){
@@ -240,22 +231,17 @@ static void FSM_state_field_force(M_sys_control* sys_ctrl)
 static void FSM_state_field_supp(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
-        pid_i.control = CONTROL_ENABLE;
-        ph3c.control = CONTROL_ENABLE;
-
+        // Запустим таймер гашения поля.
         tmr_field_supp.control = CONTROL_START;
         CONTROL(tmr_field_supp);
     }
 
-    pid_i.in_ref = 0;
-    pid_i.in_fbk = mean_Iarm.out_value;
-    CALC(pid_i);
-
-    ph3c.in_control_value = pid_i.out_value;
-
     // Если поле погашено.
     if(tmr_field_supp.out_expired ||
        thr_field_supp_I_r.out_value == FLAG_ACTIVE){
+        // Остановим таймер гашения поля.
+        tmr_field_supp.control = CONTROL_STOP;
+        CONTROL(tmr_field_supp);
         // Перейдём в состояние "Инициализация".
         fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_INIT);
     }
@@ -290,26 +276,48 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
     // Включение / выключение модулей в зависимости от состояния.
     switch(cur_state){
     case SYS_CONTROL_STATE_NONE:
+        mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
+        pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_INIT:
+        mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
+        pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_CHECK:
+        mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
+        pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_IDLE:
+        mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
+        pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_READY:
+        mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
+        pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_TEST:
+        mux_curr_ref.p_sel = MUX_CURR_REF_TEST;
+        pid_i.control = CONTROL_ENABLE;
         break;
     case SYS_CONTROL_STATE_START:
+        mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
+        pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_RUN:
+        mux_curr_ref.p_sel = MUX_CURR_REF_RUN;
+        pid_i.control = CONTROL_ENABLE;
         break;
     case SYS_CONTROL_STATE_FIELD_FORCE:
+        mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_FORCE;
+        pid_i.control = CONTROL_ENABLE;
         break;
     case SYS_CONTROL_STATE_FIELD_SUPP:
+        mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_SUPP;
+        pid_i.control = CONTROL_ENABLE;
         break;
     case SYS_CONTROL_STATE_ERROR:
+        mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
+        pid_i.control = CONTROL_NONE;
         break;
     default:
         break;

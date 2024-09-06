@@ -224,6 +224,14 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Модель 3х фазного выпрямителя.
     INIT(lrm);
     // Регуляторы.
+    INIT(mux_field_regs);
+    INIT(lim_field_regs_curr_ref);
+    INIT(mux_field_force_ref);
+    // Field forcing current default value - 1.4 x Inom.
+    mux_field_force_ref.in_value[0] = IQ24(1.4);
+    INIT(mot_pot_field_test);
+    INIT(mot_pot_manual_curr_ref);
+    INIT(mux_curr_ref);
     //! ПИД тока.
     INIT(pid_i);
     //! Коэффициенты ПИД тока.
@@ -265,7 +273,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(thr_field_on_I_r_sync);
     INIT(tmr_field_on_I_r_sync);
     // Модули старта подачи возбуждения.
-    INIT(cmp_value_for_slip_lt_zero);
+    INIT(thr_value_for_slip_lt_zero);
     INIT(or_value_slip_lt_zero_I_r_sync);
     INIT(and_ready_to_exc);
     INIT(tmr_field_on_rstart_off);
@@ -358,6 +366,12 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(lrm);
     DEINIT(ph3c);
     // Регуляторы.
+    INIT(mux_field_regs);
+    INIT(lim_field_regs_curr_ref);
+    INIT(mux_field_force_ref);
+    INIT(mot_pot_field_test);
+    INIT(mot_pot_manual_curr_ref);
+    INIT(mux_curr_ref);
     //! ПИД тока.
     DEINIT(pid_i);
     //! Коэффициенты ПИД тока.
@@ -386,7 +400,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(thr_field_on_I_r_sync);
     DEINIT(tmr_field_on_I_r_sync);
     // Модули старта подачи возбуждения.
-    DEINIT(cmp_value_for_slip_lt_zero);
+    DEINIT(thr_value_for_slip_lt_zero);
     DEINIT(or_value_slip_lt_zero_I_r_sync);
     DEINIT(and_ready_to_exc);
     DEINIT(tmr_field_on_rstart_off);
@@ -777,6 +791,17 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     IDLE(adc);
     IDLE(adc_model);
     IDLE(lrm);
+    // Обновим минимум и максимум тока цифровых потенциометров.
+    // Опробование.
+    mot_pot_field_test.p_min = 0;
+    mot_pot_field_test.p_max = lim_field_regs_curr_ref.p_max_value;
+    // Ручное задание тока.
+    mot_pot_manual_curr_ref.p_min = lim_field_regs_curr_ref.p_min_value;
+    mot_pot_manual_curr_ref.p_max = lim_field_regs_curr_ref.p_max_value;
+    // Цифровой потенциометр опробования.
+    IDLE(mot_pot_field_test);
+    // Цифровой потенциометр ручного задания тока возбуждения.
+    IDLE(mot_pot_manual_curr_ref);
     // Коэффициенты регуляторов.
     // Тока.
     IDLE(pid_coefs_i);
