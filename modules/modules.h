@@ -40,6 +40,7 @@
 #include "fract_mean/fract_mean.h"
 #include "valid_range3/valid_range3.h"
 #include "threshold/threshold_lt.h"
+#include "threshold/threshold_le.h"
 #include "threshold/threshold_gt.h"
 #include "limit/limit.h"
 #include "comp/comp_lt.h"
@@ -50,6 +51,7 @@
 #include "logic/or2_mask.h"
 #include "logic/or2.h"
 #include "logic/not.h"
+#include "sum/sum3.h"
 #include "cell_cb/cell_cb.h"
 #include "phase3_control/phase3_control.h"
 #include "larionov_model/smotor_larionov.h"
@@ -175,6 +177,11 @@ extern M_dc_mean mean_Irstart;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
 extern M_mean3 mean_rms_Icell;
 
+// Сумматоры мощности.
+extern M_sum3 sum_S;
+extern M_sum3 sum_P;
+extern M_sum3 sum_Q;
+
 // Вычислители мощности.
 extern M_power power_A;
 extern M_power power_B;
@@ -283,6 +290,20 @@ extern M_filter1 filter_mean_Iarm;
 extern M_filter1 filter_mean_Uarm;
 // Среднее значение тока пускового сопротивления.
 extern M_filter1 filter_mean_Irstart;
+
+// Форсировка при запуске.
+//! Таймер минимального времени форсировки.
+extern M_timer tmr_start_min_forcing;
+//! Таймер максимального времени форсировки.
+extern M_timer tmr_start_max_forcing;
+//! Таймер окончания форсировки (время стабилизации).
+extern M_timer_on tmr_start_stab_forcing;
+//! Компаратор не положительной реактивной мощности.
+extern M_threshold_le thr_start_Q_le_zero;
+//! Прошло минимальное время форсировки И форсировка завершена.
+extern M_and2 and_start_min_forcing_end;
+//! Прошло максимальное время форсировки ИЛИ форсировка завершена.
+extern M_or2 or_start_forcing_end;
 
 // Регуляторы.
 // Контур тока.

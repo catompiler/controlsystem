@@ -223,6 +223,13 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(ph3c);
     // Модель 3х фазного выпрямителя.
     INIT(lrm);
+    // Форсировка при запуске.
+    INIT(tmr_start_min_forcing);
+    INIT(tmr_start_max_forcing);
+    INIT(tmr_start_stab_forcing);
+    INIT(thr_start_Q_le_zero);
+    INIT(and_start_min_forcing_end);
+    INIT(or_start_forcing_end);
     // Регуляторы.
     INIT(mux_field_regs);
     INIT(lim_field_regs_curr_ref);
@@ -365,6 +372,13 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Основные модули.
     DEINIT(lrm);
     DEINIT(ph3c);
+    // Форсировка при запуске.
+    DEINIT(tmr_start_min_forcing);
+    DEINIT(tmr_start_max_forcing);
+    DEINIT(tmr_start_stab_forcing);
+    DEINIT(thr_start_Q_le_zero);
+    DEINIT(and_start_min_forcing_end);
+    DEINIT(or_start_forcing_end);
     // Регуляторы.
     INIT(mux_field_regs);
     INIT(lim_field_regs_curr_ref);
@@ -641,6 +655,7 @@ static void FSM_state_run(M_sys_main* sys)
     bool ctrl_need_triacs =
             (ctrl_state == SYS_CONTROL_STATE_TEST) ||
             (ctrl_state == SYS_CONTROL_STATE_RUN) ||
+            (ctrl_state == SYS_CONTROL_STATE_START_FIELD_FORCE) ||
             (ctrl_state == SYS_CONTROL_STATE_FIELD_FORCE) ||
             (ctrl_state == SYS_CONTROL_STATE_FIELD_SUPP);
 

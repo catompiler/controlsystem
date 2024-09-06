@@ -316,10 +316,27 @@ static void meas_calc_power(M_meas* meas)
     power_C.in_rms_I = rms_cell_Ic.out_value;
     CALC(power_C);
 
+    // Суммы мощностей.
+    // S.
+    sum_S.in_value[0] = power_A.out_S;
+    sum_S.in_value[1] = power_B.out_S;
+    sum_S.in_value[2] = power_C.out_S;
+    CALC(sum_S);
+    // P.
+    sum_P.in_value[0] = power_A.out_P;
+    sum_P.in_value[1] = power_B.out_P;
+    sum_P.in_value[2] = power_C.out_P;
+    CALC(sum_P);
+    // Q.
+    sum_Q.in_value[0] = power_A.out_Q;
+    sum_Q.in_value[1] = power_B.out_Q;
+    sum_Q.in_value[2] = power_C.out_Q;
+    CALC(sum_Q);
+
     // Коэффициент мощности.
-    power_factor.in_S = power_A.out_S + power_B.out_S + power_C.out_S;
-    power_factor.in_P = power_A.out_P + power_B.out_P + power_C.out_P;
-    power_factor.in_Q = power_A.out_Q + power_B.out_Q + power_C.out_Q;
+    power_factor.in_S = sum_S.out_value;
+    power_factor.in_P = sum_P.out_value;
+    power_factor.in_Q = sum_Q.out_value;
     CALC(power_factor);
 }
 
@@ -470,6 +487,33 @@ static void meas_calc_start_exc(M_meas* meas)
     CALC(and_rstart_on);
 }
 
+static void meas_calc_start_forcing(M_meas* meas)
+{
+    (void) meas;
+
+    // Компаратор реактивной мощности.
+    thr_start_Q_le_zero.in_value = sum_Q.out_value;
+    CALC(thr_start_Q_le_zero);
+
+    // Таймер стабилизации.
+    tmr_start_stab_forcing.in_value = thr_start_Q_le_zero.out_value;
+    CALC(tmr_start_stab_forcing);
+
+    // Таймер минимального времени форсировки.
+    CALC(tmr_start_min_forcing);
+
+    // Таймер максимального времени форсировки.
+    CALC(tmr_start_max_forcing);
+
+    and_start_min_forcing_end.in_value[0] = tmr_start_min_forcing.out_expired;
+    and_start_min_forcing_end.in_value[1] = tmr_start_stab_forcing.out_value;
+    CALC(and_start_min_forcing_end);
+
+    or_start_forcing_end.in_value[0] = tmr_start_max_forcing.out_expired;
+    or_start_forcing_end.in_value[1] = and_start_min_forcing_end.out_value;
+    CALC(or_start_forcing_end);
+}
+
 static void meas_calc_current_regulator(M_meas* meas)
 {
     (void) meas;
@@ -580,6 +624,9 @@ METHOD_CALC_IMPL(M_meas, meas)
 
     // Field start.
     meas_calc_start_exc(meas);
+
+    // Field forcing at start.
+    meas_calc_start_forcing(meas);
 
     // Контур тока.
     meas_calc_current_regulator(meas);

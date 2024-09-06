@@ -195,9 +195,26 @@ static void FSM_state_start(M_sys_control* sys_ctrl)
         cnt_start.control = CONTROL_STOP;
         CONTROL(cnt_start);
         // Перейдём в состояние "Работа".
-        fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_RUN);
+        fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_START_FIELD_FORCE);
+    }
+}
+
+static void FSM_state_start_field_force(M_sys_control* sys_ctrl)
+{
+    FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
+        // Запустим таймер минимальной форсировки при запуске.
+        tmr_start_min_forcing.control = CONTROL_START;
+        CONTROL(tmr_start_min_forcing);
+        // Запустим таймер максимальной форсировки при запуске.
+        tmr_start_max_forcing.control = CONTROL_START;
+        CONTROL(tmr_start_max_forcing);
     }
 
+    // Если отменена команда "Форсировка".
+    if(or_start_forcing_end.out_value == FLAG_ACTIVE){
+        // Перейдём в состояние "Работа".
+        fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_RUN);
+    }
 }
 
 static void FSM_state_run(M_sys_control* sys_ctrl)
@@ -303,6 +320,10 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
         break;
+    case SYS_CONTROL_STATE_START_FIELD_FORCE:
+        mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_FORCE;
+        pid_i.control = CONTROL_ENABLE;
+        break;
     case SYS_CONTROL_STATE_RUN:
         mux_curr_ref.p_sel = MUX_CURR_REF_RUN;
         pid_i.control = CONTROL_ENABLE;
@@ -352,6 +373,9 @@ static void FSM_state(M_sys_control* sys_ctrl)
         break;
     case SYS_CONTROL_STATE_START:
         FSM_state_start(sys_ctrl);
+        break;
+    case SYS_CONTROL_STATE_START_FIELD_FORCE:
+        FSM_state_start_field_force(sys_ctrl);
         break;
     case SYS_CONTROL_STATE_RUN:
         FSM_state_run(sys_ctrl);

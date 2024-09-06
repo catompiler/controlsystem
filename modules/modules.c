@@ -82,6 +82,10 @@ M_dc_mean mean_Irstart = DC_MEAN_DEFAULTS;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
 M_mean3 mean_rms_Icell = MEAN3_DEFAULTS;
 
+M_sum3 sum_S = SUM3_DEFAULTS;
+M_sum3 sum_P = SUM3_DEFAULTS;
+M_sum3 sum_Q = SUM3_DEFAULTS;
+
 M_power power_A = POWER_DEFAULTS;
 M_power power_B = POWER_DEFAULTS;
 M_power power_C = POWER_DEFAULTS;
@@ -139,6 +143,14 @@ M_filter1 filter_mean_Iarm = FILTER1_DEFCFG(IQ24(0.00016));
 M_filter1 filter_mean_Uarm = FILTER1_DEFCFG(IQ24(0.00033));
 M_filter1 filter_mean_Irstart = FILTER1_DEFCFG(IQ24(0.00016));
 
+
+M_timer tmr_start_min_forcing = TIMER_DEFCFG(500);
+M_timer tmr_start_max_forcing = TIMER_DEFCFG(5000);
+M_timer_on tmr_start_stab_forcing = TIMER_ON_DEFCFG(500);
+M_threshold_le thr_start_Q_le_zero = THRESHOLD_LE_DEFCFG(IQ24(0));
+M_and2 and_start_min_forcing_end = AND2_DEFAULTS;
+M_or2 or_start_forcing_end = OR2_DEFAULTS;
+
 M_mux4 mux_field_regs = MUX4_DEFAULTS;
 M_limit lim_field_regs_curr_ref = LIMIT_DEFCFG(IQ24(0.0), IQ24(1.0));
 M_mux2 mux_field_force_ref = MUX2_DEFAULTS;
@@ -147,6 +159,7 @@ M_mot_pot mot_pot_manual_curr_ref = MOT_POT_DEFCFG(0, IQ24(1.0), MOT_POT_T_DEFAU
 M_mux4 mux_curr_ref = MUX4_DEFAULTS;
 M_pid pid_i = PID_DEFCFG(IQ24(1), IQ24(1), IQ24(0), IQ24(0), IQ24(0), IQ24(1));
 M_pid_coefs pid_coefs_i = PID_COEFS_DEFCFG(IQ24(0.5), IQ24(0.025), IQ24(0.0), IQ24(0.0));
+
 
 M_phase3_control ph3c = PHASE3_CONTROL_DEFAULTS;
 
