@@ -23,7 +23,7 @@ M_timer tmr_sys_fsm = TIMER_DEFAULTS;
 
 M_data_log dlog = DATA_LOG_DEFAULTS;
 
-M_meas meas = MEAS_DEFAULTS;
+M_sys_calc sys_calc = SYS_CALC_DEFAULTS;
 
 M_rect_curr rect_curr = RECT_CURR_DEFAULTS;
 

@@ -1,19 +1,19 @@
-#include "meas.h"
+#include "sys_calc.h"
 #include "modules/modules.h"
 #include "utils/utils.h"
 #include "iqmath/iqmath.h"
 
 
 
-METHOD_INIT_IMPL(M_meas, meas)
+METHOD_INIT_IMPL(M_sys_calc, sys_calc)
 {
 }
 
-METHOD_DEINIT_IMPL(M_meas, meas)
+METHOD_DEINIT_IMPL(M_sys_calc, sys_calc)
 {
 }
 
-MEAS_METHOD_CALC_FOR_PHC_IMPL(M_meas, meas)
+SYS_CALC_METHOD_CALC_FOR_PHC_IMPL(M_sys_calc, sys_calc)
 {
     // Мультиплексор измерений напряжения.
     // Напряжение фазы A.
@@ -39,7 +39,7 @@ MEAS_METHOD_CALC_FOR_PHC_IMPL(M_meas, meas)
     CALC(phase_ampl_Uc);
 }
 
-MEAS_METHOD_CALC_FOR_MODEL_IMPL(M_meas, meas)
+SYS_CALC_METHOD_CALC_FOR_MODEL_IMPL(M_sys_calc, sys_calc)
 {
     // Ячейка.
     // Мультиплексор измерений напряжения.
@@ -61,7 +61,7 @@ MEAS_METHOD_CALC_FOR_MODEL_IMPL(M_meas, meas)
     CALC(calc_Ucell);
 }
 
-static void meas_calc_mains(M_meas* meas)
+static void sys_calc_calc_mains(M_sys_calc* sys_calc)
 {
     // Остальные мультиплексоры измерений.
     // Мультиплексоры измерений тока.
@@ -83,7 +83,7 @@ static void meas_calc_mains(M_meas* meas)
     CALC(rect_curr);
 }
 
-static void meas_calc_armature(M_meas* meas)
+static void sys_calc_calc_armature(M_sys_calc* sys_calc)
 {
     // Мультиплексор измерений выходного напряжения.
     mux_Uarm.in_value[0] = adc.out_Uarm;
@@ -100,7 +100,7 @@ static void meas_calc_armature(M_meas* meas)
     CALC(mux_Irstart);
 }
 
-static void meas_calc_cell(M_meas* meas)
+static void sys_calc_calc_cell(M_sys_calc* sys_calc)
 {
     // Из ячейки приходят линейные напряжения.
     // Преобразуем из в фазные.
@@ -138,7 +138,7 @@ static void meas_calc_cell(M_meas* meas)
     CALC(calc_Icell);
 }
 
-static void meas_calc_mains_freq(M_meas* meas)
+static void sys_calc_calc_mains_freq(M_sys_calc* sys_calc)
 {
     // Детект нуля и вычисление частоты.
     // echo "[ Ua ] {border:none} -> [ filter1 ] {label:filter} -> [ zcd freq ] - freq -> [ filter2 ]{label:filter} -> [ Freq ] {border: none}" | graph-easy
@@ -181,7 +181,7 @@ static void meas_calc_mains_freq(M_meas* meas)
     CALC(filter_freq_Uc);
 }
 
-static void meas_calc_slip(M_meas* meas)
+static void sys_calc_calc_slip(M_sys_calc* sys_calc)
 {
     // Скольжение.
     // Мультиплексор используемого значения.
@@ -203,7 +203,7 @@ static void meas_calc_slip(M_meas* meas)
     CALC(slip);
 }
 
-static void meas_calc_rms_mains(M_meas* meas)
+static void sys_calc_calc_rms_mains(M_sys_calc* sys_calc)
 {
     // RMS.
     // Основной ввод.
@@ -229,7 +229,7 @@ static void meas_calc_rms_mains(M_meas* meas)
     CALC(rms_Ic);
 }
 
-static void meas_calc_rms_cell(M_meas* meas)
+static void sys_calc_calc_rms_cell(M_sys_calc* sys_calc)
 {
     // RMS.
     // Ячейка.
@@ -271,7 +271,7 @@ static void meas_calc_rms_cell(M_meas* meas)
     CALC(mean_rms_Icell);
 }
 
-static void meas_calc_mean_armature(M_meas* meas)
+static void sys_calc_calc_mean_armature(M_sys_calc* sys_calc)
 {
     // Среднее.
     // Выходной ток.
@@ -294,7 +294,7 @@ static void meas_calc_mean_armature(M_meas* meas)
     CALC(filter_mean_Irstart);
 }
 
-static void meas_calc_power(M_meas* meas)
+static void sys_calc_calc_power(M_sys_calc* sys_calc)
 {
     // Мощности статора.
     // Фаза A.
@@ -340,7 +340,7 @@ static void meas_calc_power(M_meas* meas)
     CALC(power_factor);
 }
 
-static void meas_calc_valid_ranges(M_meas* meas)
+static void sys_calc_calc_valid_ranges(M_sys_calc* sys_calc)
 {
     // Допустимые диапазоны.
     // Допустимый диапазон напряжений сети.
@@ -360,14 +360,14 @@ static void meas_calc_valid_ranges(M_meas* meas)
     CALC(vr_rms_Ucell);
 }
 
-static void meas_calc_start_time(M_meas* meas)
+static void sys_calc_calc_start_time(M_sys_calc* sys_calc)
 {
-    (void) meas;
+    (void) sys_calc;
 
     CALC(cnt_start);
 }
 
-static void meas_calc_run_trig(M_meas* meas)
+static void sys_calc_calc_run_trig(M_sys_calc* sys_calc)
 {
     // Ток статора больше порогового.
     thr_run_trig_I_s.in_value = mean_rms_Icell.out_value;
@@ -391,7 +391,7 @@ static void meas_calc_run_trig(M_meas* meas)
     CALC(tmr_run_trig);
 }
 
-static void meas_calc_field_on_conds(M_meas* meas)
+static void sys_calc_calc_field_on_conds(M_sys_calc* sys_calc)
 {
     // Ток статора для условий пуска.
     iq24_t I_stator = mean_rms_Icell.out_value;
@@ -446,9 +446,9 @@ static void meas_calc_field_on_conds(M_meas* meas)
     CALC(tmr_field_on_I_r_sync);
 }
 
-static void meas_calc_start_exc(M_meas* meas)
+static void sys_calc_calc_start_exc(M_sys_calc* sys_calc)
 {
-    (void) meas;
+    (void) sys_calc;
 
     // Цепочка завершения запуска и переход к подаче возбуждения.
 
@@ -487,9 +487,9 @@ static void meas_calc_start_exc(M_meas* meas)
     CALC(and_rstart_on);
 }
 
-static void meas_calc_start_forcing(M_meas* meas)
+static void sys_calc_calc_start_forcing(M_sys_calc* sys_calc)
 {
-    (void) meas;
+    (void) sys_calc;
 
     // Компаратор реактивной мощности.
     thr_start_Q_le_zero.in_value = sum_Q.out_value;
@@ -514,9 +514,9 @@ static void meas_calc_start_forcing(M_meas* meas)
     CALC(or_start_forcing_end);
 }
 
-static void meas_calc_current_regulator(M_meas* meas)
+static void sys_calc_calc_current_regulator(M_sys_calc* sys_calc)
 {
-    (void) meas;
+    (void) sys_calc;
 
     // Цифровой потенциометр ручного задания тока.
     // TODO: mot_pot_manual_curr_ref inc / dec.
@@ -564,9 +564,9 @@ static void meas_calc_current_regulator(M_meas* meas)
     ph3c.in_control_value = pid_i.out_value;
 }
 
-static void meas_calc_field_supp(M_meas* meas)
+static void sys_calc_calc_field_supp(M_sys_calc* sys_calc)
 {
-    (void) meas;
+    (void) sys_calc;
 
     thr_field_supp_I_r.in_value = mean_Iarm.out_value;
     CALC(thr_field_supp_I_r);
@@ -576,61 +576,61 @@ static void meas_calc_field_supp(M_meas* meas)
 
 /*
 
-static void meas_calc_(M_meas* meas)
+static void sys_calc_calc_(M_sys_calc* sys_calc)
 {
 }
 */
 
-METHOD_CALC_IMPL(M_meas, meas)
+METHOD_CALC_IMPL(M_sys_calc, sys_calc)
 {
     // Mains.
-    meas_calc_mains(meas);
+    sys_calc_calc_mains(sys_calc);
 
     // Armature.
-    meas_calc_armature(meas);
+    sys_calc_calc_armature(sys_calc);
 
     // Cell.
-    meas_calc_cell(meas);
+    sys_calc_calc_cell(sys_calc);
 
     // Mains zcd & freq.
-    meas_calc_mains_freq(meas);
+    sys_calc_calc_mains_freq(sys_calc);
 
     // Slip.
-    meas_calc_slip(meas);
+    sys_calc_calc_slip(sys_calc);
 
     // RMS mains.
-    meas_calc_rms_mains(meas);
+    sys_calc_calc_rms_mains(sys_calc);
 
     // RMS cell.
-    meas_calc_rms_cell(meas);
+    sys_calc_calc_rms_cell(sys_calc);
 
     // Mean.
-    meas_calc_mean_armature(meas);
+    sys_calc_calc_mean_armature(sys_calc);
 
     // Power and power factor.
-    meas_calc_power(meas);
+    sys_calc_calc_power(sys_calc);
 
     // Valid ranges.
-    meas_calc_valid_ranges(meas);
+    sys_calc_calc_valid_ranges(sys_calc);
 
     // Start time (ms) counter.
-    meas_calc_start_time(meas);
+    sys_calc_calc_start_time(sys_calc);
 
     // Start trig by Istator > Ithreshold.
-    meas_calc_run_trig(meas);
+    sys_calc_calc_run_trig(sys_calc);
 
     // Field on conditions.
-    meas_calc_field_on_conds(meas);
+    sys_calc_calc_field_on_conds(sys_calc);
 
     // Field start.
-    meas_calc_start_exc(meas);
+    sys_calc_calc_start_exc(sys_calc);
 
     // Field forcing at start.
-    meas_calc_start_forcing(meas);
+    sys_calc_calc_start_forcing(sys_calc);
 
     // Контур тока.
-    meas_calc_current_regulator(meas);
+    sys_calc_calc_current_regulator(sys_calc);
 
     // Field suppression.
-    meas_calc_field_supp(meas);
+    sys_calc_calc_field_supp(sys_calc);
 }

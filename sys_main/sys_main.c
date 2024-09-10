@@ -208,7 +208,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(filter_mean_Irstart);
 
     // Измерения.
-    INIT(meas);
+    INIT(sys_calc);
 
     // Допустимые диапазоны.
     // Допустимый диапазон напряжений сети.
@@ -446,7 +446,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(vr_rms_Umains);
 
     // Измерения.
-    DEINIT(meas);
+    DEINIT(sys_calc);
 
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
@@ -704,7 +704,7 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     // Вычислительные и основные модули.
 
     // Вычисление измерений для СИФУ.
-    MEAS_CALC_FOR_PHC(meas);
+    SYS_CALC_CALC_FOR_PHC(sys_calc);
 
     // СИФУ.
     ph3c.in_Ua_angle = phase_ampl_Ua.out_phase;
@@ -714,7 +714,7 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
     // Вычисление измерений напряжения ячейки
     // (для модели нужно вычислить это до вычисления модели).
-    MEAS_CALC_FOR_MODEL(meas);
+    SYS_CALC_CALC_FOR_MODEL(sys_calc);
 
     // Модель 3х фазного выпрямителя.
     lrm.in_Ua = mux_Umains.out_A;
@@ -734,7 +734,7 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
 
     // Измерения.
-    CALC(meas);
+    CALC(sys_calc);
 
 
     // Таймеры - счётчики.

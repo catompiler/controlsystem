@@ -19,7 +19,7 @@
 #include "timer/counter.h"
 #include "data_log/data_log.h"
 #include "filter1/filter1.h"
-#include "meas/meas.h"
+#include "sys_calc/sys_calc.h"
 #include "rect_curr/rect_curr.h"
 #include "mux/mux2.h"
 #include "mux/mux3.h"
@@ -101,7 +101,7 @@ extern M_timer tmr_sys_fld_wait;*/
 extern M_data_log dlog;
 
 //! Модуль измерений.
-extern M_meas meas;
+extern M_sys_calc sys_calc;
 
 //! Вычислитель выпрямленного тока по трём входящим.
 extern M_rect_curr rect_curr;
