@@ -35,6 +35,6 @@
 
 #define REG_ARRAY_NAME regs
 #include "reg_list_data.h"
-
+#define REGS_COUNT REGS_COUNT_VALUE(REG_ARRAY_NAME)
 
 #endif /* REG_LIST_H */

@@ -176,6 +176,4 @@ REG(REG_ID_POWER_FACTOR_TAN_PHI, power_factor.out_tan_phi, REG_TYPE_IQ24, REG_FL
 // End
 REGS_END()
 
-#define REGS_COUNT REGS_COUNT_VALUE(REG_ARRAY_NAME)
-
 #endif /* REG_LIST_DATA_H */

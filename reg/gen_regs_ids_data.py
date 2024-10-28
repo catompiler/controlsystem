@@ -103,10 +103,10 @@ def gen_regs(decls, f=sys.stdout):
         elif(t == "end"):
             cnt_name = d['name'];
             f.write("REGS_END()\n");
-            if(cnt_name):
-                f.write("\n#define REGS_%s_COUNT REGS_COUNT_VALUE(%s)\n" % (cnt_name, beg_name));
-            else:
-                f.write("\n#define REGS_COUNT REGS_COUNT_VALUE(%s)\n" % (beg_name));
+            # if(cnt_name):
+            #     f.write("\n#define REGS_%s_COUNT REGS_COUNT_VALUE(%s)\n" % (cnt_name, beg_name));
+            # else:
+            #     f.write("\n#define REGS_COUNT REGS_COUNT_VALUE(%s)\n" % (beg_name));
         elif(t == "blank"):
             f.write("\n");
         elif(t == "comment"):
