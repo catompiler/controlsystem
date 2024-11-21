@@ -54,7 +54,7 @@ METHOD_CALC_IMPL(M_data_log, dlog)
         ch_dat = &dlog->r_ch[i];
 
         if(ch_par->enabled && ch_dat->reg != NULL && reg_data(ch_dat->reg) != NULL){
-            val = reg_value(ch_dat->reg, data_log_value_t);
+            val = (data_log_value_t)reg_valuel(ch_dat->reg);
         }else{
             val = 0;
         }

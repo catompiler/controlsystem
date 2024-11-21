@@ -7,7 +7,7 @@
 #include "reg_types.h"
 
 //! Тип идентификатора регистра.
-typedef uint16_t reg_id_t;
+typedef uint32_t reg_id_t;
 
 //! Значение отсутствующего идентификатора.
 #define REG_ID_NONE ((reg_id_t)-1)
@@ -19,6 +19,7 @@ typedef uint16_t reg_id_t;
 typedef enum _E_Reg_Flag {
     REG_FLAG_NONE = 0x00,
     REG_FLAG_CONF = 0x01,
+    REG_FLAG_READONLY = 0x02,
 } reg_flags_t;
 
 //! Структура регистра.
@@ -82,6 +83,14 @@ ALWAYS_INLINE static reg_id_t reg_base_id(const reg_t* reg)
     return reg->base_id;
 }
 
+/**
+ * Получает значение регистра как 32 бита.
+ * @param reg Регистр.
+ * @return Значение регистра как 32 бита.
+ */
+EXTERN iql_t reg_valuel(const reg_t* reg);
+
+
 //! Получает значение регистра reg приведённое к типу T.
 #define reg_value(reg, T) *((T*)(reg)->data)
 
@@ -110,9 +119,59 @@ ALWAYS_INLINE static reg_iq15_t reg_value_iq15(const reg_t* reg)
  * @param reg Регистр.
  * @return Значение данных.
  */
+ALWAYS_INLINE static reg_iq7_t reg_value_iq7(const reg_t* reg)
+{
+    return reg_value(reg, reg_iq7_t);
+}
+
+/**
+ * Получает значение данных регистра.
+ * @param reg Регистр.
+ * @return Значение данных.
+ */
+ALWAYS_INLINE static reg_i8_t reg_value_i8(const reg_t* reg)
+{
+    return reg_value(reg, reg_i8_t);
+}
+
+/**
+ * Получает значение данных регистра.
+ * @param reg Регистр.
+ * @return Значение данных.
+ */
+ALWAYS_INLINE static reg_i16_t reg_value_i16(const reg_t* reg)
+{
+    return reg_value(reg, reg_i16_t);
+}
+
+/**
+ * Получает значение данных регистра.
+ * @param reg Регистр.
+ * @return Значение данных.
+ */
 ALWAYS_INLINE static reg_i32_t reg_value_i32(const reg_t* reg)
 {
     return reg_value(reg, reg_i32_t);
+}
+
+/**
+ * Получает значение данных регистра.
+ * @param reg Регистр.
+ * @return Значение данных.
+ */
+ALWAYS_INLINE static reg_u8_t reg_value_u8(const reg_t* reg)
+{
+    return reg_value(reg, reg_u8_t);
+}
+
+/**
+ * Получает значение данных регистра.
+ * @param reg Регистр.
+ * @return Значение данных.
+ */
+ALWAYS_INLINE static reg_u16_t reg_value_u16(const reg_t* reg)
+{
+    return reg_value(reg, reg_u16_t);
 }
 
 /**

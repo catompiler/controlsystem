@@ -21,7 +21,7 @@
  * BASE - Идентификатор базовой величины, либо REG_ID_NONE.
  * //DEF - Значение по-умолчанию.
  */
-#define REG(ID, DATA, TYPE, FLAG, BASE) {ID, (void*)&DATA, TYPE, FLAG, BASE},
+#define REG(ID, DATA, TYPE, FLAG, BASE) {ID, (void*)DATA, TYPE, FLAG, BASE},
 /*
  * Окончание массива регистров.
  */

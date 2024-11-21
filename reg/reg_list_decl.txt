@@ -11,14 +11,20 @@
 BEGIN REG_ARRAY_NAME
 
 // Conf
-GROUP CONF, 0
+GROUP CONF, 0x2000
 // Nominal values
 REG U_NOM, conf.p_U_nom, IQ15, CONF
 REG I_NOM, conf.p_I_nom, IQ15, CONF
 REG F_NOM, conf.p_f_nom, IQ15, CONF
 
+// SysTime
+GROUP SYS_TIME, 0x2050
+REG COUNTER_MS, sys_time.r_counter_ms, U32, NONE
+REG COUNTER_S, sys_time.r_counter_s, U32, NONE
+REG RUN_COUNTER_S, sys_time.r_run_counter_s, U32, NONE
+
 // Motor
-GROUP MOTOR, 50
+GROUP MOTOR, 0x2100
 // Nominal values
 REG F_NOM, motor.p_f_nom, IQ15, CONF
 // Nominal stator values
@@ -31,18 +37,12 @@ REG U_NOM, motor.p_U_nom, IQ15, CONF
 REG I_NOM, motor.p_I_nom, IQ15, CONF
 
 !// Sys
-!GROUP SYS, 100
+!GROUP SYS, 0x2200
 !REG ERRORS, sys.errors, U32, NONE
 !REG WARNINGS, sys.warnings, U32, NONE
 
-// SysTime
-GROUP SYS_TIME, 200
-REG COUNTER_MS, sys_time.r_counter_ms, U32, NONE
-REG COUNTER_S, sys_time.r_counter_s, U32, NONE
-REG RUN_COUNTER_S, sys_time.r_run_counter_s, U32, NONE
-
 // ADC
-GROUP ADC, 300
+GROUP ADC, 0x2300
 // Phases voltage
 // Raw
 REG UA_RAW, adc.out_Ua_raw, U32, NONE
@@ -61,7 +61,7 @@ REG UC_GAIN,   adc.p_Uc_gain,  IQ24, CONF
 REG UC_OFFSET, adc.p_Uc_offset, U32, CONF
 
 // Measurement
-GROUP MEAS, 500
+GROUP MEAS, 0x2400
 REG UA, mux_Umains.out_A, IQ24, NONE, CONF.U_NOM
 REG UB, mux_Umains.out_B, IQ24, NONE, CONF.U_NOM
 REG UC, mux_Umains.out_C, IQ24, NONE, CONF.U_NOM
@@ -82,7 +82,7 @@ REG CELL_IB, mux_Icell.out_B, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IC, mux_Icell.out_C, IQ24, NONE, MOTOR.S_I_NOM
 
 // Model
-GROUP MODEL, 700
+GROUP MODEL, 0x2500
 REG STATOR_UA, lrm.in_stator_Ua,  IQ24, NONE, MOTOR.S_U_NOM
 REG STATOR_UB, lrm.in_stator_Ub,  IQ24, NONE, MOTOR.S_U_NOM
 REG STATOR_UC, lrm.in_stator_Uc,  IQ24, NONE, MOTOR.S_U_NOM
@@ -105,7 +105,7 @@ REG RECTIFIER_IB, lrm.out_Ib, IQ24, NONE, CONF.I_NOM
 REG RECTIFIER_IC, lrm.out_Ic, IQ24, NONE, CONF.I_NOM
 
 // Phase and Amplitude.
-GROUP PHASE_AMPL, 1000
+GROUP PHASE_AMPL, 0x2600
 !REG UA_VALUE, phase_ampl_Ua.out_value, IQ24, NONE
 REG UA_PHASE,  phase_ampl_Ua.out_phase, IQ24, NONE
 REG UA_AMPL,   phase_ampl_Ua.out_ampl,  IQ24, NONE
@@ -114,7 +114,7 @@ REG UB_AMPL,   phase_ampl_Ub.out_ampl,  IQ24, NONE
 REG UC_PHASE,  phase_ampl_Uc.out_phase, IQ24, NONE
 REG UC_AMPL,   phase_ampl_Uc.out_ampl,  IQ24, NONE
 
-GROUP LINE_FREQ, 1200
+GROUP LINE_FREQ, 0x2700
 // Phase A.
 REG UA_FILTER_T,      filter_zcd_Ua.p_T,        IQ24, CONF, NONE
 REG UA_FILT,          filter_zcd_Ua.out_value,  IQ24, NONE, MOTOR.U_NOM
@@ -135,7 +135,7 @@ REG UC_FREQ_FILTER_T, filter_freq_Uc.p_T,       IQ24, CONF, NONE
 REG UC_FREQ_FILT,     filter_freq_Uc.out_value, IQ24, NONE, NONE
 
 
-GROUP ARM_FREQ, 1250
+GROUP ARM_FREQ, 0x2800
 // I r start.
 REG IRSTART_FILTER_T,      filter_zcd_slip.p_T,        IQ24, CONF, NONE
 REG IRSTART_FILT,          filter_zcd_slip.out_value,  IQ24, NONE, MOTOR.I_NOM
@@ -146,7 +146,7 @@ REG IRSTART_FREQ_FILT,     filter_freq_slip.out_value, IQ24, NONE, NONE
 REG SLIP, slip.out_value, IQ24, NONE, NONE
 
 
-GROUP RMS, 1400
+GROUP RMS, 0x2900
 REG UA, rms_Ua.out_value, IQ24, NONE, CONF.U_NOM
 REG UB, rms_Ub.out_value, IQ24, NONE, CONF.U_NOM
 REG UC, rms_Uc.out_value, IQ24, NONE, CONF.U_NOM
@@ -163,7 +163,7 @@ REG CELL_IA, rms_cell_Ia.out_value, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IB, rms_cell_Ib.out_value, IQ24, NONE, MOTOR.S_I_NOM
 REG CELL_IC, rms_cell_Ic.out_value, IQ24, NONE, MOTOR.S_I_NOM
 
-GROUP MEAN, 1500
+GROUP MEAN, 0x3000
 REG UARM,          mean_Uarm.out_value,        IQ24, NONE, MOTOR.U_NOM
 REG UARM_FILTER_T, filter_mean_Uarm.p_T,       IQ24, CONF, NONE
 REG UARM_FILT,     filter_mean_Uarm.out_value, IQ24, NONE, MOTOR.U_NOM
@@ -174,7 +174,7 @@ REG IRSTART,          mean_Irstart.out_value,        IQ24, NONE, MOTOR.I_NOM
 REG IRSTART_FILTER_T, filter_mean_Irstart.p_T,       IQ24, CONF, NONE
 REG IRSTART_FILT,     filter_mean_Irstart.out_value, IQ24, NONE, MOTOR.I_NOM
 
-GROUP POWER, 1600
+GROUP POWER, 0x3100
 REG A_S, power_A.out_S, IQ24, NONE, MOTOR.S_P_NOM
 REG A_P, power_A.out_P, IQ24, NONE, MOTOR.S_P_NOM
 REG A_Q, power_A.out_Q, IQ24, NONE, MOTOR.S_P_NOM
@@ -185,7 +185,7 @@ REG C_S, power_C.out_S, IQ24, NONE, MOTOR.S_P_NOM
 REG C_P, power_C.out_P, IQ24, NONE, MOTOR.S_P_NOM
 REG C_Q, power_C.out_Q, IQ24, NONE, MOTOR.S_P_NOM
 
-GROUP POWER_FACTOR, 1700
+GROUP POWER_FACTOR, 0x3200
 REG COS_PHI, power_factor.out_cos_phi, IQ24, NONE, NONE
 REG SIN_PHI, power_factor.out_sin_phi, IQ24, NONE, NONE
 REG TAN_PHI, power_factor.out_tan_phi, IQ24, NONE, NONE
