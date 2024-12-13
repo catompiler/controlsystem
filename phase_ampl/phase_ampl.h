@@ -78,7 +78,7 @@ struct _S_Phase_Ampl {
     uint32_t m_count; //!< Число записанных данных.
     uint32_t m_get_index; //!< Индекс чтения данных.
     uint32_t m_put_index; //!< Индекс записи данных.
-    phase_ampl_data_t m_data[PHASE_AMPL_LEN] ALIGNED4; //!< Данные.
+    phase_ampl_data_t ALIGNED4 m_data[PHASE_AMPL_LEN]; //!< Данные.
 };
 
 EXTERN METHOD_INIT_PROTO(M_phase_ampl);
