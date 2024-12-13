@@ -10,7 +10,8 @@
 
 //! Перечисление возможных бит управления.
 enum _E_Sys_Main_Control {
-    SYS_MAIN_CONTROL_NONE = CONTROL_NONE//!< SYS_MAIN_CONTROL_NONE
+    SYS_MAIN_CONTROL_NONE = CONTROL_NONE,//!< SYS_MAIN_CONTROL_NONE
+    SYS_MAIN_CONTROL_STOP = CONTROL_STOP//!< SYS_MAIN_CONTROL_NONE
 };
 
 //! Перечисление возможных бит статуса.
