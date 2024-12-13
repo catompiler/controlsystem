@@ -1,3 +1,6 @@
 [submodule "slcan"]
 	path = slcan
 	url = https://github.com/catompiler/slcan.git
+[submodule "CANopenNode"]
+	path = CANopenNode
+	url = https://github.com/CANopenNode/CANopenNode.git
