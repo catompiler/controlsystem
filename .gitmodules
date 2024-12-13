@@ -1,0 +1,3 @@
+[submodule "slcan"]
+	path = slcan
+	url = https://github.com/catompiler/slcan.git
