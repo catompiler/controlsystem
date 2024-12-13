@@ -16,6 +16,7 @@ M_adc_model adc_model = ADC_MODEL_DEFAULTS;
 M_adc_timer adc_tim = ADC_TIMER_DEFAULTS;
 M_sys_timer sys_tim = SYS_TIMER_DEFAULTS;
 M_ms_timer ms_tim = MS_TIMER_DEFAULTS;
+M_net_timer net_tim = NET_TIMER_DEFAULTS;
 
 M_sys_time sys_time = SYS_TIME_DEFAULTS;
 
@@ -169,3 +170,5 @@ M_smotor_larionov lrm = SMOTOR_LARIONOV_DEFAULTS;
 M_motor motor = MOTOR_DEFAULTS;
 
 M_prot prot = PROT_DEFAULTS;
+
+M_canopen canopen = CANOPEN_DEFAULTS;

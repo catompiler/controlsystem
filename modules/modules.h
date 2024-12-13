@@ -13,6 +13,7 @@
 #include "adc_timer/adc_timer.h"
 #include "sys_timer/sys_timer.h"
 #include "ms_timer/ms_timer.h"
+#include "net_timer/net_timer.h"
 #include "sys_time/sys_time.h"
 #include "timer/timer.h"
 #include "timer/timer_on.h"
@@ -60,6 +61,8 @@
 #include "pid/pid.h"
 #include "pid/pid_coefs.h"
 #include "mot_pot/mot_pot.h"
+#include "canopen/canopen.h"
+
 
 
 //! Основной модуль.
@@ -85,6 +88,8 @@ extern M_adc_timer adc_tim;
 extern M_sys_timer sys_tim;
 //! мс таймер.
 extern M_ms_timer ms_tim;
+//! Таймер сети.
+extern M_net_timer net_tim;
 
 //! Счётчик системного времени в с и мс.
 extern M_sys_time sys_time;
@@ -342,5 +347,9 @@ extern M_motor motor;
 // Защиты.
 //! Модуль защиты.
 extern M_prot prot;
+
+// Сеть.
+//! CANopen.
+extern M_canopen canopen;
 
 #endif /* MODULES_H */

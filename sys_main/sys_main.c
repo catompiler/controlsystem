@@ -47,6 +47,14 @@ static void ms_tim_handler(void* arg)
     CALC(sys_time); // Системное время.
 }
 
+static void net_tim_handler(void* arg)
+{
+    M_sys_main* sys = (M_sys_main*)arg;
+    assert(sys != NULL);
+
+    CALC(canopen); // CANopen.
+}
+
 static void adc_handler(void* arg)
 {
     M_sys_main* sys = (M_sys_main*)arg;
@@ -298,6 +306,13 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Защита.
     INIT(prot);
 
+    // Сеть.
+    // CANopen.
+    INIT(canopen);
+    if(canopen.status & CANOPEN_STATUS_ERROR){
+        init_errors |= SYS_MAIN_ERROR_HARDWARE;
+    }
+
     // Таймеры.
     // Таймер АЦП.
     INIT(adc_tim);
@@ -323,6 +338,14 @@ METHOD_INIT_IMPL(M_sys_main, sys)
         init_errors |= SYS_MAIN_ERROR_HARDWARE;
     }
 
+    // Сетевой таймер.
+    INIT(net_tim);
+    CALLBACK_PROC(net_tim.on_timeout) = net_tim_handler;
+    CALLBACK_ARG(net_tim.on_timeout) = (void*)sys;
+    if(net_tim.status & NET_TIMER_STATUS_ERROR){
+        init_errors |= SYS_MAIN_ERROR_HARDWARE;
+    }
+
     // Включение в работу модулей.
     // Не будем включать модули,
     // если инициализация завершена с ошибкой.
@@ -339,6 +362,13 @@ METHOD_INIT_IMPL(M_sys_main, sys)
         ms_tim.control = MS_TIMER_CONTROL_ENABLE;
         CONTROL(ms_tim);
         if(!(ms_tim.status & MS_TIMER_STATUS_RUN)){
+            init_errors |= SYS_MAIN_ERROR_HARDWARE;
+        }
+
+        // Запуск сетевого таймера.
+        net_tim.control = NET_TIMER_CONTROL_ENABLE;
+        CONTROL(net_tim);
+        if(!(net_tim.status & NET_TIMER_STATUS_RUN)){
             init_errors |= SYS_MAIN_ERROR_HARDWARE;
         }
     }
@@ -362,9 +392,15 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     CONTROL(sys_tim);
     ms_tim.control = CONTROL_NONE;
     CONTROL(ms_tim);
+    net_tim.control = CONTROL_NONE;
+    CONTROL(net_tim);
 
     // Деинициализация модулей.
     // От основных к базовым.
+
+    // Сеть.
+    // CANopen.
+    DEINIT(canopen);
 
     // Защита.
     DEINIT(prot);
@@ -527,6 +563,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(adc_tim);
     DEINIT(sys_tim);
     DEINIT(ms_tim);
+    DEINIT(net_tim);
     DEINIT(adc_model);
     DEINIT(adc);
     DEINIT(tmr_sys_fsm);
