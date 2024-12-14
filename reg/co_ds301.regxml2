@@ -1,0 +1,2306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RegEntries>
+    <RegEntry index="4096">
+        <name>Device type</name>
+        <type>0</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>value</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>16</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4097">
+        <name>Error register</name>
+        <type>0</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>value</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>524320</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4099">
+        <name>Pre-defined error field</name>
+        <type>1</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Number of errors</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>16</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393220</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Standard error field</name>
+                <type>3</type>
+                <count>16</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>131072</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4101">
+        <name>COB-ID SYNC message</name>
+        <type>0</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>value</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x80</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393280</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4102">
+        <name>Communication cycle period</name>
+        <type>0</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>value</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393344</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4103">
+        <name>Synchronous window length</name>
+        <type>0</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>value</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4112">
+        <name>Store parameters</name>
+        <type>1</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>4</maximum>
+                <default>4</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>131076</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Save all parameters</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>1</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393472</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Save communication parameters</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>1</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393472</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Save application parameters</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>1</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393472</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Save manufacturer defined parameters</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>1</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393472</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4113">
+        <name>Restore default parameters</name>
+        <type>1</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>4</maximum>
+                <default>4</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>131076</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Restore all default parameters</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>1</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Restore communication default parameters</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>1</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Restore application default parameters</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>1</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Restore manufacturer defined default parameters</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>1</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4114">
+        <name>COB-ID time stamp object</name>
+        <type>0</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>value</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x00000100</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393728</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4116">
+        <name>COB-ID EMCY</name>
+        <type>0</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>value</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x80</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>394240</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4117">
+        <name>Inhibit time EMCY</name>
+        <type>0</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>value</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4118">
+        <name>Consumer heartbeat time</name>
+        <type>1</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>8</maximum>
+                <default>8</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>133124</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Consumer heartbeat time</name>
+                <type>3</type>
+                <count>8</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>395264</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4119">
+        <name>Producer heartbeat time</name>
+        <type>0</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>value</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>397312</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4120">
+        <name>Identity</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>4</maximum>
+                <default>4</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>131076</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Vendor-ID</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>131072</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Product code</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>131072</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Revision number</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>131072</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Serial number</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>131072</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4121">
+        <name>Synchronous counter overflow value</name>
+        <type>0</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>value</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4608">
+        <name>SDO server parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>2</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>139268</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID client to server (rx)</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x600</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>663552</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>COB-ID server to client (tx)</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x580</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>663552</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="4736">
+        <name>SDO client parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>count</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>3</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>147460</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID client to server (tx)</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x80000000</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>1982464</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>COB-ID server to client (rx)</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x80000000</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>1982464</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Node-ID of the SDO server</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>1</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>409600</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="5120">
+        <name>RPDO communication parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>5</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>163844</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID used by RPDO</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x80000200</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Transmission type</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>254</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Event timer</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="5121">
+        <name>RPDO communication parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>5</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>163844</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID used by RPDO</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x80000300</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Transmission type</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>254</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Event timer</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="5122">
+        <name>RPDO communication parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>5</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>163844</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID used by RPDO</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x80000400</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Transmission type</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>254</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Event timer</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="5123">
+        <name>RPDO communication parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>5</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>163844</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID used by RPDO</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x80000500</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Transmission type</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>254</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Event timer</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>425984</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="5632">
+        <name>RPDO mapping parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Number of mapped application objects in PDO</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393220</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Application object 1</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Application object 2</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Application object 3</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Application object 4</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Application object 5</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>Application object 6</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="7">
+                <name>Application object 7</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="8">
+                <name>Application object 8</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="5633">
+        <name>RPDO mapping parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Number of mapped application objects in PDO</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393220</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Application object 1</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Application object 2</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Application object 3</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Application object 4</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Application object 5</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>Application object 6</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="7">
+                <name>Application object 7</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="8">
+                <name>Application object 8</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="5634">
+        <name>RPDO mapping parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Number of mapped application objects in PDO</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393220</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Application object 1</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Application object 2</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Application object 3</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Application object 4</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Application object 5</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>Application object 6</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="7">
+                <name>Application object 7</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="8">
+                <name>Application object 8</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="5635">
+        <name>RPDO mapping parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Number of mapped application objects in PDO</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393220</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Application object 1</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Application object 2</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Application object 3</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Application object 4</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Application object 5</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>Application object 6</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="7">
+                <name>Application object 7</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="8">
+                <name>Application object 8</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="6144">
+        <name>TPDO communication parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>6</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>196612</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID used by TPDO</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0xC0000180</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Transmission type</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>254</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Inhibit time</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Event timer</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>SYNC start value</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="6145">
+        <name>TPDO communication parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>6</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>196612</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID used by TPDO</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0xC0000280</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Transmission type</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>254</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Inhibit time</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Event timer</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>SYNC start value</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="6146">
+        <name>TPDO communication parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>6</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>196612</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID used by TPDO</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0xC0000380</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Transmission type</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>254</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Inhibit time</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Event timer</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>SYNC start value</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="6147">
+        <name>TPDO communication parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>6</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>196612</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID used by TPDO</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0xC0000480</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Transmission type</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>254</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Inhibit time</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Event timer</name>
+                <type>4</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>SYNC start value</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>458752</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="6656">
+        <name>TPDO mapping parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Number of mapped application objects in PDO</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393220</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Application object 1</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Application object 2</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Application object 3</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Application object 4</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Application object 5</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>Application object 6</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="7">
+                <name>Application object 7</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="8">
+                <name>Application object 8</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="6657">
+        <name>TPDO mapping parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Number of mapped application objects in PDO</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393220</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Application object 1</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Application object 2</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Application object 3</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Application object 4</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Application object 5</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>Application object 6</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="7">
+                <name>Application object 7</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="8">
+                <name>Application object 8</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="6658">
+        <name>TPDO mapping parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Number of mapped application objects in PDO</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393220</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Application object 1</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Application object 2</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Application object 3</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Application object 4</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Application object 5</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>Application object 6</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="7">
+                <name>Application object 7</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="8">
+                <name>Application object 8</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+    <RegEntry index="6659">
+        <name>TPDO mapping parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Number of mapped application objects in PDO</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393220</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>Application object 1</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>Application object 2</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="3">
+                <name>Application object 3</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="4">
+                <name>Application object 4</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="5">
+                <name>Application object 5</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="6">
+                <name>Application object 6</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="7">
+                <name>Application object 7</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="8">
+                <name>Application object 8</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>393216</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
+</RegEntries>
