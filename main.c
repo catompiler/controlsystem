@@ -185,109 +185,103 @@ int main(void)
 #if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
     windows_timer_set_max_res();
 #endif
-
+    int dlog_i = 0;
     // Stator Uabc
-    dlog.p_ch[0].reg_id = REG_ID_MODEL_STATOR_UA;
-    dlog.p_ch[0].enabled = 1;
-    dlog.p_ch[1].reg_id = REG_ID_MODEL_STATOR_UB;
-    dlog.p_ch[1].enabled = 1;
-    dlog.p_ch[2].reg_id = REG_ID_MODEL_STATOR_UC;
-    dlog.p_ch[2].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_S_UA;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_S_UB;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_S_UC;
+    dlog.p_ch[dlog_i++].enabled = 1;
     // Stator Iabc
-    dlog.p_ch[3].reg_id = REG_ID_MODEL_STATOR_IA;
-    dlog.p_ch[3].enabled = 1;
-    dlog.p_ch[4].reg_id = REG_ID_MODEL_STATOR_IB;
-    dlog.p_ch[4].enabled = 1;
-    dlog.p_ch[5].reg_id = REG_ID_MODEL_STATOR_IC;
-    dlog.p_ch[5].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_STATOR_IA;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_STATOR_IB;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_STATOR_IC;
+    dlog.p_ch[dlog_i++].enabled = 1;
     // Rotor U, I, Irstart
-    dlog.p_ch[6].reg_id = REG_ID_MODEL_ROTOR_U;
-    dlog.p_ch[6].enabled = 1;
-    dlog.p_ch[7].reg_id = REG_ID_MODEL_ROTOR_I;
-    dlog.p_ch[7].enabled = 1;;
-    dlog.p_ch[8].reg_id = REG_ID_MODEL_R_START_I;
-    dlog.p_ch[8].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_UFLD;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_IFLD;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_IRSTART;
+    dlog.p_ch[dlog_i++].enabled = 1;
     // Motor M, w
-    dlog.p_ch[9].reg_id = REG_ID_MODEL_MOTOR_M;
-    dlog.p_ch[9].enabled = 1;
-    dlog.p_ch[10].reg_id = REG_ID_MODEL_MOTOR_W;
-    dlog.p_ch[10].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_M;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_W;
+    dlog.p_ch[dlog_i++].enabled = 1;
     // Rectifier Uabc
-    dlog.p_ch[11].reg_id = REG_ID_MODEL_RECTIFIER_UA;
-    dlog.p_ch[11].enabled = 1;
-    dlog.p_ch[12].reg_id = REG_ID_MODEL_RECTIFIER_UB;
-    dlog.p_ch[12].enabled = 1;
-    dlog.p_ch[13].reg_id = REG_ID_MODEL_RECTIFIER_UC;
-    dlog.p_ch[13].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_UA;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_UB;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_UC;
+    dlog.p_ch[dlog_i++].enabled = 1;
     // Rectifier Iabc
-    dlog.p_ch[14].reg_id = REG_ID_MODEL_RECTIFIER_IA;
-    dlog.p_ch[14].enabled = 1;
-    dlog.p_ch[15].reg_id = REG_ID_MODEL_RECTIFIER_IB;
-    dlog.p_ch[15].enabled = 1;
-    dlog.p_ch[16].reg_id = REG_ID_MODEL_RECTIFIER_IC;
-    dlog.p_ch[16].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_IA;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_IB;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_IC;
+    dlog.p_ch[dlog_i++].enabled = 1;
     // Cell RMS.
-    dlog.p_ch[17].reg_id = REG_ID_RMS_CELL_UA;
-    dlog.p_ch[17].enabled = 1;
-    dlog.p_ch[18].reg_id = REG_ID_RMS_CELL_UB;
-    dlog.p_ch[18].enabled = 1;
-    dlog.p_ch[19].reg_id = REG_ID_RMS_CELL_UC;
-    dlog.p_ch[19].enabled = 1;
-    dlog.p_ch[20].reg_id = REG_ID_RMS_CELL_IA;
-    dlog.p_ch[20].enabled = 1;
-    dlog.p_ch[21].reg_id = REG_ID_RMS_CELL_IB;
-    dlog.p_ch[21].enabled = 1;
-    dlog.p_ch[22].reg_id = REG_ID_RMS_CELL_IC;
-    dlog.p_ch[22].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UA_OUT_VALUE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UB_OUT_VALUE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UC_OUT_VALUE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_IA_OUT_VALUE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_IB_OUT_VALUE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_IC_OUT_VALUE;
+    dlog.p_ch[dlog_i++].enabled = 1;
     // Freq arm.
     // I.
-    dlog.p_ch[23].reg_id = REG_ID_ARM_FREQ_IRSTART_FILT;
-    dlog.p_ch[23].enabled = 1;
-    dlog.p_ch[24].reg_id = REG_ID_ARM_FREQ_IRSTART_FREQ;
-    dlog.p_ch[24].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_FILTER_ZCD_SLIP_OUT_VALUE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_FILTER_FREQ_SLIP_OUT_VALUE;
+    dlog.p_ch[dlog_i++].enabled = 1;
 
-    dlog.p_ch[25].reg_id = REG_ID_ARM_FREQ_SLIP;
-    dlog.p_ch[25].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_ZCD_SLIP_OUT_FREQ;
+    dlog.p_ch[dlog_i++].enabled = 1;
 
-    dlog.p_ch[26].reg_id = REG_ID_MEAN_IRSTART_FILT;
-    dlog.p_ch[26].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_FILTER_MEAN_IRSTART_OUT_VALUE;
+    dlog.p_ch[dlog_i++].enabled = 1;
 
-    dlog.p_ch[27].reg_id = REG_ID_POWER_A_S;
-    dlog.p_ch[27].enabled = 1;
-    dlog.p_ch[28].reg_id = REG_ID_POWER_A_P;
-    dlog.p_ch[28].enabled = 1;
-    dlog.p_ch[29].reg_id = REG_ID_POWER_A_Q;
-    dlog.p_ch[29].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_POWER_A_OUT_S;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_POWER_A_OUT_P;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_POWER_A_OUT_Q;
+    dlog.p_ch[dlog_i++].enabled = 1;
 
-    dlog.p_ch[30].reg_id = REG_ID_MODEL_STATOR_IAB;
-    dlog.p_ch[30].enabled = 1;
-    dlog.p_ch[31].reg_id = REG_ID_MODEL_STATOR_IBC;
-    dlog.p_ch[31].enabled = 1;
-    dlog.p_ch[32].reg_id = REG_ID_MODEL_STATOR_ICA;
-    dlog.p_ch[32].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_STATOR_IA;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_STATOR_IA;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_STATOR_IA;
+    dlog.p_ch[dlog_i++].enabled = 1;
 
-    dlog.p_ch[33].reg_id = REG_ID_MODEL_STATOR_IA;
-    dlog.p_ch[33].enabled = 1;
-    dlog.p_ch[34].reg_id = REG_ID_MODEL_STATOR_IB;
-    dlog.p_ch[34].enabled = 1;
-    dlog.p_ch[35].reg_id = REG_ID_MODEL_STATOR_IC;
-    dlog.p_ch[35].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_PHASE_LRM_I_STATOR_OUT_A;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_PHASE_LRM_I_STATOR_OUT_B;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_PHASE_LRM_I_STATOR_OUT_C;
+    dlog.p_ch[dlog_i++].enabled = 1;
 
-    dlog.p_ch[36].reg_id = REG_ID_POWER_FACTOR_COS_PHI;
-    dlog.p_ch[36].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_POWER_FACTOR_OUT_COS_PHI;
+    dlog.p_ch[dlog_i++].enabled = 1;
 
-    dlog.p_ch[37].reg_id = REG_ID_POWER_FACTOR_SIN_PHI;
-    dlog.p_ch[37].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_POWER_FACTOR_OUT_SIN_PHI;
+    dlog.p_ch[dlog_i++].enabled = 1;
 
-    dlog.p_ch[38].reg_id = REG_ID_POWER_FACTOR_TAN_PHI;
-    dlog.p_ch[38].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_POWER_FACTOR_OUT_TAN_PHI;
+    dlog.p_ch[dlog_i++].enabled = 1;
 
-    dlog.p_ch[39].reg_id = REG_ID_MEAS_CELL_UA;
-    dlog.p_ch[39].enabled = 1;
-    dlog.p_ch[40].reg_id = REG_ID_MEAS_CELL_UB;
-    dlog.p_ch[40].enabled = 1;
-    dlog.p_ch[41].reg_id = REG_ID_MEAS_CELL_UC;
-    dlog.p_ch[41].enabled = 1;
 
     dlog.control = CONTROL_ENABLE;
 

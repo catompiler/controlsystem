@@ -180,144 +180,1288 @@
 #define REG_ID_TPDO_MAPPING_PARAMETER_1A03_APPLICATION_OBJECT_6 0x1a0306 /*  */
 #define REG_ID_TPDO_MAPPING_PARAMETER_1A03_APPLICATION_OBJECT_7 0x1a0307 /*  */
 #define REG_ID_TPDO_MAPPING_PARAMETER_1A03_APPLICATION_OBJECT_8 0x1a0308 /*  */
-#define REG_ID_CONF_COUNT 0x200000 /*  */
-#define REG_ID_CONF_U_NOM 0x200001 /*  */
-#define REG_ID_CONF_I_NOM 0x200002 /*  */
-#define REG_ID_CONF_F_NOM 0x200003 /*  */
-#define REG_ID_SYS_TIME_COUNT 0x205000 /*  */
-#define REG_ID_SYS_TIME_COUNTER_MS 0x205001 /*  */
-#define REG_ID_SYS_TIME_COUNTER_S 0x205002 /*  */
-#define REG_ID_SYS_TIME_RUN_COUNTER_S 0x205003 /*  */
-#define REG_ID_MOTOR_COUNT 0x210000 /*  */
-#define REG_ID_MOTOR_F_NOM 0x210001 /*  */
-#define REG_ID_MOTOR_S_U_NOM 0x210002 /*  */
-#define REG_ID_MOTOR_S_I_NOM 0x210003 /*  */
-#define REG_ID_MOTOR_S_P_NOM 0x210004 /*  */
-#define REG_ID_MOTOR_S_M_NOM 0x210005 /*  */
-#define REG_ID_MOTOR_U_NOM 0x210006 /*  */
-#define REG_ID_MOTOR_I_NOM 0x210007 /*  */
-#define REG_ID_ADC_COUNT 0x230000 /*  */
-#define REG_ID_ADC_UA_RAW 0x230001 /*  */
-#define REG_ID_ADC_UB_RAW 0x230002 /*  */
-#define REG_ID_ADC_UC_RAW 0x230003 /*  */
-#define REG_ID_ADC_UA 0x230004 /*  */
-#define REG_ID_ADC_UB 0x230005 /*  */
-#define REG_ID_ADC_UC 0x230006 /*  */
-#define REG_ID_ADC_UA_GAIN 0x230007 /*  */
-#define REG_ID_ADC_UA_OFFSET 0x230008 /*  */
-#define REG_ID_ADC_UB_GAIN 0x230009 /*  */
-#define REG_ID_ADC_UB_OFFSET 0x23000a /*  */
-#define REG_ID_ADC_UC_GAIN 0x23000b /*  */
-#define REG_ID_ADC_UC_OFFSET 0x23000c /*  */
-#define REG_ID_MEAS_COUNT 0x240000 /*  */
-#define REG_ID_MEAS_UA 0x240001 /*  */
-#define REG_ID_MEAS_UB 0x240002 /*  */
-#define REG_ID_MEAS_UC 0x240003 /*  */
-#define REG_ID_MEAS_IA 0x240004 /*  */
-#define REG_ID_MEAS_IB 0x240005 /*  */
-#define REG_ID_MEAS_IC 0x240006 /*  */
-#define REG_ID_MEAS_UARM 0x240007 /*  */
-#define REG_ID_MEAS_IARM 0x240008 /*  */
-#define REG_ID_MEAS_IRSTART 0x240009 /*  */
-#define REG_ID_MEAS_CELL_UAB 0x24000a /*  */
-#define REG_ID_MEAS_CELL_UBC 0x24000b /*  */
-#define REG_ID_MEAS_CELL_UCA 0x24000c /*  */
-#define REG_ID_MEAS_CELL_UA 0x24000d /*  */
-#define REG_ID_MEAS_CELL_UB 0x24000e /*  */
-#define REG_ID_MEAS_CELL_UC 0x24000f /*  */
-#define REG_ID_MEAS_CELL_IA 0x240010 /*  */
-#define REG_ID_MEAS_CELL_IB 0x240011 /*  */
-#define REG_ID_MEAS_CELL_IC 0x240012 /*  */
-#define REG_ID_MODEL_COUNT 0x250000 /*  */
-#define REG_ID_MODEL_STATOR_UA 0x250001 /*  */
-#define REG_ID_MODEL_STATOR_UB 0x250002 /*  */
-#define REG_ID_MODEL_STATOR_UC 0x250003 /*  */
-#define REG_ID_MODEL_STATOR_IAB 0x250004 /*  */
-#define REG_ID_MODEL_STATOR_IBC 0x250005 /*  */
-#define REG_ID_MODEL_STATOR_ICA 0x250006 /*  */
-#define REG_ID_MODEL_STATOR_IA 0x250007 /*  */
-#define REG_ID_MODEL_STATOR_IB 0x250008 /*  */
-#define REG_ID_MODEL_STATOR_IC 0x250009 /*  */
-#define REG_ID_MODEL_ROTOR_U 0x25000a /*  */
-#define REG_ID_MODEL_ROTOR_I 0x25000b /*  */
-#define REG_ID_MODEL_R_START_I 0x25000c /*  */
-#define REG_ID_MODEL_MOTOR_M 0x25000d /*  */
-#define REG_ID_MODEL_MOTOR_W 0x25000e /*  */
-#define REG_ID_MODEL_RECTIFIER_UA 0x25000f /*  */
-#define REG_ID_MODEL_RECTIFIER_UB 0x250010 /*  */
-#define REG_ID_MODEL_RECTIFIER_UC 0x250011 /*  */
-#define REG_ID_MODEL_RECTIFIER_IA 0x250012 /*  */
-#define REG_ID_MODEL_RECTIFIER_IB 0x250013 /*  */
-#define REG_ID_MODEL_RECTIFIER_IC 0x250014 /*  */
-#define REG_ID_PHASE_AMPL_COUNT 0x260000 /*  */
-#define REG_ID_PHASE_AMPL_UA_PHASE 0x260001 /*  */
-#define REG_ID_PHASE_AMPL_UA_AMPL 0x260002 /*  */
-#define REG_ID_PHASE_AMPL_UB_PHASE 0x260003 /*  */
-#define REG_ID_PHASE_AMPL_UB_AMPL 0x260004 /*  */
-#define REG_ID_PHASE_AMPL_UC_PHASE 0x260005 /*  */
-#define REG_ID_PHASE_AMPL_UC_AMPL 0x260006 /*  */
-#define REG_ID_LINE_FREQ_COUNT 0x270000 /*  */
-#define REG_ID_LINE_FREQ_UA_FILTER_T 0x270001 /*  */
-#define REG_ID_LINE_FREQ_UA_FILT 0x270002 /*  */
-#define REG_ID_LINE_FREQ_UA_FREQ 0x270003 /*  */
-#define REG_ID_LINE_FREQ_UA_FREQ_FILTER_T 0x270004 /*  */
-#define REG_ID_LINE_FREQ_UA_FREQ_FILT 0x270005 /*  */
-#define REG_ID_LINE_FREQ_UB_FILTER_T 0x270006 /*  */
-#define REG_ID_LINE_FREQ_UB_FILT 0x270007 /*  */
-#define REG_ID_LINE_FREQ_UB_FREQ 0x270008 /*  */
-#define REG_ID_LINE_FREQ_UB_FREQ_FILTER_T 0x270009 /*  */
-#define REG_ID_LINE_FREQ_UB_FREQ_FILT 0x27000a /*  */
-#define REG_ID_LINE_FREQ_UC_FILTER_T 0x27000b /*  */
-#define REG_ID_LINE_FREQ_UC_FILT 0x27000c /*  */
-#define REG_ID_LINE_FREQ_UC_FREQ 0x27000d /*  */
-#define REG_ID_LINE_FREQ_UC_FREQ_FILTER_T 0x27000e /*  */
-#define REG_ID_LINE_FREQ_UC_FREQ_FILT 0x27000f /*  */
-#define REG_ID_ARM_FREQ_COUNT 0x280000 /*  */
-#define REG_ID_ARM_FREQ_IRSTART_FILTER_T 0x280001 /*  */
-#define REG_ID_ARM_FREQ_IRSTART_FILT 0x280002 /*  */
-#define REG_ID_ARM_FREQ_IRSTART_FREQ 0x280003 /*  */
-#define REG_ID_ARM_FREQ_IRSTART_FREQ_FILTER_T 0x280004 /*  */
-#define REG_ID_ARM_FREQ_IRSTART_FREQ_FILT 0x280005 /*  */
-#define REG_ID_ARM_FREQ_SLIP 0x280006 /*  */
-#define REG_ID_RMS_COUNT 0x290000 /*  */
-#define REG_ID_RMS_UA 0x290001 /*  */
-#define REG_ID_RMS_UB 0x290002 /*  */
-#define REG_ID_RMS_UC 0x290003 /*  */
-#define REG_ID_RMS_IA 0x290004 /*  */
-#define REG_ID_RMS_IB 0x290005 /*  */
-#define REG_ID_RMS_IC 0x290006 /*  */
-#define REG_ID_RMS_CELL_UA 0x290007 /*  */
-#define REG_ID_RMS_CELL_UB 0x290008 /*  */
-#define REG_ID_RMS_CELL_UC 0x290009 /*  */
-#define REG_ID_RMS_CELL_UA_PHASE 0x29000a /*  */
-#define REG_ID_RMS_CELL_UB_PHASE 0x29000b /*  */
-#define REG_ID_RMS_CELL_UC_PHASE 0x29000c /*  */
-#define REG_ID_RMS_CELL_IA 0x29000d /*  */
-#define REG_ID_RMS_CELL_IB 0x29000e /*  */
-#define REG_ID_RMS_CELL_IC 0x29000f /*  */
-#define REG_ID_MEAN_COUNT 0x300000 /*  */
-#define REG_ID_MEAN_UARM 0x300001 /*  */
-#define REG_ID_MEAN_UARM_FILTER_T 0x300002 /*  */
-#define REG_ID_MEAN_UARM_FILT 0x300003 /*  */
-#define REG_ID_MEAN_IARM 0x300004 /*  */
-#define REG_ID_MEAN_IARM_FILTER_T 0x300005 /*  */
-#define REG_ID_MEAN_IARM_FILT 0x300006 /*  */
-#define REG_ID_MEAN_IRSTART 0x300007 /*  */
-#define REG_ID_MEAN_IRSTART_FILTER_T 0x300008 /*  */
-#define REG_ID_MEAN_IRSTART_FILT 0x300009 /*  */
-#define REG_ID_POWER_COUNT 0x310000 /*  */
-#define REG_ID_POWER_A_S 0x310001 /*  */
-#define REG_ID_POWER_A_P 0x310002 /*  */
-#define REG_ID_POWER_A_Q 0x310003 /*  */
-#define REG_ID_POWER_B_S 0x310004 /*  */
-#define REG_ID_POWER_B_P 0x310005 /*  */
-#define REG_ID_POWER_B_Q 0x310006 /*  */
-#define REG_ID_POWER_C_S 0x310007 /*  */
-#define REG_ID_POWER_C_P 0x310008 /*  */
-#define REG_ID_POWER_C_Q 0x310009 /*  */
-#define REG_ID_POWER_FACTOR_COUNT 0x320000 /*  */
-#define REG_ID_POWER_FACTOR_COS_PHI 0x320001 /*  */
-#define REG_ID_POWER_FACTOR_SIN_PHI 0x320002 /*  */
-#define REG_ID_POWER_FACTOR_TAN_PHI 0x320003 /*  */
+#define REG_ID_SYS_COUNT 0x200000 /* Number of sub entries count */
+#define REG_ID_SYS_CONTROL 0x200001 /* Слово управления. */
+#define REG_ID_SYS_STATUS 0x200002 /* Слово состояния. */
+#define REG_ID_SYS_ERRORS 0x200003 /* Ошибки. */
+#define REG_ID_SYS_WARNINGS 0x200004 /* Предупреждения. */
+#define REG_ID_SYS_FSM_STATE_STATE 0x200005 /* Состояние. */
+#define REG_ID_SYS_FSM_STATE_PREV_STATE 0x200006 /* Предыдущее состояние. */
+#define REG_ID_SYS_CMD_COUNT 0x201000 /* Number of sub entries count */
+#define REG_ID_SYS_CMD_CONTROL 0x201001 /* Слово управления. */
+#define REG_ID_SYS_CMD_STATUS 0x201002 /* Слово состояния. */
+#define REG_ID_SYS_CMD_OUT_COMMAND 0x201003 /* Выходное командное слово. */
+#define REG_ID_SYS_CTRL_COUNT 0x202000 /* Number of sub entries count */
+#define REG_ID_SYS_CTRL_CONTROL 0x202001 /* Слово управления. */
+#define REG_ID_SYS_CTRL_STATUS 0x202002 /* Слово состояния. */
+#define REG_ID_SYS_CTRL_ERRORS 0x202003 /* Ошибки. */
+#define REG_ID_SYS_CTRL_WARNINGS 0x202004 /* Предупреждения. */
+#define REG_ID_SYS_CTRL_FSM_STATE_STATE 0x202005 /* Состояние. */
+#define REG_ID_SYS_CTRL_FSM_STATE_PREV_STATE 0x202006 /* Предыдущее состояние. */
+#define REG_ID_SYS_CTRL_OUT_COMMAND 0x202007 /* Выходное командное слово. */
+#define REG_ID_SYS_CTRL_FSM_CHECK_STATE 0x202008 /* Состояние. */
+#define REG_ID_SYS_CTRL_FSM_CHECK_PREV_STATE 0x202009 /* Предыдущее состояние. */
+#define REG_ID_SYS_CTRL_FSM_IDLE_STATE 0x20200a /* Состояние. */
+#define REG_ID_SYS_CTRL_FSM_IDLE_PREV_STATE 0x20200b /* Предыдущее состояние. */
+#define REG_ID_SYS_STAT_COUNT 0x203000 /* Number of sub entries count */
+#define REG_ID_SYS_STAT_CONTROL 0x203001 /* Слово управления. */
+#define REG_ID_SYS_STAT_STATUS 0x203002 /* Слово состояния. */
+#define REG_ID_SYS_STAT_IN_COMMAND 0x203003 /* Входное командное слово. */
+#define REG_ID_CONF_COUNT 0x204000 /* Number of sub entries count */
+#define REG_ID_CONF_CONTROL 0x204001 /* Слово управления. */
+#define REG_ID_CONF_STATUS 0x204002 /* Слово состояния. */
+#define REG_ID_CONF_WARNINGS 0x204003 /* Слово предупреждений. */
+#define REG_ID_CONF_U_NOM 0x204004 /* Номинальное (базовое) напряжение. */
+#define REG_ID_CONF_I_NOM 0x204005 /* Номинальный (базовый) ток. */
+#define REG_ID_CONF_F_NOM 0x204006 /* Номинальная (базовая) частота. */
+#define REG_ID_CONF_U_BASE 0x204007 /* Базовое напряжение. */
+#define REG_ID_CONF_U_BASE_INV 0x204008 /* Базовое напряжение, инвертированное значение. */
+#define REG_ID_CONF_I_BASE 0x204009 /* Базовый ток. */
+#define REG_ID_CONF_I_BASE_INV 0x20400a /* Базовый ток, инвертированное значение. */
+#define REG_ID_CONF_F_BASE 0x20400b /* Базовая частота. */
+#define REG_ID_CONF_F_BASE_INV 0x20400c /* Базовая частота, инвертированное значение. */
+#define REG_ID_CONF_P_BASE 0x20400d /* Базовая мощность. */
+#define REG_ID_CONF_P_BASE_INV 0x20400e /* Базовая мощность, инвертированное значение. */
+#define REG_ID_ADC_COUNT 0x205000 /* Number of sub entries count */
+#define REG_ID_ADC_CONTROL 0x205001 /* Слово управления. */
+#define REG_ID_ADC_STATUS 0x205002 /* Слово состояния. */
+#define REG_ID_ADC_OUT_UA_RAW 0x205003 /* Мнговенное напряжение фазы A (сырое). */
+#define REG_ID_ADC_OUT_UB_RAW 0x205004 /* Мнговенное напряжение фазы B (сырое). */
+#define REG_ID_ADC_OUT_UC_RAW 0x205005 /* Мнговенное напряжение фазы C (сырое). */
+#define REG_ID_ADC_OUT_UA 0x205006 /* Мнговенное напряжение фазы A. */
+#define REG_ID_ADC_OUT_UB 0x205007 /* Мнговенное напряжение фазы B. */
+#define REG_ID_ADC_OUT_UC 0x205008 /* Мнговенное напряжение фазы C. */
+#define REG_ID_ADC_OUT_IA_RAW 0x205009 /* Мнговенный ток фазы A (сырое). */
+#define REG_ID_ADC_OUT_IB_RAW 0x20500a /* Мнговенный ток фазы B (сырое). */
+#define REG_ID_ADC_OUT_IC_RAW 0x20500b /* Мнговенный ток фазы C (сырое). */
+#define REG_ID_ADC_OUT_IA 0x20500c /* Мнговенный ток фазы A. */
+#define REG_ID_ADC_OUT_IB 0x20500d /* Мнговенный ток фазы B. */
+#define REG_ID_ADC_OUT_IC 0x20500e /* Мнговенный ток фазы C. */
+#define REG_ID_ADC_OUT_UARM_RAW 0x20500f /* Мнговенное напряжение выхода (сырое). */
+#define REG_ID_ADC_OUT_UARM 0x205010 /* Мнговенное напряжение выхода. */
+#define REG_ID_ADC_OUT_IARM_RAW 0x205011 /* Мнговенный ток выхода (сырое). */
+#define REG_ID_ADC_OUT_IARM 0x205012 /* Мнговенный ток выхода. */
+#define REG_ID_ADC_OUT_IR_RAW 0x205013 /* Мнговенный ток резистора (сырое). */
+#define REG_ID_ADC_OUT_IRSTART 0x205014 /* Мнговенный ток резистора. */
+#define REG_ID_ADC_OUT_S_UA_RAW 0x205015 /* Мнговенное напряжение фазы A статора (сырое). */
+#define REG_ID_ADC_OUT_S_UB_RAW 0x205016 /* Мнговенное напряжение фазы B статора (сырое). */
+#define REG_ID_ADC_OUT_S_UC_RAW 0x205017 /* Мнговенное напряжение фазы C статора (сырое). */
+#define REG_ID_ADC_OUT_S_UA 0x205018 /* Мнговенное напряжение фазы A статора. */
+#define REG_ID_ADC_OUT_S_UB 0x205019 /* Мнговенное напряжение фазы B статора. */
+#define REG_ID_ADC_OUT_S_UC 0x20501a /* Мнговенное напряжение фазы C статора. */
+#define REG_ID_ADC_OUT_S_IA_RAW 0x20501b /* Мнговенный ток фазы A статора (сырое). */
+#define REG_ID_ADC_OUT_S_IB_RAW 0x20501c /* Мнговенный ток фазы B статора (сырое). */
+#define REG_ID_ADC_OUT_S_IC_RAW 0x20501d /* Мнговенный ток фазы C статора (сырое). */
+#define REG_ID_ADC_OUT_S_IA 0x20501e /* Мнговенный ток фазы A статора. */
+#define REG_ID_ADC_OUT_S_IB 0x20501f /* Мнговенный ток фазы B статора. */
+#define REG_ID_ADC_OUT_S_IC 0x205020 /* Мнговенный ток фазы C статора. */
+#define REG_ID_ADC_UA_GAIN 0x205021 /* Коэффициент усиления напряжения фазы A. */
+#define REG_ID_ADC_UA_OFFSET 0x205022 /* Смещеие АЦП напряжения фазы A. */
+#define REG_ID_ADC_UB_GAIN 0x205023 /* Коэффициент усиления напряжения фазы B. */
+#define REG_ID_ADC_UB_OFFSET 0x205024 /* Смещеие АЦП напряжения фазы B. */
+#define REG_ID_ADC_UC_GAIN 0x205025 /* Коэффициент усиления напряжения фазы C. */
+#define REG_ID_ADC_UC_OFFSET 0x205026 /* Смещеие АЦП напряжения фазы C. */
+#define REG_ID_ADC_IA_GAIN 0x205027 /* Коэффициент усиления тока фазы A. */
+#define REG_ID_ADC_IA_OFFSET 0x205028 /* Смещеие АЦП тока фазы A. */
+#define REG_ID_ADC_IB_GAIN 0x205029 /* Коэффициент усиления тока фазы B. */
+#define REG_ID_ADC_IB_OFFSET 0x20502a /* Смещеие АЦП тока фазы B. */
+#define REG_ID_ADC_IC_GAIN 0x20502b /* Коэффициент усиления тока фазы C. */
+#define REG_ID_ADC_IC_OFFSET 0x20502c /* Смещеие АЦП тока фазы C. */
+#define REG_ID_ADC_UARM_GAIN 0x20502d /* Коэффициент усиления напряжения выхода. */
+#define REG_ID_ADC_UARM_OFFSET 0x20502e /* Смещеие АЦП напряжения выхода. */
+#define REG_ID_ADC_IARM_GAIN 0x20502f /* Коэффициент усиления тока выхода. */
+#define REG_ID_ADC_IARM_OFFSET 0x205030 /* Смещеие АЦП тока выхода. */
+#define REG_ID_ADC_IR_GAIN 0x205031 /* Коэффициент усиления тока резистора. */
+#define REG_ID_ADC_IR_OFFSET 0x205032 /* Смещеие АЦП тока резистора. */
+#define REG_ID_ADC_S_UA_GAIN 0x205033 /* Коэффициент усиления напряжения фазы A статора. */
+#define REG_ID_ADC_S_UA_OFFSET 0x205034 /* Смещеие АЦП напряжения фазы A статора. */
+#define REG_ID_ADC_S_UB_GAIN 0x205035 /* Коэффициент усиления напряжения фазы B статора. */
+#define REG_ID_ADC_S_UB_OFFSET 0x205036 /* Смещеие АЦП напряжения фазы B статора. */
+#define REG_ID_ADC_S_UC_GAIN 0x205037 /* Коэффициент усиления напряжения фазы C статора. */
+#define REG_ID_ADC_S_UC_OFFSET 0x205038 /* Смещеие АЦП напряжения фазы C статора. */
+#define REG_ID_ADC_S_IA_GAIN 0x205039 /* Коэффициент усиления тока фазы A статора. */
+#define REG_ID_ADC_S_IA_OFFSET 0x20503a /* Смещеие АЦП тока фазы A статора. */
+#define REG_ID_ADC_S_IB_GAIN 0x20503b /* Коэффициент усиления тока фазы B статора. */
+#define REG_ID_ADC_S_IB_OFFSET 0x20503c /* Смещеие АЦП тока фазы B статора. */
+#define REG_ID_ADC_S_IC_GAIN 0x20503d /* Коэффициент усиления тока фазы C статора. */
+#define REG_ID_ADC_S_IC_OFFSET 0x20503e /* Смещеие АЦП тока фазы C статора. */
+#define REG_ID_ADC_MODEL_COUNT 0x206000 /* Number of sub entries count */
+#define REG_ID_ADC_MODEL_CONTROL 0x206001 /* Слово управления. */
+#define REG_ID_ADC_MODEL_STATUS 0x206002 /* Слово состояния. */
+#define REG_ID_ADC_MODEL_IN_U_SCALE 0x206003 /* Масштабирование напряжения фаз основного ввода. */
+#define REG_ID_ADC_MODEL_IN_F_SCALE 0x206004 /* Масштабирование частоты фаз основного ввода. */
+#define REG_ID_ADC_MODEL_IN_S_U_SCALE 0x206005 /* Масштабирование напряжения фаз статора. */
+#define REG_ID_ADC_MODEL_IN_S_F_SCALE 0x206006 /* Масштабирование частоты фаз статора. */
+#define REG_ID_ADC_MODEL_OUT_UA_RAW 0x206007 /* Мнговенное напряжение фазы A (сырое). */
+#define REG_ID_ADC_MODEL_OUT_UB_RAW 0x206008 /* Мнговенное напряжение фазы B (сырое). */
+#define REG_ID_ADC_MODEL_OUT_UC_RAW 0x206009 /* Мнговенное напряжение фазы C (сырое). */
+#define REG_ID_ADC_MODEL_OUT_UA 0x20600a /* Мнговенное напряжение фазы A. */
+#define REG_ID_ADC_MODEL_OUT_UB 0x20600b /* Мнговенное напряжение фазы B. */
+#define REG_ID_ADC_MODEL_OUT_UC 0x20600c /* Мнговенное напряжение фазы C. */
+#define REG_ID_ADC_MODEL_OUT_S_UA_RAW 0x20600d /* Мнговенное напряжение фазы A статора (сырое). */
+#define REG_ID_ADC_MODEL_OUT_S_UB_RAW 0x20600e /* Мнговенное напряжение фазы B статора (сырое). */
+#define REG_ID_ADC_MODEL_OUT_S_UC_RAW 0x20600f /* Мнговенное напряжение фазы C статора (сырое). */
+#define REG_ID_ADC_MODEL_OUT_S_UA 0x206010 /* Мнговенное напряжение фазы A статора. */
+#define REG_ID_ADC_MODEL_OUT_S_UB 0x206011 /* Мнговенное напряжение фазы B статора. */
+#define REG_ID_ADC_MODEL_OUT_S_UC 0x206012 /* Мнговенное напряжение фазы C статора. */
+#define REG_ID_ADC_MODEL_UA_GAIN 0x206013 /* Коэффициент усиления напряжения фазы A. */
+#define REG_ID_ADC_MODEL_UA_OFFSET 0x206014 /* Смещеие АЦП напряжения фазы A. */
+#define REG_ID_ADC_MODEL_UB_GAIN 0x206015 /* Коэффициент усиления напряжения фазы B. */
+#define REG_ID_ADC_MODEL_UB_OFFSET 0x206016 /* Смещеие АЦП напряжения фазы B. */
+#define REG_ID_ADC_MODEL_UC_GAIN 0x206017 /* Коэффициент усиления напряжения фазы C. */
+#define REG_ID_ADC_MODEL_UC_OFFSET 0x206018 /* Смещеие АЦП напряжения фазы C. */
+#define REG_ID_ADC_MODEL_S_UA_GAIN 0x206019 /* Коэффициент усиления напряжения фазы A статора. */
+#define REG_ID_ADC_MODEL_S_UA_OFFSET 0x20601a /* Смещеие АЦП напряжения фазы A статора. */
+#define REG_ID_ADC_MODEL_S_UB_GAIN 0x20601b /* Коэффициент усиления напряжения фазы B статора. */
+#define REG_ID_ADC_MODEL_S_UB_OFFSET 0x20601c /* Смещеие АЦП напряжения фазы B статора. */
+#define REG_ID_ADC_MODEL_S_UC_GAIN 0x20601d /* Коэффициент усиления напряжения фазы C статора. */
+#define REG_ID_ADC_MODEL_S_UC_OFFSET 0x20601e /* Смещеие АЦП напряжения фазы C статора. */
+#define REG_ID_ADC_TIM_COUNT 0x207000 /* Number of sub entries count */
+#define REG_ID_ADC_TIM_CONTROL 0x207001 /* Слово управления. */
+#define REG_ID_ADC_TIM_STATUS 0x207002 /* Слово состояния. */
+#define REG_ID_ADC_TIM_OUT_COUNTER 0x207003 /* Счётчик тиков. */
+#define REG_ID_SYS_TIM_COUNT 0x208000 /* Number of sub entries count */
+#define REG_ID_SYS_TIM_CONTROL 0x208001 /* Слово управления. */
+#define REG_ID_SYS_TIM_STATUS 0x208002 /* Слово состояния. */
+#define REG_ID_SYS_TIM_OUT_COUNTER 0x208003 /* Счётчик тиков. */
+#define REG_ID_MS_TIM_COUNT 0x209000 /* Number of sub entries count */
+#define REG_ID_MS_TIM_CONTROL 0x209001 /* Слово управления. */
+#define REG_ID_MS_TIM_STATUS 0x209002 /* Слово состояния. */
+#define REG_ID_MS_TIM_OUT_COUNTER 0x209003 /* Счётчик тиков. */
+#define REG_ID_NET_TIM_COUNT 0x20a000 /* Number of sub entries count */
+#define REG_ID_NET_TIM_CONTROL 0x20a001 /* Слово управления. */
+#define REG_ID_NET_TIM_STATUS 0x20a002 /* Слово состояния. */
+#define REG_ID_NET_TIM_OUT_COUNTER 0x20a003 /* Счётчик тиков. */
+#define REG_ID_SYS_TIME_COUNT 0x20b000 /* Number of sub entries count */
+#define REG_ID_SYS_TIME_CONTROL 0x20b001 /* Слово управления. */
+#define REG_ID_SYS_TIME_STATUS 0x20b002 /* Слово состояния. */
+#define REG_ID_SYS_TIME_COUNTER_MS 0x20b003 /* Счётчик времени после загрузки в мс. */
+#define REG_ID_SYS_TIME_COUNTER_S 0x20b004 /* Счётчик времени после загрузки в с. */
+#define REG_ID_SYS_TIME_RUN_COUNTER_S 0x20b005 /* Счётчик времени работы в с. */
+#define REG_ID_TMR_SYS_FSM_COUNT 0x20c000 /* Number of sub entries count */
+#define REG_ID_TMR_SYS_FSM_CONTROL 0x20c001 /* Слово управления. */
+#define REG_ID_TMR_SYS_FSM_STATUS 0x20c002 /* Слово состояния. */
+#define REG_ID_TMR_SYS_FSM_OUT_EXPIRED 0x20c003 /* Флаг истечения времени. */
+#define REG_ID_TMR_SYS_FSM_OUT_TIMEOUT 0x20c004 /* Строб тайм-аута. */
+#define REG_ID_TMR_SYS_FSM_INTERVAL 0x20c005 /* Интервал таймера, мс. */
+#define REG_ID_DLOG_COUNT 0x20d000 /* Number of sub entries count */
+#define REG_ID_DLOG_CONTROL 0x20d001 /* Слово управления. */
+#define REG_ID_DLOG_STATUS 0x20d002 /* Слово состояния. */
+#define REG_ID_DLOG_CH0_ENABLED 0x20d003 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH0_REG_ID 0x20d004 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH1_ENABLED 0x20d005 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH1_REG_ID 0x20d006 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH2_ENABLED 0x20d007 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH2_REG_ID 0x20d008 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH3_ENABLED 0x20d009 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH3_REG_ID 0x20d00a /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH4_ENABLED 0x20d00b /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH4_REG_ID 0x20d00c /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH5_ENABLED 0x20d00d /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH5_REG_ID 0x20d00e /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH6_ENABLED 0x20d00f /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH6_REG_ID 0x20d010 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH7_ENABLED 0x20d011 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH7_REG_ID 0x20d012 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH8_ENABLED 0x20d013 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH8_REG_ID 0x20d014 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH9_ENABLED 0x20d015 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH9_REG_ID 0x20d016 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH10_ENABLED 0x20d017 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH10_REG_ID 0x20d018 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH11_ENABLED 0x20d019 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH11_REG_ID 0x20d01a /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH12_ENABLED 0x20d01b /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH12_REG_ID 0x20d01c /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH13_ENABLED 0x20d01d /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH13_REG_ID 0x20d01e /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH14_ENABLED 0x20d01f /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH14_REG_ID 0x20d020 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH15_ENABLED 0x20d021 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH15_REG_ID 0x20d022 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH16_ENABLED 0x20d023 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH16_REG_ID 0x20d024 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH17_ENABLED 0x20d025 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH17_REG_ID 0x20d026 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH18_ENABLED 0x20d027 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH18_REG_ID 0x20d028 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH19_ENABLED 0x20d029 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH19_REG_ID 0x20d02a /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH20_ENABLED 0x20d02b /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH20_REG_ID 0x20d02c /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH21_ENABLED 0x20d02d /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH21_REG_ID 0x20d02e /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH22_ENABLED 0x20d02f /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH22_REG_ID 0x20d030 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH23_ENABLED 0x20d031 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH23_REG_ID 0x20d032 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH24_ENABLED 0x20d033 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH24_REG_ID 0x20d034 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH25_ENABLED 0x20d035 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH25_REG_ID 0x20d036 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH26_ENABLED 0x20d037 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH26_REG_ID 0x20d038 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH27_ENABLED 0x20d039 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH27_REG_ID 0x20d03a /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH28_ENABLED 0x20d03b /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH28_REG_ID 0x20d03c /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH29_ENABLED 0x20d03d /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH29_REG_ID 0x20d03e /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH30_ENABLED 0x20d03f /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH30_REG_ID 0x20d040 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH31_ENABLED 0x20d041 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH31_REG_ID 0x20d042 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH32_ENABLED 0x20d043 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH32_REG_ID 0x20d044 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH33_ENABLED 0x20d045 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH33_REG_ID 0x20d046 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH34_ENABLED 0x20d047 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH34_REG_ID 0x20d048 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH35_ENABLED 0x20d049 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH35_REG_ID 0x20d04a /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH36_ENABLED 0x20d04b /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH36_REG_ID 0x20d04c /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH37_ENABLED 0x20d04d /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH37_REG_ID 0x20d04e /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH38_ENABLED 0x20d04f /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH38_REG_ID 0x20d050 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH39_ENABLED 0x20d051 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH39_REG_ID 0x20d052 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH40_ENABLED 0x20d053 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH40_REG_ID 0x20d054 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH41_ENABLED 0x20d055 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH41_REG_ID 0x20d056 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH42_ENABLED 0x20d057 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH42_REG_ID 0x20d058 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH43_ENABLED 0x20d059 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH43_REG_ID 0x20d05a /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH44_ENABLED 0x20d05b /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH44_REG_ID 0x20d05c /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH45_ENABLED 0x20d05d /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH45_REG_ID 0x20d05e /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH46_ENABLED 0x20d05f /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH46_REG_ID 0x20d060 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_CH47_ENABLED 0x20d061 /* Разрешение логгирования канала. */
+#define REG_ID_DLOG_CH47_REG_ID 0x20d062 /* Идентификатор логгируемого регистра. */
+#define REG_ID_DLOG_COUNT_99 0x20d063 /* Число записанных данных. */
+#define REG_ID_DLOG_GET_INDEX 0x20d064 /* Индекс чтения данных. */
+#define REG_ID_DLOG_PUT_INDEX 0x20d065 /* Индекс записи данных. */
+#define REG_ID_DLOG_CH0_DATA 0x20d066 /* Данные. */
+#define REG_ID_DLOG_CH1_DATA 0x20d067 /* Данные. */
+#define REG_ID_DLOG_CH2_DATA 0x20d068 /* Данные. */
+#define REG_ID_DLOG_CH3_DATA 0x20d069 /* Данные. */
+#define REG_ID_DLOG_CH4_DATA 0x20d06a /* Данные. */
+#define REG_ID_DLOG_CH5_DATA 0x20d06b /* Данные. */
+#define REG_ID_DLOG_CH6_DATA 0x20d06c /* Данные. */
+#define REG_ID_DLOG_CH7_DATA 0x20d06d /* Данные. */
+#define REG_ID_DLOG_CH8_DATA 0x20d06e /* Данные. */
+#define REG_ID_DLOG_CH9_DATA 0x20d06f /* Данные. */
+#define REG_ID_DLOG_CH10_DATA 0x20d070 /* Данные. */
+#define REG_ID_DLOG_CH11_DATA 0x20d071 /* Данные. */
+#define REG_ID_DLOG_CH12_DATA 0x20d072 /* Данные. */
+#define REG_ID_DLOG_CH13_DATA 0x20d073 /* Данные. */
+#define REG_ID_DLOG_CH14_DATA 0x20d074 /* Данные. */
+#define REG_ID_DLOG_CH15_DATA 0x20d075 /* Данные. */
+#define REG_ID_DLOG_CH16_DATA 0x20d076 /* Данные. */
+#define REG_ID_DLOG_CH17_DATA 0x20d077 /* Данные. */
+#define REG_ID_DLOG_CH18_DATA 0x20d078 /* Данные. */
+#define REG_ID_DLOG_CH19_DATA 0x20d079 /* Данные. */
+#define REG_ID_DLOG_CH20_DATA 0x20d07a /* Данные. */
+#define REG_ID_DLOG_CH21_DATA 0x20d07b /* Данные. */
+#define REG_ID_DLOG_CH22_DATA 0x20d07c /* Данные. */
+#define REG_ID_DLOG_CH23_DATA 0x20d07d /* Данные. */
+#define REG_ID_DLOG_CH24_DATA 0x20d07e /* Данные. */
+#define REG_ID_DLOG_CH25_DATA 0x20d07f /* Данные. */
+#define REG_ID_DLOG_CH26_DATA 0x20d080 /* Данные. */
+#define REG_ID_DLOG_CH27_DATA 0x20d081 /* Данные. */
+#define REG_ID_DLOG_CH28_DATA 0x20d082 /* Данные. */
+#define REG_ID_DLOG_CH29_DATA 0x20d083 /* Данные. */
+#define REG_ID_DLOG_CH30_DATA 0x20d084 /* Данные. */
+#define REG_ID_DLOG_CH31_DATA 0x20d085 /* Данные. */
+#define REG_ID_DLOG_CH32_DATA 0x20d086 /* Данные. */
+#define REG_ID_DLOG_CH33_DATA 0x20d087 /* Данные. */
+#define REG_ID_DLOG_CH34_DATA 0x20d088 /* Данные. */
+#define REG_ID_DLOG_CH35_DATA 0x20d089 /* Данные. */
+#define REG_ID_DLOG_CH36_DATA 0x20d08a /* Данные. */
+#define REG_ID_DLOG_CH37_DATA 0x20d08b /* Данные. */
+#define REG_ID_DLOG_CH38_DATA 0x20d08c /* Данные. */
+#define REG_ID_DLOG_CH39_DATA 0x20d08d /* Данные. */
+#define REG_ID_DLOG_CH40_DATA 0x20d08e /* Данные. */
+#define REG_ID_DLOG_CH41_DATA 0x20d08f /* Данные. */
+#define REG_ID_DLOG_CH42_DATA 0x20d090 /* Данные. */
+#define REG_ID_DLOG_CH43_DATA 0x20d091 /* Данные. */
+#define REG_ID_DLOG_CH44_DATA 0x20d092 /* Данные. */
+#define REG_ID_DLOG_CH45_DATA 0x20d093 /* Данные. */
+#define REG_ID_DLOG_CH46_DATA 0x20d094 /* Данные. */
+#define REG_ID_DLOG_CH47_DATA 0x20d095 /* Данные. */
+#define REG_ID_SYS_CALC_COUNT 0x20e000 /* Number of sub entries count */
+#define REG_ID_SYS_CALC_CONTROL 0x20e001 /* Слово управления. */
+#define REG_ID_SYS_CALC_STATUS 0x20e002 /* Слово состояния. */
+#define REG_ID_RECT_CURR_COUNT 0x20f000 /* Number of sub entries count */
+#define REG_ID_RECT_CURR_CONTROL 0x20f001 /* Слово управления. */
+#define REG_ID_RECT_CURR_STATUS 0x20f002 /* Слово состояния. */
+#define REG_ID_RECT_CURR_IN_IA 0x20f003 /* Ток фазы A относительно сети. */
+#define REG_ID_RECT_CURR_IN_IB 0x20f004 /* Ток фазы B относительно сети. */
+#define REG_ID_RECT_CURR_IN_IC 0x20f005 /* Ток фазы C относительно сети. */
+#define REG_ID_RECT_CURR_OUT_I 0x20f006 /* Выходной выпрямленный ток относительно двигателя. */
+#define REG_ID_MUX_UMAINS_COUNT 0x210000 /* Number of sub entries count */
+#define REG_ID_MUX_UMAINS_CONTROL 0x210001 /* Слово управления. */
+#define REG_ID_MUX_UMAINS_STATUS 0x210002 /* Слово состояния. */
+#define REG_ID_MUX_UMAINS_IN_A0 0x210003 /* Входные значения A. */
+#define REG_ID_MUX_UMAINS_IN_A1 0x210004 /* Входные значения A. */
+#define REG_ID_MUX_UMAINS_IN_A2 0x210005 /* Входные значения A. */
+#define REG_ID_MUX_UMAINS_IN_B0 0x210006 /* Входные значения B. */
+#define REG_ID_MUX_UMAINS_IN_B1 0x210007 /* Входные значения B. */
+#define REG_ID_MUX_UMAINS_IN_B2 0x210008 /* Входные значения B. */
+#define REG_ID_MUX_UMAINS_IN_C0 0x210009 /* Входные значения C. */
+#define REG_ID_MUX_UMAINS_IN_C1 0x21000a /* Входные значения C. */
+#define REG_ID_MUX_UMAINS_IN_C2 0x21000b /* Входные значения C. */
+#define REG_ID_MUX_UMAINS_OUT_A 0x21000c /* Выходное значение A. */
+#define REG_ID_MUX_UMAINS_OUT_B 0x21000d /* Выходное значение B. */
+#define REG_ID_MUX_UMAINS_OUT_C 0x21000e /* Выходное значение C. */
+#define REG_ID_MUX_UMAINS_SEL 0x21000f /* Селектор значений. */
+#define REG_ID_MUX_IMAINS_COUNT 0x211000 /* Number of sub entries count */
+#define REG_ID_MUX_IMAINS_CONTROL 0x211001 /* Слово управления. */
+#define REG_ID_MUX_IMAINS_STATUS 0x211002 /* Слово состояния. */
+#define REG_ID_MUX_IMAINS_IN_A0 0x211003 /* Входные значения A. */
+#define REG_ID_MUX_IMAINS_IN_A1 0x211004 /* Входные значения A. */
+#define REG_ID_MUX_IMAINS_IN_A2 0x211005 /* Входные значения A. */
+#define REG_ID_MUX_IMAINS_IN_B0 0x211006 /* Входные значения B. */
+#define REG_ID_MUX_IMAINS_IN_B1 0x211007 /* Входные значения B. */
+#define REG_ID_MUX_IMAINS_IN_B2 0x211008 /* Входные значения B. */
+#define REG_ID_MUX_IMAINS_IN_C0 0x211009 /* Входные значения C. */
+#define REG_ID_MUX_IMAINS_IN_C1 0x21100a /* Входные значения C. */
+#define REG_ID_MUX_IMAINS_IN_C2 0x21100b /* Входные значения C. */
+#define REG_ID_MUX_IMAINS_OUT_A 0x21100c /* Выходное значение A. */
+#define REG_ID_MUX_IMAINS_OUT_B 0x21100d /* Выходное значение B. */
+#define REG_ID_MUX_IMAINS_OUT_C 0x21100e /* Выходное значение C. */
+#define REG_ID_MUX_IMAINS_SEL 0x21100f /* Селектор значений. */
+#define REG_ID_MUX_UARM_COUNT 0x212000 /* Number of sub entries count */
+#define REG_ID_MUX_UARM_CONTROL 0x212001 /* Слово управления. */
+#define REG_ID_MUX_UARM_STATUS 0x212002 /* Слово состояния. */
+#define REG_ID_MUX_UARM_IN_VALUE0 0x212003 /* Входные значения. */
+#define REG_ID_MUX_UARM_IN_VALUE1 0x212004 /* Входные значения. */
+#define REG_ID_MUX_UARM_OUT_VALUE 0x212005 /* Выходное значение. */
+#define REG_ID_MUX_UARM_SEL 0x212006 /* Селектор значений. */
+#define REG_ID_MUX_IARM_COUNT 0x213000 /* Number of sub entries count */
+#define REG_ID_MUX_IARM_CONTROL 0x213001 /* Слово управления. */
+#define REG_ID_MUX_IARM_STATUS 0x213002 /* Слово состояния. */
+#define REG_ID_MUX_IARM_IN_VALUE0 0x213003 /* Входные значения. */
+#define REG_ID_MUX_IARM_IN_VALUE1 0x213004 /* Входные значения. */
+#define REG_ID_MUX_IARM_IN_VALUE2 0x213005 /* Входные значения. */
+#define REG_ID_MUX_IARM_OUT_VALUE 0x213006 /* Выходное значение. */
+#define REG_ID_MUX_IARM_SEL 0x213007 /* Селектор значений. */
+#define REG_ID_MUX_IRSTART_COUNT 0x214000 /* Number of sub entries count */
+#define REG_ID_MUX_IRSTART_CONTROL 0x214001 /* Слово управления. */
+#define REG_ID_MUX_IRSTART_STATUS 0x214002 /* Слово состояния. */
+#define REG_ID_MUX_IRSTART_IN_VALUE0 0x214003 /* Входные значения. */
+#define REG_ID_MUX_IRSTART_IN_VALUE1 0x214004 /* Входные значения. */
+#define REG_ID_MUX_IRSTART_OUT_VALUE 0x214005 /* Выходное значение. */
+#define REG_ID_MUX_IRSTART_SEL 0x214006 /* Селектор значений. */
+#define REG_ID_MUX_UCELL_COUNT 0x215000 /* Number of sub entries count */
+#define REG_ID_MUX_UCELL_CONTROL 0x215001 /* Слово управления. */
+#define REG_ID_MUX_UCELL_STATUS 0x215002 /* Слово состояния. */
+#define REG_ID_MUX_UCELL_IN_A0 0x215003 /* Входные значения A. */
+#define REG_ID_MUX_UCELL_IN_A1 0x215004 /* Входные значения A. */
+#define REG_ID_MUX_UCELL_IN_A2 0x215005 /* Входные значения A. */
+#define REG_ID_MUX_UCELL_IN_B0 0x215006 /* Входные значения B. */
+#define REG_ID_MUX_UCELL_IN_B1 0x215007 /* Входные значения B. */
+#define REG_ID_MUX_UCELL_IN_B2 0x215008 /* Входные значения B. */
+#define REG_ID_MUX_UCELL_IN_C0 0x215009 /* Входные значения C. */
+#define REG_ID_MUX_UCELL_IN_C1 0x21500a /* Входные значения C. */
+#define REG_ID_MUX_UCELL_IN_C2 0x21500b /* Входные значения C. */
+#define REG_ID_MUX_UCELL_OUT_A 0x21500c /* Выходное значение A. */
+#define REG_ID_MUX_UCELL_OUT_B 0x21500d /* Выходное значение B. */
+#define REG_ID_MUX_UCELL_OUT_C 0x21500e /* Выходное значение C. */
+#define REG_ID_MUX_UCELL_SEL 0x21500f /* Селектор значений. */
+#define REG_ID_MUX_ICELL_COUNT 0x216000 /* Number of sub entries count */
+#define REG_ID_MUX_ICELL_CONTROL 0x216001 /* Слово управления. */
+#define REG_ID_MUX_ICELL_STATUS 0x216002 /* Слово состояния. */
+#define REG_ID_MUX_ICELL_IN_A0 0x216003 /* Входные значения A. */
+#define REG_ID_MUX_ICELL_IN_A1 0x216004 /* Входные значения A. */
+#define REG_ID_MUX_ICELL_IN_A2 0x216005 /* Входные значения A. */
+#define REG_ID_MUX_ICELL_IN_B0 0x216006 /* Входные значения B. */
+#define REG_ID_MUX_ICELL_IN_B1 0x216007 /* Входные значения B. */
+#define REG_ID_MUX_ICELL_IN_B2 0x216008 /* Входные значения B. */
+#define REG_ID_MUX_ICELL_IN_C0 0x216009 /* Входные значения C. */
+#define REG_ID_MUX_ICELL_IN_C1 0x21600a /* Входные значения C. */
+#define REG_ID_MUX_ICELL_IN_C2 0x21600b /* Входные значения C. */
+#define REG_ID_MUX_ICELL_OUT_A 0x21600c /* Выходное значение A. */
+#define REG_ID_MUX_ICELL_OUT_B 0x21600d /* Выходное значение B. */
+#define REG_ID_MUX_ICELL_OUT_C 0x21600e /* Выходное значение C. */
+#define REG_ID_MUX_ICELL_SEL 0x21600f /* Селектор значений. */
+#define REG_ID_MUX_SLIP_COUNT 0x217000 /* Number of sub entries count */
+#define REG_ID_MUX_SLIP_CONTROL 0x217001 /* Слово управления. */
+#define REG_ID_MUX_SLIP_STATUS 0x217002 /* Слово состояния. */
+#define REG_ID_MUX_SLIP_IN_VALUE0 0x217003 /* Входные значения. */
+#define REG_ID_MUX_SLIP_IN_VALUE1 0x217004 /* Входные значения. */
+#define REG_ID_MUX_SLIP_OUT_VALUE 0x217005 /* Выходное значение. */
+#define REG_ID_MUX_SLIP_SEL 0x217006 /* Селектор значений. */
+#define REG_ID_PHASE_AMPL_UA_COUNT 0x218000 /* Number of sub entries count */
+#define REG_ID_PHASE_AMPL_UA_CONTROL 0x218001 /* Слово управления. */
+#define REG_ID_PHASE_AMPL_UA_STATUS 0x218002 /* Слово состояния. */
+#define REG_ID_PHASE_AMPL_UA_IN_VALUE 0x218003 /*  */
+#define REG_ID_PHASE_AMPL_UA_OUT_PHASE 0x218004 /* Фаза в периодических единицах. */
+#define REG_ID_PHASE_AMPL_UA_OUT_AMPL 0x218005 /*  */
+#define REG_ID_PHASE_AMPL_UB_COUNT 0x219000 /* Number of sub entries count */
+#define REG_ID_PHASE_AMPL_UB_CONTROL 0x219001 /* Слово управления. */
+#define REG_ID_PHASE_AMPL_UB_STATUS 0x219002 /* Слово состояния. */
+#define REG_ID_PHASE_AMPL_UB_IN_VALUE 0x219003 /*  */
+#define REG_ID_PHASE_AMPL_UB_OUT_PHASE 0x219004 /* Фаза в периодических единицах. */
+#define REG_ID_PHASE_AMPL_UB_OUT_AMPL 0x219005 /*  */
+#define REG_ID_PHASE_AMPL_UC_COUNT 0x21a000 /* Number of sub entries count */
+#define REG_ID_PHASE_AMPL_UC_CONTROL 0x21a001 /* Слово управления. */
+#define REG_ID_PHASE_AMPL_UC_STATUS 0x21a002 /* Слово состояния. */
+#define REG_ID_PHASE_AMPL_UC_IN_VALUE 0x21a003 /*  */
+#define REG_ID_PHASE_AMPL_UC_OUT_PHASE 0x21a004 /* Фаза в периодических единицах. */
+#define REG_ID_PHASE_AMPL_UC_OUT_AMPL 0x21a005 /*  */
+#define REG_ID_ZCD_UA_COUNT 0x21b000 /* Number of sub entries count */
+#define REG_ID_ZCD_UA_CONTROL 0x21b001 /* Слово управления. */
+#define REG_ID_ZCD_UA_STATUS 0x21b002 /* Слово состояния. */
+#define REG_ID_ZCD_UA_IN_VALUE 0x21b003 /* Текущее значение сигнала. */
+#define REG_ID_ZCD_UA_OUT_ZERO_CROSS 0x21b004 /* Строб пересечения нуля. */
+#define REG_ID_ZCD_UA_OUT_PERIOD 0x21b005 /* Период. */
+#define REG_ID_ZCD_UA_OUT_FREQ 0x21b006 /* Частота. */
+#define REG_ID_ZCD_UA_SAMPLES_PERIOD 0x21b007 /* Период дискретизации. */
+#define REG_ID_ZCD_UB_COUNT 0x21c000 /* Number of sub entries count */
+#define REG_ID_ZCD_UB_CONTROL 0x21c001 /* Слово управления. */
+#define REG_ID_ZCD_UB_STATUS 0x21c002 /* Слово состояния. */
+#define REG_ID_ZCD_UB_IN_VALUE 0x21c003 /* Текущее значение сигнала. */
+#define REG_ID_ZCD_UB_OUT_ZERO_CROSS 0x21c004 /* Строб пересечения нуля. */
+#define REG_ID_ZCD_UB_OUT_PERIOD 0x21c005 /* Период. */
+#define REG_ID_ZCD_UB_OUT_FREQ 0x21c006 /* Частота. */
+#define REG_ID_ZCD_UB_SAMPLES_PERIOD 0x21c007 /* Период дискретизации. */
+#define REG_ID_ZCD_UC_COUNT 0x21d000 /* Number of sub entries count */
+#define REG_ID_ZCD_UC_CONTROL 0x21d001 /* Слово управления. */
+#define REG_ID_ZCD_UC_STATUS 0x21d002 /* Слово состояния. */
+#define REG_ID_ZCD_UC_IN_VALUE 0x21d003 /* Текущее значение сигнала. */
+#define REG_ID_ZCD_UC_OUT_ZERO_CROSS 0x21d004 /* Строб пересечения нуля. */
+#define REG_ID_ZCD_UC_OUT_PERIOD 0x21d005 /* Период. */
+#define REG_ID_ZCD_UC_OUT_FREQ 0x21d006 /* Частота. */
+#define REG_ID_ZCD_UC_SAMPLES_PERIOD 0x21d007 /* Период дискретизации. */
+#define REG_ID_ZCD_SLIP_COUNT 0x21e000 /* Number of sub entries count */
+#define REG_ID_ZCD_SLIP_CONTROL 0x21e001 /* Слово управления. */
+#define REG_ID_ZCD_SLIP_STATUS 0x21e002 /* Слово состояния. */
+#define REG_ID_ZCD_SLIP_IN_VALUE 0x21e003 /* Текущее значение сигнала. */
+#define REG_ID_ZCD_SLIP_OUT_ZERO_CROSS 0x21e004 /* Строб пересечения нуля. */
+#define REG_ID_ZCD_SLIP_OUT_PERIOD 0x21e005 /* Период. */
+#define REG_ID_ZCD_SLIP_OUT_FREQ 0x21e006 /* Частота. */
+#define REG_ID_ZCD_SLIP_SAMPLES_PERIOD 0x21e007 /* Период дискретизации. */
+#define REG_ID_SLIP_COUNT 0x21f000 /* Number of sub entries count */
+#define REG_ID_SLIP_CONTROL 0x21f001 /* Слово управления. */
+#define REG_ID_SLIP_STATUS 0x21f002 /* Слово состояния. */
+#define REG_ID_SLIP_IN_VALUE 0x21f003 /* Измеренная частота для вычисления скольжения. */
+#define REG_ID_SLIP_OUT_VALUE 0x21f004 /*  */
+#define REG_ID_PHASE_LRM_I_STATOR_COUNT 0x220000 /* Number of sub entries count */
+#define REG_ID_PHASE_LRM_I_STATOR_CONTROL 0x220001 /* Слово управления. */
+#define REG_ID_PHASE_LRM_I_STATOR_STATUS 0x220002 /* Слово состояния. */
+#define REG_ID_PHASE_LRM_I_STATOR_IN_A 0x220003 /* Входная величина по фазе A. */
+#define REG_ID_PHASE_LRM_I_STATOR_IN_B 0x220004 /* Входная величина по фазе B. */
+#define REG_ID_PHASE_LRM_I_STATOR_IN_C 0x220005 /* Входная величина по фазе C. */
+#define REG_ID_PHASE_LRM_I_STATOR_OUT_A 0x220006 /* Выходная величина по фазе A. */
+#define REG_ID_PHASE_LRM_I_STATOR_OUT_B 0x220007 /* Выходная величина по фазе B. */
+#define REG_ID_PHASE_LRM_I_STATOR_OUT_C 0x220008 /* Выходная величина по фазе C. */
+#define REG_ID_PHASE_UCELL_COUNT 0x221000 /* Number of sub entries count */
+#define REG_ID_PHASE_UCELL_CONTROL 0x221001 /* Слово управления. */
+#define REG_ID_PHASE_UCELL_STATUS 0x221002 /* Слово состояния. */
+#define REG_ID_PHASE_UCELL_IN_A 0x221003 /* Входная величина по фазе A. */
+#define REG_ID_PHASE_UCELL_IN_B 0x221004 /* Входная величина по фазе B. */
+#define REG_ID_PHASE_UCELL_IN_C 0x221005 /* Входная величина по фазе C. */
+#define REG_ID_PHASE_UCELL_OUT_A 0x221006 /* Выходная величина по фазе A. */
+#define REG_ID_PHASE_UCELL_OUT_B 0x221007 /* Выходная величина по фазе B. */
+#define REG_ID_PHASE_UCELL_OUT_C 0x221008 /* Выходная величина по фазе C. */
+#define REG_ID_CALC_UCELL_COUNT 0x222000 /* Number of sub entries count */
+#define REG_ID_CALC_UCELL_CONTROL 0x222001 /* Слово управления. */
+#define REG_ID_CALC_UCELL_STATUS 0x222002 /* Слово состояния. */
+#define REG_ID_CALC_UCELL_IN_A 0x222003 /*  */
+#define REG_ID_CALC_UCELL_IN_B 0x222004 /*  */
+#define REG_ID_CALC_UCELL_IN_C 0x222005 /*  */
+#define REG_ID_CALC_UCELL_OUT_A 0x222006 /*  */
+#define REG_ID_CALC_UCELL_OUT_B 0x222007 /*  */
+#define REG_ID_CALC_UCELL_OUT_C 0x222008 /*  */
+#define REG_ID_CALC_UCELL_SEL 0x222009 /* Селектор для вычисления. 0 - не вычислять; 1-3 - номер фазы. */
+#define REG_ID_CALC_ICELL_COUNT 0x223000 /* Number of sub entries count */
+#define REG_ID_CALC_ICELL_CONTROL 0x223001 /* Слово управления. */
+#define REG_ID_CALC_ICELL_STATUS 0x223002 /* Слово состояния. */
+#define REG_ID_CALC_ICELL_IN_A 0x223003 /*  */
+#define REG_ID_CALC_ICELL_IN_B 0x223004 /*  */
+#define REG_ID_CALC_ICELL_IN_C 0x223005 /*  */
+#define REG_ID_CALC_ICELL_OUT_A 0x223006 /*  */
+#define REG_ID_CALC_ICELL_OUT_B 0x223007 /*  */
+#define REG_ID_CALC_ICELL_OUT_C 0x223008 /*  */
+#define REG_ID_CALC_ICELL_SEL 0x223009 /* Селектор для вычисления. 0 - не вычислять; 1-3 - номер фазы. */
+#define REG_ID_RMS_UA_COUNT 0x224000 /* Number of sub entries count */
+#define REG_ID_RMS_UA_CONTROL 0x224001 /* Слово управления. */
+#define REG_ID_RMS_UA_STATUS 0x224002 /* Слово состояния. */
+#define REG_ID_RMS_UA_IN_VALUE 0x224003 /* Входное значение. */
+#define REG_ID_RMS_UA_OUT_VALUE 0x224004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_UB_COUNT 0x225000 /* Number of sub entries count */
+#define REG_ID_RMS_UB_CONTROL 0x225001 /* Слово управления. */
+#define REG_ID_RMS_UB_STATUS 0x225002 /* Слово состояния. */
+#define REG_ID_RMS_UB_IN_VALUE 0x225003 /* Входное значение. */
+#define REG_ID_RMS_UB_OUT_VALUE 0x225004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_UC_COUNT 0x226000 /* Number of sub entries count */
+#define REG_ID_RMS_UC_CONTROL 0x226001 /* Слово управления. */
+#define REG_ID_RMS_UC_STATUS 0x226002 /* Слово состояния. */
+#define REG_ID_RMS_UC_IN_VALUE 0x226003 /* Входное значение. */
+#define REG_ID_RMS_UC_OUT_VALUE 0x226004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_IA_COUNT 0x227000 /* Number of sub entries count */
+#define REG_ID_RMS_IA_CONTROL 0x227001 /* Слово управления. */
+#define REG_ID_RMS_IA_STATUS 0x227002 /* Слово состояния. */
+#define REG_ID_RMS_IA_IN_VALUE 0x227003 /* Входное значение. */
+#define REG_ID_RMS_IA_OUT_VALUE 0x227004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_IB_COUNT 0x228000 /* Number of sub entries count */
+#define REG_ID_RMS_IB_CONTROL 0x228001 /* Слово управления. */
+#define REG_ID_RMS_IB_STATUS 0x228002 /* Слово состояния. */
+#define REG_ID_RMS_IB_IN_VALUE 0x228003 /* Входное значение. */
+#define REG_ID_RMS_IB_OUT_VALUE 0x228004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_IC_COUNT 0x229000 /* Number of sub entries count */
+#define REG_ID_RMS_IC_CONTROL 0x229001 /* Слово управления. */
+#define REG_ID_RMS_IC_STATUS 0x229002 /* Слово состояния. */
+#define REG_ID_RMS_IC_IN_VALUE 0x229003 /* Входное значение. */
+#define REG_ID_RMS_IC_OUT_VALUE 0x229004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_CELL_UA_COUNT 0x22a000 /* Number of sub entries count */
+#define REG_ID_RMS_CELL_UA_CONTROL 0x22a001 /* Слово управления. */
+#define REG_ID_RMS_CELL_UA_STATUS 0x22a002 /* Слово состояния. */
+#define REG_ID_RMS_CELL_UA_IN_VALUE 0x22a003 /* Входное значение. */
+#define REG_ID_RMS_CELL_UA_OUT_VALUE 0x22a004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_CELL_UB_COUNT 0x22b000 /* Number of sub entries count */
+#define REG_ID_RMS_CELL_UB_CONTROL 0x22b001 /* Слово управления. */
+#define REG_ID_RMS_CELL_UB_STATUS 0x22b002 /* Слово состояния. */
+#define REG_ID_RMS_CELL_UB_IN_VALUE 0x22b003 /* Входное значение. */
+#define REG_ID_RMS_CELL_UB_OUT_VALUE 0x22b004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_CELL_UC_COUNT 0x22c000 /* Number of sub entries count */
+#define REG_ID_RMS_CELL_UC_CONTROL 0x22c001 /* Слово управления. */
+#define REG_ID_RMS_CELL_UC_STATUS 0x22c002 /* Слово состояния. */
+#define REG_ID_RMS_CELL_UC_IN_VALUE 0x22c003 /* Входное значение. */
+#define REG_ID_RMS_CELL_UC_OUT_VALUE 0x22c004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_CELL_UA_PHASE_COUNT 0x22d000 /* Number of sub entries count */
+#define REG_ID_RMS_CELL_UA_PHASE_CONTROL 0x22d001 /* Слово управления. */
+#define REG_ID_RMS_CELL_UA_PHASE_STATUS 0x22d002 /* Слово состояния. */
+#define REG_ID_RMS_CELL_UA_PHASE_IN_VALUE 0x22d003 /* Входное значение. */
+#define REG_ID_RMS_CELL_UA_PHASE_OUT_VALUE 0x22d004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_CELL_UB_PHASE_COUNT 0x22e000 /* Number of sub entries count */
+#define REG_ID_RMS_CELL_UB_PHASE_CONTROL 0x22e001 /* Слово управления. */
+#define REG_ID_RMS_CELL_UB_PHASE_STATUS 0x22e002 /* Слово состояния. */
+#define REG_ID_RMS_CELL_UB_PHASE_IN_VALUE 0x22e003 /* Входное значение. */
+#define REG_ID_RMS_CELL_UB_PHASE_OUT_VALUE 0x22e004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_CELL_UC_PHASE_COUNT 0x22f000 /* Number of sub entries count */
+#define REG_ID_RMS_CELL_UC_PHASE_CONTROL 0x22f001 /* Слово управления. */
+#define REG_ID_RMS_CELL_UC_PHASE_STATUS 0x22f002 /* Слово состояния. */
+#define REG_ID_RMS_CELL_UC_PHASE_IN_VALUE 0x22f003 /* Входное значение. */
+#define REG_ID_RMS_CELL_UC_PHASE_OUT_VALUE 0x22f004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_CELL_IA_COUNT 0x230000 /* Number of sub entries count */
+#define REG_ID_RMS_CELL_IA_CONTROL 0x230001 /* Слово управления. */
+#define REG_ID_RMS_CELL_IA_STATUS 0x230002 /* Слово состояния. */
+#define REG_ID_RMS_CELL_IA_IN_VALUE 0x230003 /* Входное значение. */
+#define REG_ID_RMS_CELL_IA_OUT_VALUE 0x230004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_CELL_IB_COUNT 0x231000 /* Number of sub entries count */
+#define REG_ID_RMS_CELL_IB_CONTROL 0x231001 /* Слово управления. */
+#define REG_ID_RMS_CELL_IB_STATUS 0x231002 /* Слово состояния. */
+#define REG_ID_RMS_CELL_IB_IN_VALUE 0x231003 /* Входное значение. */
+#define REG_ID_RMS_CELL_IB_OUT_VALUE 0x231004 /* Рассчитанное RMS. */
+#define REG_ID_RMS_CELL_IC_COUNT 0x232000 /* Number of sub entries count */
+#define REG_ID_RMS_CELL_IC_CONTROL 0x232001 /* Слово управления. */
+#define REG_ID_RMS_CELL_IC_STATUS 0x232002 /* Слово состояния. */
+#define REG_ID_RMS_CELL_IC_IN_VALUE 0x232003 /* Входное значение. */
+#define REG_ID_RMS_CELL_IC_OUT_VALUE 0x232004 /* Рассчитанное RMS. */
+#define REG_ID_MEAN_IARM_COUNT 0x233000 /* Number of sub entries count */
+#define REG_ID_MEAN_IARM_CONTROL 0x233001 /* Слово управления. */
+#define REG_ID_MEAN_IARM_STATUS 0x233002 /* Слово состояния. */
+#define REG_ID_MEAN_IARM_IN_VALUE 0x233003 /* Текущее значение. */
+#define REG_ID_MEAN_IARM_OUT_VALUE 0x233004 /* Посчитанное среднее. */
+#define REG_ID_MEAN_UARM_COUNT 0x234000 /* Number of sub entries count */
+#define REG_ID_MEAN_UARM_CONTROL 0x234001 /* Слово управления. */
+#define REG_ID_MEAN_UARM_STATUS 0x234002 /* Слово состояния. */
+#define REG_ID_MEAN_UARM_IN_VALUE 0x234003 /* Текущее значение. */
+#define REG_ID_MEAN_UARM_OUT_VALUE 0x234004 /* Посчитанное среднее. */
+#define REG_ID_MEAN_IRSTART_COUNT 0x235000 /* Number of sub entries count */
+#define REG_ID_MEAN_IRSTART_CONTROL 0x235001 /* Слово управления. */
+#define REG_ID_MEAN_IRSTART_STATUS 0x235002 /* Слово состояния. */
+#define REG_ID_MEAN_IRSTART_IN_VALUE 0x235003 /* Текущее значение. */
+#define REG_ID_MEAN_IRSTART_OUT_VALUE 0x235004 /* Посчитанное среднее. */
+#define REG_ID_MEAN_RMS_ICELL_COUNT 0x236000 /* Number of sub entries count */
+#define REG_ID_MEAN_RMS_ICELL_CONTROL 0x236001 /* Слово управления. */
+#define REG_ID_MEAN_RMS_ICELL_STATUS 0x236002 /* Слово состояния. */
+#define REG_ID_MEAN_RMS_ICELL_IN_VALUE0 0x236003 /* Усредняемые значения. */
+#define REG_ID_MEAN_RMS_ICELL_IN_VALUE1 0x236004 /* Усредняемые значения. */
+#define REG_ID_MEAN_RMS_ICELL_IN_VALUE2 0x236005 /* Усредняемые значения. */
+#define REG_ID_MEAN_RMS_ICELL_OUT_VALUE 0x236006 /* Среднее значение. */
+#define REG_ID_SUM_S_COUNT 0x237000 /* Number of sub entries count */
+#define REG_ID_SUM_S_CONTROL 0x237001 /* Слово управления. */
+#define REG_ID_SUM_S_STATUS 0x237002 /* Слово состояния. */
+#define REG_ID_SUM_S_IN_VALUE0 0x237003 /* Усредняемые значения. */
+#define REG_ID_SUM_S_IN_VALUE1 0x237004 /* Усредняемые значения. */
+#define REG_ID_SUM_S_IN_VALUE2 0x237005 /* Усредняемые значения. */
+#define REG_ID_SUM_S_OUT_VALUE 0x237006 /* Среднее значение. */
+#define REG_ID_SUM_P_COUNT 0x238000 /* Number of sub entries count */
+#define REG_ID_SUM_P_CONTROL 0x238001 /* Слово управления. */
+#define REG_ID_SUM_P_STATUS 0x238002 /* Слово состояния. */
+#define REG_ID_SUM_P_IN_VALUE0 0x238003 /* Усредняемые значения. */
+#define REG_ID_SUM_P_IN_VALUE1 0x238004 /* Усредняемые значения. */
+#define REG_ID_SUM_P_IN_VALUE2 0x238005 /* Усредняемые значения. */
+#define REG_ID_SUM_P_OUT_VALUE 0x238006 /* Среднее значение. */
+#define REG_ID_SUM_Q_COUNT 0x239000 /* Number of sub entries count */
+#define REG_ID_SUM_Q_CONTROL 0x239001 /* Слово управления. */
+#define REG_ID_SUM_Q_STATUS 0x239002 /* Слово состояния. */
+#define REG_ID_SUM_Q_IN_VALUE0 0x239003 /* Усредняемые значения. */
+#define REG_ID_SUM_Q_IN_VALUE1 0x239004 /* Усредняемые значения. */
+#define REG_ID_SUM_Q_IN_VALUE2 0x239005 /* Усредняемые значения. */
+#define REG_ID_SUM_Q_OUT_VALUE 0x239006 /* Среднее значение. */
+#define REG_ID_POWER_A_COUNT 0x23a000 /* Number of sub entries count */
+#define REG_ID_POWER_A_CONTROL 0x23a001 /* Слово управления. */
+#define REG_ID_POWER_A_STATUS 0x23a002 /* Слово состояния. */
+#define REG_ID_POWER_A_IN_U 0x23a003 /* Мгновенное значение напряжения. */
+#define REG_ID_POWER_A_IN_I 0x23a004 /* Мгновенное значение тока. */
+#define REG_ID_POWER_A_IN_RMS_U 0x23a005 /* Действующее значение напряжения. */
+#define REG_ID_POWER_A_IN_RMS_I 0x23a006 /* Действующее значение тока. */
+#define REG_ID_POWER_A_OUT_S 0x23a007 /* Полная мощность. */
+#define REG_ID_POWER_A_OUT_P 0x23a008 /* Активная мощность. */
+#define REG_ID_POWER_A_OUT_Q 0x23a009 /* Реактивная мощность. */
+#define REG_ID_POWER_B_COUNT 0x23b000 /* Number of sub entries count */
+#define REG_ID_POWER_B_CONTROL 0x23b001 /* Слово управления. */
+#define REG_ID_POWER_B_STATUS 0x23b002 /* Слово состояния. */
+#define REG_ID_POWER_B_IN_U 0x23b003 /* Мгновенное значение напряжения. */
+#define REG_ID_POWER_B_IN_I 0x23b004 /* Мгновенное значение тока. */
+#define REG_ID_POWER_B_IN_RMS_U 0x23b005 /* Действующее значение напряжения. */
+#define REG_ID_POWER_B_IN_RMS_I 0x23b006 /* Действующее значение тока. */
+#define REG_ID_POWER_B_OUT_S 0x23b007 /* Полная мощность. */
+#define REG_ID_POWER_B_OUT_P 0x23b008 /* Активная мощность. */
+#define REG_ID_POWER_B_OUT_Q 0x23b009 /* Реактивная мощность. */
+#define REG_ID_POWER_C_COUNT 0x23c000 /* Number of sub entries count */
+#define REG_ID_POWER_C_CONTROL 0x23c001 /* Слово управления. */
+#define REG_ID_POWER_C_STATUS 0x23c002 /* Слово состояния. */
+#define REG_ID_POWER_C_IN_U 0x23c003 /* Мгновенное значение напряжения. */
+#define REG_ID_POWER_C_IN_I 0x23c004 /* Мгновенное значение тока. */
+#define REG_ID_POWER_C_IN_RMS_U 0x23c005 /* Действующее значение напряжения. */
+#define REG_ID_POWER_C_IN_RMS_I 0x23c006 /* Действующее значение тока. */
+#define REG_ID_POWER_C_OUT_S 0x23c007 /* Полная мощность. */
+#define REG_ID_POWER_C_OUT_P 0x23c008 /* Активная мощность. */
+#define REG_ID_POWER_C_OUT_Q 0x23c009 /* Реактивная мощность. */
+#define REG_ID_POWER_FACTOR_COUNT 0x23d000 /* Number of sub entries count */
+#define REG_ID_POWER_FACTOR_CONTROL 0x23d001 /* Слово управления. */
+#define REG_ID_POWER_FACTOR_STATUS 0x23d002 /* Слово состояния. */
+#define REG_ID_POWER_FACTOR_IN_S 0x23d003 /* Полная мощность. */
+#define REG_ID_POWER_FACTOR_IN_P 0x23d004 /* Активная мощность. */
+#define REG_ID_POWER_FACTOR_IN_Q 0x23d005 /* Реактивная мощность. */
+#define REG_ID_POWER_FACTOR_OUT_COS_PHI 0x23d006 /* cos(phi). */
+#define REG_ID_POWER_FACTOR_OUT_SIN_PHI 0x23d007 /* sin(phi). */
+#define REG_ID_POWER_FACTOR_OUT_TAN_PHI 0x23d008 /* tan(phi). */
+#define REG_ID_VR_RMS_UMAINS_COUNT 0x23e000 /* Number of sub entries count */
+#define REG_ID_VR_RMS_UMAINS_CONTROL 0x23e001 /* Слово управления. */
+#define REG_ID_VR_RMS_UMAINS_STATUS 0x23e002 /* Слово состояния. */
+#define REG_ID_VR_RMS_UMAINS_IN_VALUE0 0x23e003 /* Входные данные. */
+#define REG_ID_VR_RMS_UMAINS_IN_VALUE1 0x23e004 /* Входные данные. */
+#define REG_ID_VR_RMS_UMAINS_IN_VALUE2 0x23e005 /* Входные данные. */
+#define REG_ID_VR_RMS_UMAINS_OUT_VALUE0 0x23e006 /* Состояние допустимого диапазона. */
+#define REG_ID_VR_RMS_UMAINS_OUT_VALUE1 0x23e007 /* Состояние допустимого диапазона. */
+#define REG_ID_VR_RMS_UMAINS_OUT_VALUE2 0x23e008 /* Состояние допустимого диапазона. */
+#define REG_ID_VR_RMS_UMAINS_OUT_VALUE_ALL 0x23e009 /* Состояние допустимого диапазона для всех значений. */
+#define REG_ID_VR_RMS_UMAINS_MIN_VALUE 0x23e00a /* Значение нижней границы. */
+#define REG_ID_VR_RMS_UMAINS_MAX_VALUE 0x23e00b /* Значение верхней границы. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_COUNT 0x23f000 /* Number of sub entries count */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_CONTROL 0x23f001 /* Слово управления. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_STATUS 0x23f002 /* Слово состояния. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_IN_VALUE0 0x23f003 /* Входные данные. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_IN_VALUE1 0x23f004 /* Входные данные. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_IN_VALUE2 0x23f005 /* Входные данные. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_OUT_VALUE0 0x23f006 /* Состояние допустимого диапазона. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_OUT_VALUE1 0x23f007 /* Состояние допустимого диапазона. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_OUT_VALUE2 0x23f008 /* Состояние допустимого диапазона. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_OUT_VALUE_ALL 0x23f009 /* Состояние допустимого диапазона для всех значений. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_MIN_VALUE 0x23f00a /* Значение нижней границы. */
+#define REG_ID_VR_FILTER_FREQ_UMAINS_MAX_VALUE 0x23f00b /* Значение верхней границы. */
+#define REG_ID_VR_RMS_UCELL_COUNT 0x240000 /* Number of sub entries count */
+#define REG_ID_VR_RMS_UCELL_CONTROL 0x240001 /* Слово управления. */
+#define REG_ID_VR_RMS_UCELL_STATUS 0x240002 /* Слово состояния. */
+#define REG_ID_VR_RMS_UCELL_IN_VALUE0 0x240003 /* Входные данные. */
+#define REG_ID_VR_RMS_UCELL_IN_VALUE1 0x240004 /* Входные данные. */
+#define REG_ID_VR_RMS_UCELL_IN_VALUE2 0x240005 /* Входные данные. */
+#define REG_ID_VR_RMS_UCELL_OUT_VALUE0 0x240006 /* Состояние допустимого диапазона. */
+#define REG_ID_VR_RMS_UCELL_OUT_VALUE1 0x240007 /* Состояние допустимого диапазона. */
+#define REG_ID_VR_RMS_UCELL_OUT_VALUE2 0x240008 /* Состояние допустимого диапазона. */
+#define REG_ID_VR_RMS_UCELL_OUT_VALUE_ALL 0x240009 /* Состояние допустимого диапазона для всех значений. */
+#define REG_ID_VR_RMS_UCELL_MIN_VALUE 0x24000a /* Значение нижней границы. */
+#define REG_ID_VR_RMS_UCELL_MAX_VALUE 0x24000b /* Значение верхней границы. */
+#define REG_ID_CELL_CB_COUNT 0x241000 /* Number of sub entries count */
+#define REG_ID_CELL_CB_CONTROL 0x241001 /* Слово управления. */
+#define REG_ID_CELL_CB_STATUS 0x241002 /* Слово состояния. */
+#define REG_ID_CELL_CB_IN_NO_STATE 0x241003 /* Состояние NO контакта выключателя ячейки. */
+#define REG_ID_CELL_CB_IN_NC_STATE 0x241004 /* Состояние NC контакта выключателя ячейки. */
+#define REG_ID_CELL_CB_OUT_STATE 0x241005 /* Состояние выключателя ячейки. */
+#define REG_ID_THR_RUN_TRIG_I_S_COUNT 0x242000 /* Number of sub entries count */
+#define REG_ID_THR_RUN_TRIG_I_S_CONTROL 0x242001 /* Слово управления. */
+#define REG_ID_THR_RUN_TRIG_I_S_STATUS 0x242002 /* Слово состояния. */
+#define REG_ID_THR_RUN_TRIG_I_S_IN_VALUE 0x242003 /* Значение для сравнения. */
+#define REG_ID_THR_RUN_TRIG_I_S_OUT_VALUE 0x242004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_RUN_TRIG_I_S_THRESHOLD 0x242005 /* Порог. */
+#define REG_ID_AM_RUN_TRIG_I_S_COUNT 0x243000 /* Number of sub entries count */
+#define REG_ID_AM_RUN_TRIG_I_S_CONTROL 0x243001 /* Слово управления. */
+#define REG_ID_AM_RUN_TRIG_I_S_STATUS 0x243002 /* Слово состояния. */
+#define REG_ID_AM_RUN_TRIG_I_S_IN_VALUE0 0x243003 /*  */
+#define REG_ID_AM_RUN_TRIG_I_S_OUT_VALUE 0x243004 /*  */
+#define REG_ID_AM_RUN_TRIG_I_S_MASK0 0x243005 /*  */
+#define REG_ID_MUX_RUN_TRIG_COUNT 0x244000 /* Number of sub entries count */
+#define REG_ID_MUX_RUN_TRIG_CONTROL 0x244001 /* Слово управления. */
+#define REG_ID_MUX_RUN_TRIG_STATUS 0x244002 /* Слово состояния. */
+#define REG_ID_MUX_RUN_TRIG_IN_VALUE0 0x244003 /* Входные значения. */
+#define REG_ID_MUX_RUN_TRIG_IN_VALUE1 0x244004 /* Входные значения. */
+#define REG_ID_MUX_RUN_TRIG_OUT_VALUE 0x244005 /* Выходное значение. */
+#define REG_ID_MUX_RUN_TRIG_SEL 0x244006 /* Селектор значений. */
+#define REG_ID_TMR_RUN_TRIG_COUNT 0x245000 /* Number of sub entries count */
+#define REG_ID_TMR_RUN_TRIG_CONTROL 0x245001 /* Слово управления. */
+#define REG_ID_TMR_RUN_TRIG_STATUS 0x245002 /* Слово состояния. */
+#define REG_ID_TMR_RUN_TRIG_IN_VALUE 0x245003 /* Входное значение сигнала. */
+#define REG_ID_TMR_RUN_TRIG_OUT_VALUE 0x245004 /* Выходное значение сигнала. */
+#define REG_ID_TMR_RUN_TRIG_TMR_CONTROL 0x245005 /* Слово управления. */
+#define REG_ID_TMR_RUN_TRIG_TMR_STATUS 0x245006 /* Слово состояния. */
+#define REG_ID_TMR_RUN_TRIG_TMR_OUT_EXPIRED 0x245007 /* Флаг истечения времени. */
+#define REG_ID_TMR_RUN_TRIG_TMR_OUT_TIMEOUT 0x245008 /* Строб тайм-аута. */
+#define REG_ID_TMR_RUN_TRIG_TMR_R_INTERVAL 0x245009 /* Интервал таймера, мс. */
+#define REG_ID_THR_PRIM_SLIP_COUNT 0x246000 /* Number of sub entries count */
+#define REG_ID_THR_PRIM_SLIP_CONTROL 0x246001 /* Слово управления. */
+#define REG_ID_THR_PRIM_SLIP_STATUS 0x246002 /* Слово состояния. */
+#define REG_ID_THR_PRIM_SLIP_IN_VALUE 0x246003 /* Значение для сравнения. */
+#define REG_ID_THR_PRIM_SLIP_OUT_VALUE 0x246004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_PRIM_SLIP_THRESHOLD 0x246005 /* Порог. */
+#define REG_ID_THR_PRIM_I_S_COUNT 0x247000 /* Number of sub entries count */
+#define REG_ID_THR_PRIM_I_S_CONTROL 0x247001 /* Слово управления. */
+#define REG_ID_THR_PRIM_I_S_STATUS 0x247002 /* Слово состояния. */
+#define REG_ID_THR_PRIM_I_S_IN_VALUE 0x247003 /* Значение для сравнения. */
+#define REG_ID_THR_PRIM_I_S_OUT_VALUE 0x247004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_PRIM_I_S_THRESHOLD 0x247005 /* Порог. */
+#define REG_ID_THR_PRIM_T_COUNT 0x248000 /* Number of sub entries count */
+#define REG_ID_THR_PRIM_T_CONTROL 0x248001 /* Слово управления. */
+#define REG_ID_THR_PRIM_T_STATUS 0x248002 /* Слово состояния. */
+#define REG_ID_THR_PRIM_T_IN_VALUE 0x248003 /* Значение для сравнения. */
+#define REG_ID_THR_PRIM_T_OUT_VALUE 0x248004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_PRIM_T_THRESHOLD 0x248005 /* Порог. */
+#define REG_ID_AM_PRIM_FIELD_ON_COUNT 0x249000 /* Number of sub entries count */
+#define REG_ID_AM_PRIM_FIELD_ON_CONTROL 0x249001 /* Слово управления. */
+#define REG_ID_AM_PRIM_FIELD_ON_STATUS 0x249002 /* Слово состояния. */
+#define REG_ID_AM_PRIM_FIELD_ON_IN_VALUE0 0x249003 /*  */
+#define REG_ID_AM_PRIM_FIELD_ON_IN_VALUE1 0x249004 /*  */
+#define REG_ID_AM_PRIM_FIELD_ON_IN_VALUE2 0x249005 /*  */
+#define REG_ID_AM_PRIM_FIELD_ON_OUT_VALUE 0x249006 /*  */
+#define REG_ID_AM_PRIM_FIELD_ON_MASK0 0x249007 /*  */
+#define REG_ID_AM_PRIM_FIELD_ON_MASK1 0x249008 /*  */
+#define REG_ID_AM_PRIM_FIELD_ON_MASK2 0x249009 /*  */
+#define REG_ID_THR_SEC_SLIP_COUNT 0x24a000 /* Number of sub entries count */
+#define REG_ID_THR_SEC_SLIP_CONTROL 0x24a001 /* Слово управления. */
+#define REG_ID_THR_SEC_SLIP_STATUS 0x24a002 /* Слово состояния. */
+#define REG_ID_THR_SEC_SLIP_IN_VALUE 0x24a003 /* Значение для сравнения. */
+#define REG_ID_THR_SEC_SLIP_OUT_VALUE 0x24a004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_SEC_SLIP_THRESHOLD 0x24a005 /* Порог. */
+#define REG_ID_THR_SEC_I_S_COUNT 0x24b000 /* Number of sub entries count */
+#define REG_ID_THR_SEC_I_S_CONTROL 0x24b001 /* Слово управления. */
+#define REG_ID_THR_SEC_I_S_STATUS 0x24b002 /* Слово состояния. */
+#define REG_ID_THR_SEC_I_S_IN_VALUE 0x24b003 /* Значение для сравнения. */
+#define REG_ID_THR_SEC_I_S_OUT_VALUE 0x24b004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_SEC_I_S_THRESHOLD 0x24b005 /* Порог. */
+#define REG_ID_THR_SEC_T_COUNT 0x24c000 /* Number of sub entries count */
+#define REG_ID_THR_SEC_T_CONTROL 0x24c001 /* Слово управления. */
+#define REG_ID_THR_SEC_T_STATUS 0x24c002 /* Слово состояния. */
+#define REG_ID_THR_SEC_T_IN_VALUE 0x24c003 /* Значение для сравнения. */
+#define REG_ID_THR_SEC_T_OUT_VALUE 0x24c004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_SEC_T_THRESHOLD 0x24c005 /* Порог. */
+#define REG_ID_AM_SEC_FIELD_ON_COUNT 0x24d000 /* Number of sub entries count */
+#define REG_ID_AM_SEC_FIELD_ON_CONTROL 0x24d001 /* Слово управления. */
+#define REG_ID_AM_SEC_FIELD_ON_STATUS 0x24d002 /* Слово состояния. */
+#define REG_ID_AM_SEC_FIELD_ON_IN_VALUE0 0x24d003 /*  */
+#define REG_ID_AM_SEC_FIELD_ON_IN_VALUE1 0x24d004 /*  */
+#define REG_ID_AM_SEC_FIELD_ON_IN_VALUE2 0x24d005 /*  */
+#define REG_ID_AM_SEC_FIELD_ON_OUT_VALUE 0x24d006 /*  */
+#define REG_ID_AM_SEC_FIELD_ON_MASK0 0x24d007 /*  */
+#define REG_ID_AM_SEC_FIELD_ON_MASK1 0x24d008 /*  */
+#define REG_ID_AM_SEC_FIELD_ON_MASK2 0x24d009 /*  */
+#define REG_ID_OR_FIELD_ON_COUNT 0x24e000 /* Number of sub entries count */
+#define REG_ID_OR_FIELD_ON_CONTROL 0x24e001 /* Слово управления. */
+#define REG_ID_OR_FIELD_ON_STATUS 0x24e002 /* Слово состояния. */
+#define REG_ID_OR_FIELD_ON_IN_VALUE0 0x24e003 /*  */
+#define REG_ID_OR_FIELD_ON_IN_VALUE1 0x24e004 /*  */
+#define REG_ID_OR_FIELD_ON_OUT_VALUE 0x24e005 /*  */
+#define REG_ID_TMR_FIELD_ON_COUNT 0x24f000 /* Number of sub entries count */
+#define REG_ID_TMR_FIELD_ON_CONTROL 0x24f001 /* Слово управления. */
+#define REG_ID_TMR_FIELD_ON_STATUS 0x24f002 /* Слово состояния. */
+#define REG_ID_TMR_FIELD_ON_IN_VALUE 0x24f003 /* Входное значение сигнала. */
+#define REG_ID_TMR_FIELD_ON_OUT_VALUE 0x24f004 /* Выходное значение сигнала. */
+#define REG_ID_TMR_FIELD_ON_TMR_CONTROL 0x24f005 /* Слово управления. */
+#define REG_ID_TMR_FIELD_ON_TMR_STATUS 0x24f006 /* Слово состояния. */
+#define REG_ID_TMR_FIELD_ON_TMR_OUT_EXPIRED 0x24f007 /* Флаг истечения времени. */
+#define REG_ID_TMR_FIELD_ON_TMR_OUT_TIMEOUT 0x24f008 /* Строб тайм-аута. */
+#define REG_ID_TMR_FIELD_ON_TMR_R_INTERVAL 0x24f009 /* Интервал таймера, мс. */
+#define REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_COUNT 0x250000 /* Number of sub entries count */
+#define REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_CONTROL 0x250001 /* Слово управления. */
+#define REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_STATUS 0x250002 /* Слово состояния. */
+#define REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_IN_VALUE 0x250003 /* Значение для сравнения. */
+#define REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_OUT_VALUE 0x250004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_THRESHOLD 0x250005 /* Порог. */
+#define REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_COUNT 0x251000 /* Number of sub entries count */
+#define REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_CONTROL 0x251001 /* Слово управления. */
+#define REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_STATUS 0x251002 /* Слово состояния. */
+#define REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_IN_VALUE0 0x251003 /*  */
+#define REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_IN_VALUE1 0x251004 /*  */
+#define REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_OUT_VALUE 0x251005 /*  */
+#define REG_ID_AND_READY_TO_EXC_COUNT 0x252000 /* Number of sub entries count */
+#define REG_ID_AND_READY_TO_EXC_CONTROL 0x252001 /* Слово управления. */
+#define REG_ID_AND_READY_TO_EXC_STATUS 0x252002 /* Слово состояния. */
+#define REG_ID_AND_READY_TO_EXC_IN_VALUE0 0x252003 /*  */
+#define REG_ID_AND_READY_TO_EXC_IN_VALUE1 0x252004 /*  */
+#define REG_ID_AND_READY_TO_EXC_OUT_VALUE 0x252005 /*  */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_COUNT 0x253000 /* Number of sub entries count */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_CONTROL 0x253001 /* Слово управления. */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_STATUS 0x253002 /* Слово состояния. */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_IN_VALUE 0x253003 /* Входное значение сигнала. */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_OUT_VALUE 0x253004 /* Выходное значение сигнала. */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_CONTROL 0x253005 /* Слово управления. */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_STATUS 0x253006 /* Слово состояния. */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_OUT_EXPIRED 0x253007 /* Флаг истечения времени. */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_OUT_TIMEOUT 0x253008 /* Строб тайм-аута. */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_R_INTERVAL 0x253009 /* Интервал таймера, мс. */
+#define REG_ID_NOT_READY_TO_EXC_COUNT 0x254000 /* Number of sub entries count */
+#define REG_ID_NOT_READY_TO_EXC_CONTROL 0x254001 /* Слово управления. */
+#define REG_ID_NOT_READY_TO_EXC_STATUS 0x254002 /* Слово состояния. */
+#define REG_ID_NOT_READY_TO_EXC_IN_VALUE 0x254003 /*  */
+#define REG_ID_NOT_READY_TO_EXC_OUT_VALUE 0x254004 /*  */
+#define REG_ID_CMP_CTRL_STATE_IS_START_COUNT 0x255000 /* Number of sub entries count */
+#define REG_ID_CMP_CTRL_STATE_IS_START_CONTROL 0x255001 /* Слово управления. */
+#define REG_ID_CMP_CTRL_STATE_IS_START_STATUS 0x255002 /* Слово состояния. */
+#define REG_ID_CMP_CTRL_STATE_IS_START_IN_A 0x255003 /* Значение A. */
+#define REG_ID_CMP_CTRL_STATE_IS_START_IN_B 0x255004 /* Значение B. */
+#define REG_ID_CMP_CTRL_STATE_IS_START_OUT_VALUE 0x255005 /* Результат сравнения значений A и B. */
+#define REG_ID_AND_RSTART_ON_COUNT 0x256000 /* Number of sub entries count */
+#define REG_ID_AND_RSTART_ON_CONTROL 0x256001 /* Слово управления. */
+#define REG_ID_AND_RSTART_ON_STATUS 0x256002 /* Слово состояния. */
+#define REG_ID_AND_RSTART_ON_IN_VALUE0 0x256003 /*  */
+#define REG_ID_AND_RSTART_ON_IN_VALUE1 0x256004 /*  */
+#define REG_ID_AND_RSTART_ON_OUT_VALUE 0x256005 /*  */
+#define REG_ID_THR_FIELD_ON_I_R_SYNC_COUNT 0x257000 /* Number of sub entries count */
+#define REG_ID_THR_FIELD_ON_I_R_SYNC_CONTROL 0x257001 /* Слово управления. */
+#define REG_ID_THR_FIELD_ON_I_R_SYNC_STATUS 0x257002 /* Слово состояния. */
+#define REG_ID_THR_FIELD_ON_I_R_SYNC_IN_VALUE 0x257003 /* Значение для сравнения. */
+#define REG_ID_THR_FIELD_ON_I_R_SYNC_OUT_VALUE 0x257004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_FIELD_ON_I_R_SYNC_THRESHOLD 0x257005 /* Порог. */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_COUNT 0x258000 /* Number of sub entries count */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_CONTROL 0x258001 /* Слово управления. */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_STATUS 0x258002 /* Слово состояния. */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_IN_VALUE 0x258003 /* Входное значение сигнала. */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_OUT_VALUE 0x258004 /* Выходное значение сигнала. */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_CONTROL 0x258005 /* Слово управления. */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_STATUS 0x258006 /* Слово состояния. */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_EXPIRED 0x258007 /* Флаг истечения времени. */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_TIMEOUT 0x258008 /* Строб тайм-аута. */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_R_INTERVAL 0x258009 /* Интервал таймера, мс. */
+#define REG_ID_THR_FIELD_SUPP_I_R_COUNT 0x259000 /* Number of sub entries count */
+#define REG_ID_THR_FIELD_SUPP_I_R_CONTROL 0x259001 /* Слово управления. */
+#define REG_ID_THR_FIELD_SUPP_I_R_STATUS 0x259002 /* Слово состояния. */
+#define REG_ID_THR_FIELD_SUPP_I_R_IN_VALUE 0x259003 /* Значение для сравнения. */
+#define REG_ID_THR_FIELD_SUPP_I_R_OUT_VALUE 0x259004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_FIELD_SUPP_I_R_THRESHOLD 0x259005 /* Порог. */
+#define REG_ID_TMR_FIELD_SUPP_COUNT 0x25a000 /* Number of sub entries count */
+#define REG_ID_TMR_FIELD_SUPP_CONTROL 0x25a001 /* Слово управления. */
+#define REG_ID_TMR_FIELD_SUPP_STATUS 0x25a002 /* Слово состояния. */
+#define REG_ID_TMR_FIELD_SUPP_OUT_EXPIRED 0x25a003 /* Флаг истечения времени. */
+#define REG_ID_TMR_FIELD_SUPP_OUT_TIMEOUT 0x25a004 /* Строб тайм-аута. */
+#define REG_ID_TMR_FIELD_SUPP_INTERVAL 0x25a005 /* Интервал таймера, мс. */
+#define REG_ID_CNT_START_COUNT 0x25b000 /* Number of sub entries count */
+#define REG_ID_CNT_START_CONTROL 0x25b001 /* Слово управления. */
+#define REG_ID_CNT_START_STATUS 0x25b002 /* Слово состояния. */
+#define REG_ID_CNT_START_OUT_VALUE 0x25b003 /* Значение счётчика. */
+#define REG_ID_FILTER_ZCD_UA_COUNT 0x25c000 /* Number of sub entries count */
+#define REG_ID_FILTER_ZCD_UA_CONTROL 0x25c001 /* Слово управления. */
+#define REG_ID_FILTER_ZCD_UA_STATUS 0x25c002 /* Слово состояния. */
+#define REG_ID_FILTER_ZCD_UA_IN_VALUE 0x25c003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_ZCD_UA_OUT_VALUE 0x25c004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_ZCD_UA_T 0x25c005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_ZCD_UA_TS 0x25c006 /* Период дискретизации. */
+#define REG_ID_FILTER_ZCD_UB_COUNT 0x25d000 /* Number of sub entries count */
+#define REG_ID_FILTER_ZCD_UB_CONTROL 0x25d001 /* Слово управления. */
+#define REG_ID_FILTER_ZCD_UB_STATUS 0x25d002 /* Слово состояния. */
+#define REG_ID_FILTER_ZCD_UB_IN_VALUE 0x25d003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_ZCD_UB_OUT_VALUE 0x25d004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_ZCD_UB_T 0x25d005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_ZCD_UB_TS 0x25d006 /* Период дискретизации. */
+#define REG_ID_FILTER_ZCD_UC_COUNT 0x25e000 /* Number of sub entries count */
+#define REG_ID_FILTER_ZCD_UC_CONTROL 0x25e001 /* Слово управления. */
+#define REG_ID_FILTER_ZCD_UC_STATUS 0x25e002 /* Слово состояния. */
+#define REG_ID_FILTER_ZCD_UC_IN_VALUE 0x25e003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_ZCD_UC_OUT_VALUE 0x25e004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_ZCD_UC_T 0x25e005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_ZCD_UC_TS 0x25e006 /* Период дискретизации. */
+#define REG_ID_FILTER_ZCD_SLIP_COUNT 0x25f000 /* Number of sub entries count */
+#define REG_ID_FILTER_ZCD_SLIP_CONTROL 0x25f001 /* Слово управления. */
+#define REG_ID_FILTER_ZCD_SLIP_STATUS 0x25f002 /* Слово состояния. */
+#define REG_ID_FILTER_ZCD_SLIP_IN_VALUE 0x25f003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_ZCD_SLIP_OUT_VALUE 0x25f004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_ZCD_SLIP_T 0x25f005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_ZCD_SLIP_TS 0x25f006 /* Период дискретизации. */
+#define REG_ID_FILTER_FREQ_UA_COUNT 0x260000 /* Number of sub entries count */
+#define REG_ID_FILTER_FREQ_UA_CONTROL 0x260001 /* Слово управления. */
+#define REG_ID_FILTER_FREQ_UA_STATUS 0x260002 /* Слово состояния. */
+#define REG_ID_FILTER_FREQ_UA_IN_VALUE 0x260003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_FREQ_UA_OUT_VALUE 0x260004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_FREQ_UA_T 0x260005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_FREQ_UA_TS 0x260006 /* Период дискретизации. */
+#define REG_ID_FILTER_FREQ_UB_COUNT 0x261000 /* Number of sub entries count */
+#define REG_ID_FILTER_FREQ_UB_CONTROL 0x261001 /* Слово управления. */
+#define REG_ID_FILTER_FREQ_UB_STATUS 0x261002 /* Слово состояния. */
+#define REG_ID_FILTER_FREQ_UB_IN_VALUE 0x261003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_FREQ_UB_OUT_VALUE 0x261004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_FREQ_UB_T 0x261005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_FREQ_UB_TS 0x261006 /* Период дискретизации. */
+#define REG_ID_FILTER_FREQ_UC_COUNT 0x262000 /* Number of sub entries count */
+#define REG_ID_FILTER_FREQ_UC_CONTROL 0x262001 /* Слово управления. */
+#define REG_ID_FILTER_FREQ_UC_STATUS 0x262002 /* Слово состояния. */
+#define REG_ID_FILTER_FREQ_UC_IN_VALUE 0x262003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_FREQ_UC_OUT_VALUE 0x262004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_FREQ_UC_T 0x262005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_FREQ_UC_TS 0x262006 /* Период дискретизации. */
+#define REG_ID_FILTER_FREQ_SLIP_COUNT 0x263000 /* Number of sub entries count */
+#define REG_ID_FILTER_FREQ_SLIP_CONTROL 0x263001 /* Слово управления. */
+#define REG_ID_FILTER_FREQ_SLIP_STATUS 0x263002 /* Слово состояния. */
+#define REG_ID_FILTER_FREQ_SLIP_IN_VALUE 0x263003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_FREQ_SLIP_OUT_VALUE 0x263004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_FREQ_SLIP_T 0x263005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_FREQ_SLIP_TS 0x263006 /* Период дискретизации. */
+#define REG_ID_FILTER_MEAN_IARM_COUNT 0x264000 /* Number of sub entries count */
+#define REG_ID_FILTER_MEAN_IARM_CONTROL 0x264001 /* Слово управления. */
+#define REG_ID_FILTER_MEAN_IARM_STATUS 0x264002 /* Слово состояния. */
+#define REG_ID_FILTER_MEAN_IARM_IN_VALUE 0x264003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_MEAN_IARM_OUT_VALUE 0x264004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_MEAN_IARM_T 0x264005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_MEAN_IARM_TS 0x264006 /* Период дискретизации. */
+#define REG_ID_FILTER_MEAN_UARM_COUNT 0x265000 /* Number of sub entries count */
+#define REG_ID_FILTER_MEAN_UARM_CONTROL 0x265001 /* Слово управления. */
+#define REG_ID_FILTER_MEAN_UARM_STATUS 0x265002 /* Слово состояния. */
+#define REG_ID_FILTER_MEAN_UARM_IN_VALUE 0x265003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_MEAN_UARM_OUT_VALUE 0x265004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_MEAN_UARM_T 0x265005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_MEAN_UARM_TS 0x265006 /* Период дискретизации. */
+#define REG_ID_FILTER_MEAN_IRSTART_COUNT 0x266000 /* Number of sub entries count */
+#define REG_ID_FILTER_MEAN_IRSTART_CONTROL 0x266001 /* Слово управления. */
+#define REG_ID_FILTER_MEAN_IRSTART_STATUS 0x266002 /* Слово состояния. */
+#define REG_ID_FILTER_MEAN_IRSTART_IN_VALUE 0x266003 /* Фильтруеый сигнал. */
+#define REG_ID_FILTER_MEAN_IRSTART_OUT_VALUE 0x266004 /* Отфильтрованный сигнал. */
+#define REG_ID_FILTER_MEAN_IRSTART_T 0x266005 /* Постоянная времени фильтра. */
+#define REG_ID_FILTER_MEAN_IRSTART_TS 0x266006 /* Период дискретизации. */
+#define REG_ID_TMR_START_MIN_FORCING_COUNT 0x267000 /* Number of sub entries count */
+#define REG_ID_TMR_START_MIN_FORCING_CONTROL 0x267001 /* Слово управления. */
+#define REG_ID_TMR_START_MIN_FORCING_STATUS 0x267002 /* Слово состояния. */
+#define REG_ID_TMR_START_MIN_FORCING_OUT_EXPIRED 0x267003 /* Флаг истечения времени. */
+#define REG_ID_TMR_START_MIN_FORCING_OUT_TIMEOUT 0x267004 /* Строб тайм-аута. */
+#define REG_ID_TMR_START_MIN_FORCING_INTERVAL 0x267005 /* Интервал таймера, мс. */
+#define REG_ID_TMR_START_MAX_FORCING_COUNT 0x268000 /* Number of sub entries count */
+#define REG_ID_TMR_START_MAX_FORCING_CONTROL 0x268001 /* Слово управления. */
+#define REG_ID_TMR_START_MAX_FORCING_STATUS 0x268002 /* Слово состояния. */
+#define REG_ID_TMR_START_MAX_FORCING_OUT_EXPIRED 0x268003 /* Флаг истечения времени. */
+#define REG_ID_TMR_START_MAX_FORCING_OUT_TIMEOUT 0x268004 /* Строб тайм-аута. */
+#define REG_ID_TMR_START_MAX_FORCING_INTERVAL 0x268005 /* Интервал таймера, мс. */
+#define REG_ID_TMR_START_STAB_FORCING_COUNT 0x269000 /* Number of sub entries count */
+#define REG_ID_TMR_START_STAB_FORCING_CONTROL 0x269001 /* Слово управления. */
+#define REG_ID_TMR_START_STAB_FORCING_STATUS 0x269002 /* Слово состояния. */
+#define REG_ID_TMR_START_STAB_FORCING_IN_VALUE 0x269003 /* Входное значение сигнала. */
+#define REG_ID_TMR_START_STAB_FORCING_OUT_VALUE 0x269004 /* Выходное значение сигнала. */
+#define REG_ID_TMR_START_STAB_FORCING_TMR_CONTROL 0x269005 /* Слово управления. */
+#define REG_ID_TMR_START_STAB_FORCING_TMR_STATUS 0x269006 /* Слово состояния. */
+#define REG_ID_TMR_START_STAB_FORCING_TMR_OUT_EXPIRED 0x269007 /* Флаг истечения времени. */
+#define REG_ID_TMR_START_STAB_FORCING_TMR_OUT_TIMEOUT 0x269008 /* Строб тайм-аута. */
+#define REG_ID_TMR_START_STAB_FORCING_TMR_R_INTERVAL 0x269009 /* Интервал таймера, мс. */
+#define REG_ID_THR_START_Q_LE_ZERO_COUNT 0x26a000 /* Number of sub entries count */
+#define REG_ID_THR_START_Q_LE_ZERO_CONTROL 0x26a001 /* Слово управления. */
+#define REG_ID_THR_START_Q_LE_ZERO_STATUS 0x26a002 /* Слово состояния. */
+#define REG_ID_THR_START_Q_LE_ZERO_IN_VALUE 0x26a003 /* Значение для сравнения. */
+#define REG_ID_THR_START_Q_LE_ZERO_OUT_VALUE 0x26a004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_START_Q_LE_ZERO_THRESHOLD 0x26a005 /* Порог. */
+#define REG_ID_AND_START_MIN_FORCING_END_COUNT 0x26b000 /* Number of sub entries count */
+#define REG_ID_AND_START_MIN_FORCING_END_CONTROL 0x26b001 /* Слово управления. */
+#define REG_ID_AND_START_MIN_FORCING_END_STATUS 0x26b002 /* Слово состояния. */
+#define REG_ID_AND_START_MIN_FORCING_END_IN_VALUE0 0x26b003 /*  */
+#define REG_ID_AND_START_MIN_FORCING_END_IN_VALUE1 0x26b004 /*  */
+#define REG_ID_AND_START_MIN_FORCING_END_OUT_VALUE 0x26b005 /*  */
+#define REG_ID_OR_START_FORCING_END_COUNT 0x26c000 /* Number of sub entries count */
+#define REG_ID_OR_START_FORCING_END_CONTROL 0x26c001 /* Слово управления. */
+#define REG_ID_OR_START_FORCING_END_STATUS 0x26c002 /* Слово состояния. */
+#define REG_ID_OR_START_FORCING_END_IN_VALUE0 0x26c003 /*  */
+#define REG_ID_OR_START_FORCING_END_IN_VALUE1 0x26c004 /*  */
+#define REG_ID_OR_START_FORCING_END_OUT_VALUE 0x26c005 /*  */
+#define REG_ID_MUX_FIELD_REGS_COUNT 0x26d000 /* Number of sub entries count */
+#define REG_ID_MUX_FIELD_REGS_CONTROL 0x26d001 /* Слово управления. */
+#define REG_ID_MUX_FIELD_REGS_STATUS 0x26d002 /* Слово состояния. */
+#define REG_ID_MUX_FIELD_REGS_IN_VALUE0 0x26d003 /* Входные значения. */
+#define REG_ID_MUX_FIELD_REGS_IN_VALUE1 0x26d004 /* Входные значения. */
+#define REG_ID_MUX_FIELD_REGS_IN_VALUE2 0x26d005 /* Входные значения. */
+#define REG_ID_MUX_FIELD_REGS_IN_VALUE3 0x26d006 /* Входные значения. */
+#define REG_ID_MUX_FIELD_REGS_OUT_VALUE 0x26d007 /* Выходное значение. */
+#define REG_ID_MUX_FIELD_REGS_SEL 0x26d008 /* Селектор значений. */
+#define REG_ID_LIM_FIELD_REGS_CURR_REF_COUNT 0x26e000 /* Number of sub entries count */
+#define REG_ID_LIM_FIELD_REGS_CURR_REF_CONTROL 0x26e001 /* Слово управления. */
+#define REG_ID_LIM_FIELD_REGS_CURR_REF_STATUS 0x26e002 /* Слово состояния. */
+#define REG_ID_LIM_FIELD_REGS_CURR_REF_IN_VALUE 0x26e003 /* Входные данные. */
+#define REG_ID_LIM_FIELD_REGS_CURR_REF_OUT_VALUE 0x26e004 /* Выходное значение. */
+#define REG_ID_LIM_FIELD_REGS_CURR_REF_MIN_VALUE 0x26e005 /* Значение нижней границы. */
+#define REG_ID_LIM_FIELD_REGS_CURR_REF_MAX_VALUE 0x26e006 /* Значение верхней границы. */
+#define REG_ID_MUX_FIELD_FORCE_REF_COUNT 0x26f000 /* Number of sub entries count */
+#define REG_ID_MUX_FIELD_FORCE_REF_CONTROL 0x26f001 /* Слово управления. */
+#define REG_ID_MUX_FIELD_FORCE_REF_STATUS 0x26f002 /* Слово состояния. */
+#define REG_ID_MUX_FIELD_FORCE_REF_IN_VALUE0 0x26f003 /* Входные значения. */
+#define REG_ID_MUX_FIELD_FORCE_REF_IN_VALUE1 0x26f004 /* Входные значения. */
+#define REG_ID_MUX_FIELD_FORCE_REF_OUT_VALUE 0x26f005 /* Выходное значение. */
+#define REG_ID_MUX_FIELD_FORCE_REF_SEL 0x26f006 /* Селектор значений. */
+#define REG_ID_MOT_POT_FIELD_TEST_COUNT 0x270000 /* Number of sub entries count */
+#define REG_ID_MOT_POT_FIELD_TEST_CONTROL 0x270001 /* Слово управления. */
+#define REG_ID_MOT_POT_FIELD_TEST_STATUS 0x270002 /* Слово состояния. */
+#define REG_ID_MOT_POT_FIELD_TEST_IN_DEC 0x270003 /* Флаг декремента. */
+#define REG_ID_MOT_POT_FIELD_TEST_IN_INC 0x270004 /* Флаг инкремента. */
+#define REG_ID_MOT_POT_FIELD_TEST_TIME 0x270005 /* Время изменения величины от 0 до 100%. */
+#define REG_ID_MOT_POT_FIELD_TEST_MIN 0x270006 /* Минимальное значение. */
+#define REG_ID_MOT_POT_FIELD_TEST_MAX 0x270007 /* Максимальное значение. */
+#define REG_ID_MOT_POT_FIELD_TEST_VALUE 0x270008 /* Значение. */
+#define REG_ID_MOT_POT_FIELD_TEST_TS 0x270009 /* Период дискретизации. */
+#define REG_ID_MOT_POT_MANUAL_CURR_REF_COUNT 0x271000 /* Number of sub entries count */
+#define REG_ID_MOT_POT_MANUAL_CURR_REF_CONTROL 0x271001 /* Слово управления. */
+#define REG_ID_MOT_POT_MANUAL_CURR_REF_STATUS 0x271002 /* Слово состояния. */
+#define REG_ID_MOT_POT_MANUAL_CURR_REF_IN_DEC 0x271003 /* Флаг декремента. */
+#define REG_ID_MOT_POT_MANUAL_CURR_REF_IN_INC 0x271004 /* Флаг инкремента. */
+#define REG_ID_MOT_POT_MANUAL_CURR_REF_TIME 0x271005 /* Время изменения величины от 0 до 100%. */
+#define REG_ID_MOT_POT_MANUAL_CURR_REF_MIN 0x271006 /* Минимальное значение. */
+#define REG_ID_MOT_POT_MANUAL_CURR_REF_MAX 0x271007 /* Максимальное значение. */
+#define REG_ID_MOT_POT_MANUAL_CURR_REF_VALUE 0x271008 /* Значение. */
+#define REG_ID_MOT_POT_MANUAL_CURR_REF_TS 0x271009 /* Период дискретизации. */
+#define REG_ID_MUX_CURR_REF_COUNT 0x272000 /* Number of sub entries count */
+#define REG_ID_MUX_CURR_REF_CONTROL 0x272001 /* Слово управления. */
+#define REG_ID_MUX_CURR_REF_STATUS 0x272002 /* Слово состояния. */
+#define REG_ID_MUX_CURR_REF_IN_VALUE0 0x272003 /* Входные значения. */
+#define REG_ID_MUX_CURR_REF_IN_VALUE1 0x272004 /* Входные значения. */
+#define REG_ID_MUX_CURR_REF_IN_VALUE2 0x272005 /* Входные значения. */
+#define REG_ID_MUX_CURR_REF_IN_VALUE3 0x272006 /* Входные значения. */
+#define REG_ID_MUX_CURR_REF_OUT_VALUE 0x272007 /* Выходное значение. */
+#define REG_ID_MUX_CURR_REF_SEL 0x272008 /* Селектор значений. */
+#define REG_ID_PID_I_COUNT 0x273000 /* Number of sub entries count */
+#define REG_ID_PID_I_CONTROL 0x273001 /* Слово управления. */
+#define REG_ID_PID_I_STATUS 0x273002 /* Слово состояния. */
+#define REG_ID_PID_I_IN_REF 0x273003 /* Задание. */
+#define REG_ID_PID_I_IN_FBK 0x273004 /* Обратная связь. */
+#define REG_ID_PID_I_OUT_VALUE 0x273005 /* Воздействие. */
+#define REG_ID_PID_I_KP 0x273006 /* Коэффициент пропорциональной составляющей. */
+#define REG_ID_PID_I_KI 0x273007 /* Коэффициент интегральной составляющей. */
+#define REG_ID_PID_I_KD 0x273008 /* Коэффициент дифференциальной составляющей. */
+#define REG_ID_PID_I_KF 0x273009 /* Коэффициент фильтра дифференциальной составляющей. */
+#define REG_ID_PID_I_MIN 0x27300a /* Минимальное значение выхода. */
+#define REG_ID_PID_I_MAX 0x27300b /* Максимальное значение выхода. */
+#define REG_ID_PID_COEFS_I_COUNT 0x274000 /* Number of sub entries count */
+#define REG_ID_PID_COEFS_I_CONTROL 0x274001 /* Слово управления. */
+#define REG_ID_PID_COEFS_I_STATUS 0x274002 /* Слово состояния. */
+#define REG_ID_PID_COEFS_I_OUT_KP 0x274003 /*  */
+#define REG_ID_PID_COEFS_I_OUT_KI 0x274004 /*  */
+#define REG_ID_PID_COEFS_I_OUT_KD 0x274005 /*  */
+#define REG_ID_PID_COEFS_I_OUT_KF 0x274006 /*  */
+#define REG_ID_PID_COEFS_I_KP 0x274007 /* Коэффициент пропорциональной составляющей. */
+#define REG_ID_PID_COEFS_I_TI 0x274008 /* Постоянная времени интегрирования. */
+#define REG_ID_PID_COEFS_I_TD 0x274009 /* Постоянная времени дифференцирования. */
+#define REG_ID_PID_COEFS_I_TF 0x27400a /* Постоянная времени фильтра дифференциальной составляющей. */
+#define REG_ID_PID_COEFS_I_TS 0x27400b /* Время дискретизации регулятора. */
+#define REG_ID_PH3C_COUNT 0x275000 /* Number of sub entries count */
+#define REG_ID_PH3C_CONTROL 0x275001 /* Слово управления. */
+#define REG_ID_PH3C_STATUS 0x275002 /* Слово состояния. */
+#define REG_ID_PH3C_IN_UA_ANGLE 0x275003 /* Угол фазы AB, в периодических единицах, [0; 2*pi). */
+#define REG_ID_PH3C_IN_UB_ANGLE 0x275004 /* Угол фазы BC, в периодических единицах, [0; 2*pi). */
+#define REG_ID_PH3C_IN_UC_ANGLE 0x275005 /* Угол фазы CA, в периодических единицах, [0; 2*pi). */
+#define REG_ID_PH3C_IN_CONTROL_VALUE 0x275006 /* Величина управления, 0 - 0%, 1 - 100% от максимума (до ограничения). */
+#define REG_ID_PH3C_OUT_CONTROL0 0x275007 /* Управление. */
+#define REG_ID_PH3C_OUT_CONTROL1 0x275008 /* Управление. */
+#define REG_ID_PH3C_OUT_CONTROL2 0x275009 /* Управление. */
+#define REG_ID_PH3C_OUT_CONTROL3 0x27500a /* Управление. */
+#define REG_ID_PH3C_OUT_CONTROL4 0x27500b /* Управление. */
+#define REG_ID_PH3C_OUT_CONTROL5 0x27500c /* Управление. */
+#define REG_ID_PH3C_OUT_CONTROL_DELAY_ANGLE 0x27500d /* Угол до импульса управления, в периодических единицах. */
+#define REG_ID_PH3C_OUT_CONTROL_MAX_DURATION_ANGLE 0x27500e /* Максимальная продолжительность (угол) управления, в периодических единицах. */
+#define REG_ID_PH3C_OUT_MIN_CONTROL_VALUE 0x27500f /* Минимальная величина управления (максимальный электрический угол коммутации). */
+#define REG_ID_PH3C_OUT_MAX_CONTROL_VALUE 0x275010 /* Максимальная величина управления (минимальный электрический угол коммутации). */
+#define REG_ID_PH3C_MIN_CONTROL_ANGLE 0x275011 /* Минимальный угол управления, в электрических градусах. */
+#define REG_ID_PH3C_MAX_CONTROL_ANGLE 0x275012 /* Максимальный угол управления, в электрических градусах. */
+#define REG_ID_PH3C_PHC0_CONTROL 0x275013 /* Слово управления. */
+#define REG_ID_PH3C_PHC0_STATUS 0x275014 /* Слово состояния. */
+#define REG_ID_PH3C_PHC0_IN_ANGLE_PU 0x275015 /* Угол слежения, в периодических единицах - [0; 2*pi). */
+#define REG_ID_PH3C_PHC0_IN_CONTROL_ANGLE_PU 0x275016 /* Угол начала управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC0_OUT_CYCLE 0x275017 /* Строб начала цикла управления. */
+#define REG_ID_PH3C_PHC0_OUT_PERIOD 0x275018 /* Строб начала периода. */
+#define REG_ID_PH3C_PHC0_OUT_CONTROL 0x275019 /* Строб начала управления. */
+#define REG_ID_PH3C_PHC0_OUT_CONTROL_ANGLE_PU 0x27501a /* Угол начала управления, в периодических единицах - [0; 2*pi + da). */
+#define REG_ID_PH3C_PHC0_OUT_CONTROL_LATE 0x27501b /* Флаг опоздания (угол текущего семпла больше чем угол начала управления). */
+#define REG_ID_PH3C_PHC0_OUT_CONTROL_BETWEEN 0x27501c /* Флаг нахождения начала управления между текущим и следующим семплом. */
+#define REG_ID_PH3C_PHC0_R_ANGLE_WIN_PU 0x27501d /* Угол, в периодических единицах, окно для управления от текущего угла. */
+#define REG_ID_PH3C_PHC0_R_MIN_ANGLE_TO_CONTROL_PU 0x27501e /* Минимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC0_R_MAX_ANGLE_TO_CONTROL_PU 0x27501f /* Максимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC1_CONTROL 0x275020 /* Слово управления. */
+#define REG_ID_PH3C_PHC1_STATUS 0x275021 /* Слово состояния. */
+#define REG_ID_PH3C_PHC1_IN_ANGLE_PU 0x275022 /* Угол слежения, в периодических единицах - [0; 2*pi). */
+#define REG_ID_PH3C_PHC1_IN_CONTROL_ANGLE_PU 0x275023 /* Угол начала управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC1_OUT_CYCLE 0x275024 /* Строб начала цикла управления. */
+#define REG_ID_PH3C_PHC1_OUT_PERIOD 0x275025 /* Строб начала периода. */
+#define REG_ID_PH3C_PHC1_OUT_CONTROL 0x275026 /* Строб начала управления. */
+#define REG_ID_PH3C_PHC1_OUT_CONTROL_ANGLE_PU 0x275027 /* Угол начала управления, в периодических единицах - [0; 2*pi + da). */
+#define REG_ID_PH3C_PHC1_OUT_CONTROL_LATE 0x275028 /* Флаг опоздания (угол текущего семпла больше чем угол начала управления). */
+#define REG_ID_PH3C_PHC1_OUT_CONTROL_BETWEEN 0x275029 /* Флаг нахождения начала управления между текущим и следующим семплом. */
+#define REG_ID_PH3C_PHC1_R_ANGLE_WIN_PU 0x27502a /* Угол, в периодических единицах, окно для управления от текущего угла. */
+#define REG_ID_PH3C_PHC1_R_MIN_ANGLE_TO_CONTROL_PU 0x27502b /* Минимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC1_R_MAX_ANGLE_TO_CONTROL_PU 0x27502c /* Максимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC2_CONTROL 0x27502d /* Слово управления. */
+#define REG_ID_PH3C_PHC2_STATUS 0x27502e /* Слово состояния. */
+#define REG_ID_PH3C_PHC2_IN_ANGLE_PU 0x27502f /* Угол слежения, в периодических единицах - [0; 2*pi). */
+#define REG_ID_PH3C_PHC2_IN_CONTROL_ANGLE_PU 0x275030 /* Угол начала управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC2_OUT_CYCLE 0x275031 /* Строб начала цикла управления. */
+#define REG_ID_PH3C_PHC2_OUT_PERIOD 0x275032 /* Строб начала периода. */
+#define REG_ID_PH3C_PHC2_OUT_CONTROL 0x275033 /* Строб начала управления. */
+#define REG_ID_PH3C_PHC2_OUT_CONTROL_ANGLE_PU 0x275034 /* Угол начала управления, в периодических единицах - [0; 2*pi + da). */
+#define REG_ID_PH3C_PHC2_OUT_CONTROL_LATE 0x275035 /* Флаг опоздания (угол текущего семпла больше чем угол начала управления). */
+#define REG_ID_PH3C_PHC2_OUT_CONTROL_BETWEEN 0x275036 /* Флаг нахождения начала управления между текущим и следующим семплом. */
+#define REG_ID_PH3C_PHC2_R_ANGLE_WIN_PU 0x275037 /* Угол, в периодических единицах, окно для управления от текущего угла. */
+#define REG_ID_PH3C_PHC2_R_MIN_ANGLE_TO_CONTROL_PU 0x275038 /* Минимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC2_R_MAX_ANGLE_TO_CONTROL_PU 0x275039 /* Максимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC3_CONTROL 0x27503a /* Слово управления. */
+#define REG_ID_PH3C_PHC3_STATUS 0x27503b /* Слово состояния. */
+#define REG_ID_PH3C_PHC3_IN_ANGLE_PU 0x27503c /* Угол слежения, в периодических единицах - [0; 2*pi). */
+#define REG_ID_PH3C_PHC3_IN_CONTROL_ANGLE_PU 0x27503d /* Угол начала управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC3_OUT_CYCLE 0x27503e /* Строб начала цикла управления. */
+#define REG_ID_PH3C_PHC3_OUT_PERIOD 0x27503f /* Строб начала периода. */
+#define REG_ID_PH3C_PHC3_OUT_CONTROL 0x275040 /* Строб начала управления. */
+#define REG_ID_PH3C_PHC3_OUT_CONTROL_ANGLE_PU 0x275041 /* Угол начала управления, в периодических единицах - [0; 2*pi + da). */
+#define REG_ID_PH3C_PHC3_OUT_CONTROL_LATE 0x275042 /* Флаг опоздания (угол текущего семпла больше чем угол начала управления). */
+#define REG_ID_PH3C_PHC3_OUT_CONTROL_BETWEEN 0x275043 /* Флаг нахождения начала управления между текущим и следующим семплом. */
+#define REG_ID_PH3C_PHC3_R_ANGLE_WIN_PU 0x275044 /* Угол, в периодических единицах, окно для управления от текущего угла. */
+#define REG_ID_PH3C_PHC3_R_MIN_ANGLE_TO_CONTROL_PU 0x275045 /* Минимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC3_R_MAX_ANGLE_TO_CONTROL_PU 0x275046 /* Максимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC4_CONTROL 0x275047 /* Слово управления. */
+#define REG_ID_PH3C_PHC4_STATUS 0x275048 /* Слово состояния. */
+#define REG_ID_PH3C_PHC4_IN_ANGLE_PU 0x275049 /* Угол слежения, в периодических единицах - [0; 2*pi). */
+#define REG_ID_PH3C_PHC4_IN_CONTROL_ANGLE_PU 0x27504a /* Угол начала управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC4_OUT_CYCLE 0x27504b /* Строб начала цикла управления. */
+#define REG_ID_PH3C_PHC4_OUT_PERIOD 0x27504c /* Строб начала периода. */
+#define REG_ID_PH3C_PHC4_OUT_CONTROL 0x27504d /* Строб начала управления. */
+#define REG_ID_PH3C_PHC4_OUT_CONTROL_ANGLE_PU 0x27504e /* Угол начала управления, в периодических единицах - [0; 2*pi + da). */
+#define REG_ID_PH3C_PHC4_OUT_CONTROL_LATE 0x27504f /* Флаг опоздания (угол текущего семпла больше чем угол начала управления). */
+#define REG_ID_PH3C_PHC4_OUT_CONTROL_BETWEEN 0x275050 /* Флаг нахождения начала управления между текущим и следующим семплом. */
+#define REG_ID_PH3C_PHC4_R_ANGLE_WIN_PU 0x275051 /* Угол, в периодических единицах, окно для управления от текущего угла. */
+#define REG_ID_PH3C_PHC4_R_MIN_ANGLE_TO_CONTROL_PU 0x275052 /* Минимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC4_R_MAX_ANGLE_TO_CONTROL_PU 0x275053 /* Максимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC5_CONTROL 0x275054 /* Слово управления. */
+#define REG_ID_PH3C_PHC5_STATUS 0x275055 /* Слово состояния. */
+#define REG_ID_PH3C_PHC5_IN_ANGLE_PU 0x275056 /* Угол слежения, в периодических единицах - [0; 2*pi). */
+#define REG_ID_PH3C_PHC5_IN_CONTROL_ANGLE_PU 0x275057 /* Угол начала управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC5_OUT_CYCLE 0x275058 /* Строб начала цикла управления. */
+#define REG_ID_PH3C_PHC5_OUT_PERIOD 0x275059 /* Строб начала периода. */
+#define REG_ID_PH3C_PHC5_OUT_CONTROL 0x27505a /* Строб начала управления. */
+#define REG_ID_PH3C_PHC5_OUT_CONTROL_ANGLE_PU 0x27505b /* Угол начала управления, в периодических единицах - [0; 2*pi + da). */
+#define REG_ID_PH3C_PHC5_OUT_CONTROL_LATE 0x27505c /* Флаг опоздания (угол текущего семпла больше чем угол начала управления). */
+#define REG_ID_PH3C_PHC5_OUT_CONTROL_BETWEEN 0x27505d /* Флаг нахождения начала управления между текущим и следующим семплом. */
+#define REG_ID_PH3C_PHC5_R_ANGLE_WIN_PU 0x27505e /* Угол, в периодических единицах, окно для управления от текущего угла. */
+#define REG_ID_PH3C_PHC5_R_MIN_ANGLE_TO_CONTROL_PU 0x27505f /* Минимальный угол для управления, в периодических единицах. */
+#define REG_ID_PH3C_PHC5_R_MAX_ANGLE_TO_CONTROL_PU 0x275060 /* Максимальный угол для управления, в периодических единицах. */
+#define REG_ID_LRM_COUNT 0x276000 /* Number of sub entries count */
+#define REG_ID_LRM_CONTROL 0x276001 /* Слово управления. */
+#define REG_ID_LRM_STATUS 0x276002 /* Слово состояния. */
+#define REG_ID_LRM_WARNINGS 0x276003 /* Слово предупреждений. */
+#define REG_ID_LRM_IN_UA 0x276004 /*  */
+#define REG_ID_LRM_IN_UB 0x276005 /*  */
+#define REG_ID_LRM_IN_UC 0x276006 /*  */
+#define REG_ID_LRM_IN_UREF_ANGLE 0x276007 /*  */
+#define REG_ID_LRM_IN_CONTROL0 0x276008 /*  */
+#define REG_ID_LRM_IN_CONTROL1 0x276009 /*  */
+#define REG_ID_LRM_IN_CONTROL2 0x27600a /*  */
+#define REG_ID_LRM_IN_CONTROL3 0x27600b /*  */
+#define REG_ID_LRM_IN_CONTROL4 0x27600c /*  */
+#define REG_ID_LRM_IN_CONTROL5 0x27600d /*  */
+#define REG_ID_LRM_IN_CONTROL_DELAY_ANGLE 0x27600e /*  */
+#define REG_ID_LRM_IN_CONTROL_DURATION_ANGLE 0x27600f /*  */
+#define REG_ID_LRM_IN_DT 0x276010 /*  */
+#define REG_ID_LRM_IN_STATOR_UA 0x276011 /*  */
+#define REG_ID_LRM_IN_STATOR_UB 0x276012 /*  */
+#define REG_ID_LRM_IN_STATOR_UC 0x276013 /*  */
+#define REG_ID_LRM_IN_STATOR_ON 0x276014 /*  */
+#define REG_ID_LRM_IN_START_R_ON 0x276015 /*  */
+#define REG_ID_LRM_IN_K_MC 0x276016 /*  */
+#define REG_ID_LRM_OUT_IA 0x276017 /*  */
+#define REG_ID_LRM_OUT_IB 0x276018 /*  */
+#define REG_ID_LRM_OUT_IC 0x276019 /*  */
+#define REG_ID_LRM_OUT_UFLD 0x27601a /*  */
+#define REG_ID_LRM_OUT_IFLD 0x27601b /*  */
+#define REG_ID_LRM_OUT_M 0x27601c /*  */
+#define REG_ID_LRM_OUT_W 0x27601d /*  */
+#define REG_ID_LRM_OUT_STATOR_IA 0x27601e /*  */
+#define REG_ID_LRM_OUT_STATOR_IB 0x27601f /*  */
+#define REG_ID_LRM_OUT_STATOR_IC 0x276020 /*  */
+#define REG_ID_LRM_OUT_IRSTART 0x276021 /*  */
+#define REG_ID_LRM_I_HOLD 0x276022 /*  */
+#define REG_ID_LRM_RS 0x276023 /*  */
+#define REG_ID_LRM_RR 0x276024 /*  */
+#define REG_ID_LRM_RF 0x276025 /*  */
+#define REG_ID_LRM_LSD 0x276026 /*  */
+#define REG_ID_LRM_LSQ 0x276027 /*  */
+#define REG_ID_LRM_LRD 0x276028 /*  */
+#define REG_ID_LRM_LRQ 0x276029 /*  */
+#define REG_ID_LRM_LFD 0x27602a /*  */
+#define REG_ID_LRM_LMSRD 0x27602b /*  */
+#define REG_ID_LRM_LMSRQ 0x27602c /*  */
+#define REG_ID_LRM_LMSFD 0x27602d /*  */
+#define REG_ID_LRM_LMRFD 0x27602e /*  */
+#define REG_ID_LRM_P 0x27602f /*  */
+#define REG_ID_LRM_MC 0x276030 /*  */
+#define REG_ID_LRM_KF 0x276031 /*  */
+#define REG_ID_LRM_J 0x276032 /*  */
+#define REG_ID_LRM_RSTART 0x276033 /*  */
+#define REG_ID_LRM_START_R_U_THR 0x276034 /*  */
+#define REG_ID_MOTOR_COUNT 0x277000 /* Number of sub entries count */
+#define REG_ID_MOTOR_CONTROL 0x277001 /* Слово управления. */
+#define REG_ID_MOTOR_STATUS 0x277002 /* Слово состояния. */
+#define REG_ID_MOTOR_WARNINGS 0x277003 /* Слово предупреждений. */
+#define REG_ID_MOTOR_F_NOM 0x277004 /* Номинальная частота статора, Гц. */
+#define REG_ID_MOTOR_S_U_NOM 0x277005 /* Номинальное напряжение статора, В. */
+#define REG_ID_MOTOR_S_I_NOM 0x277006 /* Номинальный ток статора, А. */
+#define REG_ID_MOTOR_U_NOM 0x277007 /* Номинальное напряжение ротора, В. */
+#define REG_ID_MOTOR_I_NOM 0x277008 /* Номинальный ток ротора, А. */
+#define REG_ID_MOTOR_F_BASE 0x277009 /* Базовая частота. */
+#define REG_ID_MOTOR_F_BASE_INV 0x27700a /* Базовая частота, инвертированное значение. */
+#define REG_ID_MOTOR_W_BASE 0x27700b /* Базовая угловая частота. */
+#define REG_ID_MOTOR_W_BASE_INV 0x27700c /* Базовая угловая частота, инвертированное значение. */
+#define REG_ID_MOTOR_T_BASE 0x27700d /* Базовое время. */
+#define REG_ID_MOTOR_T_BASE_INV 0x27700e /* Базовое время, инвертированное значение. */
+#define REG_ID_MOTOR_S_U_BASE 0x27700f /* Базовое напряжение. */
+#define REG_ID_MOTOR_S_U_BASE_INV 0x277010 /* Базовое напряжение, инвертированное значение. */
+#define REG_ID_MOTOR_S_I_BASE 0x277011 /* Базовый ток. */
+#define REG_ID_MOTOR_S_I_BASE_INV 0x277012 /* Базовый ток, инвертированное значение. */
+#define REG_ID_MOTOR_S_P_BASE 0x277013 /* Базовая мощность. */
+#define REG_ID_MOTOR_S_P_BASE_INV 0x277014 /* Базовая мощность, инвертированное значение. */
+#define REG_ID_MOTOR_S_M_BASE 0x277015 /* Базовый момент. */
+#define REG_ID_MOTOR_S_M_BASE_INV 0x277016 /* Базовый момент, инвертированное значение. */
+#define REG_ID_MOTOR_S_J_BASE 0x277017 /* Базовый момент инерции. */
+#define REG_ID_MOTOR_S_J_BASE_INV 0x277018 /* Базовый момент инерции, инвертированное значение. */
+#define REG_ID_MOTOR_S_PSI_BASE 0x277019 /* Базовое потокосцепление. */
+#define REG_ID_MOTOR_S_PSI_BASE_INV 0x27701a /* Базовое потокосцепление, инвертированное значение. */
+#define REG_ID_MOTOR_S_R_BASE 0x27701b /* Базовое сопротивление. */
+#define REG_ID_MOTOR_S_R_BASE_INV 0x27701c /* Базовое сопротивление, инвертированное значение. */
+#define REG_ID_MOTOR_S_L_BASE 0x27701d /* Базовая индуктивность. */
+#define REG_ID_MOTOR_S_L_BASE_INV 0x27701e /* Базовая индуктивность, инвертированное значение. */
+#define REG_ID_MOTOR_R_U_BASE 0x27701f /* Базовое напряжение. */
+#define REG_ID_MOTOR_R_U_BASE_INV 0x277020 /* Базовое напряжение, инвертированное значение. */
+#define REG_ID_MOTOR_R_I_BASE 0x277021 /* Базовый ток. */
+#define REG_ID_MOTOR_R_I_BASE_INV 0x277022 /* Базовый ток, инвертированное значение. */
+#define REG_ID_MOTOR_R_P_BASE 0x277023 /* Базовая мощность. */
+#define REG_ID_MOTOR_R_P_BASE_INV 0x277024 /* Базовая мощность, инвертированное значение. */
+#define REG_ID_MOTOR_S_K_U_MAINS_TO_MOT 0x277025 /* Напряжение относительно сети в напряжение относительно статора двигателя. */
+#define REG_ID_MOTOR_S_K_I_MAINS_TO_MOT 0x277026 /* Ток относительно сети в ток относительно статора двигателя. */
+#define REG_ID_MOTOR_S_K_I_MOT_TO_MAINS 0x277027 /* Ток относительно статора двигателя в ток относительно сети. */
+#define REG_ID_MOTOR_R_K_U_MAINS_TO_MOT 0x277028 /* Напряжение относительно сети в напряжение относительно ротора двигателя. */
+#define REG_ID_MOTOR_R_K_I_MAINS_TO_MOT 0x277029 /* Ток относительно сети в ток относительно ротора двигателя. */
+#define REG_ID_MOTOR_R_K_I_MOT_TO_MAINS 0x27702a /* Ток относительно ротора двигателя в ток относительно сети. */
+#define REG_ID_PROT_COUNT 0x278000 /* Number of sub entries count */
+#define REG_ID_PROT_CONTROL 0x278001 /* Слово управления. */
+#define REG_ID_PROT_STATUS 0x278002 /* Слово состояния. */
+#define REG_ID_PROT_ERRORS0 0x278003 /* Слово ошибок 0. */
+#define REG_ID_PROT_ERRORS1 0x278004 /* Слово ошибок 1. */
+#define REG_ID_PROT_WARNINGS0 0x278005 /* Слово предупреждений 0. */
+#define REG_ID_PROT_WARNINGS1 0x278006 /* Слово предупреждений 1. */
+#define REG_ID_CANOPEN_COUNT 0x279000 /* Number of sub entries count */
+#define REG_ID_CANOPEN_CONTROL 0x279001 /* Слово управления. */
+#define REG_ID_CANOPEN_STATUS 0x279002 /* Слово состояния. */
 
 #endif /* REG_IDS_H */

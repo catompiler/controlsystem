@@ -1,4 +1,4 @@
-#include <regs_data.h>
+#include "regs_data.h"
 
 
 // THIS FILE IS GENERATED AUTOMATICALLY!
@@ -218,43 +218,370 @@ struct _S_regs_data regs_data = {
     .applicationObject7 = 0 /*  */,
     .applicationObject8 = 0 /*  */
 },
+.sys = {
+    .count = 6 /* Number of sub entries count */
+},
+.sys_cmd = {
+    .count = 3 /* Number of sub entries count */
+},
+.sys_ctrl = {
+    .count = 11 /* Number of sub entries count */
+},
+.sys_stat = {
+    .count = 3 /* Number of sub entries count */
+},
 .conf = {
-    .count = 3 /*  */
-},
-.sysTime = {
-    .count = 3 /*  */
-},
-.motor = {
-    .count = 7 /*  */
+    .count = 14 /* Number of sub entries count */
 },
 .adc = {
-    .count = 12 /*  */
+    .count = 62 /* Number of sub entries count */
 },
-.meas = {
-    .count = 18 /*  */
+.adc_model = {
+    .count = 30 /* Number of sub entries count */
 },
-.model = {
-    .count = 20 /*  */
+.adc_tim = {
+    .count = 3 /* Number of sub entries count */
 },
-.phaseAmpl = {
-    .count = 6 /*  */
+.sys_tim = {
+    .count = 3 /* Number of sub entries count */
 },
-.lineFreq = {
-    .count = 15 /*  */
+.ms_tim = {
+    .count = 3 /* Number of sub entries count */
 },
-.armFreq = {
-    .count = 6 /*  */
+.net_tim = {
+    .count = 3 /* Number of sub entries count */
 },
-.rms = {
-    .count = 15 /*  */
+.sys_time = {
+    .count = 5 /* Number of sub entries count */
 },
-.mean = {
-    .count = 9 /*  */
+.tmr_sys_fsm = {
+    .count = 5 /* Number of sub entries count */
 },
-.power = {
-    .count = 9 /*  */
+.dlog = {
+    .count = 149 /* Number of sub entries count */
 },
-.powerFactor = {
-    .count = 3 /*  */
+.sys_calc = {
+    .count = 2 /* Number of sub entries count */
+},
+.rect_curr = {
+    .count = 6 /* Number of sub entries count */
+},
+.mux_umains = {
+    .count = 15 /* Number of sub entries count */
+},
+.mux_imains = {
+    .count = 15 /* Number of sub entries count */
+},
+.mux_uarm = {
+    .count = 6 /* Number of sub entries count */
+},
+.mux_iarm = {
+    .count = 7 /* Number of sub entries count */
+},
+.mux_irstart = {
+    .count = 6 /* Number of sub entries count */
+},
+.mux_ucell = {
+    .count = 15 /* Number of sub entries count */
+},
+.mux_icell = {
+    .count = 15 /* Number of sub entries count */
+},
+.mux_slip = {
+    .count = 6 /* Number of sub entries count */
+},
+.phase_ampl_ua = {
+    .count = 5 /* Number of sub entries count */
+},
+.phase_ampl_ub = {
+    .count = 5 /* Number of sub entries count */
+},
+.phase_ampl_uc = {
+    .count = 5 /* Number of sub entries count */
+},
+.zcd_ua = {
+    .count = 7 /* Number of sub entries count */
+},
+.zcd_ub = {
+    .count = 7 /* Number of sub entries count */
+},
+.zcd_uc = {
+    .count = 7 /* Number of sub entries count */
+},
+.zcd_slip = {
+    .count = 7 /* Number of sub entries count */
+},
+.slip = {
+    .count = 4 /* Number of sub entries count */
+},
+.phase_lrm_i_stator = {
+    .count = 8 /* Number of sub entries count */
+},
+.phase_ucell = {
+    .count = 8 /* Number of sub entries count */
+},
+.calc_ucell = {
+    .count = 9 /* Number of sub entries count */
+},
+.calc_icell = {
+    .count = 9 /* Number of sub entries count */
+},
+.rms_ua = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_ub = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_uc = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_ia = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_ib = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_ic = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_cell_ua = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_cell_ub = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_cell_uc = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_cell_ua_phase = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_cell_ub_phase = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_cell_uc_phase = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_cell_ia = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_cell_ib = {
+    .count = 4 /* Number of sub entries count */
+},
+.rms_cell_ic = {
+    .count = 4 /* Number of sub entries count */
+},
+.mean_iarm = {
+    .count = 4 /* Number of sub entries count */
+},
+.mean_uarm = {
+    .count = 4 /* Number of sub entries count */
+},
+.mean_irstart = {
+    .count = 4 /* Number of sub entries count */
+},
+.mean_rms_icell = {
+    .count = 6 /* Number of sub entries count */
+},
+.sum_s = {
+    .count = 6 /* Number of sub entries count */
+},
+.sum_p = {
+    .count = 6 /* Number of sub entries count */
+},
+.sum_q = {
+    .count = 6 /* Number of sub entries count */
+},
+.power_a = {
+    .count = 9 /* Number of sub entries count */
+},
+.power_b = {
+    .count = 9 /* Number of sub entries count */
+},
+.power_c = {
+    .count = 9 /* Number of sub entries count */
+},
+.power_factor = {
+    .count = 8 /* Number of sub entries count */
+},
+.vr_rms_umains = {
+    .count = 11 /* Number of sub entries count */
+},
+.vr_filter_freq_umains = {
+    .count = 11 /* Number of sub entries count */
+},
+.vr_rms_ucell = {
+    .count = 11 /* Number of sub entries count */
+},
+.cell_cb = {
+    .count = 5 /* Number of sub entries count */
+},
+.thr_run_trig_i_s = {
+    .count = 5 /* Number of sub entries count */
+},
+.am_run_trig_i_s = {
+    .count = 5 /* Number of sub entries count */
+},
+.mux_run_trig = {
+    .count = 6 /* Number of sub entries count */
+},
+.tmr_run_trig = {
+    .count = 9 /* Number of sub entries count */
+},
+.thr_prim_slip = {
+    .count = 5 /* Number of sub entries count */
+},
+.thr_prim_i_s = {
+    .count = 5 /* Number of sub entries count */
+},
+.thr_prim_t = {
+    .count = 5 /* Number of sub entries count */
+},
+.am_prim_field_on = {
+    .count = 9 /* Number of sub entries count */
+},
+.thr_sec_slip = {
+    .count = 5 /* Number of sub entries count */
+},
+.thr_sec_i_s = {
+    .count = 5 /* Number of sub entries count */
+},
+.thr_sec_t = {
+    .count = 5 /* Number of sub entries count */
+},
+.am_sec_field_on = {
+    .count = 9 /* Number of sub entries count */
+},
+.or_field_on = {
+    .count = 5 /* Number of sub entries count */
+},
+.tmr_field_on = {
+    .count = 9 /* Number of sub entries count */
+},
+.thr_value_for_slip_lt_zero = {
+    .count = 5 /* Number of sub entries count */
+},
+.or_value_slip_lt_zero_i_r_sync = {
+    .count = 5 /* Number of sub entries count */
+},
+.and_ready_to_exc = {
+    .count = 5 /* Number of sub entries count */
+},
+.tmr_field_on_rstart_off = {
+    .count = 9 /* Number of sub entries count */
+},
+.not_ready_to_exc = {
+    .count = 4 /* Number of sub entries count */
+},
+.cmp_ctrl_state_is_start = {
+    .count = 5 /* Number of sub entries count */
+},
+.and_rstart_on = {
+    .count = 5 /* Number of sub entries count */
+},
+.thr_field_on_i_r_sync = {
+    .count = 5 /* Number of sub entries count */
+},
+.tmr_field_on_i_r_sync = {
+    .count = 9 /* Number of sub entries count */
+},
+.thr_field_supp_i_r = {
+    .count = 5 /* Number of sub entries count */
+},
+.tmr_field_supp = {
+    .count = 5 /* Number of sub entries count */
+},
+.cnt_start = {
+    .count = 3 /* Number of sub entries count */
+},
+.filter_zcd_ua = {
+    .count = 6 /* Number of sub entries count */
+},
+.filter_zcd_ub = {
+    .count = 6 /* Number of sub entries count */
+},
+.filter_zcd_uc = {
+    .count = 6 /* Number of sub entries count */
+},
+.filter_zcd_slip = {
+    .count = 6 /* Number of sub entries count */
+},
+.filter_freq_ua = {
+    .count = 6 /* Number of sub entries count */
+},
+.filter_freq_ub = {
+    .count = 6 /* Number of sub entries count */
+},
+.filter_freq_uc = {
+    .count = 6 /* Number of sub entries count */
+},
+.filter_freq_slip = {
+    .count = 6 /* Number of sub entries count */
+},
+.filter_mean_iarm = {
+    .count = 6 /* Number of sub entries count */
+},
+.filter_mean_uarm = {
+    .count = 6 /* Number of sub entries count */
+},
+.filter_mean_irstart = {
+    .count = 6 /* Number of sub entries count */
+},
+.tmr_start_min_forcing = {
+    .count = 5 /* Number of sub entries count */
+},
+.tmr_start_max_forcing = {
+    .count = 5 /* Number of sub entries count */
+},
+.tmr_start_stab_forcing = {
+    .count = 9 /* Number of sub entries count */
+},
+.thr_start_q_le_zero = {
+    .count = 5 /* Number of sub entries count */
+},
+.and_start_min_forcing_end = {
+    .count = 5 /* Number of sub entries count */
+},
+.or_start_forcing_end = {
+    .count = 5 /* Number of sub entries count */
+},
+.mux_field_regs = {
+    .count = 8 /* Number of sub entries count */
+},
+.lim_field_regs_curr_ref = {
+    .count = 6 /* Number of sub entries count */
+},
+.mux_field_force_ref = {
+    .count = 6 /* Number of sub entries count */
+},
+.mot_pot_field_test = {
+    .count = 9 /* Number of sub entries count */
+},
+.mot_pot_manual_curr_ref = {
+    .count = 9 /* Number of sub entries count */
+},
+.mux_curr_ref = {
+    .count = 8 /* Number of sub entries count */
+},
+.pid_i = {
+    .count = 11 /* Number of sub entries count */
+},
+.pid_coefs_i = {
+    .count = 11 /* Number of sub entries count */
+},
+.ph3c = {
+    .count = 96 /* Number of sub entries count */
+},
+.lrm = {
+    .count = 52 /* Number of sub entries count */
+},
+.motor = {
+    .count = 42 /* Number of sub entries count */
+},
+.prot = {
+    .count = 6 /* Number of sub entries count */
+},
+.canopen = {
+    .count = 2 /* Number of sub entries count */
 }
 };
