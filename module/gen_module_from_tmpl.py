@@ -107,13 +107,13 @@ def main():
 
     try:
         ftmpl_h = open(f"{modtmpl}.h", "r", encoding='utf-8', newline = '\n');
-        #fmod_h = open("%s.h" % (modname), "w", encoding='utf-8', newline = '\n');
-        fmod_h = sys.stdout;
+        fmod_h = open("%s.h" % (modname), "w", encoding='utf-8', newline = '\n');
+        #fmod_h = sys.stdout;
         gen_module(ftmpl_h, fmod_h, tmplnames, modnames);
 
         ftmpl_c = open(f"{modtmpl}.c", "r", encoding='utf-8', newline = '\n');
-        #fmod_c = open("%s.c" % (modname), "w", encoding='utf-8', newline = '\n');
-        fmod_c = sys.stdout;
+        fmod_c = open("%s.c" % (modname), "w", encoding='utf-8', newline = '\n');
+        #fmod_c = sys.stdout;
         gen_module(ftmpl_c, fmod_c, tmplnames, modnames);
     except OSError:
         print("File IO error");
