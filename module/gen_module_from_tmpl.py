@@ -69,20 +69,24 @@ def check_name(name):
 
 
 def print_usage():
-    print("Usage: %s mod_name [this_name]" % (sys.argv[0]));
+    print("Usage: %s mod_name [this_name] [mod_tmpl]" % (sys.argv[0]));
 
 
 def main():
 
-    if(len(sys.argv) < 2 or len(sys.argv) > 3):
+    if(len(sys.argv) < 2 or len(sys.argv) > 4):
         print_usage();
         return;
 
     modname = sys.argv[1];
     modthis = modname;
+    modtmpl = "mod_tmpl"
 
-    if(len(sys.argv) == 3):
+    if(len(sys.argv) >= 3):
         modthis = sys.argv[2];
+
+    if(len(sys.argv) >= 4):
+        modtmpl = sys.argv[3];
 
     if(not check_name(modname)):
         print("Invalid module name: %s" % (modname));
@@ -102,14 +106,14 @@ def main():
     fmod_c = 0;
 
     try:
-        ftmpl_h = open("mod_tmpl.h", "r", encoding='utf-8', newline = '\n');
-        fmod_h = open("%s.h" % (modname), "w", encoding='utf-8', newline = '\n');
-        #fmod_h = sys.stdout;
+        ftmpl_h = open(f"{modtmpl}.h", "r", encoding='utf-8', newline = '\n');
+        #fmod_h = open("%s.h" % (modname), "w", encoding='utf-8', newline = '\n');
+        fmod_h = sys.stdout;
         gen_module(ftmpl_h, fmod_h, tmplnames, modnames);
 
-        ftmpl_c = open("mod_tmpl.c", "r", encoding='utf-8', newline = '\n');
-        fmod_c = open("%s.c" % (modname), "w", encoding='utf-8', newline = '\n');
-        #fmod_c = sys.stdout;
+        ftmpl_c = open(f"{modtmpl}.c", "r", encoding='utf-8', newline = '\n');
+        #fmod_c = open("%s.c" % (modname), "w", encoding='utf-8', newline = '\n');
+        fmod_c = sys.stdout;
         gen_module(ftmpl_c, fmod_c, tmplnames, modnames);
     except OSError:
         print("File IO error");
