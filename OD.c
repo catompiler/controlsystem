@@ -1042,7 +1042,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.sys.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1086,7 +1086,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.sys_cmd.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1112,7 +1112,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.sys_ctrl.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1186,7 +1186,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.sys_stat.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1212,7 +1212,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.conf.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1304,7 +1304,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.adc.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1684,7 +1684,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.adc_model.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1872,7 +1872,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.adc_tim.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1898,7 +1898,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.sys_tim.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1924,7 +1924,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.ms_tim.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1950,7 +1950,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.net_tim.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -1976,7 +1976,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.sys_time.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -2014,7 +2014,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.tmr_sys_fsm.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -2052,7 +2052,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.dlog.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -2954,7 +2954,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.sys_calc.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -2974,7 +2974,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rect_curr.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3018,7 +3018,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_umains.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3116,7 +3116,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_imains.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3214,7 +3214,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_uarm.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3258,7 +3258,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_iarm.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3308,7 +3308,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_irstart.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3352,7 +3352,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_ucell.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3450,7 +3450,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_icell.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3548,7 +3548,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_slip.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3592,7 +3592,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.phase_ampl_ua.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3630,7 +3630,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.phase_ampl_ub.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3668,7 +3668,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.phase_ampl_uc.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3706,7 +3706,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.zcd_ua.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3756,7 +3756,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.zcd_ub.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3806,7 +3806,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.zcd_uc.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3856,7 +3856,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.zcd_slip.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3906,7 +3906,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.slip.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3938,7 +3938,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.phase_lrm_i_stator.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -3994,7 +3994,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.phase_ucell.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4050,7 +4050,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.calc_ucell.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4112,7 +4112,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.calc_icell.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4174,7 +4174,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_ua.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4206,7 +4206,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_ub.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4238,7 +4238,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_uc.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4270,7 +4270,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_ia.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4302,7 +4302,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_ib.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4334,7 +4334,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_ic.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4366,7 +4366,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_cell_ua.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4398,7 +4398,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_cell_ub.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4430,7 +4430,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_cell_uc.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4462,7 +4462,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_cell_ua_phase.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4494,7 +4494,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_cell_ub_phase.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4526,7 +4526,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_cell_uc_phase.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4558,7 +4558,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_cell_ia.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4590,7 +4590,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_cell_ib.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4622,7 +4622,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.rms_cell_ic.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4654,7 +4654,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mean_iarm.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4686,7 +4686,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mean_uarm.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4718,7 +4718,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mean_irstart.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4750,7 +4750,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mean_rms_icell.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4794,7 +4794,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.sum_s.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4838,7 +4838,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.sum_p.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4882,7 +4882,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.sum_q.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4926,7 +4926,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.power_a.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -4988,7 +4988,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.power_b.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5050,7 +5050,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.power_c.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5112,7 +5112,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.power_factor.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5168,7 +5168,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.vr_rms_umains.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5242,7 +5242,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.vr_filter_freq_umains.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5316,7 +5316,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.vr_rms_ucell.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5390,7 +5390,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.cell_cb.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5428,7 +5428,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_run_trig_i_s.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5466,7 +5466,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.am_run_trig_i_s.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5504,7 +5504,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_run_trig.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5548,7 +5548,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.tmr_run_trig.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5610,7 +5610,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_prim_slip.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5648,7 +5648,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_prim_i_s.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5686,7 +5686,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_prim_t.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5724,7 +5724,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.am_prim_field_on.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5786,7 +5786,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_sec_slip.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5824,7 +5824,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_sec_i_s.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5862,7 +5862,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_sec_t.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5900,7 +5900,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.am_sec_field_on.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -5962,7 +5962,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.or_field_on.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6000,7 +6000,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.tmr_field_on.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6062,7 +6062,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_value_for_slip_lt_zero.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6100,7 +6100,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.or_value_slip_lt_zero_i_r_sync.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6138,7 +6138,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.and_ready_to_exc.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6176,7 +6176,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.tmr_field_on_rstart_off.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6238,7 +6238,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.not_ready_to_exc.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6270,7 +6270,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.cmp_ctrl_state_is_start.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6308,7 +6308,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.and_rstart_on.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6346,7 +6346,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_field_on_i_r_sync.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6384,7 +6384,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.tmr_field_on_i_r_sync.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6446,7 +6446,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_field_supp_i_r.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6484,7 +6484,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.tmr_field_supp.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6522,7 +6522,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.cnt_start.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6548,7 +6548,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_zcd_ua.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6592,7 +6592,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_zcd_ub.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6636,7 +6636,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_zcd_uc.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6680,7 +6680,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_zcd_slip.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6724,7 +6724,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_freq_ua.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6768,7 +6768,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_freq_ub.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6812,7 +6812,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_freq_uc.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6856,7 +6856,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_freq_slip.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6900,7 +6900,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_mean_iarm.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6944,7 +6944,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_mean_uarm.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -6988,7 +6988,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.filter_mean_irstart.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7032,7 +7032,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.tmr_start_min_forcing.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7070,7 +7070,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.tmr_start_max_forcing.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7108,7 +7108,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.tmr_start_stab_forcing.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7170,7 +7170,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.thr_start_q_le_zero.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7208,7 +7208,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.and_start_min_forcing_end.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7246,7 +7246,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.or_start_forcing_end.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7284,7 +7284,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_field_regs.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7340,7 +7340,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.lim_field_regs_curr_ref.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7384,7 +7384,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_field_force_ref.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7428,7 +7428,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mot_pot_field_test.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7490,7 +7490,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mot_pot_manual_curr_ref.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7552,7 +7552,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.mux_curr_ref.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7608,7 +7608,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.pid_i.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7682,7 +7682,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.pid_coefs_i.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -7756,7 +7756,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.ph3c.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -8340,7 +8340,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.lrm.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -8660,7 +8660,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.motor.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -8920,7 +8920,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.prot.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
@@ -8964,7 +8964,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &regs_data.canopen.count,
     .subIndex = 0,
-    .attribute = ODA_SDO_RW,
+    .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {

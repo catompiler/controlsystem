@@ -1,4 +1,6 @@
 #import cxxheaderparser as cxxhp
+from re import RegexFlag
+
 from cxxheaderparser.simple import parse_file, ParsedData
 from cxxheaderparser.options import ParserOptions
 from cxxheaderparser.preprocessor import make_gcc_preprocessor
@@ -20,6 +22,7 @@ CPP_DEFS = []
 
 IGNORE_FIELDS_PREFIXES = ["m_"]
 REMOVE_PREFIXES = ["p_", "r_"]
+PARAM_PREFIX = "p_"
 
 MAX_LINE_ARRAY_LEN = 64
 
@@ -85,12 +88,16 @@ class CType:
 
 class Var:
     typename: str
+    is_const: bool
+    is_param: bool
     name: str
     count: int  # == 0 - var, > 0 - array.
     comment: str
 
     def __init__(self, vType: str, vName: str, vCount: int = 0):
         self.typename = vType
+        self.is_const = False
+        self.is_param = False
         self.name = vName
         self.count = vCount
         self.comment = ""
@@ -155,16 +162,21 @@ def getVars(parse_data: ParsedData) -> list[Var]:
             var_type = var.type.typename.segments[0].name
             var_comment = getComment(var.doxygen)
             v = Var(var_type, var_name)
+            if var_name.startswith(PARAM_PREFIX):
+                v.is_param = True
+            v.is_const = var.type.const
             v.comment = var_comment
             variables.append(v)
         elif isinstance(var.type, Array):
-            # print(fld)
+            #print(fld)
             arr_size = int(var.type.size.tokens[0].value)
             arr_type = var.type.array_of.typename.segments[0].name
             arr_name = var.name.segments[0].name
             arr_comment = getComment(var.doxygen)
             #print(arr_name)
             a = Var(arr_type, arr_name, arr_size)
+            if arr_name.startswith(PARAM_PREFIX):
+                a.is_param = True
             a.comment = arr_comment
             variables.append(a)
 
@@ -222,6 +234,9 @@ def collectData(header: str) -> list[Struct]:
                     field_type = typedefs[field_type]
                 field_comment = getComment(fld.doxygen)
                 v = Var(field_type, field_name)
+                if field_name.startswith(PARAM_PREFIX):
+                    v.is_param = True
+                v.is_const = fld.type.const
                 v.comment = field_comment
                 structure.addField(v)
             elif isinstance(fld.type, Array):
@@ -233,6 +248,9 @@ def collectData(header: str) -> list[Struct]:
                     arr_type = typedefs[arr_type]
                 arr_comment = getComment(fld.doxygen)
                 a = Var(arr_type, arr_name, arr_size)
+                if arr_name.startswith(PARAM_PREFIX):
+                    a.is_param = True
+                a.is_const = fld.type.array_of.const
                 a.comment = arr_comment
                 structure.addField(a)
         structs.append(structure)
@@ -259,7 +277,7 @@ def getDefaultRegVar(name: str, subIndex: int) -> RegVar:
     rv.name = name
     rv.subIndex = subIndex
     rv.flags = RegFlag.NONE
-    rv.eflags = RegEFlag.CO_SDO_R | RegEFlag.CO_SDO_W
+    rv.eflags = RegEFlag.CO_SDO_R
     rv.count = 1
     rv.dataType = DataType.I32
     return rv
@@ -283,6 +301,12 @@ def getRegVar(memPath: str, subIndex: int, fieldVar: Var, name: str or None, str
             rv = getDefaultRegVar(varName, subIndex)
             rv.dataType = CType.toRegDataType(fieldVar.typename)
             rv.memAddr = f"{memPath}.{fieldVar.name}" # &
+            if fieldVar.is_param:
+                rv.flags = rv.flags | RegFlag.CONF
+            if fieldVar.is_const:
+                rv.flags = rv.flags | RegFlag.READONLY
+            else:
+                rv.eflags = rv.eflags | RegEFlag.CO_SDO_W
             rv.description = fieldVar.comment
             regVars.append(rv)
             #print(rv)
@@ -292,6 +316,12 @@ def getRegVar(memPath: str, subIndex: int, fieldVar: Var, name: str or None, str
                     rv = getDefaultRegVar(f"{varName}{i}", subIndex)
                     rv.dataType = CType.toRegDataType(fieldVar.typename)
                     rv.memAddr = f"{memPath}.{fieldVar.name}[{i}]" # &
+                    if fieldVar.is_param:
+                        rv.flags = rv.flags | RegFlag.CONF
+                    if fieldVar.is_const:
+                        rv.flags = rv.flags | RegFlag.READONLY
+                    else:
+                        rv.eflags = rv.eflags | RegEFlag.CO_SDO_W
                     rv.description = fieldVar.comment
                     regVars.append(rv)
                     subIndex = subIndex + 1
@@ -301,6 +331,12 @@ def getRegVar(memPath: str, subIndex: int, fieldVar: Var, name: str or None, str
                 rv.dataType = DataType.MEM
                 rv.memAddr = f"{memPath}.{fieldVar.name}" # &
                 rv.count = DataType.getSize(CType.toRegDataType(fieldVar.typename)) * fieldVar.count
+                if fieldVar.is_param:
+                    rv.flags = rv.flags | RegFlag.CONF
+                if fieldVar.is_const:
+                    rv.flags = rv.flags | RegFlag.READONLY
+                else:
+                    rv.eflags = rv.eflags | RegEFlag.CO_SDO_W
                 rv.description = fieldVar.comment
                 regVars.append(rv)
                 # print(rv)
@@ -331,6 +367,8 @@ def getRegEntry(index: int, entryVar: Var, entryType: Struct, structs: list[Stru
     re.description = entryVar.comment
     cntVar = getDefaultRegVar("count", 0)
     cntVar.dataType = DataType.U8
+    cntVar.flags = cntVar.flags | RegFlag.READONLY
+    cntVar.eflags = cntVar.eflags | RegEFlag.CO_COUNT
     cntVar.description = "Number of sub entries count"
     re.addVar(cntVar)
 
@@ -378,10 +416,10 @@ def exportRegEntries(fileName: str, regentries: list[RegEntry]):
             ET.SubElement(var_elem, 'description').text = rv.description
 
     try:
-        with open(REGXML2_FILENAME, "wb") as f:
+        with open(fileName, "wb") as f:
             tree.write(f, encoding='utf-8', xml_declaration=True, method="xml")
     except OSError:
-        print("Error write regs file: %s" % REGXML2_FILENAME)
+        print("Error write regs file: %s" % fileName)
         return
 
 

@@ -185,18 +185,18 @@ REG(REG_ID_TPDO_MAPPING_PARAMETER_1A03_APPLICATION_OBJECT_5, &regs_data.TPDOMapp
 REG(REG_ID_TPDO_MAPPING_PARAMETER_1A03_APPLICATION_OBJECT_6, &regs_data.TPDOMappingParameter_1a03.applicationObject6, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_TPDO_MAPPING_PARAMETER_1A03_APPLICATION_OBJECT_7, &regs_data.TPDOMappingParameter_1a03.applicationObject7, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_TPDO_MAPPING_PARAMETER_1A03_APPLICATION_OBJECT_8, &regs_data.TPDOMappingParameter_1a03.applicationObject8, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_SYS_COUNT, &regs_data.sys.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SYS_COUNT, &regs_data.sys.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SYS_CONTROL, &sys.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SYS_STATUS, &sys.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SYS_ERRORS, &sys.errors, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Ошибки. */
 REG(REG_ID_SYS_WARNINGS, &sys.warnings, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Предупреждения. */
 REG(REG_ID_SYS_FSM_STATE_STATE, &sys.fsm_state.state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние. */
 REG(REG_ID_SYS_FSM_STATE_PREV_STATE, &sys.fsm_state.prev_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Предыдущее состояние. */
-REG(REG_ID_SYS_CMD_COUNT, &regs_data.sys_cmd.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SYS_CMD_COUNT, &regs_data.sys_cmd.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SYS_CMD_CONTROL, &sys_cmd.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SYS_CMD_STATUS, &sys_cmd.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SYS_CMD_OUT_COMMAND, &sys_cmd.out_command, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное командное слово. */
-REG(REG_ID_SYS_CTRL_COUNT, &regs_data.sys_ctrl.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SYS_CTRL_COUNT, &regs_data.sys_ctrl.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SYS_CTRL_CONTROL, &sys_ctrl.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SYS_CTRL_STATUS, &sys_ctrl.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SYS_CTRL_ERRORS, &sys_ctrl.errors, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Ошибки. */
@@ -208,17 +208,17 @@ REG(REG_ID_SYS_CTRL_FSM_CHECK_STATE, &sys_ctrl.fsm_check.state, REG_TYPE_U32, RE
 REG(REG_ID_SYS_CTRL_FSM_CHECK_PREV_STATE, &sys_ctrl.fsm_check.prev_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Предыдущее состояние. */
 REG(REG_ID_SYS_CTRL_FSM_IDLE_STATE, &sys_ctrl.fsm_idle.state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние. */
 REG(REG_ID_SYS_CTRL_FSM_IDLE_PREV_STATE, &sys_ctrl.fsm_idle.prev_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Предыдущее состояние. */
-REG(REG_ID_SYS_STAT_COUNT, &regs_data.sys_stat.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SYS_STAT_COUNT, &regs_data.sys_stat.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SYS_STAT_CONTROL, &sys_stat.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SYS_STAT_STATUS, &sys_stat.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SYS_STAT_IN_COMMAND, &sys_stat.in_command, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное командное слово. */
-REG(REG_ID_CONF_COUNT, &regs_data.conf.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_CONF_COUNT, &regs_data.conf.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_CONF_CONTROL, &conf.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_CONF_STATUS, &conf.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_CONF_WARNINGS, &conf.warnings, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений. */
-REG(REG_ID_CONF_U_NOM, &conf.p_U_nom, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Номинальное (базовое) напряжение. */
-REG(REG_ID_CONF_I_NOM, &conf.p_I_nom, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Номинальный (базовый) ток. */
-REG(REG_ID_CONF_F_NOM, &conf.p_f_nom, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Номинальная (базовая) частота. */
+REG(REG_ID_CONF_U_NOM, &conf.p_U_nom, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Номинальное (базовое) напряжение. */
+REG(REG_ID_CONF_I_NOM, &conf.p_I_nom, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Номинальный (базовый) ток. */
+REG(REG_ID_CONF_F_NOM, &conf.p_f_nom, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Номинальная (базовая) частота. */
 REG(REG_ID_CONF_U_BASE, &conf.r_U_base, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Базовое напряжение. */
 REG(REG_ID_CONF_U_BASE_INV, &conf.r_U_base_inv, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Базовое напряжение, инвертированное значение. */
 REG(REG_ID_CONF_I_BASE, &conf.r_I_base, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Базовый ток. */
@@ -227,7 +227,7 @@ REG(REG_ID_CONF_F_BASE, &conf.r_f_base, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) 
 REG(REG_ID_CONF_F_BASE_INV, &conf.r_f_base_inv, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Базовая частота, инвертированное значение. */
 REG(REG_ID_CONF_P_BASE, &conf.r_P_base, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Базовая мощность. */
 REG(REG_ID_CONF_P_BASE_INV, &conf.r_P_base_inv, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Базовая мощность, инвертированное значение. */
-REG(REG_ID_ADC_COUNT, &regs_data.adc.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_ADC_COUNT, &regs_data.adc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_ADC_CONTROL, &adc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_ADC_STATUS, &adc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_ADC_OUT_UA_RAW, &adc.out_Ua_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы A (сырое). */
@@ -260,37 +260,37 @@ REG(REG_ID_ADC_OUT_S_IC_RAW, &adc.out_s_Ic_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x0
 REG(REG_ID_ADC_OUT_S_IA, &adc.out_s_Ia, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы A статора. */
 REG(REG_ID_ADC_OUT_S_IB, &adc.out_s_Ib, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы B статора. */
 REG(REG_ID_ADC_OUT_S_IC, &adc.out_s_Ic, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы C статора. */
-REG(REG_ID_ADC_UA_GAIN, &adc.p_Ua_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы A. */
-REG(REG_ID_ADC_UA_OFFSET, &adc.p_Ua_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы A. */
-REG(REG_ID_ADC_UB_GAIN, &adc.p_Ub_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы B. */
-REG(REG_ID_ADC_UB_OFFSET, &adc.p_Ub_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы B. */
-REG(REG_ID_ADC_UC_GAIN, &adc.p_Uc_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы C. */
-REG(REG_ID_ADC_UC_OFFSET, &adc.p_Uc_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы C. */
-REG(REG_ID_ADC_IA_GAIN, &adc.p_Ia_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления тока фазы A. */
-REG(REG_ID_ADC_IA_OFFSET, &adc.p_Ia_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП тока фазы A. */
-REG(REG_ID_ADC_IB_GAIN, &adc.p_Ib_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления тока фазы B. */
-REG(REG_ID_ADC_IB_OFFSET, &adc.p_Ib_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП тока фазы B. */
-REG(REG_ID_ADC_IC_GAIN, &adc.p_Ic_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления тока фазы C. */
-REG(REG_ID_ADC_IC_OFFSET, &adc.p_Ic_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП тока фазы C. */
-REG(REG_ID_ADC_UARM_GAIN, &adc.p_Uarm_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения выхода. */
-REG(REG_ID_ADC_UARM_OFFSET, &adc.p_Uarm_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения выхода. */
-REG(REG_ID_ADC_IARM_GAIN, &adc.p_Iarm_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления тока выхода. */
-REG(REG_ID_ADC_IARM_OFFSET, &adc.p_Iarm_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП тока выхода. */
-REG(REG_ID_ADC_IR_GAIN, &adc.p_Ir_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления тока резистора. */
-REG(REG_ID_ADC_IR_OFFSET, &adc.p_Ir_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП тока резистора. */
-REG(REG_ID_ADC_S_UA_GAIN, &adc.p_s_Ua_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы A статора. */
-REG(REG_ID_ADC_S_UA_OFFSET, &adc.p_s_Ua_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы A статора. */
-REG(REG_ID_ADC_S_UB_GAIN, &adc.p_s_Ub_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы B статора. */
-REG(REG_ID_ADC_S_UB_OFFSET, &adc.p_s_Ub_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы B статора. */
-REG(REG_ID_ADC_S_UC_GAIN, &adc.p_s_Uc_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы C статора. */
-REG(REG_ID_ADC_S_UC_OFFSET, &adc.p_s_Uc_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы C статора. */
-REG(REG_ID_ADC_S_IA_GAIN, &adc.p_s_Ia_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления тока фазы A статора. */
-REG(REG_ID_ADC_S_IA_OFFSET, &adc.p_s_Ia_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП тока фазы A статора. */
-REG(REG_ID_ADC_S_IB_GAIN, &adc.p_s_Ib_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления тока фазы B статора. */
-REG(REG_ID_ADC_S_IB_OFFSET, &adc.p_s_Ib_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП тока фазы B статора. */
-REG(REG_ID_ADC_S_IC_GAIN, &adc.p_s_Ic_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления тока фазы C статора. */
-REG(REG_ID_ADC_S_IC_OFFSET, &adc.p_s_Ic_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП тока фазы C статора. */
-REG(REG_ID_ADC_MODEL_COUNT, &regs_data.adc_model.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_ADC_UA_GAIN, &adc.p_Ua_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы A. */
+REG(REG_ID_ADC_UA_OFFSET, &adc.p_Ua_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы A. */
+REG(REG_ID_ADC_UB_GAIN, &adc.p_Ub_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы B. */
+REG(REG_ID_ADC_UB_OFFSET, &adc.p_Ub_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы B. */
+REG(REG_ID_ADC_UC_GAIN, &adc.p_Uc_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы C. */
+REG(REG_ID_ADC_UC_OFFSET, &adc.p_Uc_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы C. */
+REG(REG_ID_ADC_IA_GAIN, &adc.p_Ia_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления тока фазы A. */
+REG(REG_ID_ADC_IA_OFFSET, &adc.p_Ia_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП тока фазы A. */
+REG(REG_ID_ADC_IB_GAIN, &adc.p_Ib_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления тока фазы B. */
+REG(REG_ID_ADC_IB_OFFSET, &adc.p_Ib_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП тока фазы B. */
+REG(REG_ID_ADC_IC_GAIN, &adc.p_Ic_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления тока фазы C. */
+REG(REG_ID_ADC_IC_OFFSET, &adc.p_Ic_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП тока фазы C. */
+REG(REG_ID_ADC_UARM_GAIN, &adc.p_Uarm_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения выхода. */
+REG(REG_ID_ADC_UARM_OFFSET, &adc.p_Uarm_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения выхода. */
+REG(REG_ID_ADC_IARM_GAIN, &adc.p_Iarm_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления тока выхода. */
+REG(REG_ID_ADC_IARM_OFFSET, &adc.p_Iarm_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП тока выхода. */
+REG(REG_ID_ADC_IR_GAIN, &adc.p_Ir_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления тока резистора. */
+REG(REG_ID_ADC_IR_OFFSET, &adc.p_Ir_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП тока резистора. */
+REG(REG_ID_ADC_S_UA_GAIN, &adc.p_s_Ua_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы A статора. */
+REG(REG_ID_ADC_S_UA_OFFSET, &adc.p_s_Ua_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы A статора. */
+REG(REG_ID_ADC_S_UB_GAIN, &adc.p_s_Ub_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы B статора. */
+REG(REG_ID_ADC_S_UB_OFFSET, &adc.p_s_Ub_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы B статора. */
+REG(REG_ID_ADC_S_UC_GAIN, &adc.p_s_Uc_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы C статора. */
+REG(REG_ID_ADC_S_UC_OFFSET, &adc.p_s_Uc_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы C статора. */
+REG(REG_ID_ADC_S_IA_GAIN, &adc.p_s_Ia_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления тока фазы A статора. */
+REG(REG_ID_ADC_S_IA_OFFSET, &adc.p_s_Ia_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП тока фазы A статора. */
+REG(REG_ID_ADC_S_IB_GAIN, &adc.p_s_Ib_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления тока фазы B статора. */
+REG(REG_ID_ADC_S_IB_OFFSET, &adc.p_s_Ib_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП тока фазы B статора. */
+REG(REG_ID_ADC_S_IC_GAIN, &adc.p_s_Ic_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления тока фазы C статора. */
+REG(REG_ID_ADC_S_IC_OFFSET, &adc.p_s_Ic_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП тока фазы C статора. */
+REG(REG_ID_ADC_MODEL_COUNT, &regs_data.adc_model.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_ADC_MODEL_CONTROL, &adc_model.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_ADC_MODEL_STATUS, &adc_model.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_ADC_MODEL_IN_U_SCALE, &adc_model.in_U_scale, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Масштабирование напряжения фаз основного ввода. */
@@ -309,47 +309,47 @@ REG(REG_ID_ADC_MODEL_OUT_S_UC_RAW, &adc_model.out_s_Uc_raw, REG_TYPE_U32, REG_FL
 REG(REG_ID_ADC_MODEL_OUT_S_UA, &adc_model.out_s_Ua, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы A статора. */
 REG(REG_ID_ADC_MODEL_OUT_S_UB, &adc_model.out_s_Ub, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы B статора. */
 REG(REG_ID_ADC_MODEL_OUT_S_UC, &adc_model.out_s_Uc, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы C статора. */
-REG(REG_ID_ADC_MODEL_UA_GAIN, &adc_model.p_Ua_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы A. */
-REG(REG_ID_ADC_MODEL_UA_OFFSET, &adc_model.p_Ua_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы A. */
-REG(REG_ID_ADC_MODEL_UB_GAIN, &adc_model.p_Ub_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы B. */
-REG(REG_ID_ADC_MODEL_UB_OFFSET, &adc_model.p_Ub_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы B. */
-REG(REG_ID_ADC_MODEL_UC_GAIN, &adc_model.p_Uc_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы C. */
-REG(REG_ID_ADC_MODEL_UC_OFFSET, &adc_model.p_Uc_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы C. */
-REG(REG_ID_ADC_MODEL_S_UA_GAIN, &adc_model.p_s_Ua_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы A статора. */
-REG(REG_ID_ADC_MODEL_S_UA_OFFSET, &adc_model.p_s_Ua_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы A статора. */
-REG(REG_ID_ADC_MODEL_S_UB_GAIN, &adc_model.p_s_Ub_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы B статора. */
-REG(REG_ID_ADC_MODEL_S_UB_OFFSET, &adc_model.p_s_Ub_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы B статора. */
-REG(REG_ID_ADC_MODEL_S_UC_GAIN, &adc_model.p_s_Uc_gain, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент усиления напряжения фазы C статора. */
-REG(REG_ID_ADC_MODEL_S_UC_OFFSET, &adc_model.p_s_Uc_offset, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Смещеие АЦП напряжения фазы C статора. */
-REG(REG_ID_ADC_TIM_COUNT, &regs_data.adc_tim.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_ADC_MODEL_UA_GAIN, &adc_model.p_Ua_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы A. */
+REG(REG_ID_ADC_MODEL_UA_OFFSET, &adc_model.p_Ua_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы A. */
+REG(REG_ID_ADC_MODEL_UB_GAIN, &adc_model.p_Ub_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы B. */
+REG(REG_ID_ADC_MODEL_UB_OFFSET, &adc_model.p_Ub_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы B. */
+REG(REG_ID_ADC_MODEL_UC_GAIN, &adc_model.p_Uc_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы C. */
+REG(REG_ID_ADC_MODEL_UC_OFFSET, &adc_model.p_Uc_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы C. */
+REG(REG_ID_ADC_MODEL_S_UA_GAIN, &adc_model.p_s_Ua_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы A статора. */
+REG(REG_ID_ADC_MODEL_S_UA_OFFSET, &adc_model.p_s_Ua_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы A статора. */
+REG(REG_ID_ADC_MODEL_S_UB_GAIN, &adc_model.p_s_Ub_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы B статора. */
+REG(REG_ID_ADC_MODEL_S_UB_OFFSET, &adc_model.p_s_Ub_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы B статора. */
+REG(REG_ID_ADC_MODEL_S_UC_GAIN, &adc_model.p_s_Uc_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы C статора. */
+REG(REG_ID_ADC_MODEL_S_UC_OFFSET, &adc_model.p_s_Uc_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы C статора. */
+REG(REG_ID_ADC_TIM_COUNT, &regs_data.adc_tim.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_ADC_TIM_CONTROL, &adc_tim.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_ADC_TIM_STATUS, &adc_tim.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_ADC_TIM_OUT_COUNTER, &adc_tim.out_counter, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Счётчик тиков. */
-REG(REG_ID_SYS_TIM_COUNT, &regs_data.sys_tim.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SYS_TIM_COUNT, &regs_data.sys_tim.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SYS_TIM_CONTROL, &sys_tim.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SYS_TIM_STATUS, &sys_tim.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SYS_TIM_OUT_COUNTER, &sys_tim.out_counter, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Счётчик тиков. */
-REG(REG_ID_MS_TIM_COUNT, &regs_data.ms_tim.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MS_TIM_COUNT, &regs_data.ms_tim.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MS_TIM_CONTROL, &ms_tim.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MS_TIM_STATUS, &ms_tim.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MS_TIM_OUT_COUNTER, &ms_tim.out_counter, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Счётчик тиков. */
-REG(REG_ID_NET_TIM_COUNT, &regs_data.net_tim.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_NET_TIM_COUNT, &regs_data.net_tim.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_NET_TIM_CONTROL, &net_tim.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_NET_TIM_STATUS, &net_tim.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_NET_TIM_OUT_COUNTER, &net_tim.out_counter, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Счётчик тиков. */
-REG(REG_ID_SYS_TIME_COUNT, &regs_data.sys_time.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SYS_TIME_COUNT, &regs_data.sys_time.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SYS_TIME_CONTROL, &sys_time.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SYS_TIME_STATUS, &sys_time.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SYS_TIME_COUNTER_MS, &sys_time.r_counter_ms, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Счётчик времени после загрузки в мс. */
 REG(REG_ID_SYS_TIME_COUNTER_S, &sys_time.r_counter_s, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Счётчик времени после загрузки в с. */
 REG(REG_ID_SYS_TIME_RUN_COUNTER_S, &sys_time.r_run_counter_s, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Счётчик времени работы в с. */
-REG(REG_ID_TMR_SYS_FSM_COUNT, &regs_data.tmr_sys_fsm.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_TMR_SYS_FSM_COUNT, &regs_data.tmr_sys_fsm.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_SYS_FSM_CONTROL, &tmr_sys_fsm.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_SYS_FSM_STATUS, &tmr_sys_fsm.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_SYS_FSM_OUT_EXPIRED, &tmr_sys_fsm.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_SYS_FSM_OUT_TIMEOUT, &tmr_sys_fsm.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
 REG(REG_ID_TMR_SYS_FSM_INTERVAL, &tmr_sys_fsm.r_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
-REG(REG_ID_DLOG_COUNT, &regs_data.dlog.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_DLOG_COUNT, &regs_data.dlog.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_DLOG_CONTROL, &dlog.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_DLOG_STATUS, &dlog.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_DLOG_CH0_ENABLED, &dlog.p_ch[0].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
@@ -499,17 +499,17 @@ REG(REG_ID_DLOG_CH44_DATA, &dlog.r_ch[44].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 
 REG(REG_ID_DLOG_CH45_DATA, &dlog.r_ch[45].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
 REG(REG_ID_DLOG_CH46_DATA, &dlog.r_ch[46].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
 REG(REG_ID_DLOG_CH47_DATA, &dlog.r_ch[47].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_SYS_CALC_COUNT, &regs_data.sys_calc.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SYS_CALC_COUNT, &regs_data.sys_calc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SYS_CALC_CONTROL, &sys_calc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SYS_CALC_STATUS, &sys_calc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
-REG(REG_ID_RECT_CURR_COUNT, &regs_data.rect_curr.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RECT_CURR_COUNT, &regs_data.rect_curr.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RECT_CURR_CONTROL, &rect_curr.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RECT_CURR_STATUS, &rect_curr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RECT_CURR_IN_IA, &rect_curr.in_Ia, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Ток фазы A относительно сети. */
 REG(REG_ID_RECT_CURR_IN_IB, &rect_curr.in_Ib, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Ток фазы B относительно сети. */
 REG(REG_ID_RECT_CURR_IN_IC, &rect_curr.in_Ic, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Ток фазы C относительно сети. */
 REG(REG_ID_RECT_CURR_OUT_I, &rect_curr.out_I, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Выходной выпрямленный ток относительно двигателя. */
-REG(REG_ID_MUX_UMAINS_COUNT, &regs_data.mux_umains.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_UMAINS_COUNT, &regs_data.mux_umains.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_UMAINS_CONTROL, &mux_Umains.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_UMAINS_STATUS, &mux_Umains.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_UMAINS_IN_A0, &mux_Umains.in_A[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения A. */
@@ -524,8 +524,8 @@ REG(REG_ID_MUX_UMAINS_IN_C2, &mux_Umains.in_C[2], REG_TYPE_I32, REG_FLAG_NONE, 0
 REG(REG_ID_MUX_UMAINS_OUT_A, &mux_Umains.out_A, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение A. */
 REG(REG_ID_MUX_UMAINS_OUT_B, &mux_Umains.out_B, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение B. */
 REG(REG_ID_MUX_UMAINS_OUT_C, &mux_Umains.out_C, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение C. */
-REG(REG_ID_MUX_UMAINS_SEL, &mux_Umains.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_MUX_IMAINS_COUNT, &regs_data.mux_imains.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_UMAINS_SEL, &mux_Umains.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_MUX_IMAINS_COUNT, &regs_data.mux_imains.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_IMAINS_CONTROL, &mux_Imains.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_IMAINS_STATUS, &mux_Imains.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_IMAINS_IN_A0, &mux_Imains.in_A[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения A. */
@@ -540,30 +540,30 @@ REG(REG_ID_MUX_IMAINS_IN_C2, &mux_Imains.in_C[2], REG_TYPE_I32, REG_FLAG_NONE, 0
 REG(REG_ID_MUX_IMAINS_OUT_A, &mux_Imains.out_A, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение A. */
 REG(REG_ID_MUX_IMAINS_OUT_B, &mux_Imains.out_B, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение B. */
 REG(REG_ID_MUX_IMAINS_OUT_C, &mux_Imains.out_C, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение C. */
-REG(REG_ID_MUX_IMAINS_SEL, &mux_Imains.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_MUX_UARM_COUNT, &regs_data.mux_uarm.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_IMAINS_SEL, &mux_Imains.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_MUX_UARM_COUNT, &regs_data.mux_uarm.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_UARM_CONTROL, &mux_Uarm.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_UARM_STATUS, &mux_Uarm.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_UARM_IN_VALUE0, &mux_Uarm.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_UARM_IN_VALUE1, &mux_Uarm.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_UARM_OUT_VALUE, &mux_Uarm.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_UARM_SEL, &mux_Uarm.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_MUX_IARM_COUNT, &regs_data.mux_iarm.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_UARM_SEL, &mux_Uarm.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_MUX_IARM_COUNT, &regs_data.mux_iarm.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_IARM_CONTROL, &mux_Iarm.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_IARM_STATUS, &mux_Iarm.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_IARM_IN_VALUE0, &mux_Iarm.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_IARM_IN_VALUE1, &mux_Iarm.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_IARM_IN_VALUE2, &mux_Iarm.in_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_IARM_OUT_VALUE, &mux_Iarm.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_IARM_SEL, &mux_Iarm.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_MUX_IRSTART_COUNT, &regs_data.mux_irstart.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_IARM_SEL, &mux_Iarm.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_MUX_IRSTART_COUNT, &regs_data.mux_irstart.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_IRSTART_CONTROL, &mux_Irstart.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_IRSTART_STATUS, &mux_Irstart.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_IRSTART_IN_VALUE0, &mux_Irstart.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_IRSTART_IN_VALUE1, &mux_Irstart.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_IRSTART_OUT_VALUE, &mux_Irstart.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_IRSTART_SEL, &mux_Irstart.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_MUX_UCELL_COUNT, &regs_data.mux_ucell.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_IRSTART_SEL, &mux_Irstart.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_MUX_UCELL_COUNT, &regs_data.mux_ucell.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_UCELL_CONTROL, &mux_Ucell.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_UCELL_STATUS, &mux_Ucell.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_UCELL_IN_A0, &mux_Ucell.in_A[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения A. */
@@ -578,8 +578,8 @@ REG(REG_ID_MUX_UCELL_IN_C2, &mux_Ucell.in_C[2], REG_TYPE_I32, REG_FLAG_NONE, 0x0
 REG(REG_ID_MUX_UCELL_OUT_A, &mux_Ucell.out_A, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение A. */
 REG(REG_ID_MUX_UCELL_OUT_B, &mux_Ucell.out_B, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение B. */
 REG(REG_ID_MUX_UCELL_OUT_C, &mux_Ucell.out_C, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение C. */
-REG(REG_ID_MUX_UCELL_SEL, &mux_Ucell.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_MUX_ICELL_COUNT, &regs_data.mux_icell.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_UCELL_SEL, &mux_Ucell.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_MUX_ICELL_COUNT, &regs_data.mux_icell.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_ICELL_CONTROL, &mux_Icell.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_ICELL_STATUS, &mux_Icell.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_ICELL_IN_A0, &mux_Icell.in_A[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения A. */
@@ -594,33 +594,33 @@ REG(REG_ID_MUX_ICELL_IN_C2, &mux_Icell.in_C[2], REG_TYPE_I32, REG_FLAG_NONE, 0x0
 REG(REG_ID_MUX_ICELL_OUT_A, &mux_Icell.out_A, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение A. */
 REG(REG_ID_MUX_ICELL_OUT_B, &mux_Icell.out_B, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение B. */
 REG(REG_ID_MUX_ICELL_OUT_C, &mux_Icell.out_C, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение C. */
-REG(REG_ID_MUX_ICELL_SEL, &mux_Icell.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_MUX_SLIP_COUNT, &regs_data.mux_slip.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_ICELL_SEL, &mux_Icell.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_MUX_SLIP_COUNT, &regs_data.mux_slip.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_SLIP_CONTROL, &mux_slip.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_SLIP_STATUS, &mux_slip.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_SLIP_IN_VALUE0, &mux_slip.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_SLIP_IN_VALUE1, &mux_slip.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_SLIP_OUT_VALUE, &mux_slip.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_SLIP_SEL, &mux_slip.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_PHASE_AMPL_UA_COUNT, &regs_data.phase_ampl_ua.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_SLIP_SEL, &mux_slip.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_PHASE_AMPL_UA_COUNT, &regs_data.phase_ampl_ua.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_PHASE_AMPL_UA_CONTROL, &phase_ampl_Ua.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PHASE_AMPL_UA_STATUS, &phase_ampl_Ua.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PHASE_AMPL_UA_IN_VALUE, &phase_ampl_Ua.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_PHASE_AMPL_UA_OUT_PHASE, &phase_ampl_Ua.out_phase, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фаза в периодических единицах. */
 REG(REG_ID_PHASE_AMPL_UA_OUT_AMPL, &phase_ampl_Ua.out_ampl, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_PHASE_AMPL_UB_COUNT, &regs_data.phase_ampl_ub.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_PHASE_AMPL_UB_COUNT, &regs_data.phase_ampl_ub.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_PHASE_AMPL_UB_CONTROL, &phase_ampl_Ub.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PHASE_AMPL_UB_STATUS, &phase_ampl_Ub.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PHASE_AMPL_UB_IN_VALUE, &phase_ampl_Ub.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_PHASE_AMPL_UB_OUT_PHASE, &phase_ampl_Ub.out_phase, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фаза в периодических единицах. */
 REG(REG_ID_PHASE_AMPL_UB_OUT_AMPL, &phase_ampl_Ub.out_ampl, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_PHASE_AMPL_UC_COUNT, &regs_data.phase_ampl_uc.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_PHASE_AMPL_UC_COUNT, &regs_data.phase_ampl_uc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_PHASE_AMPL_UC_CONTROL, &phase_ampl_Uc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PHASE_AMPL_UC_STATUS, &phase_ampl_Uc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PHASE_AMPL_UC_IN_VALUE, &phase_ampl_Uc.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_PHASE_AMPL_UC_OUT_PHASE, &phase_ampl_Uc.out_phase, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фаза в периодических единицах. */
 REG(REG_ID_PHASE_AMPL_UC_OUT_AMPL, &phase_ampl_Uc.out_ampl, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_ZCD_UA_COUNT, &regs_data.zcd_ua.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_ZCD_UA_COUNT, &regs_data.zcd_ua.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_ZCD_UA_CONTROL, &zcd_Ua.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_ZCD_UA_STATUS, &zcd_Ua.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_ZCD_UA_IN_VALUE, &zcd_Ua.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Текущее значение сигнала. */
@@ -628,7 +628,7 @@ REG(REG_ID_ZCD_UA_OUT_ZERO_CROSS, &zcd_Ua.out_zero_cross, REG_TYPE_U32, REG_FLAG
 REG(REG_ID_ZCD_UA_OUT_PERIOD, &zcd_Ua.out_period, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период. */
 REG(REG_ID_ZCD_UA_OUT_FREQ, &zcd_Ua.out_freq, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Частота. */
 REG(REG_ID_ZCD_UA_SAMPLES_PERIOD, &zcd_Ua.r_samples_period, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_ZCD_UB_COUNT, &regs_data.zcd_ub.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_ZCD_UB_COUNT, &regs_data.zcd_ub.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_ZCD_UB_CONTROL, &zcd_Ub.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_ZCD_UB_STATUS, &zcd_Ub.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_ZCD_UB_IN_VALUE, &zcd_Ub.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Текущее значение сигнала. */
@@ -636,7 +636,7 @@ REG(REG_ID_ZCD_UB_OUT_ZERO_CROSS, &zcd_Ub.out_zero_cross, REG_TYPE_U32, REG_FLAG
 REG(REG_ID_ZCD_UB_OUT_PERIOD, &zcd_Ub.out_period, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период. */
 REG(REG_ID_ZCD_UB_OUT_FREQ, &zcd_Ub.out_freq, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Частота. */
 REG(REG_ID_ZCD_UB_SAMPLES_PERIOD, &zcd_Ub.r_samples_period, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_ZCD_UC_COUNT, &regs_data.zcd_uc.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_ZCD_UC_COUNT, &regs_data.zcd_uc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_ZCD_UC_CONTROL, &zcd_Uc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_ZCD_UC_STATUS, &zcd_Uc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_ZCD_UC_IN_VALUE, &zcd_Uc.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Текущее значение сигнала. */
@@ -644,7 +644,7 @@ REG(REG_ID_ZCD_UC_OUT_ZERO_CROSS, &zcd_Uc.out_zero_cross, REG_TYPE_U32, REG_FLAG
 REG(REG_ID_ZCD_UC_OUT_PERIOD, &zcd_Uc.out_period, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период. */
 REG(REG_ID_ZCD_UC_OUT_FREQ, &zcd_Uc.out_freq, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Частота. */
 REG(REG_ID_ZCD_UC_SAMPLES_PERIOD, &zcd_Uc.r_samples_period, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_ZCD_SLIP_COUNT, &regs_data.zcd_slip.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_ZCD_SLIP_COUNT, &regs_data.zcd_slip.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_ZCD_SLIP_CONTROL, &zcd_slip.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_ZCD_SLIP_STATUS, &zcd_slip.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_ZCD_SLIP_IN_VALUE, &zcd_slip.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Текущее значение сигнала. */
@@ -652,12 +652,12 @@ REG(REG_ID_ZCD_SLIP_OUT_ZERO_CROSS, &zcd_slip.out_zero_cross, REG_TYPE_U32, REG_
 REG(REG_ID_ZCD_SLIP_OUT_PERIOD, &zcd_slip.out_period, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период. */
 REG(REG_ID_ZCD_SLIP_OUT_FREQ, &zcd_slip.out_freq, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Частота. */
 REG(REG_ID_ZCD_SLIP_SAMPLES_PERIOD, &zcd_slip.r_samples_period, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_SLIP_COUNT, &regs_data.slip.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SLIP_COUNT, &regs_data.slip.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SLIP_CONTROL, &slip.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SLIP_STATUS, &slip.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SLIP_IN_VALUE, &slip.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Измеренная частота для вычисления скольжения. */
 REG(REG_ID_SLIP_OUT_VALUE, &slip.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_PHASE_LRM_I_STATOR_COUNT, &regs_data.phase_lrm_i_stator.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_PHASE_LRM_I_STATOR_COUNT, &regs_data.phase_lrm_i_stator.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_PHASE_LRM_I_STATOR_CONTROL, &phase_lrm_I_stator.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PHASE_LRM_I_STATOR_STATUS, &phase_lrm_I_stator.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PHASE_LRM_I_STATOR_IN_A, &phase_lrm_I_stator.in_A, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входная величина по фазе A. */
@@ -666,7 +666,7 @@ REG(REG_ID_PHASE_LRM_I_STATOR_IN_C, &phase_lrm_I_stator.in_C, REG_TYPE_I32, REG_
 REG(REG_ID_PHASE_LRM_I_STATOR_OUT_A, &phase_lrm_I_stator.out_A, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходная величина по фазе A. */
 REG(REG_ID_PHASE_LRM_I_STATOR_OUT_B, &phase_lrm_I_stator.out_B, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходная величина по фазе B. */
 REG(REG_ID_PHASE_LRM_I_STATOR_OUT_C, &phase_lrm_I_stator.out_C, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходная величина по фазе C. */
-REG(REG_ID_PHASE_UCELL_COUNT, &regs_data.phase_ucell.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_PHASE_UCELL_COUNT, &regs_data.phase_ucell.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_PHASE_UCELL_CONTROL, &phase_Ucell.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PHASE_UCELL_STATUS, &phase_Ucell.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PHASE_UCELL_IN_A, &phase_Ucell.in_A, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входная величина по фазе A. */
@@ -675,7 +675,7 @@ REG(REG_ID_PHASE_UCELL_IN_C, &phase_Ucell.in_C, REG_TYPE_IQ24, REG_FLAG_NONE, 0x
 REG(REG_ID_PHASE_UCELL_OUT_A, &phase_Ucell.out_A, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Выходная величина по фазе A. */
 REG(REG_ID_PHASE_UCELL_OUT_B, &phase_Ucell.out_B, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Выходная величина по фазе B. */
 REG(REG_ID_PHASE_UCELL_OUT_C, &phase_Ucell.out_C, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Выходная величина по фазе C. */
-REG(REG_ID_CALC_UCELL_COUNT, &regs_data.calc_ucell.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_CALC_UCELL_COUNT, &regs_data.calc_ucell.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_CALC_UCELL_CONTROL, &calc_Ucell.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_CALC_UCELL_STATUS, &calc_Ucell.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_CALC_UCELL_IN_A, &calc_Ucell.in_A, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
@@ -684,8 +684,8 @@ REG(REG_ID_CALC_UCELL_IN_C, &calc_Ucell.in_C, REG_TYPE_IQ24, REG_FLAG_NONE, 0x00
 REG(REG_ID_CALC_UCELL_OUT_A, &calc_Ucell.out_A, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_CALC_UCELL_OUT_B, &calc_Ucell.out_B, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_CALC_UCELL_OUT_C, &calc_Ucell.out_C, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_CALC_UCELL_SEL, &calc_Ucell.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор для вычисления. 0 - не вычислять; 1-3 - номер фазы. */
-REG(REG_ID_CALC_ICELL_COUNT, &regs_data.calc_icell.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_CALC_UCELL_SEL, &calc_Ucell.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор для вычисления. 0 - не вычислять; 1-3 - номер фазы. */
+REG(REG_ID_CALC_ICELL_COUNT, &regs_data.calc_icell.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_CALC_ICELL_CONTROL, &calc_Icell.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_CALC_ICELL_STATUS, &calc_Icell.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_CALC_ICELL_IN_A, &calc_Icell.in_A, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
@@ -694,126 +694,126 @@ REG(REG_ID_CALC_ICELL_IN_C, &calc_Icell.in_C, REG_TYPE_IQ24, REG_FLAG_NONE, 0x00
 REG(REG_ID_CALC_ICELL_OUT_A, &calc_Icell.out_A, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_CALC_ICELL_OUT_B, &calc_Icell.out_B, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_CALC_ICELL_OUT_C, &calc_Icell.out_C, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_CALC_ICELL_SEL, &calc_Icell.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор для вычисления. 0 - не вычислять; 1-3 - номер фазы. */
-REG(REG_ID_RMS_UA_COUNT, &regs_data.rms_ua.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_CALC_ICELL_SEL, &calc_Icell.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор для вычисления. 0 - не вычислять; 1-3 - номер фазы. */
+REG(REG_ID_RMS_UA_COUNT, &regs_data.rms_ua.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_UA_CONTROL, &rms_Ua.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_UA_STATUS, &rms_Ua.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_UA_IN_VALUE, &rms_Ua.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_UA_OUT_VALUE, &rms_Ua.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_UB_COUNT, &regs_data.rms_ub.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_UB_COUNT, &regs_data.rms_ub.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_UB_CONTROL, &rms_Ub.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_UB_STATUS, &rms_Ub.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_UB_IN_VALUE, &rms_Ub.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_UB_OUT_VALUE, &rms_Ub.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_UC_COUNT, &regs_data.rms_uc.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_UC_COUNT, &regs_data.rms_uc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_UC_CONTROL, &rms_Uc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_UC_STATUS, &rms_Uc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_UC_IN_VALUE, &rms_Uc.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_UC_OUT_VALUE, &rms_Uc.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_IA_COUNT, &regs_data.rms_ia.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_IA_COUNT, &regs_data.rms_ia.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_IA_CONTROL, &rms_Ia.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_IA_STATUS, &rms_Ia.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_IA_IN_VALUE, &rms_Ia.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_IA_OUT_VALUE, &rms_Ia.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_IB_COUNT, &regs_data.rms_ib.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_IB_COUNT, &regs_data.rms_ib.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_IB_CONTROL, &rms_Ib.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_IB_STATUS, &rms_Ib.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_IB_IN_VALUE, &rms_Ib.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_IB_OUT_VALUE, &rms_Ib.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_IC_COUNT, &regs_data.rms_ic.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_IC_COUNT, &regs_data.rms_ic.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_IC_CONTROL, &rms_Ic.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_IC_STATUS, &rms_Ic.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_IC_IN_VALUE, &rms_Ic.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_IC_OUT_VALUE, &rms_Ic.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_CELL_UA_COUNT, &regs_data.rms_cell_ua.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_CELL_UA_COUNT, &regs_data.rms_cell_ua.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_CELL_UA_CONTROL, &rms_cell_Ua.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_CELL_UA_STATUS, &rms_cell_Ua.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_CELL_UA_IN_VALUE, &rms_cell_Ua.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_CELL_UA_OUT_VALUE, &rms_cell_Ua.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_CELL_UB_COUNT, &regs_data.rms_cell_ub.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_CELL_UB_COUNT, &regs_data.rms_cell_ub.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_CELL_UB_CONTROL, &rms_cell_Ub.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_CELL_UB_STATUS, &rms_cell_Ub.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_CELL_UB_IN_VALUE, &rms_cell_Ub.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_CELL_UB_OUT_VALUE, &rms_cell_Ub.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_CELL_UC_COUNT, &regs_data.rms_cell_uc.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_CELL_UC_COUNT, &regs_data.rms_cell_uc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_CELL_UC_CONTROL, &rms_cell_Uc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_CELL_UC_STATUS, &rms_cell_Uc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_CELL_UC_IN_VALUE, &rms_cell_Uc.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_CELL_UC_OUT_VALUE, &rms_cell_Uc.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_CELL_UA_PHASE_COUNT, &regs_data.rms_cell_ua_phase.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_CELL_UA_PHASE_COUNT, &regs_data.rms_cell_ua_phase.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_CELL_UA_PHASE_CONTROL, &rms_cell_Ua_phase.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_CELL_UA_PHASE_STATUS, &rms_cell_Ua_phase.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_CELL_UA_PHASE_IN_VALUE, &rms_cell_Ua_phase.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_CELL_UA_PHASE_OUT_VALUE, &rms_cell_Ua_phase.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_CELL_UB_PHASE_COUNT, &regs_data.rms_cell_ub_phase.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_CELL_UB_PHASE_COUNT, &regs_data.rms_cell_ub_phase.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_CELL_UB_PHASE_CONTROL, &rms_cell_Ub_phase.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_CELL_UB_PHASE_STATUS, &rms_cell_Ub_phase.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_CELL_UB_PHASE_IN_VALUE, &rms_cell_Ub_phase.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_CELL_UB_PHASE_OUT_VALUE, &rms_cell_Ub_phase.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_CELL_UC_PHASE_COUNT, &regs_data.rms_cell_uc_phase.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_CELL_UC_PHASE_COUNT, &regs_data.rms_cell_uc_phase.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_CELL_UC_PHASE_CONTROL, &rms_cell_Uc_phase.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_CELL_UC_PHASE_STATUS, &rms_cell_Uc_phase.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_CELL_UC_PHASE_IN_VALUE, &rms_cell_Uc_phase.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_CELL_UC_PHASE_OUT_VALUE, &rms_cell_Uc_phase.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_CELL_IA_COUNT, &regs_data.rms_cell_ia.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_CELL_IA_COUNT, &regs_data.rms_cell_ia.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_CELL_IA_CONTROL, &rms_cell_Ia.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_CELL_IA_STATUS, &rms_cell_Ia.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_CELL_IA_IN_VALUE, &rms_cell_Ia.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_CELL_IA_OUT_VALUE, &rms_cell_Ia.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_CELL_IB_COUNT, &regs_data.rms_cell_ib.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_CELL_IB_COUNT, &regs_data.rms_cell_ib.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_CELL_IB_CONTROL, &rms_cell_Ib.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_CELL_IB_STATUS, &rms_cell_Ib.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_CELL_IB_IN_VALUE, &rms_cell_Ib.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_CELL_IB_OUT_VALUE, &rms_cell_Ib.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_RMS_CELL_IC_COUNT, &regs_data.rms_cell_ic.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RMS_CELL_IC_COUNT, &regs_data.rms_cell_ic.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_RMS_CELL_IC_CONTROL, &rms_cell_Ic.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_RMS_CELL_IC_STATUS, &rms_cell_Ic.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_RMS_CELL_IC_IN_VALUE, &rms_cell_Ic.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Входное значение. */
 REG(REG_ID_RMS_CELL_IC_OUT_VALUE, &rms_cell_Ic.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Рассчитанное RMS. */
-REG(REG_ID_MEAN_IARM_COUNT, &regs_data.mean_iarm.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MEAN_IARM_COUNT, &regs_data.mean_iarm.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MEAN_IARM_CONTROL, &mean_Iarm.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MEAN_IARM_STATUS, &mean_Iarm.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MEAN_IARM_IN_VALUE, &mean_Iarm.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Текущее значение. */
 REG(REG_ID_MEAN_IARM_OUT_VALUE, &mean_Iarm.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Посчитанное среднее. */
-REG(REG_ID_MEAN_UARM_COUNT, &regs_data.mean_uarm.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MEAN_UARM_COUNT, &regs_data.mean_uarm.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MEAN_UARM_CONTROL, &mean_Uarm.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MEAN_UARM_STATUS, &mean_Uarm.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MEAN_UARM_IN_VALUE, &mean_Uarm.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Текущее значение. */
 REG(REG_ID_MEAN_UARM_OUT_VALUE, &mean_Uarm.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Посчитанное среднее. */
-REG(REG_ID_MEAN_IRSTART_COUNT, &regs_data.mean_irstart.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MEAN_IRSTART_COUNT, &regs_data.mean_irstart.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MEAN_IRSTART_CONTROL, &mean_Irstart.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MEAN_IRSTART_STATUS, &mean_Irstart.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MEAN_IRSTART_IN_VALUE, &mean_Irstart.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Текущее значение. */
 REG(REG_ID_MEAN_IRSTART_OUT_VALUE, &mean_Irstart.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Посчитанное среднее. */
-REG(REG_ID_MEAN_RMS_ICELL_COUNT, &regs_data.mean_rms_icell.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MEAN_RMS_ICELL_COUNT, &regs_data.mean_rms_icell.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MEAN_RMS_ICELL_CONTROL, &mean_rms_Icell.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MEAN_RMS_ICELL_STATUS, &mean_rms_Icell.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MEAN_RMS_ICELL_IN_VALUE0, &mean_rms_Icell.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_MEAN_RMS_ICELL_IN_VALUE1, &mean_rms_Icell.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_MEAN_RMS_ICELL_IN_VALUE2, &mean_rms_Icell.in_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_MEAN_RMS_ICELL_OUT_VALUE, &mean_rms_Icell.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Среднее значение. */
-REG(REG_ID_SUM_S_COUNT, &regs_data.sum_s.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SUM_S_COUNT, &regs_data.sum_s.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SUM_S_CONTROL, &sum_S.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SUM_S_STATUS, &sum_S.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SUM_S_IN_VALUE0, &sum_S.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_SUM_S_IN_VALUE1, &sum_S.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_SUM_S_IN_VALUE2, &sum_S.in_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_SUM_S_OUT_VALUE, &sum_S.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Среднее значение. */
-REG(REG_ID_SUM_P_COUNT, &regs_data.sum_p.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SUM_P_COUNT, &regs_data.sum_p.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SUM_P_CONTROL, &sum_P.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SUM_P_STATUS, &sum_P.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SUM_P_IN_VALUE0, &sum_P.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_SUM_P_IN_VALUE1, &sum_P.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_SUM_P_IN_VALUE2, &sum_P.in_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_SUM_P_OUT_VALUE, &sum_P.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Среднее значение. */
-REG(REG_ID_SUM_Q_COUNT, &regs_data.sum_q.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SUM_Q_COUNT, &regs_data.sum_q.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SUM_Q_CONTROL, &sum_Q.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SUM_Q_STATUS, &sum_Q.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SUM_Q_IN_VALUE0, &sum_Q.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_SUM_Q_IN_VALUE1, &sum_Q.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_SUM_Q_IN_VALUE2, &sum_Q.in_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усредняемые значения. */
 REG(REG_ID_SUM_Q_OUT_VALUE, &sum_Q.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Среднее значение. */
-REG(REG_ID_POWER_A_COUNT, &regs_data.power_a.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_POWER_A_COUNT, &regs_data.power_a.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_POWER_A_CONTROL, &power_A.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_POWER_A_STATUS, &power_A.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_POWER_A_IN_U, &power_A.in_U, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мгновенное значение напряжения. */
@@ -823,7 +823,7 @@ REG(REG_ID_POWER_A_IN_RMS_I, &power_A.in_rms_I, REG_TYPE_IQ24, REG_FLAG_NONE, 0x
 REG(REG_ID_POWER_A_OUT_S, &power_A.out_S, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Полная мощность. */
 REG(REG_ID_POWER_A_OUT_P, &power_A.out_P, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Активная мощность. */
 REG(REG_ID_POWER_A_OUT_Q, &power_A.out_Q, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Реактивная мощность. */
-REG(REG_ID_POWER_B_COUNT, &regs_data.power_b.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_POWER_B_COUNT, &regs_data.power_b.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_POWER_B_CONTROL, &power_B.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_POWER_B_STATUS, &power_B.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_POWER_B_IN_U, &power_B.in_U, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мгновенное значение напряжения. */
@@ -833,7 +833,7 @@ REG(REG_ID_POWER_B_IN_RMS_I, &power_B.in_rms_I, REG_TYPE_IQ24, REG_FLAG_NONE, 0x
 REG(REG_ID_POWER_B_OUT_S, &power_B.out_S, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Полная мощность. */
 REG(REG_ID_POWER_B_OUT_P, &power_B.out_P, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Активная мощность. */
 REG(REG_ID_POWER_B_OUT_Q, &power_B.out_Q, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Реактивная мощность. */
-REG(REG_ID_POWER_C_COUNT, &regs_data.power_c.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_POWER_C_COUNT, &regs_data.power_c.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_POWER_C_CONTROL, &power_C.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_POWER_C_STATUS, &power_C.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_POWER_C_IN_U, &power_C.in_U, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мгновенное значение напряжения. */
@@ -843,7 +843,7 @@ REG(REG_ID_POWER_C_IN_RMS_I, &power_C.in_rms_I, REG_TYPE_IQ24, REG_FLAG_NONE, 0x
 REG(REG_ID_POWER_C_OUT_S, &power_C.out_S, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Полная мощность. */
 REG(REG_ID_POWER_C_OUT_P, &power_C.out_P, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Активная мощность. */
 REG(REG_ID_POWER_C_OUT_Q, &power_C.out_Q, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Реактивная мощность. */
-REG(REG_ID_POWER_FACTOR_COUNT, &regs_data.power_factor.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_POWER_FACTOR_COUNT, &regs_data.power_factor.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_POWER_FACTOR_CONTROL, &power_factor.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_POWER_FACTOR_STATUS, &power_factor.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_POWER_FACTOR_IN_S, &power_factor.in_S, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Полная мощность. */
@@ -852,7 +852,7 @@ REG(REG_ID_POWER_FACTOR_IN_Q, &power_factor.in_Q, REG_TYPE_IQ24, REG_FLAG_NONE, 
 REG(REG_ID_POWER_FACTOR_OUT_COS_PHI, &power_factor.out_cos_phi, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* cos(phi). */
 REG(REG_ID_POWER_FACTOR_OUT_SIN_PHI, &power_factor.out_sin_phi, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* sin(phi). */
 REG(REG_ID_POWER_FACTOR_OUT_TAN_PHI, &power_factor.out_tan_phi, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* tan(phi). */
-REG(REG_ID_VR_RMS_UMAINS_COUNT, &regs_data.vr_rms_umains.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_VR_RMS_UMAINS_COUNT, &regs_data.vr_rms_umains.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_VR_RMS_UMAINS_CONTROL, &vr_rms_Umains.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_VR_RMS_UMAINS_STATUS, &vr_rms_Umains.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_VR_RMS_UMAINS_IN_VALUE0, &vr_rms_Umains.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные данные. */
@@ -862,9 +862,9 @@ REG(REG_ID_VR_RMS_UMAINS_OUT_VALUE0, &vr_rms_Umains.out_value[0], REG_TYPE_I32, 
 REG(REG_ID_VR_RMS_UMAINS_OUT_VALUE1, &vr_rms_Umains.out_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Состояние допустимого диапазона. */
 REG(REG_ID_VR_RMS_UMAINS_OUT_VALUE2, &vr_rms_Umains.out_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Состояние допустимого диапазона. */
 REG(REG_ID_VR_RMS_UMAINS_OUT_VALUE_ALL, &vr_rms_Umains.out_value_all, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние допустимого диапазона для всех значений. */
-REG(REG_ID_VR_RMS_UMAINS_MIN_VALUE, &vr_rms_Umains.p_min_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение нижней границы. */
-REG(REG_ID_VR_RMS_UMAINS_MAX_VALUE, &vr_rms_Umains.p_max_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение верхней границы. */
-REG(REG_ID_VR_FILTER_FREQ_UMAINS_COUNT, &regs_data.vr_filter_freq_umains.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_VR_RMS_UMAINS_MIN_VALUE, &vr_rms_Umains.p_min_value, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Значение нижней границы. */
+REG(REG_ID_VR_RMS_UMAINS_MAX_VALUE, &vr_rms_Umains.p_max_value, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Значение верхней границы. */
+REG(REG_ID_VR_FILTER_FREQ_UMAINS_COUNT, &regs_data.vr_filter_freq_umains.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_VR_FILTER_FREQ_UMAINS_CONTROL, &vr_filter_freq_Umains.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_VR_FILTER_FREQ_UMAINS_STATUS, &vr_filter_freq_Umains.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_VR_FILTER_FREQ_UMAINS_IN_VALUE0, &vr_filter_freq_Umains.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные данные. */
@@ -874,9 +874,9 @@ REG(REG_ID_VR_FILTER_FREQ_UMAINS_OUT_VALUE0, &vr_filter_freq_Umains.out_value[0]
 REG(REG_ID_VR_FILTER_FREQ_UMAINS_OUT_VALUE1, &vr_filter_freq_Umains.out_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Состояние допустимого диапазона. */
 REG(REG_ID_VR_FILTER_FREQ_UMAINS_OUT_VALUE2, &vr_filter_freq_Umains.out_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Состояние допустимого диапазона. */
 REG(REG_ID_VR_FILTER_FREQ_UMAINS_OUT_VALUE_ALL, &vr_filter_freq_Umains.out_value_all, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние допустимого диапазона для всех значений. */
-REG(REG_ID_VR_FILTER_FREQ_UMAINS_MIN_VALUE, &vr_filter_freq_Umains.p_min_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение нижней границы. */
-REG(REG_ID_VR_FILTER_FREQ_UMAINS_MAX_VALUE, &vr_filter_freq_Umains.p_max_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение верхней границы. */
-REG(REG_ID_VR_RMS_UCELL_COUNT, &regs_data.vr_rms_ucell.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_VR_FILTER_FREQ_UMAINS_MIN_VALUE, &vr_filter_freq_Umains.p_min_value, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Значение нижней границы. */
+REG(REG_ID_VR_FILTER_FREQ_UMAINS_MAX_VALUE, &vr_filter_freq_Umains.p_max_value, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Значение верхней границы. */
+REG(REG_ID_VR_RMS_UCELL_COUNT, &regs_data.vr_rms_ucell.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_VR_RMS_UCELL_CONTROL, &vr_rms_Ucell.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_VR_RMS_UCELL_STATUS, &vr_rms_Ucell.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_VR_RMS_UCELL_IN_VALUE0, &vr_rms_Ucell.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные данные. */
@@ -886,34 +886,34 @@ REG(REG_ID_VR_RMS_UCELL_OUT_VALUE0, &vr_rms_Ucell.out_value[0], REG_TYPE_I32, RE
 REG(REG_ID_VR_RMS_UCELL_OUT_VALUE1, &vr_rms_Ucell.out_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Состояние допустимого диапазона. */
 REG(REG_ID_VR_RMS_UCELL_OUT_VALUE2, &vr_rms_Ucell.out_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Состояние допустимого диапазона. */
 REG(REG_ID_VR_RMS_UCELL_OUT_VALUE_ALL, &vr_rms_Ucell.out_value_all, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние допустимого диапазона для всех значений. */
-REG(REG_ID_VR_RMS_UCELL_MIN_VALUE, &vr_rms_Ucell.p_min_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение нижней границы. */
-REG(REG_ID_VR_RMS_UCELL_MAX_VALUE, &vr_rms_Ucell.p_max_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение верхней границы. */
-REG(REG_ID_CELL_CB_COUNT, &regs_data.cell_cb.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_VR_RMS_UCELL_MIN_VALUE, &vr_rms_Ucell.p_min_value, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Значение нижней границы. */
+REG(REG_ID_VR_RMS_UCELL_MAX_VALUE, &vr_rms_Ucell.p_max_value, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Значение верхней границы. */
+REG(REG_ID_CELL_CB_COUNT, &regs_data.cell_cb.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_CELL_CB_CONTROL, &cell_cb.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_CELL_CB_STATUS, &cell_cb.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_CELL_CB_IN_NO_STATE, &cell_cb.in_no_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние NO контакта выключателя ячейки. */
 REG(REG_ID_CELL_CB_IN_NC_STATE, &cell_cb.in_nc_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние NC контакта выключателя ячейки. */
 REG(REG_ID_CELL_CB_OUT_STATE, &cell_cb.out_state, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Состояние выключателя ячейки. */
-REG(REG_ID_THR_RUN_TRIG_I_S_COUNT, &regs_data.thr_run_trig_i_s.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_RUN_TRIG_I_S_COUNT, &regs_data.thr_run_trig_i_s.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_RUN_TRIG_I_S_CONTROL, &thr_run_trig_I_s.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_RUN_TRIG_I_S_STATUS, &thr_run_trig_I_s.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_RUN_TRIG_I_S_IN_VALUE, &thr_run_trig_I_s.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_RUN_TRIG_I_S_OUT_VALUE, &thr_run_trig_I_s.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_RUN_TRIG_I_S_THRESHOLD, &thr_run_trig_I_s.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_AM_RUN_TRIG_I_S_COUNT, &regs_data.am_run_trig_i_s.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_RUN_TRIG_I_S_THRESHOLD, &thr_run_trig_I_s.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_AM_RUN_TRIG_I_S_COUNT, &regs_data.am_run_trig_i_s.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_AM_RUN_TRIG_I_S_CONTROL, &am_run_trig_I_s.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_AM_RUN_TRIG_I_S_STATUS, &am_run_trig_I_s.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_AM_RUN_TRIG_I_S_IN_VALUE0, &am_run_trig_I_s.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_RUN_TRIG_I_S_OUT_VALUE, &am_run_trig_I_s.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_RUN_TRIG_I_S_MASK0, &am_run_trig_I_s.r_mask[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_MUX_RUN_TRIG_COUNT, &regs_data.mux_run_trig.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_RUN_TRIG_COUNT, &regs_data.mux_run_trig.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_RUN_TRIG_CONTROL, &mux_run_trig.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_RUN_TRIG_STATUS, &mux_run_trig.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_RUN_TRIG_IN_VALUE0, &mux_run_trig.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_RUN_TRIG_IN_VALUE1, &mux_run_trig.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_RUN_TRIG_OUT_VALUE, &mux_run_trig.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_RUN_TRIG_SEL, &mux_run_trig.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_TMR_RUN_TRIG_COUNT, &regs_data.tmr_run_trig.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_RUN_TRIG_SEL, &mux_run_trig.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_TMR_RUN_TRIG_COUNT, &regs_data.tmr_run_trig.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_RUN_TRIG_CONTROL, &tmr_run_trig.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_RUN_TRIG_STATUS, &tmr_run_trig.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_RUN_TRIG_IN_VALUE, &tmr_run_trig.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
@@ -923,25 +923,25 @@ REG(REG_ID_TMR_RUN_TRIG_TMR_STATUS, &tmr_run_trig.r_tmr.status, REG_TYPE_U32, RE
 REG(REG_ID_TMR_RUN_TRIG_TMR_OUT_EXPIRED, &tmr_run_trig.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_RUN_TRIG_TMR_OUT_TIMEOUT, &tmr_run_trig.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
 REG(REG_ID_TMR_RUN_TRIG_TMR_R_INTERVAL, &tmr_run_trig.r_tmr.r_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
-REG(REG_ID_THR_PRIM_SLIP_COUNT, &regs_data.thr_prim_slip.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_PRIM_SLIP_COUNT, &regs_data.thr_prim_slip.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_PRIM_SLIP_CONTROL, &thr_prim_Slip.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_PRIM_SLIP_STATUS, &thr_prim_Slip.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_PRIM_SLIP_IN_VALUE, &thr_prim_Slip.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_PRIM_SLIP_OUT_VALUE, &thr_prim_Slip.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_PRIM_SLIP_THRESHOLD, &thr_prim_Slip.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_THR_PRIM_I_S_COUNT, &regs_data.thr_prim_i_s.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_PRIM_SLIP_THRESHOLD, &thr_prim_Slip.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_THR_PRIM_I_S_COUNT, &regs_data.thr_prim_i_s.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_PRIM_I_S_CONTROL, &thr_prim_I_s.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_PRIM_I_S_STATUS, &thr_prim_I_s.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_PRIM_I_S_IN_VALUE, &thr_prim_I_s.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_PRIM_I_S_OUT_VALUE, &thr_prim_I_s.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_PRIM_I_S_THRESHOLD, &thr_prim_I_s.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_THR_PRIM_T_COUNT, &regs_data.thr_prim_t.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_PRIM_I_S_THRESHOLD, &thr_prim_I_s.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_THR_PRIM_T_COUNT, &regs_data.thr_prim_t.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_PRIM_T_CONTROL, &thr_prim_T.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_PRIM_T_STATUS, &thr_prim_T.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_PRIM_T_IN_VALUE, &thr_prim_T.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_PRIM_T_OUT_VALUE, &thr_prim_T.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_PRIM_T_THRESHOLD, &thr_prim_T.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_AM_PRIM_FIELD_ON_COUNT, &regs_data.am_prim_field_on.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_PRIM_T_THRESHOLD, &thr_prim_T.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_AM_PRIM_FIELD_ON_COUNT, &regs_data.am_prim_field_on.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_AM_PRIM_FIELD_ON_CONTROL, &am_prim_field_on.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_AM_PRIM_FIELD_ON_STATUS, &am_prim_field_on.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_AM_PRIM_FIELD_ON_IN_VALUE0, &am_prim_field_on.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
@@ -951,25 +951,25 @@ REG(REG_ID_AM_PRIM_FIELD_ON_OUT_VALUE, &am_prim_field_on.out_value, REG_TYPE_U32
 REG(REG_ID_AM_PRIM_FIELD_ON_MASK0, &am_prim_field_on.r_mask[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_PRIM_FIELD_ON_MASK1, &am_prim_field_on.r_mask[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_PRIM_FIELD_ON_MASK2, &am_prim_field_on.r_mask[2], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_THR_SEC_SLIP_COUNT, &regs_data.thr_sec_slip.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_SEC_SLIP_COUNT, &regs_data.thr_sec_slip.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_SEC_SLIP_CONTROL, &thr_sec_Slip.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_SEC_SLIP_STATUS, &thr_sec_Slip.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_SEC_SLIP_IN_VALUE, &thr_sec_Slip.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_SEC_SLIP_OUT_VALUE, &thr_sec_Slip.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_SEC_SLIP_THRESHOLD, &thr_sec_Slip.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_THR_SEC_I_S_COUNT, &regs_data.thr_sec_i_s.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_SEC_SLIP_THRESHOLD, &thr_sec_Slip.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_THR_SEC_I_S_COUNT, &regs_data.thr_sec_i_s.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_SEC_I_S_CONTROL, &thr_sec_I_s.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_SEC_I_S_STATUS, &thr_sec_I_s.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_SEC_I_S_IN_VALUE, &thr_sec_I_s.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_SEC_I_S_OUT_VALUE, &thr_sec_I_s.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_SEC_I_S_THRESHOLD, &thr_sec_I_s.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_THR_SEC_T_COUNT, &regs_data.thr_sec_t.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_SEC_I_S_THRESHOLD, &thr_sec_I_s.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_THR_SEC_T_COUNT, &regs_data.thr_sec_t.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_SEC_T_CONTROL, &thr_sec_T.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_SEC_T_STATUS, &thr_sec_T.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_SEC_T_IN_VALUE, &thr_sec_T.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_SEC_T_OUT_VALUE, &thr_sec_T.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_SEC_T_THRESHOLD, &thr_sec_T.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_AM_SEC_FIELD_ON_COUNT, &regs_data.am_sec_field_on.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_SEC_T_THRESHOLD, &thr_sec_T.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_AM_SEC_FIELD_ON_COUNT, &regs_data.am_sec_field_on.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_AM_SEC_FIELD_ON_CONTROL, &am_sec_field_on.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_AM_SEC_FIELD_ON_STATUS, &am_sec_field_on.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_AM_SEC_FIELD_ON_IN_VALUE0, &am_sec_field_on.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
@@ -979,13 +979,13 @@ REG(REG_ID_AM_SEC_FIELD_ON_OUT_VALUE, &am_sec_field_on.out_value, REG_TYPE_U32, 
 REG(REG_ID_AM_SEC_FIELD_ON_MASK0, &am_sec_field_on.r_mask[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_SEC_FIELD_ON_MASK1, &am_sec_field_on.r_mask[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_SEC_FIELD_ON_MASK2, &am_sec_field_on.r_mask[2], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_OR_FIELD_ON_COUNT, &regs_data.or_field_on.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_OR_FIELD_ON_COUNT, &regs_data.or_field_on.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_OR_FIELD_ON_CONTROL, &or_field_on.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_OR_FIELD_ON_STATUS, &or_field_on.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_OR_FIELD_ON_IN_VALUE0, &or_field_on.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_OR_FIELD_ON_IN_VALUE1, &or_field_on.in_value[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_OR_FIELD_ON_OUT_VALUE, &or_field_on.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_TMR_FIELD_ON_COUNT, &regs_data.tmr_field_on.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_TMR_FIELD_ON_COUNT, &regs_data.tmr_field_on.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_FIELD_ON_CONTROL, &tmr_field_on.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_FIELD_ON_STATUS, &tmr_field_on.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_FIELD_ON_IN_VALUE, &tmr_field_on.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
@@ -995,25 +995,25 @@ REG(REG_ID_TMR_FIELD_ON_TMR_STATUS, &tmr_field_on.r_tmr.status, REG_TYPE_U32, RE
 REG(REG_ID_TMR_FIELD_ON_TMR_OUT_EXPIRED, &tmr_field_on.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_FIELD_ON_TMR_OUT_TIMEOUT, &tmr_field_on.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
 REG(REG_ID_TMR_FIELD_ON_TMR_R_INTERVAL, &tmr_field_on.r_tmr.r_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
-REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_COUNT, &regs_data.thr_value_for_slip_lt_zero.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_COUNT, &regs_data.thr_value_for_slip_lt_zero.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_CONTROL, &thr_value_for_slip_lt_zero.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_STATUS, &thr_value_for_slip_lt_zero.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_IN_VALUE, &thr_value_for_slip_lt_zero.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_OUT_VALUE, &thr_value_for_slip_lt_zero.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_THRESHOLD, &thr_value_for_slip_lt_zero.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_COUNT, &regs_data.or_value_slip_lt_zero_i_r_sync.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_THRESHOLD, &thr_value_for_slip_lt_zero.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_COUNT, &regs_data.or_value_slip_lt_zero_i_r_sync.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_CONTROL, &or_value_slip_lt_zero_I_r_sync.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_STATUS, &or_value_slip_lt_zero_I_r_sync.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_IN_VALUE0, &or_value_slip_lt_zero_I_r_sync.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_IN_VALUE1, &or_value_slip_lt_zero_I_r_sync.in_value[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_OR_VALUE_SLIP_LT_ZERO_I_R_SYNC_OUT_VALUE, &or_value_slip_lt_zero_I_r_sync.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_AND_READY_TO_EXC_COUNT, &regs_data.and_ready_to_exc.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_AND_READY_TO_EXC_COUNT, &regs_data.and_ready_to_exc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_AND_READY_TO_EXC_CONTROL, &and_ready_to_exc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_AND_READY_TO_EXC_STATUS, &and_ready_to_exc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_AND_READY_TO_EXC_IN_VALUE0, &and_ready_to_exc.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AND_READY_TO_EXC_IN_VALUE1, &and_ready_to_exc.in_value[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AND_READY_TO_EXC_OUT_VALUE, &and_ready_to_exc.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_COUNT, &regs_data.tmr_field_on_rstart_off.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_COUNT, &regs_data.tmr_field_on_rstart_off.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_CONTROL, &tmr_field_on_rstart_off.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_STATUS, &tmr_field_on_rstart_off.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_IN_VALUE, &tmr_field_on_rstart_off.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
@@ -1023,30 +1023,30 @@ REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_STATUS, &tmr_field_on_rstart_off.r_tmr.st
 REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_OUT_EXPIRED, &tmr_field_on_rstart_off.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_OUT_TIMEOUT, &tmr_field_on_rstart_off.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
 REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_R_INTERVAL, &tmr_field_on_rstart_off.r_tmr.r_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
-REG(REG_ID_NOT_READY_TO_EXC_COUNT, &regs_data.not_ready_to_exc.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_NOT_READY_TO_EXC_COUNT, &regs_data.not_ready_to_exc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_NOT_READY_TO_EXC_CONTROL, &not_ready_to_exc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_NOT_READY_TO_EXC_STATUS, &not_ready_to_exc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_NOT_READY_TO_EXC_IN_VALUE, &not_ready_to_exc.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_NOT_READY_TO_EXC_OUT_VALUE, &not_ready_to_exc.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_CMP_CTRL_STATE_IS_START_COUNT, &regs_data.cmp_ctrl_state_is_start.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_CMP_CTRL_STATE_IS_START_COUNT, &regs_data.cmp_ctrl_state_is_start.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_CMP_CTRL_STATE_IS_START_CONTROL, &cmp_ctrl_state_is_start.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_CMP_CTRL_STATE_IS_START_STATUS, &cmp_ctrl_state_is_start.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_CMP_CTRL_STATE_IS_START_IN_A, &cmp_ctrl_state_is_start.in_A, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение A. */
 REG(REG_ID_CMP_CTRL_STATE_IS_START_IN_B, &cmp_ctrl_state_is_start.in_B, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение B. */
 REG(REG_ID_CMP_CTRL_STATE_IS_START_OUT_VALUE, &cmp_ctrl_state_is_start.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значений A и B. */
-REG(REG_ID_AND_RSTART_ON_COUNT, &regs_data.and_rstart_on.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_AND_RSTART_ON_COUNT, &regs_data.and_rstart_on.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_AND_RSTART_ON_CONTROL, &and_rstart_on.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_AND_RSTART_ON_STATUS, &and_rstart_on.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_AND_RSTART_ON_IN_VALUE0, &and_rstart_on.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AND_RSTART_ON_IN_VALUE1, &and_rstart_on.in_value[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AND_RSTART_ON_OUT_VALUE, &and_rstart_on.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_THR_FIELD_ON_I_R_SYNC_COUNT, &regs_data.thr_field_on_i_r_sync.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_FIELD_ON_I_R_SYNC_COUNT, &regs_data.thr_field_on_i_r_sync.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_FIELD_ON_I_R_SYNC_CONTROL, &thr_field_on_I_r_sync.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_FIELD_ON_I_R_SYNC_STATUS, &thr_field_on_I_r_sync.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_FIELD_ON_I_R_SYNC_IN_VALUE, &thr_field_on_I_r_sync.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_FIELD_ON_I_R_SYNC_OUT_VALUE, &thr_field_on_I_r_sync.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_FIELD_ON_I_R_SYNC_THRESHOLD, &thr_field_on_I_r_sync.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_COUNT, &regs_data.tmr_field_on_i_r_sync.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_FIELD_ON_I_R_SYNC_THRESHOLD, &thr_field_on_I_r_sync.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_COUNT, &regs_data.tmr_field_on_i_r_sync.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_CONTROL, &tmr_field_on_I_r_sync.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_STATUS, &tmr_field_on_I_r_sync.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_IN_VALUE, &tmr_field_on_I_r_sync.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
@@ -1056,112 +1056,112 @@ REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_STATUS, &tmr_field_on_I_r_sync.r_tmr.status
 REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_EXPIRED, &tmr_field_on_I_r_sync.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_TIMEOUT, &tmr_field_on_I_r_sync.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
 REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_R_INTERVAL, &tmr_field_on_I_r_sync.r_tmr.r_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
-REG(REG_ID_THR_FIELD_SUPP_I_R_COUNT, &regs_data.thr_field_supp_i_r.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_FIELD_SUPP_I_R_COUNT, &regs_data.thr_field_supp_i_r.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_FIELD_SUPP_I_R_CONTROL, &thr_field_supp_I_r.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_FIELD_SUPP_I_R_STATUS, &thr_field_supp_I_r.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_FIELD_SUPP_I_R_IN_VALUE, &thr_field_supp_I_r.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_FIELD_SUPP_I_R_OUT_VALUE, &thr_field_supp_I_r.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_FIELD_SUPP_I_R_THRESHOLD, &thr_field_supp_I_r.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_TMR_FIELD_SUPP_COUNT, &regs_data.tmr_field_supp.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_FIELD_SUPP_I_R_THRESHOLD, &thr_field_supp_I_r.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_TMR_FIELD_SUPP_COUNT, &regs_data.tmr_field_supp.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_FIELD_SUPP_CONTROL, &tmr_field_supp.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_FIELD_SUPP_STATUS, &tmr_field_supp.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_FIELD_SUPP_OUT_EXPIRED, &tmr_field_supp.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_FIELD_SUPP_OUT_TIMEOUT, &tmr_field_supp.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
 REG(REG_ID_TMR_FIELD_SUPP_INTERVAL, &tmr_field_supp.r_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
-REG(REG_ID_CNT_START_COUNT, &regs_data.cnt_start.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_CNT_START_COUNT, &regs_data.cnt_start.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_CNT_START_CONTROL, &cnt_start.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_CNT_START_STATUS, &cnt_start.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_CNT_START_OUT_VALUE, &cnt_start.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Значение счётчика. */
-REG(REG_ID_FILTER_ZCD_UA_COUNT, &regs_data.filter_zcd_ua.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_ZCD_UA_COUNT, &regs_data.filter_zcd_ua.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_ZCD_UA_CONTROL, &filter_zcd_Ua.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_ZCD_UA_STATUS, &filter_zcd_Ua.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_ZCD_UA_IN_VALUE, &filter_zcd_Ua.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_ZCD_UA_OUT_VALUE, &filter_zcd_Ua.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_ZCD_UA_T, &filter_zcd_Ua.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_ZCD_UA_T, &filter_zcd_Ua.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_ZCD_UA_TS, &filter_zcd_Ua.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_FILTER_ZCD_UB_COUNT, &regs_data.filter_zcd_ub.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_ZCD_UB_COUNT, &regs_data.filter_zcd_ub.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_ZCD_UB_CONTROL, &filter_zcd_Ub.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_ZCD_UB_STATUS, &filter_zcd_Ub.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_ZCD_UB_IN_VALUE, &filter_zcd_Ub.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_ZCD_UB_OUT_VALUE, &filter_zcd_Ub.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_ZCD_UB_T, &filter_zcd_Ub.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_ZCD_UB_T, &filter_zcd_Ub.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_ZCD_UB_TS, &filter_zcd_Ub.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_FILTER_ZCD_UC_COUNT, &regs_data.filter_zcd_uc.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_ZCD_UC_COUNT, &regs_data.filter_zcd_uc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_ZCD_UC_CONTROL, &filter_zcd_Uc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_ZCD_UC_STATUS, &filter_zcd_Uc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_ZCD_UC_IN_VALUE, &filter_zcd_Uc.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_ZCD_UC_OUT_VALUE, &filter_zcd_Uc.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_ZCD_UC_T, &filter_zcd_Uc.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_ZCD_UC_T, &filter_zcd_Uc.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_ZCD_UC_TS, &filter_zcd_Uc.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_FILTER_ZCD_SLIP_COUNT, &regs_data.filter_zcd_slip.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_ZCD_SLIP_COUNT, &regs_data.filter_zcd_slip.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_ZCD_SLIP_CONTROL, &filter_zcd_slip.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_ZCD_SLIP_STATUS, &filter_zcd_slip.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_ZCD_SLIP_IN_VALUE, &filter_zcd_slip.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_ZCD_SLIP_OUT_VALUE, &filter_zcd_slip.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_ZCD_SLIP_T, &filter_zcd_slip.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_ZCD_SLIP_T, &filter_zcd_slip.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_ZCD_SLIP_TS, &filter_zcd_slip.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_FILTER_FREQ_UA_COUNT, &regs_data.filter_freq_ua.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_FREQ_UA_COUNT, &regs_data.filter_freq_ua.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_FREQ_UA_CONTROL, &filter_freq_Ua.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_FREQ_UA_STATUS, &filter_freq_Ua.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_FREQ_UA_IN_VALUE, &filter_freq_Ua.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_FREQ_UA_OUT_VALUE, &filter_freq_Ua.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_FREQ_UA_T, &filter_freq_Ua.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_FREQ_UA_T, &filter_freq_Ua.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_FREQ_UA_TS, &filter_freq_Ua.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_FILTER_FREQ_UB_COUNT, &regs_data.filter_freq_ub.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_FREQ_UB_COUNT, &regs_data.filter_freq_ub.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_FREQ_UB_CONTROL, &filter_freq_Ub.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_FREQ_UB_STATUS, &filter_freq_Ub.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_FREQ_UB_IN_VALUE, &filter_freq_Ub.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_FREQ_UB_OUT_VALUE, &filter_freq_Ub.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_FREQ_UB_T, &filter_freq_Ub.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_FREQ_UB_T, &filter_freq_Ub.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_FREQ_UB_TS, &filter_freq_Ub.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_FILTER_FREQ_UC_COUNT, &regs_data.filter_freq_uc.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_FREQ_UC_COUNT, &regs_data.filter_freq_uc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_FREQ_UC_CONTROL, &filter_freq_Uc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_FREQ_UC_STATUS, &filter_freq_Uc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_FREQ_UC_IN_VALUE, &filter_freq_Uc.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_FREQ_UC_OUT_VALUE, &filter_freq_Uc.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_FREQ_UC_T, &filter_freq_Uc.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_FREQ_UC_T, &filter_freq_Uc.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_FREQ_UC_TS, &filter_freq_Uc.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_FILTER_FREQ_SLIP_COUNT, &regs_data.filter_freq_slip.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_FREQ_SLIP_COUNT, &regs_data.filter_freq_slip.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_FREQ_SLIP_CONTROL, &filter_freq_slip.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_FREQ_SLIP_STATUS, &filter_freq_slip.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_FREQ_SLIP_IN_VALUE, &filter_freq_slip.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_FREQ_SLIP_OUT_VALUE, &filter_freq_slip.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_FREQ_SLIP_T, &filter_freq_slip.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_FREQ_SLIP_T, &filter_freq_slip.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_FREQ_SLIP_TS, &filter_freq_slip.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_FILTER_MEAN_IARM_COUNT, &regs_data.filter_mean_iarm.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_MEAN_IARM_COUNT, &regs_data.filter_mean_iarm.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_MEAN_IARM_CONTROL, &filter_mean_Iarm.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_MEAN_IARM_STATUS, &filter_mean_Iarm.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_MEAN_IARM_IN_VALUE, &filter_mean_Iarm.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_MEAN_IARM_OUT_VALUE, &filter_mean_Iarm.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_MEAN_IARM_T, &filter_mean_Iarm.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_MEAN_IARM_T, &filter_mean_Iarm.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_MEAN_IARM_TS, &filter_mean_Iarm.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_FILTER_MEAN_UARM_COUNT, &regs_data.filter_mean_uarm.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_MEAN_UARM_COUNT, &regs_data.filter_mean_uarm.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_MEAN_UARM_CONTROL, &filter_mean_Uarm.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_MEAN_UARM_STATUS, &filter_mean_Uarm.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_MEAN_UARM_IN_VALUE, &filter_mean_Uarm.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_MEAN_UARM_OUT_VALUE, &filter_mean_Uarm.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_MEAN_UARM_T, &filter_mean_Uarm.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_MEAN_UARM_T, &filter_mean_Uarm.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_MEAN_UARM_TS, &filter_mean_Uarm.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_FILTER_MEAN_IRSTART_COUNT, &regs_data.filter_mean_irstart.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FILTER_MEAN_IRSTART_COUNT, &regs_data.filter_mean_irstart.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_FILTER_MEAN_IRSTART_CONTROL, &filter_mean_Irstart.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_FILTER_MEAN_IRSTART_STATUS, &filter_mean_Irstart.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_FILTER_MEAN_IRSTART_IN_VALUE, &filter_mean_Irstart.in_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Фильтруеый сигнал. */
 REG(REG_ID_FILTER_MEAN_IRSTART_OUT_VALUE, &filter_mean_Irstart.out_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Отфильтрованный сигнал. */
-REG(REG_ID_FILTER_MEAN_IRSTART_T, &filter_mean_Irstart.p_T, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра. */
+REG(REG_ID_FILTER_MEAN_IRSTART_T, &filter_mean_Irstart.p_T, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра. */
 REG(REG_ID_FILTER_MEAN_IRSTART_TS, &filter_mean_Irstart.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_TMR_START_MIN_FORCING_COUNT, &regs_data.tmr_start_min_forcing.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_TMR_START_MIN_FORCING_COUNT, &regs_data.tmr_start_min_forcing.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_START_MIN_FORCING_CONTROL, &tmr_start_min_forcing.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_START_MIN_FORCING_STATUS, &tmr_start_min_forcing.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_START_MIN_FORCING_OUT_EXPIRED, &tmr_start_min_forcing.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_START_MIN_FORCING_OUT_TIMEOUT, &tmr_start_min_forcing.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
 REG(REG_ID_TMR_START_MIN_FORCING_INTERVAL, &tmr_start_min_forcing.r_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
-REG(REG_ID_TMR_START_MAX_FORCING_COUNT, &regs_data.tmr_start_max_forcing.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_TMR_START_MAX_FORCING_COUNT, &regs_data.tmr_start_max_forcing.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_START_MAX_FORCING_CONTROL, &tmr_start_max_forcing.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_START_MAX_FORCING_STATUS, &tmr_start_max_forcing.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_START_MAX_FORCING_OUT_EXPIRED, &tmr_start_max_forcing.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_START_MAX_FORCING_OUT_TIMEOUT, &tmr_start_max_forcing.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
 REG(REG_ID_TMR_START_MAX_FORCING_INTERVAL, &tmr_start_max_forcing.r_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
-REG(REG_ID_TMR_START_STAB_FORCING_COUNT, &regs_data.tmr_start_stab_forcing.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_TMR_START_STAB_FORCING_COUNT, &regs_data.tmr_start_stab_forcing.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_START_STAB_FORCING_CONTROL, &tmr_start_stab_forcing.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_START_STAB_FORCING_STATUS, &tmr_start_stab_forcing.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_START_STAB_FORCING_IN_VALUE, &tmr_start_stab_forcing.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
@@ -1171,25 +1171,25 @@ REG(REG_ID_TMR_START_STAB_FORCING_TMR_STATUS, &tmr_start_stab_forcing.r_tmr.stat
 REG(REG_ID_TMR_START_STAB_FORCING_TMR_OUT_EXPIRED, &tmr_start_stab_forcing.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_START_STAB_FORCING_TMR_OUT_TIMEOUT, &tmr_start_stab_forcing.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
 REG(REG_ID_TMR_START_STAB_FORCING_TMR_R_INTERVAL, &tmr_start_stab_forcing.r_tmr.r_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
-REG(REG_ID_THR_START_Q_LE_ZERO_COUNT, &regs_data.thr_start_q_le_zero.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_START_Q_LE_ZERO_COUNT, &regs_data.thr_start_q_le_zero.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_START_Q_LE_ZERO_CONTROL, &thr_start_Q_le_zero.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_START_Q_LE_ZERO_STATUS, &thr_start_Q_le_zero.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_THR_START_Q_LE_ZERO_IN_VALUE, &thr_start_Q_le_zero.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
 REG(REG_ID_THR_START_Q_LE_ZERO_OUT_VALUE, &thr_start_Q_le_zero.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_START_Q_LE_ZERO_THRESHOLD, &thr_start_Q_le_zero.p_threshold, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Порог. */
-REG(REG_ID_AND_START_MIN_FORCING_END_COUNT, &regs_data.and_start_min_forcing_end.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_START_Q_LE_ZERO_THRESHOLD, &thr_start_Q_le_zero.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_AND_START_MIN_FORCING_END_COUNT, &regs_data.and_start_min_forcing_end.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_AND_START_MIN_FORCING_END_CONTROL, &and_start_min_forcing_end.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_AND_START_MIN_FORCING_END_STATUS, &and_start_min_forcing_end.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_AND_START_MIN_FORCING_END_IN_VALUE0, &and_start_min_forcing_end.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AND_START_MIN_FORCING_END_IN_VALUE1, &and_start_min_forcing_end.in_value[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AND_START_MIN_FORCING_END_OUT_VALUE, &and_start_min_forcing_end.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_OR_START_FORCING_END_COUNT, &regs_data.or_start_forcing_end.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_OR_START_FORCING_END_COUNT, &regs_data.or_start_forcing_end.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_OR_START_FORCING_END_CONTROL, &or_start_forcing_end.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_OR_START_FORCING_END_STATUS, &or_start_forcing_end.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_OR_START_FORCING_END_IN_VALUE0, &or_start_forcing_end.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_OR_START_FORCING_END_IN_VALUE1, &or_start_forcing_end.in_value[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_OR_START_FORCING_END_OUT_VALUE, &or_start_forcing_end.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_MUX_FIELD_REGS_COUNT, &regs_data.mux_field_regs.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_FIELD_REGS_COUNT, &regs_data.mux_field_regs.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_FIELD_REGS_CONTROL, &mux_field_regs.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_FIELD_REGS_STATUS, &mux_field_regs.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_FIELD_REGS_IN_VALUE0, &mux_field_regs.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
@@ -1197,42 +1197,42 @@ REG(REG_ID_MUX_FIELD_REGS_IN_VALUE1, &mux_field_regs.in_value[1], REG_TYPE_I32, 
 REG(REG_ID_MUX_FIELD_REGS_IN_VALUE2, &mux_field_regs.in_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_FIELD_REGS_IN_VALUE3, &mux_field_regs.in_value[3], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_FIELD_REGS_OUT_VALUE, &mux_field_regs.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_FIELD_REGS_SEL, &mux_field_regs.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_LIM_FIELD_REGS_CURR_REF_COUNT, &regs_data.lim_field_regs_curr_ref.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_FIELD_REGS_SEL, &mux_field_regs.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_LIM_FIELD_REGS_CURR_REF_COUNT, &regs_data.lim_field_regs_curr_ref.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_LIM_FIELD_REGS_CURR_REF_CONTROL, &lim_field_regs_curr_ref.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_LIM_FIELD_REGS_CURR_REF_STATUS, &lim_field_regs_curr_ref.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_LIM_FIELD_REGS_CURR_REF_IN_VALUE, &lim_field_regs_curr_ref.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные данные. */
 REG(REG_ID_LIM_FIELD_REGS_CURR_REF_OUT_VALUE, &lim_field_regs_curr_ref.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_LIM_FIELD_REGS_CURR_REF_MIN_VALUE, &lim_field_regs_curr_ref.p_min_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение нижней границы. */
-REG(REG_ID_LIM_FIELD_REGS_CURR_REF_MAX_VALUE, &lim_field_regs_curr_ref.p_max_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение верхней границы. */
-REG(REG_ID_MUX_FIELD_FORCE_REF_COUNT, &regs_data.mux_field_force_ref.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_LIM_FIELD_REGS_CURR_REF_MIN_VALUE, &lim_field_regs_curr_ref.p_min_value, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Значение нижней границы. */
+REG(REG_ID_LIM_FIELD_REGS_CURR_REF_MAX_VALUE, &lim_field_regs_curr_ref.p_max_value, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Значение верхней границы. */
+REG(REG_ID_MUX_FIELD_FORCE_REF_COUNT, &regs_data.mux_field_force_ref.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_FIELD_FORCE_REF_CONTROL, &mux_field_force_ref.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_FIELD_FORCE_REF_STATUS, &mux_field_force_ref.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_FIELD_FORCE_REF_IN_VALUE0, &mux_field_force_ref.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_FIELD_FORCE_REF_IN_VALUE1, &mux_field_force_ref.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_FIELD_FORCE_REF_OUT_VALUE, &mux_field_force_ref.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_FIELD_FORCE_REF_SEL, &mux_field_force_ref.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_MOT_POT_FIELD_TEST_COUNT, &regs_data.mot_pot_field_test.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_FIELD_FORCE_REF_SEL, &mux_field_force_ref.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_MOT_POT_FIELD_TEST_COUNT, &regs_data.mot_pot_field_test.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MOT_POT_FIELD_TEST_CONTROL, &mot_pot_field_test.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MOT_POT_FIELD_TEST_STATUS, &mot_pot_field_test.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MOT_POT_FIELD_TEST_IN_DEC, &mot_pot_field_test.in_dec, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг декремента. */
 REG(REG_ID_MOT_POT_FIELD_TEST_IN_INC, &mot_pot_field_test.in_inc, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг инкремента. */
-REG(REG_ID_MOT_POT_FIELD_TEST_TIME, &mot_pot_field_test.p_time, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Время изменения величины от 0 до 100%. */
-REG(REG_ID_MOT_POT_FIELD_TEST_MIN, &mot_pot_field_test.p_min, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Минимальное значение. */
-REG(REG_ID_MOT_POT_FIELD_TEST_MAX, &mot_pot_field_test.p_max, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Максимальное значение. */
+REG(REG_ID_MOT_POT_FIELD_TEST_TIME, &mot_pot_field_test.p_time, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Время изменения величины от 0 до 100%. */
+REG(REG_ID_MOT_POT_FIELD_TEST_MIN, &mot_pot_field_test.p_min, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Минимальное значение. */
+REG(REG_ID_MOT_POT_FIELD_TEST_MAX, &mot_pot_field_test.p_max, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Максимальное значение. */
 REG(REG_ID_MOT_POT_FIELD_TEST_VALUE, &mot_pot_field_test.r_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Значение. */
 REG(REG_ID_MOT_POT_FIELD_TEST_TS, &mot_pot_field_test.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_MOT_POT_MANUAL_CURR_REF_COUNT, &regs_data.mot_pot_manual_curr_ref.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MOT_POT_MANUAL_CURR_REF_COUNT, &regs_data.mot_pot_manual_curr_ref.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MOT_POT_MANUAL_CURR_REF_CONTROL, &mot_pot_manual_curr_ref.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MOT_POT_MANUAL_CURR_REF_STATUS, &mot_pot_manual_curr_ref.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MOT_POT_MANUAL_CURR_REF_IN_DEC, &mot_pot_manual_curr_ref.in_dec, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг декремента. */
 REG(REG_ID_MOT_POT_MANUAL_CURR_REF_IN_INC, &mot_pot_manual_curr_ref.in_inc, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг инкремента. */
-REG(REG_ID_MOT_POT_MANUAL_CURR_REF_TIME, &mot_pot_manual_curr_ref.p_time, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Время изменения величины от 0 до 100%. */
-REG(REG_ID_MOT_POT_MANUAL_CURR_REF_MIN, &mot_pot_manual_curr_ref.p_min, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Минимальное значение. */
-REG(REG_ID_MOT_POT_MANUAL_CURR_REF_MAX, &mot_pot_manual_curr_ref.p_max, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Максимальное значение. */
+REG(REG_ID_MOT_POT_MANUAL_CURR_REF_TIME, &mot_pot_manual_curr_ref.p_time, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Время изменения величины от 0 до 100%. */
+REG(REG_ID_MOT_POT_MANUAL_CURR_REF_MIN, &mot_pot_manual_curr_ref.p_min, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Минимальное значение. */
+REG(REG_ID_MOT_POT_MANUAL_CURR_REF_MAX, &mot_pot_manual_curr_ref.p_max, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Максимальное значение. */
 REG(REG_ID_MOT_POT_MANUAL_CURR_REF_VALUE, &mot_pot_manual_curr_ref.r_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Значение. */
 REG(REG_ID_MOT_POT_MANUAL_CURR_REF_TS, &mot_pot_manual_curr_ref.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Период дискретизации. */
-REG(REG_ID_MUX_CURR_REF_COUNT, &regs_data.mux_curr_ref.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_CURR_REF_COUNT, &regs_data.mux_curr_ref.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_CURR_REF_CONTROL, &mux_curr_ref.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_CURR_REF_STATUS, &mux_curr_ref.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MUX_CURR_REF_IN_VALUE0, &mux_curr_ref.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
@@ -1240,8 +1240,8 @@ REG(REG_ID_MUX_CURR_REF_IN_VALUE1, &mux_curr_ref.in_value[1], REG_TYPE_I32, REG_
 REG(REG_ID_MUX_CURR_REF_IN_VALUE2, &mux_curr_ref.in_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_CURR_REF_IN_VALUE3, &mux_curr_ref.in_value[3], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_CURR_REF_OUT_VALUE, &mux_curr_ref.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_CURR_REF_SEL, &mux_curr_ref.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
-REG(REG_ID_PID_I_COUNT, &regs_data.pid_i.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_MUX_CURR_REF_SEL, &mux_curr_ref.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_PID_I_COUNT, &regs_data.pid_i.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_PID_I_CONTROL, &pid_i.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PID_I_STATUS, &pid_i.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PID_I_IN_REF, &pid_i.in_ref, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Задание. */
@@ -1253,19 +1253,19 @@ REG(REG_ID_PID_I_KD, &pid_i.r_kd, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* К�
 REG(REG_ID_PID_I_KF, &pid_i.r_kf, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент фильтра дифференциальной составляющей. */
 REG(REG_ID_PID_I_MIN, &pid_i.r_min, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Минимальное значение выхода. */
 REG(REG_ID_PID_I_MAX, &pid_i.r_max, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Максимальное значение выхода. */
-REG(REG_ID_PID_COEFS_I_COUNT, &regs_data.pid_coefs_i.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_PID_COEFS_I_COUNT, &regs_data.pid_coefs_i.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_PID_COEFS_I_CONTROL, &pid_coefs_i.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PID_COEFS_I_STATUS, &pid_coefs_i.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PID_COEFS_I_OUT_KP, &pid_coefs_i.out_kp, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_PID_COEFS_I_OUT_KI, &pid_coefs_i.out_ki, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_PID_COEFS_I_OUT_KD, &pid_coefs_i.out_kd, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_PID_COEFS_I_OUT_KF, &pid_coefs_i.out_kf, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_PID_COEFS_I_KP, &pid_coefs_i.p_kp, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Коэффициент пропорциональной составляющей. */
-REG(REG_ID_PID_COEFS_I_TI, &pid_coefs_i.p_Ti, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени интегрирования. */
-REG(REG_ID_PID_COEFS_I_TD, &pid_coefs_i.p_Td, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени дифференцирования. */
-REG(REG_ID_PID_COEFS_I_TF, &pid_coefs_i.p_Tf, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Постоянная времени фильтра дифференциальной составляющей. */
+REG(REG_ID_PID_COEFS_I_KP, &pid_coefs_i.p_kp, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент пропорциональной составляющей. */
+REG(REG_ID_PID_COEFS_I_TI, &pid_coefs_i.p_Ti, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени интегрирования. */
+REG(REG_ID_PID_COEFS_I_TD, &pid_coefs_i.p_Td, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени дифференцирования. */
+REG(REG_ID_PID_COEFS_I_TF, &pid_coefs_i.p_Tf, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Постоянная времени фильтра дифференциальной составляющей. */
 REG(REG_ID_PID_COEFS_I_TS, &pid_coefs_i.r_Ts, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Время дискретизации регулятора. */
-REG(REG_ID_PH3C_COUNT, &regs_data.ph3c.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_PH3C_COUNT, &regs_data.ph3c.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_PH3C_CONTROL, &ph3c.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PH3C_STATUS, &ph3c.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PH3C_IN_UA_ANGLE, &ph3c.in_Ua_angle, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Угол фазы AB, в периодических единицах, [0; 2*pi). */
@@ -1282,8 +1282,8 @@ REG(REG_ID_PH3C_OUT_CONTROL_DELAY_ANGLE, &ph3c.out_control_delay_angle, REG_TYPE
 REG(REG_ID_PH3C_OUT_CONTROL_MAX_DURATION_ANGLE, &ph3c.out_control_max_duration_angle, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Максимальная продолжительность (угол) управления, в периодических единицах. */
 REG(REG_ID_PH3C_OUT_MIN_CONTROL_VALUE, &ph3c.out_min_control_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Минимальная величина управления (максимальный электрический угол коммутации). */
 REG(REG_ID_PH3C_OUT_MAX_CONTROL_VALUE, &ph3c.out_max_control_value, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Максимальная величина управления (минимальный электрический угол коммутации). */
-REG(REG_ID_PH3C_MIN_CONTROL_ANGLE, &ph3c.p_min_control_angle, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Минимальный угол управления, в электрических градусах. */
-REG(REG_ID_PH3C_MAX_CONTROL_ANGLE, &ph3c.p_max_control_angle, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Максимальный угол управления, в электрических градусах. */
+REG(REG_ID_PH3C_MIN_CONTROL_ANGLE, &ph3c.p_min_control_angle, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Минимальный угол управления, в электрических градусах. */
+REG(REG_ID_PH3C_MAX_CONTROL_ANGLE, &ph3c.p_max_control_angle, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Максимальный угол управления, в электрических градусах. */
 REG(REG_ID_PH3C_PHC0_CONTROL, &ph3c.phc[0].control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PH3C_PHC0_STATUS, &ph3c.phc[0].status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PH3C_PHC0_IN_ANGLE_PU, &ph3c.phc[0].in_angle_pu, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Угол слежения, в периодических единицах - [0; 2*pi). */
@@ -1362,7 +1362,7 @@ REG(REG_ID_PH3C_PHC5_OUT_CONTROL_BETWEEN, &ph3c.phc[5].out_control_between, REG_
 REG(REG_ID_PH3C_PHC5_R_ANGLE_WIN_PU, &ph3c.phc[5].r_angle_win_pu, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Угол, в периодических единицах, окно для управления от текущего угла. */
 REG(REG_ID_PH3C_PHC5_R_MIN_ANGLE_TO_CONTROL_PU, &ph3c.phc[5].r_min_angle_to_control_pu, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Минимальный угол для управления, в периодических единицах. */
 REG(REG_ID_PH3C_PHC5_R_MAX_ANGLE_TO_CONTROL_PU, &ph3c.phc[5].r_max_angle_to_control_pu, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Максимальный угол для управления, в периодических единицах. */
-REG(REG_ID_LRM_COUNT, &regs_data.lrm.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_LRM_COUNT, &regs_data.lrm.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_LRM_CONTROL, &lrm.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_LRM_STATUS, &lrm.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_LRM_WARNINGS, &lrm.warnings, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений. */
@@ -1396,34 +1396,34 @@ REG(REG_ID_LRM_OUT_STATOR_IA, &lrm.out_stator_Ia, REG_TYPE_IQ24, REG_FLAG_NONE, 
 REG(REG_ID_LRM_OUT_STATOR_IB, &lrm.out_stator_Ib, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_LRM_OUT_STATOR_IC, &lrm.out_stator_Ic, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_LRM_OUT_IRSTART, &lrm.out_Irstart, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_I_HOLD, &lrm.p_I_hold, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_RS, &lrm.p_Rs, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_RR, &lrm.p_Rr, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_RF, &lrm.p_Rf, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_LSD, &lrm.p_Lsd, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_LSQ, &lrm.p_Lsq, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_LRD, &lrm.p_Lrd, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_LRQ, &lrm.p_Lrq, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_LFD, &lrm.p_Lfd, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_LMSRD, &lrm.p_Lmsrd, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_LMSRQ, &lrm.p_Lmsrq, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_LMSFD, &lrm.p_Lmsfd, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_LMRFD, &lrm.p_Lmrfd, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_P, &lrm.p_p, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_MC, &lrm.p_Mc, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_KF, &lrm.p_Kf, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_J, &lrm.p_J, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_RSTART, &lrm.p_Rstart, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_LRM_START_R_U_THR, &lrm.p_start_r_u_thr, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_MOTOR_COUNT, &regs_data.motor.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_LRM_I_HOLD, &lrm.p_I_hold, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_RS, &lrm.p_Rs, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_RR, &lrm.p_Rr, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_RF, &lrm.p_Rf, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_LSD, &lrm.p_Lsd, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_LSQ, &lrm.p_Lsq, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_LRD, &lrm.p_Lrd, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_LRQ, &lrm.p_Lrq, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_LFD, &lrm.p_Lfd, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_LMSRD, &lrm.p_Lmsrd, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_LMSRQ, &lrm.p_Lmsrq, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_LMSFD, &lrm.p_Lmsfd, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_LMRFD, &lrm.p_Lmrfd, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_P, &lrm.p_p, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_MC, &lrm.p_Mc, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_KF, &lrm.p_Kf, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_J, &lrm.p_J, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_RSTART, &lrm.p_Rstart, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_LRM_START_R_U_THR, &lrm.p_start_r_u_thr, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_MOTOR_COUNT, &regs_data.motor.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MOTOR_CONTROL, &motor.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MOTOR_STATUS, &motor.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_MOTOR_WARNINGS, &motor.warnings, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений. */
-REG(REG_ID_MOTOR_F_NOM, &motor.p_f_nom, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Номинальная частота статора, Гц. */
-REG(REG_ID_MOTOR_S_U_NOM, &motor.p_s_U_nom, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Номинальное напряжение статора, В. */
-REG(REG_ID_MOTOR_S_I_NOM, &motor.p_s_I_nom, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Номинальный ток статора, А. */
-REG(REG_ID_MOTOR_U_NOM, &motor.p_U_nom, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Номинальное напряжение ротора, В. */
-REG(REG_ID_MOTOR_I_NOM, &motor.p_I_nom, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Номинальный ток ротора, А. */
+REG(REG_ID_MOTOR_F_NOM, &motor.p_f_nom, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Номинальная частота статора, Гц. */
+REG(REG_ID_MOTOR_S_U_NOM, &motor.p_s_U_nom, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Номинальное напряжение статора, В. */
+REG(REG_ID_MOTOR_S_I_NOM, &motor.p_s_I_nom, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Номинальный ток статора, А. */
+REG(REG_ID_MOTOR_U_NOM, &motor.p_U_nom, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Номинальное напряжение ротора, В. */
+REG(REG_ID_MOTOR_I_NOM, &motor.p_I_nom, REG_TYPE_IQ15, REG_FLAG_CONF, 0x000000) /* Номинальный ток ротора, А. */
 REG(REG_ID_MOTOR_F_BASE, &motor.r_f_base, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Базовая частота. */
 REG(REG_ID_MOTOR_F_BASE_INV, &motor.r_f_base_inv, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Базовая частота, инвертированное значение. */
 REG(REG_ID_MOTOR_W_BASE, &motor.r_w_base, REG_TYPE_IQ15, REG_FLAG_NONE, 0x000000) /* Базовая угловая частота. */
@@ -1458,14 +1458,14 @@ REG(REG_ID_MOTOR_S_K_I_MOT_TO_MAINS, &motor.r_s_k_I_mot_to_mains, REG_TYPE_IQ24,
 REG(REG_ID_MOTOR_R_K_U_MAINS_TO_MOT, &motor.r_r_k_U_mains_to_mot, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Напряжение относительно сети в напряжение относительно ротора двигателя. */
 REG(REG_ID_MOTOR_R_K_I_MAINS_TO_MOT, &motor.r_r_k_I_mains_to_mot, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Ток относительно сети в ток относительно ротора двигателя. */
 REG(REG_ID_MOTOR_R_K_I_MOT_TO_MAINS, &motor.r_r_k_I_mot_to_mains, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Ток относительно ротора двигателя в ток относительно сети. */
-REG(REG_ID_PROT_COUNT, &regs_data.prot.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_PROT_COUNT, &regs_data.prot.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_PROT_CONTROL, &prot.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PROT_STATUS, &prot.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PROT_ERRORS0, &prot.errors0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово ошибок 0. */
 REG(REG_ID_PROT_ERRORS1, &prot.errors1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово ошибок 1. */
 REG(REG_ID_PROT_WARNINGS0, &prot.warnings0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений 0. */
 REG(REG_ID_PROT_WARNINGS1, &prot.warnings1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений 1. */
-REG(REG_ID_CANOPEN_COUNT, &regs_data.canopen.count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Number of sub entries count */
+REG(REG_ID_CANOPEN_COUNT, &regs_data.canopen.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_CANOPEN_CONTROL, &canopen.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_CANOPEN_STATUS, &canopen.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 
