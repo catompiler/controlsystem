@@ -172,3 +172,8 @@ M_motor motor = MOTOR_DEFAULTS;
 M_prot prot = PROT_DEFAULTS;
 
 M_canopen canopen = CANOPEN_DEFAULTS;
+
+M_storage storage = STORAGE_DEFAULTS;
+
+M_settings settings = SETTINGS_DEFAULTS;
+

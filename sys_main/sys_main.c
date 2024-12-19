@@ -346,6 +346,15 @@ METHOD_INIT_IMPL(M_sys_main, sys)
         init_errors |= SYS_MAIN_ERROR_HARDWARE;
     }
 
+    // Хранилище.
+    INIT(storage);
+    if(storage.status & STATUS_ERROR){
+        init_errors |= SYS_MAIN_ERROR_HARDWARE;
+    }
+
+    // Настройки.
+    INIT(settings);
+
     // Включение в работу модулей.
     // Не будем включать модули,
     // если инициализация завершена с ошибкой.
@@ -397,6 +406,12 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
 
     // Деинициализация модулей.
     // От основных к базовым.
+
+    // Настройки.
+    DEINIT(settings);
+
+    // Хранилище.
+    DEINIT(storage);
 
     // Сеть.
     // CANopen.
@@ -882,5 +897,11 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     IDLE(filter_mean_Uarm);
     // Фильтр тока пускового сопротивления.
     IDLE(filter_mean_Irstart);
+
+    // Настройки.
+    IDLE(settings);
+
+    // Хранилище.
+    IDLE(storage);
 }
 

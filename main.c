@@ -312,6 +312,23 @@ int main(void)
         return 0;
     }
 
+    settings.control = SETTINGS_CONTROL_LOAD;
+    CONTROL(settings);
+
+    for(;;){
+        IDLE(sys);
+        if((settings.control & SETTINGS_CONTROL_LOAD) == 0) break;
+    }
+
+    if(settings.status & STATUS_ERROR){
+        printf("Settings read error!\n");
+        printf("Starting write default settings.\n");
+        settings.control = SETTINGS_CONTROL_STORE;
+        CONTROL(settings);
+    }else{
+        printf("Settings readed successfully!\n");
+    }
+
     // ADC model set to noise scales.
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);

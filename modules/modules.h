@@ -62,6 +62,8 @@
 #include "pid/pid_coefs.h"
 #include "mot_pot/mot_pot.h"
 #include "canopen/canopen.h"
+#include "storage/storage.h"
+#include "settings/settings.h"
 
 
 
@@ -351,5 +353,12 @@ extern M_prot prot;
 // Сеть.
 //! CANopen.
 extern M_canopen canopen;
+
+// Работа с энергонезависимой памятью.
+//! Хранилище.
+extern M_storage storage;
+
+//! Настройки.
+extern M_settings settings;
 
 #endif /* MODULES_H */

@@ -1,5 +1,6 @@
 #include "regs.h"
 #include <stdlib.h>
+#include <stddef.h>
 #include "reg_list.h"
 
 
@@ -32,4 +33,32 @@ reg_t* regs_find(reg_id_t id)
     return reg;
 }
 
+reg_t* regs_first(void)
+{
+    return (reg_t*)&regs[0];
+}
+
+reg_t* regs_end(void)
+{
+    return (reg_t*)&regs[REGS_COUNT];
+}
+
+reg_t* regs_next(reg_t* reg)
+{
+    reg_t* next = &reg[1];
+    if(next >= regs_end()) return NULL;
+    return next;
+}
+
+reg_t* regs_reg(size_t n)
+{
+    reg_t* reg = (reg_t*)&regs[n];
+    if(reg >= regs_end()) return NULL;
+    return reg;
+}
+
+size_t regs_count()
+{
+    return REGS_COUNT;
+}
 

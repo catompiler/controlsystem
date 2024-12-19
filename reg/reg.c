@@ -1,6 +1,27 @@
 #include "reg.h"
-#include <stddef.h>
 
+
+
+size_t reg_data_size(const reg_t* reg)
+{
+    switch(reg->type){
+    default:
+        break;
+    case REG_TYPE_I8:
+    case REG_TYPE_U8:
+        return 1;
+    case REG_TYPE_I16:
+    case REG_TYPE_U16:
+        return 2;
+    case REG_TYPE_I32:
+    case REG_TYPE_U32:
+    case REG_TYPE_IQ24:
+    case REG_TYPE_IQ15:
+    case REG_TYPE_IQ7:
+        return 4;
+    }
+    return 0;
+}
 
 
 iql_t reg_valuel(const reg_t* reg)

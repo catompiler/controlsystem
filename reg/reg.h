@@ -84,6 +84,13 @@ ALWAYS_INLINE static reg_id_t reg_base_id(const reg_t* reg)
 }
 
 /**
+ * Получает размер данных регистра.
+ * @param reg Регистр.
+ * @return Размер данных регистра.
+ */
+EXTERN size_t reg_data_size(const reg_t* reg);
+
+/**
  * Получает значение регистра как 32 бита.
  * @param reg Регистр.
  * @return Значение регистра как 32 бита.
