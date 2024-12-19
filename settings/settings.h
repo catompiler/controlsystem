@@ -31,21 +31,21 @@ enum _E_Settings_Error {
     SETTINGS_ERROR_STORE = (ERROR_USER + 2)
 };
 
-//! Структура пары id - value параметра.
-typedef struct _S_Settings_Parameter {
-    reg_id_t id; //!< Идентификатор.
-    union {
-        reg_u32_t value_u32; //!< Значение u32.
-        reg_u16_t value_u16; //!< Значение u16.
-        reg_u8_t  value_u8; //!< Значение u8.
-        reg_i32_t value_i32; //!< Значение i32.
-        reg_i16_t value_i16; //!< Значение i16.
-        reg_i8_t  value_i8; //!< Значение i8.
-        reg_iq24_t value_iq24; //!< Значение iq24.
-        reg_iq15_t value_iq15; //!< Значение iq15.
-        reg_iq7_t  value_iq7; //!< Значение iq7.
-    };
-} settings_parameter_t;
+////! Структура пары id - value параметра.
+//typedef struct _S_Settings_Parameter {
+//    reg_id_t id; //!< Идентификатор.
+//    union _U_Values{
+//        reg_u32_t value_u32; //!< Значение u32.
+//        reg_u16_t value_u16; //!< Значение u16.
+//        reg_u8_t  value_u8; //!< Значение u8.
+//        reg_i32_t value_i32; //!< Значение i32.
+//        reg_i16_t value_i16; //!< Значение i16.
+//        reg_i8_t  value_i8; //!< Значение i8.
+//        reg_iq24_t value_iq24; //!< Значение iq24.
+//        reg_iq15_t value_iq15; //!< Значение iq15.
+//        reg_iq7_t  value_iq7; //!< Значение iq7.
+//    };
+//} settings_parameter_t;
 
 //! Размер буфера.
 #define SETTINGS_BUF_SIZE EEPROM_PAGE_SIZE

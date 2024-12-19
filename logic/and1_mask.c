@@ -17,7 +17,7 @@ METHOD_CALC_IMPL(M_and1_mask, am)
 
     in0 = am->in_value[0];
 
-    m0 = am->r_mask[0];
+    m0 = am->p_mask[0];
 
     res = in0 & m0;
 

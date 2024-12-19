@@ -743,6 +743,14 @@ struct _S_canopen {
     uint8_t count; /* Number of sub entries count */
 } canopen;
 
+struct _S_storage {
+    uint8_t count; /* Number of sub entries count */
+} storage;
+
+struct _S_settings {
+    uint8_t count; /* Number of sub entries count */
+} settings;
+
 };
 extern struct _S_regs_data regs_data;
 

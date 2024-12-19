@@ -1463,5 +1463,12 @@
 #define REG_ID_CANOPEN_COUNT 0x279000 /* Number of sub entries count */
 #define REG_ID_CANOPEN_CONTROL 0x279001 /* Слово управления. */
 #define REG_ID_CANOPEN_STATUS 0x279002 /* Слово состояния. */
+#define REG_ID_STORAGE_COUNT 0x27a000 /* Number of sub entries count */
+#define REG_ID_STORAGE_CONTROL 0x27a001 /* Слово управления. */
+#define REG_ID_STORAGE_STATUS 0x27a002 /* Слово состояния. */
+#define REG_ID_SETTINGS_COUNT 0x27b000 /* Number of sub entries count */
+#define REG_ID_SETTINGS_CONTROL 0x27b001 /* Слово управления. */
+#define REG_ID_SETTINGS_STATUS 0x27b002 /* Слово состояния. */
+#define REG_ID_SETTINGS_ERRORS 0x27b003 /* Ошибки. */
 
 #endif /* REG_IDS_H */

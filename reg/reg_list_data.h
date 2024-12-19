@@ -905,7 +905,7 @@ REG(REG_ID_AM_RUN_TRIG_I_S_CONTROL, &am_run_trig_I_s.control, REG_TYPE_U32, REG_
 REG(REG_ID_AM_RUN_TRIG_I_S_STATUS, &am_run_trig_I_s.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_AM_RUN_TRIG_I_S_IN_VALUE0, &am_run_trig_I_s.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_RUN_TRIG_I_S_OUT_VALUE, &am_run_trig_I_s.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_AM_RUN_TRIG_I_S_MASK0, &am_run_trig_I_s.r_mask[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_AM_RUN_TRIG_I_S_MASK0, &am_run_trig_I_s.p_mask[0], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_MUX_RUN_TRIG_COUNT, &regs_data.mux_run_trig.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MUX_RUN_TRIG_CONTROL, &mux_run_trig.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MUX_RUN_TRIG_STATUS, &mux_run_trig.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -948,9 +948,9 @@ REG(REG_ID_AM_PRIM_FIELD_ON_IN_VALUE0, &am_prim_field_on.in_value[0], REG_TYPE_U
 REG(REG_ID_AM_PRIM_FIELD_ON_IN_VALUE1, &am_prim_field_on.in_value[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_PRIM_FIELD_ON_IN_VALUE2, &am_prim_field_on.in_value[2], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_PRIM_FIELD_ON_OUT_VALUE, &am_prim_field_on.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_AM_PRIM_FIELD_ON_MASK0, &am_prim_field_on.r_mask[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_AM_PRIM_FIELD_ON_MASK1, &am_prim_field_on.r_mask[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_AM_PRIM_FIELD_ON_MASK2, &am_prim_field_on.r_mask[2], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_AM_PRIM_FIELD_ON_MASK0, &am_prim_field_on.p_mask[0], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_AM_PRIM_FIELD_ON_MASK1, &am_prim_field_on.p_mask[1], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_AM_PRIM_FIELD_ON_MASK2, &am_prim_field_on.p_mask[2], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_THR_SEC_SLIP_COUNT, &regs_data.thr_sec_slip.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_SEC_SLIP_CONTROL, &thr_sec_Slip.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_SEC_SLIP_STATUS, &thr_sec_Slip.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -976,9 +976,9 @@ REG(REG_ID_AM_SEC_FIELD_ON_IN_VALUE0, &am_sec_field_on.in_value[0], REG_TYPE_U32
 REG(REG_ID_AM_SEC_FIELD_ON_IN_VALUE1, &am_sec_field_on.in_value[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_SEC_FIELD_ON_IN_VALUE2, &am_sec_field_on.in_value[2], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_SEC_FIELD_ON_OUT_VALUE, &am_sec_field_on.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_AM_SEC_FIELD_ON_MASK0, &am_sec_field_on.r_mask[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_AM_SEC_FIELD_ON_MASK1, &am_sec_field_on.r_mask[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_AM_SEC_FIELD_ON_MASK2, &am_sec_field_on.r_mask[2], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_AM_SEC_FIELD_ON_MASK0, &am_sec_field_on.p_mask[0], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_AM_SEC_FIELD_ON_MASK1, &am_sec_field_on.p_mask[1], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_AM_SEC_FIELD_ON_MASK2, &am_sec_field_on.p_mask[2], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_OR_FIELD_ON_COUNT, &regs_data.or_field_on.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_OR_FIELD_ON_CONTROL, &or_field_on.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_OR_FIELD_ON_STATUS, &or_field_on.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -1468,6 +1468,13 @@ REG(REG_ID_PROT_WARNINGS1, &prot.warnings1, REG_TYPE_U32, REG_FLAG_NONE, 0x00000
 REG(REG_ID_CANOPEN_COUNT, &regs_data.canopen.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_CANOPEN_CONTROL, &canopen.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_CANOPEN_STATUS, &canopen.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_STORAGE_COUNT, &regs_data.storage.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
+REG(REG_ID_STORAGE_CONTROL, &storage.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_STORAGE_STATUS, &storage.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_SETTINGS_COUNT, &regs_data.settings.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
+REG(REG_ID_SETTINGS_CONTROL, &settings.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_SETTINGS_STATUS, &settings.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_SETTINGS_ERRORS, &settings.errors, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Ошибки. */
 
 REGS_END()
 

@@ -32,7 +32,7 @@ struct _S_And1_Mask {
     flag_t out_value;
     // Параметры.
     // Регистры.
-    flag_t r_mask[AND1_MASK_INPUTS];
+    flag_t p_mask[AND1_MASK_INPUTS];
     // Методы.
     METHOD_INIT(M_and1_mask);
     METHOD_DEINIT(M_and1_mask);
@@ -53,8 +53,8 @@ EXTERN METHOD_CALC_PROTO(M_and1_mask);
         /* Выходные данные */\
         0, /* out_value */\
         /* Параметры */\
+        {((MASK) >> 0) & 0x1}, /* p_mask */\
         /* Регистры */\
-        {((MASK) >> 0) & 0x1}, /* r_mask */\
         /* Методы */\
         METHOD_INIT_PTR(M_and1_mask), METHOD_DEINIT_PTR(M_and1_mask),\
         METHOD_CALC_PTR(M_and1_mask),\

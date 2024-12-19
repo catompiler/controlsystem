@@ -20,9 +20,9 @@ METHOD_CALC_IMPL(M_and3_mask, am)
     in1 = am->in_value[1];
     in2 = am->in_value[2];
 
-    m0 = am->r_mask[0];
-    m1 = am->r_mask[1];
-    m2 = am->r_mask[2];
+    m0 = am->p_mask[0];
+    m1 = am->p_mask[1];
+    m2 = am->p_mask[2];
 
     en = m0 | m1 | m2;
 

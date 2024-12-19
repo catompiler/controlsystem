@@ -171,6 +171,8 @@ typedef struct {
     OD_obj_record_t o_2770_motor[43];
     OD_obj_record_t o_2780_prot[7];
     OD_obj_record_t o_2790_canopen[3];
+    OD_obj_record_t o_27A0_storage[3];
+    OD_obj_record_t o_27B0_settings[4];
 } ODObjs_t;
 
 static CO_PROGMEM ODObjs_t ODObjs = {
@@ -5494,7 +5496,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &am_run_trig_I_s.r_mask[0],
+    .dataOrig = &am_run_trig_I_s.p_mask[0],
     .subIndex = 5,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -5764,19 +5766,19 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &am_prim_field_on.r_mask[0],
+    .dataOrig = &am_prim_field_on.p_mask[0],
     .subIndex = 7,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &am_prim_field_on.r_mask[1],
+    .dataOrig = &am_prim_field_on.p_mask[1],
     .subIndex = 8,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &am_prim_field_on.r_mask[2],
+    .dataOrig = &am_prim_field_on.p_mask[2],
     .subIndex = 9,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -5940,19 +5942,19 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &am_sec_field_on.r_mask[0],
+    .dataOrig = &am_sec_field_on.p_mask[0],
     .subIndex = 7,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &am_sec_field_on.r_mask[1],
+    .dataOrig = &am_sec_field_on.p_mask[1],
     .subIndex = 8,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &am_sec_field_on.r_mask[2],
+    .dataOrig = &am_sec_field_on.p_mask[2],
     .subIndex = 9,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -8979,6 +8981,52 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     }
+},
+.o_27A0_storage = {
+    {
+    .dataOrig = &regs_data.storage.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &storage.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &storage.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_27B0_settings = {
+    {
+    .dataOrig = &regs_data.settings.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &settings.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &settings.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &settings.errors,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
 }
 };
 // Object dictionary
@@ -9138,6 +9186,8 @@ static OD_ATTR_OD OD_entry_t ODList[] = {
     {0x2770, 0x2b, ODT_REC, &ODObjs.o_2770_motor, NULL},
     {0x2780, 0x07, ODT_REC, &ODObjs.o_2780_prot, NULL},
     {0x2790, 0x03, ODT_REC, &ODObjs.o_2790_canopen, NULL},
+    {0x27a0, 0x03, ODT_REC, &ODObjs.o_27A0_storage, NULL},
+    {0x27b0, 0x04, ODT_REC, &ODObjs.o_27B0_settings, NULL},
     {0x0000, 0x00, 0, NULL, NULL}
 };
 

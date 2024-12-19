@@ -4,7 +4,7 @@ from re import RegexFlag
 from cxxheaderparser.simple import parse_file, ParsedData
 from cxxheaderparser.options import ParserOptions
 from cxxheaderparser.preprocessor import make_gcc_preprocessor
-from cxxheaderparser.types import Type, NameSpecifier, Array, Value
+from cxxheaderparser.types import Type, NameSpecifier, Array, Value, Pointer
 import sys
 import os
 from regobjects import *
@@ -33,14 +33,14 @@ STEP_INDEX = 0x10
 
 def makeParseOpts(incs: list[str] or None = None, defs: list[str] or None = None) -> ParserOptions:
     opts_incs = CPP_INCS.copy()
-    opts_defs = CPP_DEFS.copy()
+    opts_defs = CPP_DEFS.copy() + ['_Static_assert(...)=']
     if incs:
         for inc in incs:
             opts_incs.append(os.path.join(PROJECT_PATH, inc))
     if defs:
         opts_defs = opts_defs + defs
     opts = ParserOptions()
-    opts.preprocessor = make_gcc_preprocessor(gcc_args=['gcc'], include_paths=opts_incs, defines=opts_defs)
+    opts.preprocessor = make_gcc_preprocessor(gcc_args=['gcc', '-std=c17'], include_paths=opts_incs, defines=opts_defs)
     opts.verbose = False
     opts.convert_void_to_zero_params = True
     return opts
@@ -218,17 +218,18 @@ def collectData(header: str) -> list[Struct]:
         structure = Struct(struct_type)
         for fld in cs.fields:
             #print(fld)
+            if not fld.name:
+                continue
             excludeByPrefix = False
             for prefix in IGNORE_FIELDS_PREFIXES:
-                #print(prefix, fld.name.startswith(prefix))
-                if fld.name.startswith(prefix):
+                #print(prefix, fld)
+                if fld.name and fld.name.startswith(prefix):
                     excludeByPrefix = True
                     break
             if excludeByPrefix:
                 continue
-            name = fld.name
-            if isinstance(fld.type, Type):  # or not isinstance(fld.type.typename.segments[0], NameSpecifier):
-                field_name = name
+            if isinstance(fld.type, Type): # or not isinstance(fld.type.typename.segments[0], NameSpecifier):
+                field_name = fld.name
                 field_type = fld.type.typename.segments[0].name
                 if field_type in typedefs:
                     field_type = typedefs[field_type]
@@ -241,7 +242,7 @@ def collectData(header: str) -> list[Struct]:
                 structure.addField(v)
             elif isinstance(fld.type, Array):
                 #print(fld)
-                arr_name = name
+                arr_name = fld.name
                 arr_size = getArraySize(fld.type.size) #int(fld.type.size.tokens[0].value)
                 arr_type = fld.type.array_of.typename.segments[0].name
                 if arr_type in typedefs:

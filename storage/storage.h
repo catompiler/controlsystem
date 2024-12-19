@@ -163,12 +163,12 @@ STORAGE_METHOD_READ_PROTO(M_storage);
         STORAGE_METHOD_READ_PTR(M_storage),\
         /* Коллбэки */\
         /* Внутренние данные */\
-        {{0}}, /* m_block */\
         {{0}}, /* m_queue */\
-        0, /* m_head_index */\
-        0, /* m_tail_index */\
-        0, /* m_count */\
-        0, /* m_size_processed */\
+        0, /* m_q_head_index */\
+        0, /* m_q_tail_index */\
+        0, /* m_q_count */\
+        {0}, /* m_future */\
+        {0}, /* m_eeprom */\
     }
 
 #endif /* STORAGE_H */

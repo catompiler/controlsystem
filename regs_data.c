@@ -583,5 +583,11 @@ struct _S_regs_data regs_data = {
 },
 .canopen = {
     .count = 2 /* Number of sub entries count */
+},
+.storage = {
+    .count = 2 /* Number of sub entries count */
+},
+.settings = {
+    .count = 3 /* Number of sub entries count */
 }
 };
