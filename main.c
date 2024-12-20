@@ -325,15 +325,18 @@ int main(void)
         printf("Starting write default settings.\n");
         settings.control = SETTINGS_CONTROL_STORE;
         CONTROL(settings);
-    }else{
-        printf("Settings readed successfully!\n");
     }
+//    else{
+//        printf("Settings readed successfully!\n");
+//    }
 
     // ADC model set to noise scales.
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);
 
     //printf("Ks: %f, Kl: %f\n", (float)FRACT_MEAN_KS/(1<<24), (float)FRACT_MEAN_KL/(1<<24));
+
+    struct timespec ts_sleep = {0, 1000000};
 
     for(;;){
         IDLE(sys);
@@ -349,36 +352,35 @@ int main(void)
             adc_model.in_F_scale = IQ24(1.0);
         }
 
-        if(adc_tim.out_counter >= 256){
-            if(lrm.in_stator_on == 0){
-                // Main contactor is on.
-                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
-                lrm.in_stator_on = 1;
-//                lrm.in_start_r_on = 1;
-            }
-        }
-
-//        if(sys_stat.in_command & SYS_STATUS_COMMAND_R_START_ON){
-//            lrm.in_start_r_on = 1;
-//        }else{
-//            lrm.in_start_r_on = 0;
-//        }
-
-//        if(adc_tim.out_counter >= CONF_PERIOD_SAMPLES * 100){
-//            if(lrm.in_start_r_on == 1){
-//                lrm.in_start_r_on = 0;
+//        if(adc_tim.out_counter >= 256){
+//            if(lrm.in_stator_on == 0){
+//                // Main contactor is on.
+//                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
+//                lrm.in_stator_on = 1;
+////                lrm.in_start_r_on = 1;
 //            }
 //        }
 
-        if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
-            if(lrm.in_stator_on == 1){
-                // Stop.
-                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
-                lrm.in_stator_on = 0;
-            }
+        if(sys_cmd.out_command == SYS_COMMAND_COMMAND_CELL_CB_NO){
+            lrm.in_stator_on = 1;
         }
 
-        if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
+        if((sys_cmd.out_command == SYS_COMMAND_COMMAND_CELL_CB_NC) || (sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_PROT)){
+            lrm.in_stator_on = 0;
+        }
+
+//        if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
+//            if(lrm.in_stator_on == 1){
+//                // Stop.
+//                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
+//                lrm.in_stator_on = 0;
+//            }
+//        }
+
+        //if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
+        if(sys.status & SYS_MAIN_STATUS_QUIT) break;
+
+        nanosleep(&ts_sleep, NULL);
     }
 
     dlog.control = CONTROL_NONE;

@@ -835,6 +835,12 @@ METHOD_CALC_IMPL(M_sys_main, sys)
         sys_stat.in_command &= ~SYS_STATUS_COMMAND_R_START_ON;
     }
 
+    // Команда выхода.
+    if(sys->control & SYS_MAIN_CONTROL_QUIT){
+        sys->control &= ~SYS_MAIN_CONTROL_QUIT;
+        sys->status |= SYS_MAIN_STATUS_QUIT;
+    }
+
     //} // prot.errors == 0
 
     // Модуль управления.

@@ -11,14 +11,14 @@
 //! Перечисление возможных бит управления.
 enum _E_Sys_Main_Control {
     SYS_MAIN_CONTROL_NONE = CONTROL_NONE,//!< SYS_MAIN_CONTROL_NONE
-    SYS_MAIN_CONTROL_STOP = CONTROL_STOP//!< SYS_MAIN_CONTROL_NONE
+    SYS_MAIN_CONTROL_QUIT = (CONTROL_USER << 0),//!< Завершение работы.
 };
 
 //! Перечисление возможных бит статуса.
 enum _E_Sys_Main_Status {
     SYS_MAIN_STATUS_NONE = STATUS_NONE,
     SYS_MAIN_STATUS_ERROR = STATUS_ERROR,
-    //SYS_MAIN_STATUS_INIT = (STATUS_USER << 0),
+    SYS_MAIN_STATUS_QUIT = (STATUS_USER << 0),
 };
 
 //! Перечисление возможных бит ошибок.
