@@ -312,6 +312,10 @@ int main(void)
         return 0;
     }
 
+    // ADC model set to noise scales.
+    adc_model.in_U_scale = IQ24(0.01);
+    adc_model.in_F_scale = IQ24(100);
+
     settings.control = SETTINGS_CONTROL_LOAD;
     CONTROL(settings);
 
@@ -330,27 +334,19 @@ int main(void)
 //        printf("Settings readed successfully!\n");
 //    }
 
-    // ADC model set to noise scales.
-    adc_model.in_U_scale = IQ24(0.01);
-    adc_model.in_F_scale = IQ24(100);
-
     //printf("Ks: %f, Kl: %f\n", (float)FRACT_MEAN_KS/(1<<24), (float)FRACT_MEAN_KL/(1<<24));
 
     struct timespec ts_sleep = {0, 1000000};
 
+    // Off.
+    sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
+
+    // ADC model set to normal scales.
+    adc_model.in_U_scale = IQ24(1.0);
+    adc_model.in_F_scale = IQ24(1.0);
+
     for(;;){
         IDLE(sys);
-
-        if(adc_tim.out_counter <= 16){
-            // Off.
-            sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
-        }
-
-        if(adc_tim.out_counter >= 64){
-            // ADC model set to normal scales.
-            adc_model.in_U_scale = IQ24(1.0);
-            adc_model.in_F_scale = IQ24(1.0);
-        }
 
 //        if(adc_tim.out_counter >= 256){
 //            if(lrm.in_stator_on == 0){
