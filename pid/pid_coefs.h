@@ -2,11 +2,11 @@
 #define PID_COEFS_H
 
 #include "module/base.h"
-#include "adc_timer/adc_timer.h"
+#include "conf/consts.h"
 
 
 //! Период дискретизации по-умолчанию.
-#define PID_COEFS_Ts_DEFAULT (IQ24(1.0/(ADC_TIMER_TICKS_FREQ)))
+#define PID_COEFS_Ts_DEFAULT (IQ24(1.0/(CONF_SAMPLE_RATE)))
 
 
 //! Перечисление возможных бит управления.

@@ -2,7 +2,7 @@
 #define MOT_POT_H
 
 #include "module/base.h"
-#include "adc_timer/adc_timer.h"
+#include "conf/consts.h"
 
 
 
@@ -10,7 +10,7 @@
 #define MOT_POT_Ts_FREQ(F) (IQ24(1.0/(F)))
 
 //! Период дискретизации по-умолчанию.
-#define MOT_POT_Ts_DEFAULT (MOT_POT_Ts_FREQ(ADC_TIMER_TICKS_FREQ))
+#define MOT_POT_Ts_DEFAULT (MOT_POT_Ts_FREQ(CONF_SAMPLE_RATE))
 
 //! Период дискретизации для частоты 1000 Гц.
 #define MOT_POT_Ts_1000Hz (MOT_POT_Ts_FREQ(1000))

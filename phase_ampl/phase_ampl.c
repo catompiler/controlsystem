@@ -168,9 +168,9 @@ METHOD_CALC_IMPL(M_phase_ampl, pa)
 {
     if(!(pa->control & CONTROL_ENABLE)) return;
 
-    iq14l_t iq_pa_val = __SSAT_ASR(pa->in_value,
-                                     PHASE_AMPL_DATA_SAT_BIT,
-                                     IQ24_FRACT_BITS - PHASE_AMPL_DATA_FRACT_BITS);
+
+    iql_t in_val = pa->in_value >> (IQ24_FRACT_BITS - PHASE_AMPL_DATA_FRACT_BITS);
+    iq14l_t iq_pa_val = __SSAT(in_val, PHASE_AMPL_DATA_SAT_BIT);
 
     /*static iq15_t angle = 0;
     iq_pa_val = iq15_sin_pu(angle);

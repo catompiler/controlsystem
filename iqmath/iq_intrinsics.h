@@ -5,10 +5,14 @@
 #include "defs/defs.h"
 #include "iq_types.h"
 
+#if (defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
+#include "cpu.h"
+#endif
+
 
 //! Выполняет насыщение числа с фиксированной запятой
 //! Q до разряда N.
-#ifndef __SSAT
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __SSAT(Q, N)\
     ({ register int32_t __RES, __Q = Q;\
@@ -26,11 +30,11 @@
 
 //! Выполняет насыщение числа с фиксированной запятой
 //! Q до разряда N со сдвигом вправо на S разрядов.
-#ifndef __SSAT_ASR
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __SSAT_ASR(Q, N, S)\
     ({ register int32_t __RES, __Q = Q;\
-    __asm__("ssat %0, %1, %2 ASR %3" : "=r"(__RES) : "I"(N), "r"(__Q), "I"(S));\
+    __asm__("ssat %0, %1, %2, ASR %3" : "=r"(__RES) : "I"(N), "r"(__Q), "I"(S));\
     __RES;})
 #else
 #define __SSAT_ASR(Q, N, S)\
@@ -42,7 +46,7 @@
 
 //! Выполняет насыщение пары 16 битных чисел с фиксированной запятой
 //! Q до разряда N.
-#ifndef __SSAT16
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __SSAT16(Q, N)\
     ({ register int32_t __RES, __Q = Q;\
@@ -64,7 +68,7 @@
 
 //! Выполняет сложение чисел с фиксированной запятой
 //! Q1 и Q2 и насыщает результат.
-#ifndef __QADD
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __QADD(Q1, Q2)\
     ({ register int32_t __RES, __Q1 = Q1, __Q2 = Q2;\
@@ -82,7 +86,7 @@
 
 //! Выполняет сложение пар 16 битных чисел с фиксированной запятой
 //! Q1 и Q2 и насыщает результат.
-#ifndef __QADD16
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __QADD16(Q1, Q2)\
     ({ register int32_t __RES, __Q1 = Q1, __Q2 = Q2;\
@@ -108,7 +112,7 @@
 
 //! Выполняет вычитание чисел с фиксированной запятой
 //! Q1 и Q2 и насыщает результат.
-#ifndef __QSUB
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __QSUB(Q1, Q2)\
     ({ register int32_t __RES, __Q1 = Q1, __Q2 = Q2;\
@@ -126,7 +130,7 @@
 
 //! Выполняет вычитание пар 16 битных чисел с фиксированной запятой
 //! Q1 и Q2 и насыщает результат.
-#ifndef __QSUB16
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __QSUB16(Q1, Q2)\
     ({ register int32_t __RES, __Q1 = Q1, __Q2 = Q2;\
@@ -152,7 +156,7 @@
 
 //! Выполняет умножение чисел с фиксированной запятой
 //! Q1 и Q2 и сложение их с аккумулятором A.
-#ifndef __MLA
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __MLA(Q1, Q2, A)\
     ({ register int32_t __RES, __Q1 = Q1, __Q2 = Q2, __A = A;\
@@ -168,7 +172,7 @@
 
 //! Выполняет умножение чисел с фиксированной запятой
 //! Q1 и Q2 и сложение их с 64 битным аккумулятором A.
-#ifndef __SMLAL
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __SMLAL(Q1, Q2, A)\
     ({ union __U_MLAL_64 { int64_t _64;\
@@ -191,7 +195,7 @@
 //! Q1 и Q2 внутри 32 битных аргументов
 //! и сложение их с 64 битным аккумулятором A.
 //! RES = Q1[15:0] * Q2[15:0] + Q1[31:16] * Q2[31:16] + A.
-#ifndef __SMLALD
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __SMLALD(Q1, Q2, A)\
     ({ union __U_MLAL_64 { int64_t _64;\
@@ -218,7 +222,7 @@
 //! Q1 и Q2 внутри 32 битных аргументов
 //! и сложение их с 64 битным аккумулятором A.
 //! RES = Q1[15:0] * Q2[15:0] + Q1[31:16] * Q2[31:16] + A.
-#ifndef __SMLALDX
+#if !(defined (__ARM_FEATURE_DSP) && (__ARM_FEATURE_DSP == 1))
 #ifdef __arm__
 #define __SMLALDX(Q1, Q2, A)\
     ({ union __U_MLAL_64 { int64_t _64;\

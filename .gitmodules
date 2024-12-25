@@ -4,3 +4,9 @@
 [submodule "CANopenNode"]
 	path = CANopenNode
 	url = https://github.com/CANopenNode/CANopenNode.git
+[submodule "mtb-xmclib-cat3"]
+	path = mtb-xmclib-cat3
+	url = https://github.com/Infineon/mtb-xmclib-cat3.git
+[submodule "CMSIS_5"]
+	path = CMSIS_5
+	url = git@github.com:ARM-software/CMSIS_5.git

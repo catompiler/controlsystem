@@ -1,6 +1,8 @@
-#include "adc_timer.h"
+#include "adc_timer_xmc4xxx.h"
 #include <assert.h>
 #include <stddef.h>
+#include "modules/modules.h"
+#include "hardware/config.h"
 
 
 static void timer_callback(void* arg)
@@ -14,57 +16,58 @@ static void timer_callback(void* arg)
     CALLBACK_CALL(adc_tmr->on_timeout);
 }
 
+void ADC_TIM_IRQ_Handler(void)
+{
+    ADC_TIM_CCU4_CC4->SWR = CCU4_CC4_SWR_RPM_Msk;
+
+    timer_callback(&adc_tim);
+}
+
+#define CCU_PRESCALER_N 4
+#define CCU_PRESCALER 0b0010
+#define CCU_PERIOD (CPU_FREQ) / (CCU_PRESCALER_N) / (ADC_TIMER_TICKS_FREQ)
+
+
 static int timer_init_impl(M_adc_timer* adc_tmr)
 {
-    int res = 0;
+    // configure.
+    ADC_TIM_CCU4_CC4->PSC = CCU_PRESCALER;
+    ADC_TIM_CCU4_CC4->PRS = CCU_PERIOD - 1;
 
-    res = thread_timer_init(&adc_tmr->m_thr_tim);
-    if(res != 0) return res;
+    // irqs.
+    ADC_TIM_CCU4_CC4->INTE = CCU4_CC4_INTE_PME_Msk;
+    ADC_TIM_CCU4_CC4->SRS = ADC_TIM_SR << CCU4_CC4_SRS_POSR_Pos;
 
-    thread_timer_set_callback(&adc_tmr->m_thr_tim, timer_callback, adc_tmr);
-
-    struct timespec ts_val;
-    ts_val.tv_sec = 0;
-    ts_val.tv_nsec = ADC_TIMER_TICKS_PERIOD_US * 1000;
-    thread_timer_set_period(&adc_tmr->m_thr_tim, &ts_val);
-
-    thread_timer_wait_thread_begin(&adc_tmr->m_thr_tim);
+    // idle.
+    ADC_TIM_CCU4->GIDLC = ADC_TIM_IDLE_CLR_Msk;
 
     return 0;
 }
 
 static int timer_start_impl(M_adc_timer* adc_tmr)
 {
-    int res = 0;
-
-    res = thread_timer_start(&adc_tmr->m_thr_tim);
-    if(res != 0) return res;
-
-    thread_timer_wait_start(&adc_tmr->m_thr_tim);
+    // start.
+    ADC_TIM_CCU4_CC4->TCSET = CCU4_CC4_TCSET_TRBS_Msk;
 
     return 0;
 }
 
 static int timer_stop_impl(M_adc_timer* adc_tmr)
 {
-    int res = 0;
-
-    res = thread_timer_stop(&adc_tmr->m_thr_tim);
-    if(res != 0) return res;
-
-    thread_timer_wait_stop(&adc_tmr->m_thr_tim);
+    // start.
+    ADC_TIM_CCU4_CC4->TCCLR = CCU4_CC4_TCCLR_TRBC_Msk;
 
     return 0;
 }
 
 static int timer_isrunning_impl(M_adc_timer* adc_tmr)
 {
-    return thread_timer_running(&adc_tmr->m_thr_tim);
+    return (ADC_TIM_CCU4_CC4->TCST & CCU4_CC4_TCST_TRB_Msk) != 0;
 }
 
 static void timer_deinit_impl(M_adc_timer* adc_tmr)
 {
-    thread_timer_deinit(&adc_tmr->m_thr_tim);
+    ADC_TIM_CCU4->GIDLS = ADC_TIM_IDLE_SET_Msk;
 }
 
 

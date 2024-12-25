@@ -3,7 +3,6 @@
 
 #include "module/base.h"
 #include "conf/consts.h"
-#include "adc_timer/adc_timer.h"
 
 
 
@@ -21,7 +20,7 @@
 //! Минимальное число накомпленных семплов для повторного детекта.
 #define ZERO_CROSS_DETECT_SAMPLES_MIN (CONF_PERIOD_SAMPLES / 4) //_DEFAULT
 //! Период дискретизации по-умолчанию.
-#define ZERO_CROSS_DETECT_SAMPLES_PERIOD_DEFAULT (IQ24(1.0/(ADC_TIMER_TICKS_FREQ)))
+#define ZERO_CROSS_DETECT_SAMPLES_PERIOD_DEFAULT (IQ24(1.0/(CONF_SAMPLE_RATE)))
 
 
 //! Перечисление возможных бит управления.

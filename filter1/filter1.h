@@ -2,10 +2,10 @@
 #define FILTER1_H
 
 #include "module/base.h"
-#include "adc_timer/adc_timer.h"
+#include "conf/consts.h"
 
 //! Период дискретизации по-умолчанию.
-#define FILTER1_Ts_DEFAULT (IQ24(1.0/(ADC_TIMER_TICKS_FREQ)))
+#define FILTER1_Ts_DEFAULT (IQ24(1.0/(CONF_SAMPLE_RATE)))
 
 //! Постоянная времени фильтра по-умолчанию.
 #define FILTER1_T_DEFAULT (IQ24(0.001))

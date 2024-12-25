@@ -18,9 +18,9 @@ enum _E_Data_Log_Status {
 };
 
 //! Число каналов.
-#define DATA_LOG_CH_COUNT 48
+#define DATA_LOG_CH_COUNT 16
 //! Длина записи данных каждого канала.
-#define DATA_LOG_CH_LEN 32768
+#define DATA_LOG_CH_LEN 256//32768
 
 
 // Получение осциллограммы.

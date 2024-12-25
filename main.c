@@ -9,14 +9,10 @@
 #define WRITE_DLOG_TO_CSV 1
 #define WRITE_DLOG_TO_VCD 0
 #define WRITE_DLOG_ABSOLUTE_VALUES 0
-#endif
 
 #if defined(RUN_TESTS) && RUN_TESTS == 1
 #include "test_main.h"
 #endif
-
-#include "modules/modules.h"
-#include "reg/regs.h"
 
 #ifndef __linux__
 #include "thread_timer/windows_timer_res.h"
@@ -25,9 +21,16 @@
 //! 1 - да.
 //! 0, либо не определено - нет.
 #define WINDOWS_SET_TIMER_RESOLUTION 1
-#endif
-#endif
+#endif // WINDOWS_TIMER
+#endif // __linux__
+#endif // __arm__
 
+#include "modules/modules.h"
+#include "reg/regs.h"
+
+
+#if (defined(WRITE_DLOG_TO_CSV) && WRITE_DLOG_TO_CSV == 1) ||\
+    (defined(WRITE_DLOG_TO_VCD) && WRITE_DLOG_TO_VCD == 1)
 
 static float get_float_value(reg_type_t type, void* value)
 {
@@ -69,6 +72,7 @@ static float get_log_ch_data(data_log_ch_data_t* ch_data, uint32_t data_index)
 
     return valuef * basef;
 }
+#endif
 
 
 #if defined(WRITE_DLOG_TO_CSV) && WRITE_DLOG_TO_CSV == 1
@@ -208,7 +212,7 @@ int main(void)
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_IRSTART;
     dlog.p_ch[dlog_i++].enabled = 1;
     // Motor M, w
-    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_M;
+    /*dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_M;
     dlog.p_ch[dlog_i++].enabled = 1;
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_W;
     dlog.p_ch[dlog_i++].enabled = 1;
@@ -283,7 +287,7 @@ int main(void)
     dlog.p_ch[dlog_i++].enabled = 1;
 
 
-    dlog.control = CONTROL_ENABLE;
+    dlog.control = CONTROL_ENABLE;*/
 
     // ADC model set to zero scales.
     adc_model.in_U_scale = IQ24(0.0);
@@ -336,8 +340,6 @@ int main(void)
 
     //printf("Ks: %f, Kl: %f\n", (float)FRACT_MEAN_KS/(1<<24), (float)FRACT_MEAN_KL/(1<<24));
 
-    struct timespec ts_sleep = {0, 1000000};
-
     // Off.
     sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
 
@@ -375,8 +377,10 @@ int main(void)
 
         //if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
         if(sys.status & SYS_MAIN_STATUS_QUIT) break;
-
+#ifndef __arm__
+        struct timespec ts_sleep = {0, 1000000};
         nanosleep(&ts_sleep, NULL);
+#endif
     }
 
     dlog.control = CONTROL_NONE;

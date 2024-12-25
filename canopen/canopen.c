@@ -4,7 +4,7 @@
 // CANopen.
 #include "OD.h"
 // net timer.
-#include "net_timer/net_timer.h"
+#include "modules/modules.h"
 
 
 // slcan.
@@ -12,6 +12,8 @@
 #ifdef __linux
 // socat -d -d pty,rawer,echo=0,link=/tmp/ttyV0,perm=0777 pty,rawer,echo=0,link=/tmp/ttyV1,perm=0777
 #define SLCAN_SLAVE_TTY "/tmp/ttyV1"
+#elif defined(__arm__)
+#define SLCAN_SLAVE_TTY ""
 #else
 // cygwin + com0com
 #define SLCAN_SLAVE_TTY "/dev/ttyS21"

@@ -28,7 +28,7 @@ METHOD_CALC_IMPL(M_pid, pid)
     iq24_t Kp, Ki, Kd, Kf;
     iq24_t maxval, minval;
     iq24_t I_z1, D_z1, e_z1;
-    iq24_t P, I, D;
+    iq24_t P = 0, I = 0, D = 0;
     iq24_t res, tmp;
 
     pid_control(pid);

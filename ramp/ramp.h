@@ -2,7 +2,7 @@
 #define RAMP_H
 
 #include "module/base.h"
-#include "adc_timer/adc_timer.h"
+#include "conf/consts.h"
 
 
 
@@ -10,7 +10,7 @@
 #define RAMP_Ts_FREQ(F) (IQ24(1.0/(F)))
 
 //! Период дискретизации по-умолчанию.
-#define RAMP_Ts_DEFAULT (RAMP_Ts_FREQ(ADC_TIMER_TICKS_FREQ))
+#define RAMP_Ts_DEFAULT (RAMP_Ts_FREQ(CONF_SAMPLE_RATE))
 
 //! Период дискретизации для частоты 1000 Гц.
 #define RAMP_Ts_1000Hz (RAMP_Ts_FREQ(1000))

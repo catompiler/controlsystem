@@ -28,10 +28,10 @@
 
 
 //! Размер фифо ввода-вывода по-умолчанию.
-#define SLCAN_IO_FIFO_DEFAULT_SIZE 256
+#define SLCAN_IO_FIFO_DEFAULT_SIZE 128
 
 //! Размер фифо сообщений CAN по-умолчанию.
-#define SLCAN_CAN_FIFO_DEFAULT_SIZE 32
+#define SLCAN_CAN_FIFO_DEFAULT_SIZE 16
 
 
 //! Флаг поллинга io мастером.

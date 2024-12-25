@@ -3,7 +3,7 @@
 
 #include "module/base.h"
 #include "conf/conf.h"
-#include "thread_timer/thread_timer.h"
+
 
 //! Перечисление возможных бит управления.
 enum _E_Adc_Timer_Control {
@@ -44,7 +44,6 @@ struct _S_adc_timer {
     // Коллбэки.
     CALLBACK(on_timeout);
     // Внутренние данные.
-    thread_timer_t m_thr_tim; //!< Таймер.
 };
 
 EXTERN METHOD_INIT_PROTO(M_adc_timer);
@@ -57,7 +56,6 @@ EXTERN METHOD_CONTROL_PROTO(M_adc_timer);
         METHOD_INIT_PTR(M_adc_timer), METHOD_DEINIT_PTR(M_adc_timer),\
         METHOD_CONTROL_PTR(M_adc_timer),\
         CALLBACK_DEFAULTS /* on_timeout */,\
-        THREAD_TIMER_DEFAULTS /* m_thr_tim */,\
     }
 
 #endif /* ADC_TIMER_H */
