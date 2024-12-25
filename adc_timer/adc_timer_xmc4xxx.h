@@ -1,5 +1,5 @@
-#ifndef ADC_TIMER_H
-#define ADC_TIMER_H
+#ifndef ADC_TIMER_XMC4XXX_H
+#define ADC_TIMER_XMC4XXX_H
 
 #include "module/base.h"
 #include "conf/conf.h"
@@ -58,4 +58,4 @@ EXTERN METHOD_CONTROL_PROTO(M_adc_timer);
         CALLBACK_DEFAULTS /* on_timeout */,\
     }
 
-#endif /* ADC_TIMER_H */
+#endif /* ADC_TIMER_XMC4XXX_H */

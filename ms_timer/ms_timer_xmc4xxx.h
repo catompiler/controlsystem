@@ -1,5 +1,5 @@
-#ifndef MS_TIMER_H
-#define MS_TIMER_H
+#ifndef MS_TIMER_XMC4XXX_H
+#define MS_TIMER_XMC4XXX_H
 
 #include "module/base.h"
 
@@ -55,4 +55,4 @@ EXTERN METHOD_CONTROL_PROTO(M_ms_timer);
         CALLBACK_DEFAULTS /* on_timeout */,\
     }
 
-#endif /* MS_TIMER_H */
+#endif /* MS_TIMER_XMC4XXX_H */

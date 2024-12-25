@@ -1,5 +1,5 @@
-#ifndef NET_TIMER_H
-#define NET_TIMER_H
+#ifndef NET_TIMER_THREAD_H
+#define NET_TIMER_THREAD_H
 
 #include "module/base.h"
 #include "thread_timer/thread_timer.h"
@@ -57,4 +57,4 @@ EXTERN METHOD_CONTROL_PROTO(M_net_timer);
         THREAD_TIMER_DEFAULTS /* m_thr_tim */,\
     }
 
-#endif /* NET_TIMER_H */
+#endif /* NET_TIMER_THREAD_H */

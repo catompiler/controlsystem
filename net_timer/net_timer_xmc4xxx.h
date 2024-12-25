@@ -1,5 +1,5 @@
-#ifndef NET_TIMER_H
-#define NET_TIMER_H
+#ifndef NET_TIMER_XMC4XXX_H
+#define NET_TIMER_XMC4XXX_H
 
 #include "module/base.h"
 
@@ -55,4 +55,4 @@ EXTERN METHOD_CONTROL_PROTO(M_net_timer);
         CALLBACK_DEFAULTS /* on_timeout */,\
     }
 
-#endif /* NET_TIMER_H */
+#endif /* NET_TIMER_XMC4XXX_H */

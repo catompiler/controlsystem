@@ -1,5 +1,5 @@
-#ifndef MS_TIMER_H
-#define MS_TIMER_H
+#ifndef MS_TIMER_THREAD_H
+#define MS_TIMER_THREAD_H
 
 #include "module/base.h"
 #include "thread_timer/thread_timer.h"
@@ -57,4 +57,4 @@ EXTERN METHOD_CONTROL_PROTO(M_ms_timer);
         THREAD_TIMER_DEFAULTS /* m_thr_tim */,\
     }
 
-#endif /* MS_TIMER_H */
+#endif /* MS_TIMER_THREAD_H */
