@@ -106,4 +106,16 @@ EXTERN int syslog_next_message_index(syslog_t* slog, int first_msg_index, int ms
 EXTERN int syslog_get_message(syslog_t* slog, int first_msg_index, int msg_index, char* buf, size_t buf_size);
 
 
+#ifdef SYSLOG_GLOBAL
+
+#ifndef SYSLOG_NAME
+#define SYSLOG_NAME syslog
+#endif
+
+EXTERN syslog_t SYSLOG_NAME;
+
+#define SYSLOG(LEVEL, MSG, ...) syslog_printf(&SYSLOG_NAME, LEVEL, MSG, ##__VA_ARGS__)
+
+#endif
+
 #endif /* SYSLOG_SYSLOG_H_ */
