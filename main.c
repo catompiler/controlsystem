@@ -192,6 +192,7 @@ int main(void)
 {
     syslog_init(&SYSLOG_NAME);
     syslog_set_level(&SYSLOG_NAME, SYSLOG_DEBUG);
+    syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
 
     SYSLOG(SYSLOG_INFO, "Hello, syslog!");
     SYSLOG(SYSLOG_DEBUG, "Blablabla!");

@@ -6,12 +6,14 @@
 #include "sys_counter/sys_counter.h"
 
 
+
 void syslog_init(syslog_t* slog)
 {
     assert(slog != NULL);
 
     memset(&slog->msg_buf, 0x0, SYSLOG_BUF_LEN);
     slog->level = 0;
+    slog->putchar_callback = NULL;
     slog->msg_index = 0;
 }
 
@@ -27,6 +29,20 @@ void syslog_set_level(syslog_t* slog, syslog_level_t level)
     assert(slog != NULL);
 
     slog->level = level;
+}
+
+syslog_putchar_callback_t syslog_putchar_callback(syslog_t* slog)
+{
+    assert(slog != NULL);
+
+    return slog->putchar_callback;
+}
+
+void syslog_set_putchar_callback(syslog_t* slog, syslog_putchar_callback_t putchar_callback)
+{
+    assert(slog != NULL);
+
+    slog->putchar_callback = putchar_callback;
 }
 
 
@@ -82,6 +98,11 @@ static size_t syslog_alloc_buf(syslog_t* slog, size_t needed_size)
     return count;
 }
 
+ALWAYS_INLINE static void syslog_putchar(syslog_t* slog, int c)
+{
+    if(slog->putchar_callback) slog->putchar_callback(c);
+}
+
 static int syslog_puts_impl(syslog_t* slog, struct timeval* tv, const char* str)
 {
     int time_len = snprintf(slog->time_buf, SYSLOG_TIME_BUF_LEN, "[%u.%06u] ",
@@ -100,19 +121,27 @@ static int syslog_puts_impl(syslog_t* slog, struct timeval* tv, const char* str)
     size_t size = syslog_alloc_buf(slog, needed_size);
     if(size < needed_size) return -1;
 
+    char c;
+
     while(time_len > 0){
-        msg_buf[index] = *timer_str;
+        c = *timer_str;
+        msg_buf[index] = c;
+        syslog_putchar(slog, c);
         index = syslog_next_index(index);
         timer_str ++;
         time_len --;
     }
 
     while(s_len > 0){
-        msg_buf[index] = *str;
+        c = *str;
+        msg_buf[index] = c;
+        syslog_putchar(slog, c);
         index = syslog_next_index(index);
         str ++;
         s_len --;
     }
+
+    syslog_putchar(slog, '\n');
 
     return (int)needed_size;
 }

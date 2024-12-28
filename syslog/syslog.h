@@ -29,7 +29,11 @@ typedef enum _E_Syslog_Level {
 //! Размер буфера для получения сообщений.
 #define SYSLOG_MAX_FULL_MSG_LEN ((SYSLOG_MAX_MSG_LEN) + (SYSLOG_TIME_BUF_LEN))
 
+//! Размер буфера для printf.
 #define SYSLOG_MAX_PRINTF_LEN 255
+
+//! Тип функции печати символа.
+typedef int (*syslog_putchar_callback_t)(int);
 
 //! Структура сислога.
 typedef struct _S_Syslog {
@@ -37,6 +41,7 @@ typedef struct _S_Syslog {
     char time_buf[SYSLOG_TIME_BUF_LEN]; //!< Буфер для отметки времени.
     char printf_buf[SYSLOG_MAX_PRINTF_LEN + 1]; //!< Буфер для printf + гарантированный символ окончания строки.
     syslog_level_t level; //!< Уровень приёма сообщений в буфер.
+    syslog_putchar_callback_t putchar_callback; //!< Функция вывода строки.
     size_t msg_index; //!< Индекс начала сообщений.
 } syslog_t;
 
@@ -59,6 +64,20 @@ EXTERN syslog_level_t syslog_level(syslog_t* slog);
  * @param level Уровень логгирования.
  */
 EXTERN void syslog_set_level(syslog_t* slog, syslog_level_t level);
+
+/**
+ * Получает функцию вывода.
+ * @param slog Системный лог.
+ * @return Функция вывода.
+ */
+EXTERN syslog_putchar_callback_t syslog_putchar_callback(syslog_t* slog);
+
+/**
+ * Устанавливает функцию вывода.
+ * @param slog Системный лог.
+ * @param putchar_callback Функция вывода.
+ */
+EXTERN void syslog_set_putchar_callback(syslog_t* slog, syslog_putchar_callback_t putchar_callback);
 
 /**
  * Помещает сообщение в системный лог.
