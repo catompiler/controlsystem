@@ -1,8 +1,13 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
+#include "syslog/syslog.h"
 //#include <sys/time.h>
 //#include <stdio.h>
+
+
+static syslog_t slog;
+
 
 #ifndef __arm__
 #define RUN_TESTS 0
@@ -185,6 +190,33 @@ static void write_dlog_to_file_vcd(void)
 
 int main(void)
 {
+    syslog_init(&slog);
+    syslog_set_level(&slog, SYSLOG_DEBUG);
+
+    syslog_puts(&slog, SYSLOG_INFO, "Hello, syslog!");
+    syslog_puts(&slog, SYSLOG_DEBUG, "Blablabla!");
+    syslog_puts(&slog, SYSLOG_WARNING, "Ololo!");
+    syslog_puts(&slog, SYSLOG_ERROR, "AAAAAAAAAAggggghhhh!");
+    syslog_puts(&slog, SYSLOG_FATAL, "UUUUuuuuuuu!");
+
+    syslog_printf(&slog, SYSLOG_DEBUG, "INTEGERRR!!! %d", 123456);
+
+    char msg[SYSLOG_MAX_FULL_MSG_LEN + 1];
+    msg[SYSLOG_MAX_FULL_MSG_LEN] = 0;
+
+    int first_index = syslog_first_message_index(&slog);
+    if(first_index >= 0){
+        int index = 0;
+        do{
+            if(syslog_get_message(&slog, first_index, index, msg, SYSLOG_MAX_FULL_MSG_LEN) > 0){
+                puts(msg);
+            }
+            index = syslog_next_message_index(&slog, first_index, index);
+        }while(index >= 0);
+    }
+
+    return 0;
+
     //loadsettings();
 #if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
     windows_timer_set_max_res();
