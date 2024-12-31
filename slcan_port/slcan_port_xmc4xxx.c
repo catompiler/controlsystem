@@ -1,7 +1,13 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 #include "slcan/slcan_port.h"
+#include "slcan/slcan.h"
 #include "sys_counter/sys_counter.h"
 #include "usart/usart_buf_xmc4xxx.h"
 #include "hardware/config.h"
+#include "gpio/gpio_xmc4xxx.h"
+#include "buffer/circular_buffer.h"
+#include <assert.h>
 
 
 
@@ -236,3 +242,5 @@ int slcan_serial_nbytes(slcan_serial_handle_t serial_port, size_t* size)
 
     return SLCAN_IO_FAIL;
 }
+
+#endif

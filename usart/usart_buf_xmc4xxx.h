@@ -1,3 +1,5 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 /**
  * @file usart_buf.h
  * Библиотека для работы с буферами USART.
@@ -19,7 +21,7 @@
  */
 typedef struct _UsartBuf {
     //! Устройство USART.
-    USART_TypeDef* usart;
+    USIC_CH_TypeDef* usart;
     //! Буфер записи.
     circular_buffer_t write_buffer;
     //! Буфер чтения.
@@ -33,7 +35,7 @@ typedef struct _UsartBuf {
  */
 typedef struct _UsartBufInit {
     //! Устройство USART.
-    USART_TypeDef* usart;
+    USIC_CH_TypeDef* usart;
     //! Буфер записи в USART.
     void* write_buffer;
     //! Размер буфера записи.
@@ -172,3 +174,4 @@ int _write(int file, char *ptr, int len)
 
 #endif	/* USART_XMC4XXX_H */
 
+#endif

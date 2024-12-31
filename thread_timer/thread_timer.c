@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #include "thread_timer.h"
 #include <stdio.h>
 #include <stddef.h>
@@ -656,3 +658,5 @@ int thread_timer_stop(thread_timer_t* thr_tim)
 
     return 0;
 }
+
+#endif

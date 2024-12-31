@@ -5,9 +5,9 @@
 #include "defs/defs.h"
 #include "errors/errors.h"
 #include "future/future.h"
-#include "eeprom/eeprom.h"
 #include <stddef.h>
 #include <assert.h>
+#include "eeprom/eeprom.h"
 
 
 //! Перечисление возможных бит управления.

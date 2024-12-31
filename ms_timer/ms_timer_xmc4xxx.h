@@ -1,3 +1,5 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 #ifndef MS_TIMER_XMC4XXX_H
 #define MS_TIMER_XMC4XXX_H
 
@@ -56,3 +58,5 @@ EXTERN METHOD_CONTROL_PROTO(M_ms_timer);
     }
 
 #endif /* MS_TIMER_XMC4XXX_H */
+
+#endif

@@ -1,3 +1,5 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 #include "adc_timer_xmc4xxx.h"
 #include <assert.h>
 #include <stddef.h>
@@ -121,3 +123,5 @@ METHOD_CONTROL_IMPL(M_adc_timer, adc_tmr)
         }
     }
 }
+
+#endif

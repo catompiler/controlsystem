@@ -1,8 +1,41 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 #include <stddef.h>
 #include <stdio.h>
 #include <errno.h>
 #include "hardware/config.h"
 #include "sys_counter.h"
+
+
+#if !__BSD_VISIBLE
+#ifndef _KERNEL         /* NetBSD/OpenBSD compatible interfaces */
+
+#define timerclear(tvp)     ((tvp)->tv_sec = (tvp)->tv_usec = 0)
+#define timerisset(tvp)     ((tvp)->tv_sec || (tvp)->tv_usec)
+#define timercmp(tvp, uvp, cmp)                 \
+    (((tvp)->tv_sec == (uvp)->tv_sec) ?             \
+        ((tvp)->tv_usec cmp (uvp)->tv_usec) :           \
+        ((tvp)->tv_sec cmp (uvp)->tv_sec))
+#define timeradd(tvp, uvp, vvp)                     \
+    do {                                \
+        (vvp)->tv_sec = (tvp)->tv_sec + (uvp)->tv_sec;      \
+        (vvp)->tv_usec = (tvp)->tv_usec + (uvp)->tv_usec;   \
+        if ((vvp)->tv_usec >= 1000000) {            \
+            (vvp)->tv_sec++;                \
+            (vvp)->tv_usec -= 1000000;          \
+        }                           \
+    } while (0)
+#define timersub(tvp, uvp, vvp)                     \
+    do {                                \
+        (vvp)->tv_sec = (tvp)->tv_sec - (uvp)->tv_sec;      \
+        (vvp)->tv_usec = (tvp)->tv_usec - (uvp)->tv_usec;   \
+        if ((vvp)->tv_usec < 0) {               \
+            (vvp)->tv_sec--;                \
+            (vvp)->tv_usec += 1000000;          \
+        }                           \
+    } while (0)
+#endif
+#endif /* __BSD_VISIBLE */
 
 
 //! Тип структуры высокоточного таймера.
@@ -178,5 +211,7 @@ int clock_gettime (clockid_t clock_id, struct timespec *tp)
 
     return 0;
 }
+
+#endif
 
 #endif

@@ -1,3 +1,5 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 /**
  * @file gpio.h Библиотека GPIO.
  */
@@ -11,7 +13,7 @@
 
 
 //! Тип GPIO.
-typedef void* GPIO_t;
+typedef void GPIO_t;
 
 
 // Пины.
@@ -146,6 +148,8 @@ ALWAYS_INLINE static void gpio_disable_power_save(GPIO_t* GPIO, gpio_pin_t pins)
     ((PORT0_Type*)GPIO)->PPS &= ~pins;
 }
 
+// Предварительная декларация функции установки выходного значения.
+ALWAYS_INLINE static void gpio_set_output_value(GPIO_t* GPIO, gpio_pin_t pins, uint16_t val);
 /**
  * Устанавливает значение в режим сбережения.
  * @param GPIO Порт.
@@ -164,7 +168,7 @@ ALWAYS_INLINE static void gpio_set_power_save_default_value(GPIO_t* GPIO, gpio_p
  */
 ALWAYS_INLINE static void gpio_enable_digital_pad(GPIO_t* GPIO, gpio_pin_t pins)
 {
-    ((PORT0_Type*)GPIO)->PDISC &= ~pins;
+    ((PORT14_Type*)GPIO)->PDISC &= ~pins;
 }
 
 /**
@@ -172,9 +176,9 @@ ALWAYS_INLINE static void gpio_enable_digital_pad(GPIO_t* GPIO, gpio_pin_t pins)
  * @param GPIO Порт.
  * @param pins Маска пинов.
  */
-ALWAYS_INLINE static void gpio_disable_power_save(GPIO_t* GPIO, gpio_pin_t pins)
+ALWAYS_INLINE static void gpio_disable_digital_pad(GPIO_t* GPIO, gpio_pin_t pins)
 {
-    ((PORT0_Type*)GPIO)->PPS |= pins;
+    ((PORT14_Type*)GPIO)->PPS |= pins;
 }
 
 /**
@@ -264,3 +268,5 @@ ALWAYS_INLINE static void gpio_set_output_value(GPIO_t* GPIO, gpio_pin_t pins, u
 }
 
 #endif /* GPIO_H_ */
+
+#endif

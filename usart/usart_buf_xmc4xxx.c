@@ -1,33 +1,89 @@
-#include "usart_buf.h"
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
+#include "usart_buf_xmc4xxx.h"
 #include "utils/utils.h"
 #include "defs/defs.h"
 #include <stdbool.h>
 
 
 
-ALWAYS_INLINE static bool usart_tx_it_enabled(USART_TypeDef* usart)
+ALWAYS_INLINE static bool usart_tx_it_enabled(USIC_CH_TypeDef* usart)
 {
-    if(usart->CR1 & USART_CR1_TXEIE) return true;
+    if(usart->CCR & USIC_CH_CCR_TBIEN_Msk) return true;
     return false;
 }
 
-ALWAYS_INLINE static bool usart_rx_it_enabled(USART_TypeDef* usart)
+ALWAYS_INLINE static void usart_tx_it_enable(USIC_CH_TypeDef* usart)
 {
-    if(usart->CR1 & USART_CR1_RXNEIE) return true;
+    usart->CCR |= USIC_CH_CCR_TBIEN_Msk;
+}
+
+ALWAYS_INLINE static void usart_tx_it_disable(USIC_CH_TypeDef* usart)
+{
+    usart->CCR &= ~USIC_CH_CCR_TBIEN_Msk;
+}
+
+ALWAYS_INLINE static void usart_tx_it_set_enabled(USIC_CH_TypeDef* usart, bool enabled)
+{
+    if(enabled) usart_tx_it_enable(usart);
+    else usart_tx_it_disable(usart);
+}
+
+ALWAYS_INLINE static bool usart_rx_it_enabled(USIC_CH_TypeDef* usart)
+{
+    if(usart->CCR & USIC_CH_CCR_RIEN_Msk) return true;
     return false;
 }
 
-ALWAYS_INLINE static bool usart_transmitter_enabled(USART_TypeDef* usart)
+ALWAYS_INLINE static void usart_rx_it_enable(USIC_CH_TypeDef* usart)
 {
-    if(usart->CR1 & USART_CR1_TE) return true;
-    return false;
+    usart->CCR |= USIC_CH_CCR_RIEN_Msk;
 }
 
-ALWAYS_INLINE static bool usart_receiver_enabled(USART_TypeDef* usart)
+ALWAYS_INLINE static void usart_rx_it_disable(USIC_CH_TypeDef* usart)
 {
-    if(usart->CR1 & USART_CR1_RE) return true;
-    return false;
+    usart->CCR &= ~USIC_CH_CCR_RIEN_Msk;
 }
+
+ALWAYS_INLINE static void usart_rx_it_set_enabled(USIC_CH_TypeDef* usart, bool enabled)
+{
+    if(enabled) usart_rx_it_enable(usart);
+    else usart_rx_it_disable(usart);
+}
+
+
+ALWAYS_INLINE static bool usart_rx_event(USIC_CH_TypeDef* usart)
+{
+    return usart->PSR_ASCMode & USIC_CH_PSR_ASCMode_RIF_Msk;
+}
+
+ALWAYS_INLINE static void usart_rx_event_clear(USIC_CH_TypeDef* usart)
+{
+    usart->PSCR = USIC_CH_PSCR_CRIF_Msk;
+}
+
+
+ALWAYS_INLINE static bool usart_tx_event(USIC_CH_TypeDef* usart)
+{
+    return usart->PSR_ASCMode & USIC_CH_PSR_ASCMode_TBIF_Msk;
+}
+
+ALWAYS_INLINE static void usart_tx_event_clear(USIC_CH_TypeDef* usart)
+{
+    usart->PSCR = USIC_CH_PSCR_CTBIF_Msk;
+}
+
+
+ALWAYS_INLINE static void usart_send_data(USIC_CH_TypeDef* usart, uint8_t data)
+{
+    usart->TBUF[0] = data;
+}
+
+ALWAYS_INLINE static uint8_t usart_recv_data(USIC_CH_TypeDef* usart)
+{
+    return usart->RBUF & 0xff;
+}
+
 
 err_t usart_buf_init(usart_buf_t* usart_buf, usart_buf_init_t* usart_buf_init)
 {
@@ -59,52 +115,32 @@ err_t usart_buf_init(usart_buf_t* usart_buf, usart_buf_init_t* usart_buf_init)
     circular_buffer_init(&usart_buf->write_buffer, (uint8_t*)usart_buf_init->write_buffer, usart_buf_init->write_buffer_size);
     circular_buffer_init(&usart_buf->read_buffer,  (uint8_t*)usart_buf_init->read_buffer,  usart_buf_init->read_buffer_size);
     
-    if(usart_receiver_enabled(usart_buf->usart) &&
-            circular_buffer_valid(&usart_buf->read_buffer)){
-        usart_buf->usart->CR1 |= USART_CR1_RXNEIE;
-        //USART_ITConfig(usart_buf->usart, USART_IT_RXNE, ENABLE);
-    }
+    usart_rx_it_enable(usart_buf->usart);
     
     return E_NO_ERROR;
 }
 
-/*static bool usart_buf_send_byte(usart_buf_t* usart_buf)
-{
-    uint8_t data;
-    if(circular_buffer_get(&usart_buf->write_buffer, &data)){
-        //USART_SendData(usart_buf->usart, data);
-        usart_buf->usart->DR = data;
-        return true;
-    }
-    return false;
-}*/
-
 void usart_buf_irq_handler(usart_buf_t* usart_buf)
 {
-    //if(USART_GetITStatus(usart_buf->usart, USART_IT_RXNE) != RESET){
-    if(usart_buf->usart->SR & USART_SR_RXNE){
-        //USART_ClearITPendingBit(usart_buf->usart, USART_IT_RXNE);
-        usart_buf->usart->SR |= USART_SR_RXNE;
+    USIC_CH_TypeDef* usart = usart_buf->usart;
+
+    if(usart_rx_event(usart)){
+        usart_rx_event_clear(usart);
         
-        //uint8_t data = USART_ReceiveData(usart_buf->usart);
-        uint8_t data = usart_buf->usart->DR;
+        uint8_t data = usart_recv_data(usart);
         if(!circular_buffer_put(&usart_buf->read_buffer, data)){
             usart_buf->data_overrun = true;
         }
     }
-    //if(USART_GetITStatus(usart_buf->usart, USART_IT_TXE) != RESET){
-    if(usart_buf->usart->SR & USART_SR_TXE){
-        // Cleared only by write to USARTx->DR.
-        //USART_ClearITPendingBit(usart_buf->usart, USART_IT_TXE);
-        //usart_buf->usart->SR |= USART_SR_TXE;
+
+    if(usart_tx_event(usart)){
+        usart_tx_event_clear(usart);
         
         uint8_t data;
         if(circular_buffer_get(&usart_buf->write_buffer, &data)){
-            //USART_SendData(usart_buf->usart, data);
-            usart_buf->usart->DR = data;
+            usart_send_data(usart, data);
         }else{
-            //USART_ITConfig(usart_buf->usart, USART_IT_TXE, DISABLE);
-            usart_buf->usart->CR1 &= ~USART_CR1_TXEIE;
+            usart_tx_it_disable(usart);
         }
     }
 }
@@ -126,29 +162,23 @@ size_t usart_buf_data_avail(usart_buf_t* usart_buf)
 
 size_t usart_buf_put(usart_buf_t* usart_buf, uint8_t data)
 {
+    USIC_CH_TypeDef* usart = usart_buf->usart;
+
     size_t res;
     
-    if(!circular_buffer_valid(&usart_buf->write_buffer) ||
-       usart_transmitter_enabled(usart_buf->usart) == DISABLE) return 0;
+    if(!circular_buffer_valid(&usart_buf->write_buffer)) return 0;
     
     while(circular_buffer_free_size(&usart_buf->write_buffer) == 0);
     
-    bool tx_it_enabled = usart_tx_it_enabled(usart_buf->usart);
-    //USART_ITConfig(usart_buf->usart, USART_IT_TXE, DISABLE);
-    usart_buf->usart->CR1 &= ~USART_CR1_TXEIE;
+    bool tx_it_enabled = usart_tx_it_enabled(usart);
+    usart_tx_it_disable(usart);
     
     res = circular_buffer_put(&usart_buf->write_buffer, data);
     
     if(res != 0){
-        //USART_ITConfig(usart_buf->usart, USART_IT_TXE, ENABLE);
-        usart_buf->usart->CR1 |= USART_CR1_TXEIE;
+        usart_tx_it_enable(usart);
     }else{
-        //USART_ITConfig(usart_buf->usart, USART_IT_TXE, tx_it_enabled);
-        if(tx_it_enabled){
-            usart_buf->usart->CR1 |= USART_CR1_TXEIE;
-        }else{
-            usart_buf->usart->CR1 &= ~USART_CR1_TXEIE;
-        }
+        usart_tx_it_set_enabled(usart, tx_it_enabled);
     }
     
     return res;
@@ -156,23 +186,18 @@ size_t usart_buf_put(usart_buf_t* usart_buf, uint8_t data)
 
 size_t usart_buf_get(usart_buf_t* usart_buf, uint8_t* data)
 {
+    USIC_CH_TypeDef* usart = usart_buf->usart;
+
     size_t res;
     
-    if(!circular_buffer_valid(&usart_buf->read_buffer) ||
-       usart_receiver_enabled(usart_buf->usart) == DISABLE) return 0;
+    if(!circular_buffer_valid(&usart_buf->read_buffer)) return 0;
     
-    bool rx_it_enabled = usart_rx_it_enabled(usart_buf->usart);
-    //USART_ITConfig(usart_buf->usart, USART_IT_RXNE, DISABLE);
-    usart_buf->usart->CR1 &= ~USART_CR1_RXNEIE;
+    bool rx_it_enabled = usart_rx_it_enabled(usart);
+    usart_rx_it_disable(usart);
     
     res = circular_buffer_get(&usart_buf->read_buffer, data);
     
-    //USART_ITConfig(usart_buf->usart, USART_IT_RXNE, rx_it_enabled);
-    if(rx_it_enabled){
-        usart_buf->usart->CR1 |= USART_CR1_RXNEIE;
-    }else{
-        usart_buf->usart->CR1 &= ~USART_CR1_RXNEIE;
-    }
+    usart_rx_it_set_enabled(usart, rx_it_enabled);
     
     if(res != 0){
         usart_buf->data_overrun = false;
@@ -183,9 +208,10 @@ size_t usart_buf_get(usart_buf_t* usart_buf, uint8_t* data)
 
 size_t usart_buf_write(usart_buf_t* usart_buf, const void* data, size_t size)
 {
+    USIC_CH_TypeDef* usart = usart_buf->usart;
+
     if(size == 0 || data == NULL) return 0;
-    if(!circular_buffer_valid(&usart_buf->write_buffer) ||
-       usart_transmitter_enabled(usart_buf->usart) == DISABLE) return 0;
+    if(!circular_buffer_valid(&usart_buf->write_buffer)) return 0;
     
     size_t res_size = 0;
     size_t n;
@@ -198,22 +224,15 @@ size_t usart_buf_write(usart_buf_t* usart_buf, const void* data, size_t size)
             n = MIN(free_size, size);
         }while(n == 0);
 
-        bool tx_it_enabled = usart_tx_it_enabled(usart_buf->usart);
-        //USART_ITConfig(usart_buf->usart, USART_IT_TXE, DISABLE);
-        usart_buf->usart->CR1 &= ~USART_CR1_TXEIE;
+        bool tx_it_enabled = usart_tx_it_enabled(usart);
+        usart_tx_it_disable(usart);
 
         n = circular_buffer_write(&usart_buf->write_buffer, data, n);
 
         if(n != 0){
-            //USART_ITConfig(usart_buf->usart, USART_IT_TXE, ENABLE);
-            usart_buf->usart->CR1 |= USART_CR1_TXEIE;
+            usart_tx_it_enable(usart);
         }else{
-            //USART_ITConfig(usart_buf->usart, USART_IT_TXE, tx_it_enabled);
-            if(tx_it_enabled){
-                usart_buf->usart->CR1 |= USART_CR1_TXEIE;
-            }else{
-                usart_buf->usart->CR1 &= ~USART_CR1_TXEIE;
-            }
+            usart_tx_it_set_enabled(usart, tx_it_enabled);
             break;
         }
         
@@ -228,24 +247,19 @@ size_t usart_buf_write(usart_buf_t* usart_buf, const void* data, size_t size)
 
 size_t usart_buf_read(usart_buf_t* usart_buf, void* data, size_t size)
 {
+    USIC_CH_TypeDef* usart = usart_buf->usart;
+
     if(size == 0 || data == NULL) return 0;
-    if(!circular_buffer_valid(&usart_buf->read_buffer) ||
-       usart_receiver_enabled(usart_buf->usart) == DISABLE) return 0;
+    if(!circular_buffer_valid(&usart_buf->read_buffer)) return 0;
     
     size_t res_size = 0;
     
-    bool rx_it_enabled = usart_rx_it_enabled(usart_buf->usart);
-    //USART_ITConfig(usart_buf->usart, USART_IT_RXNE, DISABLE);
-    usart_buf->usart->CR1 &= ~USART_CR1_RXNEIE;
+    bool rx_it_enabled = usart_rx_it_enabled(usart);
+    usart_rx_it_disable(usart);
     
     res_size = circular_buffer_read(&usart_buf->read_buffer, data, size);
     
-    //USART_ITConfig(usart_buf->usart, USART_IT_RXNE, rx_it_enabled);
-    if(rx_it_enabled){
-        usart_buf->usart->CR1 |= USART_CR1_RXNEIE;
-    }else{
-        usart_buf->usart->CR1 &= ~USART_CR1_RXNEIE;
-    }
+    usart_rx_it_set_enabled(usart, rx_it_enabled);
     
     if(res_size != 0){
         usart_buf->data_overrun = false;
@@ -254,3 +268,4 @@ size_t usart_buf_read(usart_buf_t* usart_buf, void* data, size_t size)
     return res_size;
 }
 
+#endif

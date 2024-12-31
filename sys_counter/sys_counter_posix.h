@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 /**
  * @file sys_counter.h Библиотека таймера высокого разрешения.
  */
@@ -103,3 +105,4 @@ EXTERN int clock_gettime (clockid_t clock_id, struct timespec *tp);
 
 #endif /* SYSTEM_COUNTER_POSIX_H */
 
+#endif

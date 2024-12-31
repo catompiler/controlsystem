@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #include "ms_timer.h"
 #include <assert.h>
 #include <stddef.h>
@@ -118,3 +120,5 @@ METHOD_CONTROL_IMPL(M_ms_timer, ms_tmr)
         }
     }
 }
+
+#endif

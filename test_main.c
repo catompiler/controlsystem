@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #include "test_main.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
@@ -101,3 +103,5 @@ int test_main(void)
 
     return 0;
 }
+
+#endif

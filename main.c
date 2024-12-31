@@ -5,6 +5,10 @@
 //#include <sys/time.h>
 //#include <stdio.h>
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+#include "gpio/gpio_xmc4xxx.h"
+#endif
+
 
 syslog_t SYSLOG_NAME;
 
@@ -190,9 +194,26 @@ static void write_dlog_to_file_vcd(void)
 
 int main(void)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    gpio_set_pad_driver(PORT1, GPIO_PIN_0, GPIO_PAD_A1P_DRIVER_STRONG_EDGE_SOFT);
+    gpio_set(PORT1, GPIO_PIN_0);
+    gpio_init(PORT1, GPIO_PIN_0, GPIO_CONF_OUTPUT_PP_GP);
+
+    gpio_toggle(PORT1, GPIO_PIN_0);
+    __NOP();
+    gpio_toggle(PORT1, GPIO_PIN_0);
+    __NOP();
+    gpio_reset(PORT1, GPIO_PIN_0);
+
+    for(;;){
+    }
+#endif
+
     syslog_init(&SYSLOG_NAME);
     syslog_set_level(&SYSLOG_NAME, SYSLOG_DEBUG);
+#if defined(PORT_POSIX)
     syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
+#endif
 
     SYSLOG(SYSLOG_INFO, "Hello, syslog!");
     SYSLOG(SYSLOG_DEBUG, "Blablabla!");

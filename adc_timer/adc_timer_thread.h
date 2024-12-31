@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #ifndef ADC_TIMER_THREAD_H
 #define ADC_TIMER_THREAD_H
 
@@ -59,3 +61,5 @@ EXTERN METHOD_CONTROL_PROTO(M_adc_timer);
     }
 
 #endif /* ADC_TIMER_THREAD_H */
+
+#endif

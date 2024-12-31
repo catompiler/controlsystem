@@ -1,3 +1,5 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 /**
  * @file sys_counter.h Библиотека таймера высокого разрешения.
  */
@@ -102,3 +104,4 @@ EXTERN int clock_gettime (clockid_t clock_id, struct timespec *tp);
 
 #endif /* SYSTEM_COUNTER_XMC4XXX_H */
 
+#endif

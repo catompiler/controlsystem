@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #include <stddef.h>
 #include <stdio.h>
 #include <errno.h>
@@ -134,5 +136,7 @@ int clock_gettime (clockid_t clock_id, struct timespec *tp)
 
     return 0;
 }
+
+#endif
 
 #endif

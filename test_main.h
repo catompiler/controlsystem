@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #ifndef TEST_MAIN_H
 #define TEST_MAIN_H
 
@@ -7,3 +9,5 @@ extern int test_main(void);
 
 
 #endif /* TEST_MAIN_H */
+
+#endif

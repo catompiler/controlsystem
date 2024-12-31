@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #ifndef NET_TIMER_THREAD_H
 #define NET_TIMER_THREAD_H
 
@@ -58,3 +60,5 @@ EXTERN METHOD_CONTROL_PROTO(M_net_timer);
     }
 
 #endif /* NET_TIMER_THREAD_H */
+
+#endif

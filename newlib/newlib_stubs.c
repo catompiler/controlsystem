@@ -1,3 +1,5 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/times.h>
@@ -213,3 +215,5 @@ int WEAK _write(int file, char *ptr, int len)
     }
     return len;
 }
+
+#endif

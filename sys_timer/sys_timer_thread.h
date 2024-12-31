@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #ifndef SYS_TIMER_THREAD_H
 #define SYS_TIMER_THREAD_H
 
@@ -58,3 +60,5 @@ EXTERN METHOD_CONTROL_PROTO(M_sys_timer);
     }
 
 #endif /* SYS_TIMER_THREAD_H */
+
+#endif

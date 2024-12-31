@@ -1,3 +1,5 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 #include "gpio_xmc4xxx.h"
 
 
@@ -69,7 +71,7 @@ void gpio_set_pad_driver(GPIO_t* GPIO, gpio_pin_t pins, gpio_pad_driver_t pad_dr
         // Следующий номер пина.
         pin_n = 31U - __CLZ((uint32_t)pins);
         // Инициализируем.
-        gpio_set_pad_driver_impl(GPIO, pin_n, conf);
+        gpio_set_pad_driver_impl(GPIO, pin_n, pad_driver);
         // Очищаем номер инициализированного пина.
         pins &= ~(BIT(pin_n));
     }
@@ -93,8 +95,10 @@ void gpio_set_hw_control(GPIO_t* GPIO, gpio_pin_t pins, gpio_hwsel_t hwsel)
         // Следующий номер пина.
         pin_n = 31U - __CLZ((uint32_t)pins);
         // Инициализируем.
-        gpio_set_hw_control_impl(GPIO, pin_n, conf);
+        gpio_set_hw_control_impl(GPIO, pin_n, hwsel);
         // Очищаем номер инициализированного пина.
         pins &= ~(BIT(pin_n));
     }
 }
+
+#endif
