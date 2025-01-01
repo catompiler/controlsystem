@@ -215,13 +215,13 @@ int main(void)
     if(err != E_NO_ERROR){
         SYSLOG(SYSLOG_WARNING, "Error init usart stdio!");
     }else{
-        //syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
+        syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
     }
 
     SYSLOG(SYSLOG_INFO, "usart stdio initialized!");
 
     for(;;){
-        STDIO_UART_USIC_CH->TBUF[0] = 'h';
+        //STDIO_UART_USIC_CH->TBUF[0] = 'h';
         SYSLOG(SYSLOG_DEBUG, "IDLE");
     }
 #endif

@@ -41,7 +41,10 @@ err_t usart_stdio_init(void)
 {
 	// enable module.
     STDIO_UART_USIC_CH->KSCFG = USIC_CH_KSCFG_MODEN_Msk | USIC_CH_KSCFG_BPMODEN_Msk;
-    __DSB();
+    while((STDIO_UART_USIC_CH->KSCFG & USIC_CH_KSCFG_MODEN_Msk) == 0){ __NOP(); }
+
+    // set idle.
+    STDIO_UART_USIC_CH->CCR &= ~USIC_CH_CCR_MODE_Msk;
 
     // clk.
     STDIO_UART_USIC_CH->FDR = ((1024 - (SystemCoreClock / (16 * USART_STDIO_BAUD))) << USIC_CH_FDR_STEP_Pos) |
@@ -55,18 +58,28 @@ err_t usart_stdio_init(void)
     // data shifting.
     STDIO_UART_USIC_CH->SCTR = ((0b01) << USIC_CH_SCTR_TRM_Pos) |
                                ((7) << USIC_CH_SCTR_FLE_Pos) |
-                               ((7) << USIC_CH_SCTR_WLE_Pos);
+                               ((7) << USIC_CH_SCTR_WLE_Pos) |
+                               (USIC_CH_SCTR_PDL_Msk);
 
     // uart.
     STDIO_UART_USIC_CH->PCR_ASCMode = ((0b1) << USIC_CH_PCR_ASCMode_SMD_Pos)  | // 3 sample.
                                       ((0b0) << USIC_CH_PCR_ASCMode_STPB_Pos) | // 1 stop bit.
-                                      ((0b1) << USIC_CH_PCR_ASCMode_IDM_Pos)  | // disable idle detection.
-                                      ((8) << USIC_CH_PCR_ASCMode_SP_Pos);      // 3 samples before 8'st bit.
+                                      ((0b0) << USIC_CH_PCR_ASCMode_IDM_Pos)  | // disable idle detection.
+                                      ((8) << USIC_CH_PCR_ASCMode_SP_Pos)     | // 3 samples before 8'st bit.
+                                      (USIC_CH_PCR_ASCMode_RSTEN_Msk | USIC_CH_PCR_ASCMode_TSTEN_Msk);
 
     // interrup selector.
     STDIO_UART_USIC_CH->INPR = ((STDIO_UART_USIC_CH_SR_SEL) << USIC_CH_INPR_RINP_Pos) |
     						   ((STDIO_UART_USIC_CH_SR_SEL) << USIC_CH_INPR_TBINP_Pos);
 
+    // enable tbuf.
+    STDIO_UART_USIC_CH->TCSR = ((1) << USIC_CH_TCSR_TDEN_Pos) |
+                               (USIC_CH_TCSR_TDSSM_Msk);
+
+    // clear status.
+    STDIO_UART_USIC_CH->PSCR = 0xffffffffU;
+
+    // set mode.
     STDIO_UART_USIC_CH->CCR = ((0x2) << USIC_CH_CCR_MODE_Pos) | // ASC mode.
                               ((0) << USIC_CH_CCR_PM_Pos) |     // Parity: none.
 							  ((1) << USIC_CH_CCR_RIEN_Pos) |   // Rx Irq.
