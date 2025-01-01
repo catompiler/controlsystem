@@ -85,6 +85,12 @@ ALWAYS_INLINE static uint8_t usart_recv_data(USIC_CH_TypeDef* usart)
 }
 
 
+ALWAYS_INLINE static bool usart_can_start_tx(USIC_CH_TypeDef* usart)
+{
+    return (usart->TCSR & USIC_CH_TCSR_TDV_Msk) == 0;
+}
+
+
 err_t usart_buf_init(usart_buf_t* usart_buf, usart_buf_init_t* usart_buf_init)
 {
     // Адрес периферии не может быть нулём.
@@ -114,7 +120,8 @@ err_t usart_buf_init(usart_buf_t* usart_buf, usart_buf_init_t* usart_buf_init)
     
     circular_buffer_init(&usart_buf->write_buffer, (uint8_t*)usart_buf_init->write_buffer, usart_buf_init->write_buffer_size);
     circular_buffer_init(&usart_buf->read_buffer,  (uint8_t*)usart_buf_init->read_buffer,  usart_buf_init->read_buffer_size);
-    
+
+    //usart_tx_it_enable(usart_buf->usart);
     usart_rx_it_enable(usart_buf->usart);
     
     return E_NO_ERROR;

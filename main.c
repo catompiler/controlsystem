@@ -9,6 +9,7 @@
 #include "hardware/hardware.h"
 #include "interrupts/interrupts.h"
 #include "gpio/gpio_xmc4xxx.h"
+#include "usart/usart_stdio_xmc4xxx.h"
 #endif
 
 
@@ -197,22 +198,33 @@ static void write_dlog_to_file_vcd(void)
 int main(void)
 {
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
-    gpio_set_pad_driver(PORT1, GPIO_PIN_0, GPIO_PAD_A1P_DRIVER_STRONG_EDGE_SOFT);
-    gpio_set(PORT1, GPIO_PIN_0);
-    gpio_init(PORT1, GPIO_PIN_0, GPIO_CONF_OUTPUT_PP_GP);
-
-    gpio_toggle(PORT1, GPIO_PIN_0);
-    __NOP();
-    gpio_toggle(PORT1, GPIO_PIN_0);
-    __NOP();
-    gpio_reset(PORT1, GPIO_PIN_0);
-
-    for(;;){
-    }
+    interrupts_init();
+    interrupts_enable();
 #endif
 
     syslog_init(&SYSLOG_NAME);
     syslog_set_level(&SYSLOG_NAME, SYSLOG_DEBUG);
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    err_t err = E_NO_ERROR;
+
+    hardware_init_usarts();
+    interrupts_enable_stdio_uart();
+
+    err = usart_stdio_init();
+    if(err != E_NO_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Error init usart stdio!");
+    }else{
+        //syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
+    }
+
+    SYSLOG(SYSLOG_INFO, "usart stdio initialized!");
+
+    for(;;){
+        STDIO_UART_USIC_CH->TBUF[0] = 'h';
+        SYSLOG(SYSLOG_DEBUG, "IDLE");
+    }
+#endif
 #if defined(PORT_POSIX)
     syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
 #endif

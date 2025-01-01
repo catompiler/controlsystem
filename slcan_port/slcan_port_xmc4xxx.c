@@ -46,10 +46,10 @@ slcan_usart_buf_t* get_slcan_usart_buf(void)
 
 
 
-void SLCAN_UART_USIC_CH_IRQ_Handler(void)
+/*void SLCAN_UART_USIC_CH_IRQ_Handler(void)
 {
     //slcan_usart_buf_t* ubuf = get_slcan_usart_buf();
-}
+}*/
 
 
 
