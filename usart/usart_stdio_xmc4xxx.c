@@ -33,7 +33,8 @@ void STDIO_UART_USIC_CH_IRQ_Handler(void)
 		STDIO_UART_USIC_CH->PSCR = USIC_CH_PSCR_CTBIF_Msk;
 	}*/
 
-	usart_buf_irq_handler(&stdio_uart.usart_buf);
+    usart_buf_irq_handler(&stdio_uart.usart_buf);
+	//usart_buf_irq_handler_fifo(&stdio_uart.usart_buf);
 }
 
 
@@ -52,8 +53,8 @@ err_t usart_stdio_init(void)
     STDIO_UART_USIC_CH->BRG = ((15) << USIC_CH_BRG_DCTQ_Pos);
 
     // inputs.
-    STDIO_UART_USIC_CH->DX0CR = ((SLCAN_UART_USIC_CH_RX) << USIC_CH_DX0CR_DSEL_Pos);
-    STDIO_UART_USIC_CH->DX1CR = ((SLCAN_UART_USIC_CH_TX) << USIC_CH_DX1CR_DSEL_Pos);
+    STDIO_UART_USIC_CH->DX0CR = ((STDIO_UART_USIC_CH_RX) << USIC_CH_DX0CR_DSEL_Pos);
+    STDIO_UART_USIC_CH->DX1CR = ((STDIO_UART_USIC_CH_TX) << USIC_CH_DX1CR_DSEL_Pos);
     STDIO_UART_USIC_CH->DX2CR = 0;
 
     // data shifting.
@@ -86,6 +87,32 @@ err_t usart_stdio_init(void)
                               ((0) << USIC_CH_CCR_PM_Pos);     // Parity: none.
 							  //((1) << USIC_CH_CCR_RIEN_Pos) |   // Rx Irq.
 							  //((1) << USIC_CH_CCR_TBIEN_Pos);   // Tx Irq.
+
+    // fifo.
+    // disable.
+    STDIO_UART_USIC_CH->TBCTR = 0;
+    STDIO_UART_USIC_CH->RBCTR = 0;
+    /*
+    __DSB();
+    STDIO_UART_USIC_CH->TBCTR = ((STDIO_UART_USIC_CH_FIFO_TX_OFFSET) << USIC_CH_TBCTR_DPTR_Pos) |
+                                ((STDIO_UART_USIC_CH_FIFO_TX_SIZE_SEL) << USIC_CH_TBCTR_SIZE_Pos) |
+                                ((STDIO_UART_USIC_CH_FIFO_TX_LIMIT) << USIC_CH_TBCTR_LIMIT_Pos) |
+                                ((0) << USIC_CH_TBCTR_LOF_Pos) | // < level.
+                                ((0) << USIC_CH_TBCTR_STBTM_Pos) |
+                                ((1) << USIC_CH_TBCTR_STBTEN_Pos) |
+                                ((STDIO_UART_USIC_CH_SR_SEL) << USIC_CH_TBCTR_STBINP_Pos) |
+                                ((1) << USIC_CH_TBCTR_STBIEN_Pos);
+    STDIO_UART_USIC_CH->RBCTR = ((STDIO_UART_USIC_CH_FIFO_RX_OFFSET) << USIC_CH_RBCTR_DPTR_Pos) |
+                                ((STDIO_UART_USIC_CH_FIFO_RX_SIZE_SEL) << USIC_CH_RBCTR_SIZE_Pos) |
+                                ((STDIO_UART_USIC_CH_FIFO_RX_LIMIT) << USIC_CH_RBCTR_LIMIT_Pos) |
+                                ((1) << USIC_CH_RBCTR_LOF_Pos) | // > level.
+                                ((0) << USIC_CH_RBCTR_SRBTM_Pos) |
+                                ((1) << USIC_CH_RBCTR_SRBTEN_Pos) |
+                                ((STDIO_UART_USIC_CH_SR_SEL) << USIC_CH_RBCTR_SRBINP_Pos) |
+                                ((1) << USIC_CH_RBCTR_SRBIEN_Pos) |
+                                ((0b11) << USIC_CH_RBCTR_RCIM_Pos) |
+                                ((0) << USIC_CH_RBCTR_RNM_Pos);
+    */
 
     // tx.
     gpio_set_pad_driver(STDIO_UART_PORT_TX, STDIO_UART_PIN_TX_Msk, STDIO_UART_PIN_TX_DRIVER);

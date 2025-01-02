@@ -222,7 +222,7 @@ int main(void)
 
     for(;;){
         //STDIO_UART_USIC_CH->TBUF[0] = 'h';
-        SYSLOG(SYSLOG_DEBUG, "IDLE");
+        //SYSLOG(SYSLOG_DEBUG, "IDLE");
     }
 #endif
 #if defined(PORT_POSIX)

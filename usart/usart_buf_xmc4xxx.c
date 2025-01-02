@@ -143,12 +143,14 @@ void usart_buf_irq_handler(usart_buf_t* usart_buf)
     if(usart_tx_event(usart)){
         usart_tx_event_clear(usart);
         
-        uint8_t data;
-        if(circular_buffer_get(&usart_buf->write_buffer, &data)){
-            usart_send_data(usart, data);
-        }else{
-            usart_tx_it_disable(usart);
-        }
+        //if(usart_can_start_tx(usart)){
+            uint8_t data;
+            if(circular_buffer_get(&usart_buf->write_buffer, &data)){
+                usart_send_data(usart, data);
+            }else{
+                usart_tx_it_disable(usart);
+            }
+        //}
     }
 }
 
@@ -183,6 +185,10 @@ size_t usart_buf_put(usart_buf_t* usart_buf, uint8_t data)
     res = circular_buffer_put(&usart_buf->write_buffer, data);
     
     if(res != 0){
+        uint8_t byte;
+        if(usart_can_start_tx(usart) && (circular_buffer_get(&usart_buf->write_buffer, &byte) != 0)){
+            usart_send_data(usart, byte);
+        }
         usart_tx_it_enable(usart);
     }else{
         usart_tx_it_set_enabled(usart, tx_it_enabled);
@@ -237,6 +243,10 @@ size_t usart_buf_write(usart_buf_t* usart_buf, const void* data, size_t size)
         n = circular_buffer_write(&usart_buf->write_buffer, data, n);
 
         if(n != 0){
+            uint8_t byte;
+            if(usart_can_start_tx(usart) && (circular_buffer_get(&usart_buf->write_buffer, &byte) != 0)){
+                usart_send_data(usart, byte);
+            }
             usart_tx_it_enable(usart);
         }else{
             usart_tx_it_set_enabled(usart, tx_it_enabled);
