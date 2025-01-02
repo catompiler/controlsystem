@@ -11,6 +11,9 @@ EXTERN void interrupts_init(void);
 //! Разрешает прерывания от UART stdio.
 EXTERN void interrupts_enable_stdio_uart(void);
 
+//! Разрешает прерывания от системного счётчика.
+EXTERN void interrupts_enable_sys_counter(void);
+
 //! Разрешает настроенные прерывания.
 EXTERN void interrupts_inited_enable(void);
 

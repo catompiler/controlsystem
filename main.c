@@ -8,6 +8,7 @@
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 #include "hardware/hardware.h"
 #include "interrupts/interrupts.h"
+#include "sys_counter/sys_counter.h"
 #include "gpio/gpio_xmc4xxx.h"
 #include "usart/usart_stdio_xmc4xxx.h"
 #endif
@@ -199,7 +200,13 @@ int main(void)
 {
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     interrupts_init();
-    interrupts_enable();
+#endif
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    hardware_init_counting_timers();
+    sys_counter_init();
+    interrupts_enable_sys_counter();
+    sys_counter_start();
 #endif
 
     syslog_init(&SYSLOG_NAME);
@@ -222,7 +229,10 @@ int main(void)
 
     for(;;){
         //STDIO_UART_USIC_CH->TBUF[0] = 'h';
-        //SYSLOG(SYSLOG_DEBUG, "IDLE");
+        struct timeval tv = {1, 0};
+        sys_counter_delay(&tv);
+        SYSLOG(SYSLOG_DEBUG, "IDLE");
+        //STDIO_UART_USIC_CH->TBUF[0] = '.';
     }
 #endif
 #if defined(PORT_POSIX)

@@ -26,6 +26,11 @@ void interrupts_enable_stdio_uart(void)
     NVIC_EnableIRQ(STDIO_UART_USIC_CH_IRQn);
 }
 
+void interrupts_enable_sys_counter(void)
+{
+    NVIC_EnableIRQ(SYS_CNT_TIM_IRQn);
+}
+
 
 void interrupts_inited_enable(void)
 {

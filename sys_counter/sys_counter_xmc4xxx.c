@@ -1,10 +1,12 @@
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 
+#include "sys_counter_xmc4xxx.h"
 #include <stddef.h>
 #include <stdio.h>
 #include <errno.h>
 #include "hardware/config.h"
-#include "sys_counter.h"
+#include "interrupts/interrupts.h"
+#include "utils/barrier.h"
 
 
 #if !__BSD_VISIBLE
@@ -46,24 +48,50 @@ typedef struct _Sys_Counter {
 //! Высокоточный таймер.
 static sys_counter_t system_counter;
 
-
-#define CCU_PRESCALER_N 0
-#define CCU_PRESCALER 0b0000
-#define CCU_PERIOD (CPU_FREQ) / (SYS_COUNTER_PERIOD_TICKS)
+// Параметры таймеров.
+// Pre.
+#define CCU_PRESCALER_N_PRE 1
+#define CCU_PRESCALER_PRE 0b0000
+#define CCU_PERIOD_PRE 120
+// Lo.
+#define CCU_PRESCALER_N_LO 1
+#define CCU_PRESCALER_LO 0b0000
+#define CCU_PERIOD_LO 1000
+// Hi.
+#define CCU_PRESCALER_N_HI 1
+#define CCU_PRESCALER_HI 0b0000
+#define CCU_PERIOD_HI 1000
 
 
 static void sys_counter_priph_init(void)
 {
     // configure.
-    SYS_TIM_CCU4_CC4->PSC = CCU_PRESCALER;
-    SYS_TIM_CCU4_CC4->PRS = CCU_PERIOD - 1;
+    // pre.
+    SYS_CNT_TIM_CCU4_CC4_PRE->PSC = CCU_PRESCALER_PRE;
+    SYS_CNT_TIM_CCU4_CC4_PRE->PRS = CCU_PERIOD_PRE - 1;
+    // lo.
+    SYS_CNT_TIM_CCU4_CC4_LO->PSC = CCU_PRESCALER_LO;
+    SYS_CNT_TIM_CCU4_CC4_LO->PRS = CCU_PERIOD_LO - 1;
+    // hi.
+    SYS_CNT_TIM_CCU4_CC4_HI->PSC = CCU_PRESCALER_HI;
+    SYS_CNT_TIM_CCU4_CC4_HI->PRS = CCU_PERIOD_HI - 1;
 
     // irqs.
-    SYS_TIM_CCU4_CC4->INTE = CCU4_CC4_INTE_PME_Msk;
-    SYS_TIM_CCU4_CC4->SRS = SYS_CNT_TIM_SR << CCU4_CC4_SRS_POSR_Pos;
+    SYS_CNT_TIM_CCU4_CC4_HI->INTE = CCU4_CC4_INTE_PME_Msk;
+    SYS_CNT_TIM_CCU4_CC4_HI->SRS = SYS_CNT_TIM_SR << CCU4_CC4_SRS_POSR_Pos;
+
+    // shadow transfer.
+    SYS_CNT_TIM_CCU4->GCSS = SYS_CNT_TIM_SHADOW_TRANSFER_Msk;
+
+    // clear flags.
+    SYS_CNT_TIM_CCU4_CC4_HI->SWR = CCU4_CC4_SWR_RPM_Msk;
+
+    // concat.
+    SYS_CNT_TIM_CCU4_CC4_LO->CMC = CCU4_CC4_CMC_TCE_Msk;
+    SYS_CNT_TIM_CCU4_CC4_HI->CMC = CCU4_CC4_CMC_TCE_Msk;
 
     // idle.
-    SYS_TIM_CCU4->GIDLC = SYS_TIM_IDLE_CLR_Msk;
+    SYS_CNT_TIM_CCU4->GIDLC = SYS_CNT_TIM_IDLE_CLR_Msk;
 }
 
 
@@ -76,8 +104,8 @@ void sys_counter_init(void)
 
 void SYS_CNT_TIM_IRQ_Handler(void)
 {
-    SYS_CNT_TIM_CCU4_CC4->SWR = CCU4_CC4_SWR_RPM_Msk;
-
+    SYS_CNT_TIM_CCU4_CC4_HI->SWR = CCU4_CC4_SWR_RPM_Msk;
+    //STDIO_UART_USIC_CH->TBUF[0] = '.';
     system_counter.counter ++;
 }
 
@@ -92,17 +120,17 @@ void sys_counter_irq_set_enabled(bool enabled)
 
 bool sys_counter_irq_enabled(void)
 {
-    return (SYS_TIM_CCU4_CC4->INTE & CCU4_CC4_INTE_PME_Msk) != 0;
+    return (SYS_CNT_TIM_CCU4_CC4_HI->INTE & CCU4_CC4_INTE_PME_Msk) != 0;
 }
 
 void sys_counter_irq_enable(void)
 {
-    SYS_TIM_CCU4_CC4->INTE = CCU4_CC4_INTE_PME_Msk;
+    SYS_CNT_TIM_CCU4_CC4_HI->INTE = CCU4_CC4_INTE_PME_Msk;
 }
 
 void sys_counter_irq_disable(void)
 {
-    SYS_TIM_CCU4_CC4->INTE = 0;
+    SYS_CNT_TIM_CCU4_CC4_HI->INTE = 0;
 }
 
 void sys_counter_set_running(bool running)
@@ -116,22 +144,57 @@ void sys_counter_set_running(bool running)
 
 bool sys_counter_running(void)
 {
-    return (SYS_CNT_TIM_CCU4_CC4->TCST & CCU4_CC4_TCST_TRB_Msk) != 0;
+    return (SYS_CNT_TIM_CCU4_CC4_PRE->TCST & CCU4_CC4_TCST_TRB_Msk) != 0;
 }
 
 void sys_counter_start(void)
 {
-    SYS_CNT_TIM_CCU4_CC4->TCSET = CCU4_CC4_TCSET_TRBS_Msk;
+    SYS_CNT_TIM_CCU4_CC4_HI->TCSET = CCU4_CC4_TCSET_TRBS_Msk;
+    SYS_CNT_TIM_CCU4_CC4_LO->TCSET = CCU4_CC4_TCSET_TRBS_Msk;
+    SYS_CNT_TIM_CCU4_CC4_PRE->TCSET = CCU4_CC4_TCSET_TRBS_Msk;
 }
 
 void sys_counter_stop(void)
 {
-    SYS_CNT_TIM_CCU4_CC4->TCCLR = CCU4_CC4_TCCLR_TRBC_Msk;
+    SYS_CNT_TIM_CCU4_CC4_PRE->TCCLR = CCU4_CC4_TCCLR_TRBC_Msk;
+    SYS_CNT_TIM_CCU4_CC4_LO->TCCLR = CCU4_CC4_TCCLR_TRBC_Msk;
+    SYS_CNT_TIM_CCU4_CC4_HI->TCCLR = CCU4_CC4_TCCLR_TRBC_Msk;
 }
 
 void sys_counter_reset(void)
 {
-    SYS_CNT_TIM_CCU4_CC4->TCCLR = CCU4_CC4_TCCLR_TCC_Msk;
+    SYS_CNT_TIM_CCU4_CC4_PRE->TCCLR = CCU4_CC4_TCCLR_TCC_Msk;
+    SYS_CNT_TIM_CCU4_CC4_LO->TCCLR = CCU4_CC4_TCCLR_TCC_Msk;
+    SYS_CNT_TIM_CCU4_CC4_HI->TCCLR = CCU4_CC4_TCCLR_TCC_Msk;
+}
+
+__attribute__((noinline))
+static uint32_t sys_counter_get_usecs(void)
+{
+    // Актуальные значения счётчиков.
+    uint32_t cnt_us_lo = 0;
+    uint32_t cnt_us_hi = 0;
+
+    // Считаем значение счётчиков.
+    uint32_t cnt_us_lo1 = SYS_CNT_TIM_CCU4_CC4_LO->TIMER;
+    barrier();
+    uint32_t cnt_us_hi1 = SYS_CNT_TIM_CCU4_CC4_HI->TIMER;
+    barrier();
+    uint32_t cnt_us_lo2 = SYS_CNT_TIM_CCU4_CC4_LO->TIMER;
+    barrier();
+    uint32_t cnt_us_hi2 = SYS_CNT_TIM_CCU4_CC4_HI->TIMER;
+    barrier();
+
+    // Обработка переполнения.
+    if(cnt_us_lo1 <= cnt_us_lo2){
+        cnt_us_lo = cnt_us_lo1;
+        cnt_us_hi = cnt_us_hi1;
+    }else{ // cnt_us_lo1 > cnt_us_lo2
+        cnt_us_lo = cnt_us_lo2;
+        cnt_us_hi = cnt_us_hi2;
+    }
+
+    return cnt_us_hi * 1000 + cnt_us_lo;
 }
 
 __attribute__((noinline))
@@ -139,31 +202,36 @@ void sys_counter_value(struct timeval* tv)
 {
     if(tv == NULL) return;
     
-    // Сохраним флаг разрешения прерывания.
-    bool irq_enabled = sys_counter_irq_enabled();
-    // Запретим прерывание переполнения.
-    sys_counter_irq_disable();
+//    // Сохраним флаг разрешения прерывания.
+//    bool irq_enabled = sys_counter_irq_enabled();
+//    // Запретим прерывание переполнения.
+//    sys_counter_irq_disable();
     
+    // Запрет прерываний на короткое время.
+    interrupts_disable();
+
     // Считаем значение счётчиков.
-    uint32_t cnt_us = SYS_CNT_TIM_CCU4_CC4->TIMER;
+    uint32_t cnt_us = sys_counter_get_usecs();
     uint32_t cnt_s = system_counter.counter;
+    uint32_t cnt_us2 = sys_counter_get_usecs();
     
-    // Защита от переполнения.
-    // Повторно считаем счётчик таймера.
-    uint32_t cnt_us2 = SYS_CNT_TIM_CCU4_CC4->TIMER;
-    
-    // Если прерывание переполнения было разрешено.
-    if(irq_enabled){
-        // Вновь разрешим прерывание переполнения.
-    	sys_counter_irq_enable();
-    }
-    
+    // Разрешение прерываний.
+    interrupts_enable();
+
+//    // Если прерывание переполнения было разрешено.
+//    if(irq_enabled){
+//        // Вновь разрешим прерывание переполнения.
+//    	sys_counter_irq_enable();
+//    }
+
     // Если он меньше предыдущего значения - таймер переполнился.
     if(cnt_us2 < cnt_us){
         // Присвоим новое значение.
         cnt_us = cnt_us2;
         // И увеличим счётчик секунд.
         cnt_s ++;
+
+        //SYS_CNT_TIM_CCU4_CC4_HI->SWS = CCU4_CC4_SWS_SPM_Msk;
     }
     
     tv->tv_usec = cnt_us;
@@ -175,11 +243,14 @@ void sys_counter_delay(struct timeval* tv)
 	struct timeval tv_cur;
     struct timeval tv_dt;
     struct timeval tv_end;
+    //struct timeval tv_start;
 
     tv_dt.tv_sec = tv->tv_sec;
     tv_dt.tv_usec = tv->tv_usec;
 
     sys_counter_value(&tv_cur);
+    //tv_start.tv_sec = tv_cur.tv_sec;
+    //tv_start.tv_usec = tv_cur.tv_usec;
     timeradd(&tv_cur, &tv_dt, &tv_end);
 
     for(;;){
