@@ -44,7 +44,7 @@ err_t usart_stdio_init(void)
     while((STDIO_UART_USIC_CH->KSCFG & USIC_CH_KSCFG_MODEN_Msk) == 0){ __NOP(); }
 
     // set idle.
-    STDIO_UART_USIC_CH->CCR &= ~USIC_CH_CCR_MODE_Msk;
+    STDIO_UART_USIC_CH->CCR = 0;
 
     // clk.
     STDIO_UART_USIC_CH->FDR = ((1024 - (SystemCoreClock / (16 * USART_STDIO_BAUD))) << USIC_CH_FDR_STEP_Pos) |
@@ -54,19 +54,21 @@ err_t usart_stdio_init(void)
     // inputs.
     STDIO_UART_USIC_CH->DX0CR = ((SLCAN_UART_USIC_CH_RX) << USIC_CH_DX0CR_DSEL_Pos);
     STDIO_UART_USIC_CH->DX1CR = ((SLCAN_UART_USIC_CH_TX) << USIC_CH_DX1CR_DSEL_Pos);
+    STDIO_UART_USIC_CH->DX2CR = 0;
 
     // data shifting.
     STDIO_UART_USIC_CH->SCTR = ((0b01) << USIC_CH_SCTR_TRM_Pos) |
                                ((7) << USIC_CH_SCTR_FLE_Pos) |
                                ((7) << USIC_CH_SCTR_WLE_Pos) |
-                               (USIC_CH_SCTR_PDL_Msk);
+                               ((1) << USIC_CH_SCTR_PDL_Pos);
 
     // uart.
     STDIO_UART_USIC_CH->PCR_ASCMode = ((0b1) << USIC_CH_PCR_ASCMode_SMD_Pos)  | // 3 sample.
                                       ((0b0) << USIC_CH_PCR_ASCMode_STPB_Pos) | // 1 stop bit.
                                       ((0b0) << USIC_CH_PCR_ASCMode_IDM_Pos)  | // disable idle detection.
                                       ((8) << USIC_CH_PCR_ASCMode_SP_Pos)     | // 3 samples before 8'st bit.
-                                      (USIC_CH_PCR_ASCMode_RSTEN_Msk | USIC_CH_PCR_ASCMode_TSTEN_Msk);
+                                      ((1) << USIC_CH_PCR_ASCMode_RSTEN_Pos)  |
+                                      ((1) << USIC_CH_PCR_ASCMode_TSTEN_Pos);
 
     // interrup selector.
     STDIO_UART_USIC_CH->INPR = ((STDIO_UART_USIC_CH_SR_SEL) << USIC_CH_INPR_RINP_Pos) |
@@ -74,16 +76,16 @@ err_t usart_stdio_init(void)
 
     // enable tbuf.
     STDIO_UART_USIC_CH->TCSR = ((1) << USIC_CH_TCSR_TDEN_Pos) |
-                               (USIC_CH_TCSR_TDSSM_Msk);
+                               ((1) << USIC_CH_TCSR_TDSSM_Pos);
 
     // clear status.
     STDIO_UART_USIC_CH->PSCR = 0xffffffffU;
 
     // set mode.
     STDIO_UART_USIC_CH->CCR = ((0x2) << USIC_CH_CCR_MODE_Pos) | // ASC mode.
-                              ((0) << USIC_CH_CCR_PM_Pos) |     // Parity: none.
-							  ((1) << USIC_CH_CCR_RIEN_Pos) |   // Rx Irq.
-							  ((1) << USIC_CH_CCR_TBIEN_Pos);   // Tx Irq.
+                              ((0) << USIC_CH_CCR_PM_Pos);     // Parity: none.
+							  //((1) << USIC_CH_CCR_RIEN_Pos) |   // Rx Irq.
+							  //((1) << USIC_CH_CCR_TBIEN_Pos);   // Tx Irq.
 
     // tx.
     gpio_set_pad_driver(STDIO_UART_PORT_TX, STDIO_UART_PIN_TX_Msk, STDIO_UART_PIN_TX_DRIVER);

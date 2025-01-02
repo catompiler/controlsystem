@@ -30,9 +30,6 @@ void hardware_init_usarts(void)
     // reset.
     USARTS_RESET_ENABLE();
     USARTS_RESET_DISABLE();
-
-    // enable clock.
-    COUNTING_TIMS_CLOCK_ENABLE();
 }
 
 #endif

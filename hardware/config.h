@@ -97,10 +97,12 @@
 #define USARTS_RESET_ENABLE() do{\
         SCU_RESET->PRSET1 = SCU_RESET_PRSET1_USIC1RS_Msk;\
         __DMB();\
+        while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_USIC1RS_Msk) == 0){ __NOP(); }\
     }while(0)
 #define USARTS_RESET_DISABLE() do{\
         SCU_RESET->PRCLR1 = SCU_RESET_PRCLR1_USIC1RS_Msk;\
         __DMB();\
+        while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_USIC1RS_Msk) != 0){ __NOP(); }\
     }while(0)
 // stdio uart.
 // gpio.
