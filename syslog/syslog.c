@@ -6,6 +6,9 @@
 #include "sys_counter/sys_counter.h"
 
 
+#define SYSLOG_PUT_CR 1
+#define SYSLOG_PUT_LF 1
+
 
 void syslog_init(syslog_t* slog)
 {
@@ -141,7 +144,12 @@ static int syslog_puts_impl(syslog_t* slog, struct timeval* tv, const char* str)
         s_len --;
     }
 
+#if defined(SYSLOG_PUT_CR) && SYSLOG_PUT_CR == 1
+    syslog_putchar(slog, '\r');
+#endif
+#if defined(SYSLOG_PUT_LF) && SYSLOG_PUT_LF == 1
     syslog_putchar(slog, '\n');
+#endif
 
     return (int)needed_size;
 }
