@@ -250,7 +250,7 @@ size_t usart_buf_put(usart_buf_t* usart_buf, uint8_t data)
     
     if(res != 0){
         uint8_t byte;
-        if(usart_can_tx(usart) && (circular_buffer_get(&usart_buf->write_buffer, &byte) != 0)){
+        while(usart_can_tx(usart) && (circular_buffer_get(&usart_buf->write_buffer, &byte) != 0)){
             usart_send_data(usart, byte);
         }
         usart_tx_it_enable(usart);
@@ -308,7 +308,7 @@ size_t usart_buf_write(usart_buf_t* usart_buf, const void* data, size_t size)
 
         if(n != 0){
             uint8_t byte;
-            if(usart_can_tx(usart) && (circular_buffer_get(&usart_buf->write_buffer, &byte) != 0)){
+            while(usart_can_tx(usart) && (circular_buffer_get(&usart_buf->write_buffer, &byte) != 0)){
                 usart_send_data(usart, byte);
             }
             usart_tx_it_enable(usart);
