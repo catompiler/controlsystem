@@ -106,10 +106,15 @@ ALWAYS_INLINE static void syslog_putchar(syslog_t* slog, int c)
     if(slog->putchar_callback) slog->putchar_callback(c);
 }
 
+ALWAYS_INLINE static int syslog_make_timestamp(syslog_t* slog, struct timeval* tv)
+{
+    return snprintf(slog->time_buf, SYSLOG_TIME_BUF_LEN, "[%u.%06u] ",
+            (unsigned int)tv->tv_sec, (unsigned int)tv->tv_usec);
+}
+
 static int syslog_puts_impl(syslog_t* slog, struct timeval* tv, const char* str)
 {
-    int time_len = snprintf(slog->time_buf, SYSLOG_TIME_BUF_LEN, "[%u.%06u] ",
-                 (unsigned int)tv->tv_sec, (unsigned int)tv->tv_usec);
+    int time_len = syslog_make_timestamp(slog, tv);
     if(time_len < 0) return time_len;
 
     size_t s_len = strlen(str);

@@ -231,7 +231,7 @@ int main(void)
         //STDIO_UART_USIC_CH->TBUF[0] = 'h';
         struct timeval tv = {1, 0};
         sys_counter_delay(&tv);
-        SYSLOG(SYSLOG_DEBUG, "IDLE");
+        SYSLOG_MSG(SYSLOG_DEBUG, "IDLE");
         //STDIO_UART_USIC_CH->TBUF[0] = '.';
     }
 #endif

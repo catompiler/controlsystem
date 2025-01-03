@@ -131,8 +131,14 @@ EXTERN int syslog_get_message(syslog_t* slog, int first_msg_index, int msg_index
 #define SYSLOG_NAME syslog
 #endif
 
+//! Глобальный системный лог.
 EXTERN syslog_t SYSLOG_NAME;
 
+//! Глобальная функция вывода строки в системный лог.
+#define SYSLOG_MSG(LEVEL, MSG) syslog_puts(&SYSLOG_NAME, LEVEL, MSG)
+//! Глобальная функция форматированного вывода в системный лог.
+#define SYSLOG_MSGF(LEVEL, FMT, ...) syslog_printf(&SYSLOG_NAME, LEVEL, FMT, ##__VA_ARGS__)
+//! Глобальная функция вывода в лог по-умолчанию.
 #define SYSLOG(LEVEL, MSG, ...) syslog_printf(&SYSLOG_NAME, LEVEL, MSG, ##__VA_ARGS__)
 
 #endif

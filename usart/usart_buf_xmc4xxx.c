@@ -85,9 +85,15 @@ ALWAYS_INLINE static uint8_t usart_recv_data(USIC_CH_TypeDef* usart)
 }
 
 
-ALWAYS_INLINE static bool usart_can_start_tx(USIC_CH_TypeDef* usart)
+ALWAYS_INLINE static bool usart_can_tx(USIC_CH_TypeDef* usart)
 {
     return (usart->TCSR & USIC_CH_TCSR_TDV_Msk) == 0;
+}
+
+
+ALWAYS_INLINE static bool usart_can_rx(USIC_CH_TypeDef* usart)
+{
+    return (usart->RBUFSR & (USIC_CH_RBUFSR_RDV0_Msk | USIC_CH_RBUFSR_RDV1_Msk)) != 0;
 }
 
 
@@ -133,24 +139,28 @@ void usart_buf_irq_handler(usart_buf_t* usart_buf)
 
     if(usart_rx_event(usart)){
         usart_rx_event_clear(usart);
-        
-        uint8_t data = usart_recv_data(usart);
-        if(!circular_buffer_put(&usart_buf->read_buffer, data)){
-            usart_buf->data_overrun = true;
+
+        while(usart_can_rx(usart)){
+            uint8_t data = usart_recv_data(usart);
+            if(!circular_buffer_put(&usart_buf->read_buffer, data)){
+                usart_buf->data_overrun = true;
+                break;
+            }
         }
     }
 
     if(usart_tx_event(usart)){
         usart_tx_event_clear(usart);
         
-        //if(usart_can_start_tx(usart)){
+        while(usart_can_tx(usart)){
             uint8_t data;
             if(circular_buffer_get(&usart_buf->write_buffer, &data)){
                 usart_send_data(usart, data);
             }else{
                 usart_tx_it_disable(usart);
+                break;
             }
-        //}
+        }
     }
 }
 
@@ -186,7 +196,7 @@ size_t usart_buf_put(usart_buf_t* usart_buf, uint8_t data)
     
     if(res != 0){
         uint8_t byte;
-        if(usart_can_start_tx(usart) && (circular_buffer_get(&usart_buf->write_buffer, &byte) != 0)){
+        if(usart_can_tx(usart) && (circular_buffer_get(&usart_buf->write_buffer, &byte) != 0)){
             usart_send_data(usart, byte);
         }
         usart_tx_it_enable(usart);
@@ -244,7 +254,7 @@ size_t usart_buf_write(usart_buf_t* usart_buf, const void* data, size_t size)
 
         if(n != 0){
             uint8_t byte;
-            if(usart_can_start_tx(usart) && (circular_buffer_get(&usart_buf->write_buffer, &byte) != 0)){
+            if(usart_can_tx(usart) && (circular_buffer_get(&usart_buf->write_buffer, &byte) != 0)){
                 usart_send_data(usart, byte);
             }
             usart_tx_it_enable(usart);
