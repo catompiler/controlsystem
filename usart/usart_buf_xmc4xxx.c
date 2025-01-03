@@ -9,18 +9,29 @@
 
 ALWAYS_INLINE static bool usart_tx_it_enabled(USIC_CH_TypeDef* usart)
 {
-    if(usart->CCR & USIC_CH_CCR_TBIEN_Msk) return true;
-    return false;
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    return usart->TBCTR & USIC_CH_TBCTR_STBIEN_Msk;
+#else
+    return usart->CCR & USIC_CH_CCR_TBIEN_Msk;
+#endif
 }
 
 ALWAYS_INLINE static void usart_tx_it_enable(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    usart->TBCTR |= USIC_CH_TBCTR_STBIEN_Msk;
+#else
     usart->CCR |= USIC_CH_CCR_TBIEN_Msk;
+#endif
 }
 
 ALWAYS_INLINE static void usart_tx_it_disable(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    usart->TBCTR &= ~USIC_CH_TBCTR_STBIEN_Msk;
+#else
     usart->CCR &= ~USIC_CH_CCR_TBIEN_Msk;
+#endif
 }
 
 ALWAYS_INLINE static void usart_tx_it_set_enabled(USIC_CH_TypeDef* usart, bool enabled)
@@ -31,18 +42,29 @@ ALWAYS_INLINE static void usart_tx_it_set_enabled(USIC_CH_TypeDef* usart, bool e
 
 ALWAYS_INLINE static bool usart_rx_it_enabled(USIC_CH_TypeDef* usart)
 {
-    if(usart->CCR & USIC_CH_CCR_RIEN_Msk) return true;
-    return false;
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    return usart->RBCTR & USIC_CH_RBCTR_SRBIEN_Msk;
+#else
+    return usart->CCR & USIC_CH_CCR_RIEN_Msk;
+#endif
 }
 
 ALWAYS_INLINE static void usart_rx_it_enable(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    usart->RBCTR |= USIC_CH_RBCTR_SRBIEN_Msk;
+#else
     usart->CCR |= USIC_CH_CCR_RIEN_Msk;
+#endif
 }
 
 ALWAYS_INLINE static void usart_rx_it_disable(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    usart->RBCTR &= ~USIC_CH_RBCTR_SRBIEN_Msk;
+#else
     usart->CCR &= ~USIC_CH_CCR_RIEN_Msk;
+#endif
 }
 
 ALWAYS_INLINE static void usart_rx_it_set_enabled(USIC_CH_TypeDef* usart, bool enabled)
@@ -54,46 +76,78 @@ ALWAYS_INLINE static void usart_rx_it_set_enabled(USIC_CH_TypeDef* usart, bool e
 
 ALWAYS_INLINE static bool usart_rx_event(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    return usart->TRBSR & USIC_CH_TRBSR_SRBI_Msk;
+#else
     return usart->PSR_ASCMode & USIC_CH_PSR_ASCMode_RIF_Msk;
+#endif
 }
 
 ALWAYS_INLINE static void usart_rx_event_clear(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    usart->TRBSCR = USIC_CH_TRBSCR_CSRBI_Msk;
+#else
     usart->PSCR = USIC_CH_PSCR_CRIF_Msk;
+#endif
 }
 
 
 ALWAYS_INLINE static bool usart_tx_event(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    return usart->TRBSR & USIC_CH_TRBSR_STBI_Msk;
+#else
     return usart->PSR_ASCMode & USIC_CH_PSR_ASCMode_TBIF_Msk;
+#endif
 }
 
 ALWAYS_INLINE static void usart_tx_event_clear(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    usart->TRBSCR = USIC_CH_TRBSCR_CSTBI_Msk;
+#else
     usart->PSCR = USIC_CH_PSCR_CTBIF_Msk;
+#endif
 }
 
 
 ALWAYS_INLINE static void usart_send_data(USIC_CH_TypeDef* usart, uint8_t data)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    usart->IN[0] = data;
+#else
     usart->TBUF[0] = data;
+#endif
 }
 
 ALWAYS_INLINE static uint8_t usart_recv_data(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    return usart->OUTR & 0xff;
+#else
     return usart->RBUF & 0xff;
+#endif
 }
 
 
 ALWAYS_INLINE static bool usart_can_tx(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    return (usart->TRBSR & USIC_CH_TRBSR_TFULL_Msk) == 0;
+#else
     return (usart->TCSR & USIC_CH_TCSR_TDV_Msk) == 0;
+#endif
 }
 
 
 ALWAYS_INLINE static bool usart_can_rx(USIC_CH_TypeDef* usart)
 {
+#if defined(USART_BUF_FIFO) && USART_BUF_FIFO == 1
+    return (usart->TRBSR & USIC_CH_TRBSR_REMPTY_Msk) == 0;
+#else
     return (usart->RBUFSR & (USIC_CH_RBUFSR_RDV0_Msk | USIC_CH_RBUFSR_RDV1_Msk)) != 0;
+#endif
 }
 
 

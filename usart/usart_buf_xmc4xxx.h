@@ -16,6 +16,13 @@
 #include "errors/errors.h"
 #include "buffer/circular_buffer.h"
 
+
+
+//! Флаг использования FIFO.
+#define USART_BUF_FIFO 1
+
+
+
 /**
  * Структура буферизации USART.
  */
