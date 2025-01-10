@@ -181,6 +181,7 @@ err_t usart_buf_init(usart_buf_t* usart_buf, usart_buf_init_t* usart_buf_init)
     circular_buffer_init(&usart_buf->write_buffer, (uint8_t*)usart_buf_init->write_buffer, usart_buf_init->write_buffer_size);
     circular_buffer_init(&usart_buf->read_buffer,  (uint8_t*)usart_buf_init->read_buffer,  usart_buf_init->read_buffer_size);
 
+    // TODO: usart err handler.
     //usart_tx_it_enable(usart_buf->usart);
     usart_rx_it_enable(usart_buf->usart);
     

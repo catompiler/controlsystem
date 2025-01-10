@@ -24,44 +24,129 @@ static uint16_t spi_rx_default_data = 0;
 
 ALWAYS_INLINE static bool spi_bus_is_duplex(spi_bus_t* spi)
 {
-    return (spi->spi_device->CR1 & (SPI_CR1_BIDIMODE | SPI_CR1_RXONLY)) == 0;
+    return true;
 }
 
 ALWAYS_INLINE static bool spi_bus_can_rx(spi_bus_t* spi)
 {
-    return (spi->spi_device->CR1 & (SPI_CR1_BIDIMODE | SPI_CR1_BIDIOE)) != (SPI_CR1_BIDIMODE | SPI_CR1_BIDIOE);
+    return true;
 }
 
 ALWAYS_INLINE static bool spi_bus_can_tx(spi_bus_t* spi)
 {
-    return ((spi->spi_device->CR1 & (SPI_CR1_BIDIMODE | SPI_CR1_BIDIOE)) == (SPI_CR1_BIDIMODE | SPI_CR1_BIDIOE)) ||
-           ((spi->spi_device->CR1 & SPI_CR1_RXONLY) == 0);
+    return true;
 }
 
 ALWAYS_INLINE static bool spi_bus_is_crc_enabled(spi_bus_t* spi)
 {
-    return (spi->spi_device->CR1 & SPI_CR1_CRCEN) != 0;
+    (void) spi;
+
+    return false;
 }
 
 ALWAYS_INLINE static bool spi_bus_is_frame_16bit(spi_bus_t* spi)
 {
-    return (spi->spi_device->CR1 & SPI_CR1_DFF) != 0;
+    return ((spi->spi_device->SCTR & USIC_CH_SCTR_FLE_Msk) >> USIC_CH_SCTR_FLE_Pos) == 15;
 }
 
 ALWAYS_INLINE static bool spi_bus_is_frame_lsbfirst(spi_bus_t* spi)
 {
-    return (spi->spi_device->CR1 & SPI_CR1_LSBFIRST) != 0;
+    return (spi->spi_device->SCTR & USIC_CH_SCTR_SDIR_Msk) == 0;
 }
 
-ALWAYS_INLINE static void spi_bus_wait_txe(spi_bus_t* spi)
+ALWAYS_INLINE static void spi_bus_clear_tx_events(spi_bus_t* spi)
 {
-    WAIT_WHILE_TRUE((spi->spi_device->SR & SPI_SR_TXE) == 0);
+    spi->spi_device->PSCR = USIC_CH_PSCR_CTSIF_Msk | USIC_CH_PSCR_CTBIF_Msk;
 }
 
-ALWAYS_INLINE static void spi_bus_wait_rxne(spi_bus_t* spi)
+ALWAYS_INLINE static void spi_bus_clear_rx_events(spi_bus_t* spi)
 {
-    WAIT_WHILE_TRUE((spi->spi_device->SR & SPI_SR_RXNE) == 0);
+    spi->spi_device->PSCR = USIC_CH_PSCR_CRSIF_Msk | USIC_CH_PSCR_CRIF_Msk | USIC_CH_PSCR_CAIF_Msk;
 }
+
+ALWAYS_INLINE static void spi_bus_clear_rxtx_events(spi_bus_t* spi)
+{
+    spi_bus_clear_tx_events(spi);
+    spi_bus_clear_rx_events(spi);
+}
+
+ALWAYS_INLINE static void spi_bus_wait_can_tx(spi_bus_t* spi)
+{
+    WAIT_WHILE_TRUE((spi->spi_device->PSR & USIC_CH_PSR_SSCMode_TBIF_Msk) == 0);
+}
+
+ALWAYS_INLINE static void spi_bus_wait_can_rx(spi_bus_t* spi)
+{
+    WAIT_WHILE_TRUE((spi->spi_device->PSR & (USIC_CH_PSR_SSCMode_RIF_Msk | USIC_CH_PSR_SSCMode_AIF_Msk)) == 0);
+}
+
+
+ALWAYS_INLINE static bool spi_bus_tx_it_enabled(spi_bus_t* spi)
+{
+    return (spi->spi_device->CCR & USIC_CH_CCR_TBIEN_Msk) != 0;
+}
+
+ALWAYS_INLINE static void spi_bus_tx_it_enable(spi_bus_t* spi)
+{
+    spi->spi_device->CCR |= USIC_CH_CCR_TBIEN_Msk;
+}
+
+ALWAYS_INLINE static void spi_bus_tx_it_disable(spi_bus_t* spi)
+{
+    spi->spi_device->CCR &= ~USIC_CH_CCR_TBIEN_Msk;
+}
+
+ALWAYS_INLINE static void spi_bus_tx_it_set_enabled(spi_bus_t* spi, bool enabled)
+{
+    if(enabled) spi_bus_tx_it_enable(spi);
+    else spi_bus_tx_it_disable(spi);
+}
+
+ALWAYS_INLINE static bool spi_bus_rx_it_enabled(spi_bus_t* spi)
+{
+    return (spi->spi_device->CCR & (USIC_CH_CCR_RIEN_Msk | USIC_CH_CCR_AIEN_Msk)) != 0;
+}
+
+ALWAYS_INLINE static void spi_bus_rx_it_enable(spi_bus_t* spi)
+{
+    spi->spi_device->CCR |= (USIC_CH_CCR_RIEN_Msk | USIC_CH_CCR_AIEN_Msk);
+}
+
+ALWAYS_INLINE static void spi_bus_rx_it_disable(spi_bus_t* spi)
+{
+    spi->spi_device->CCR &= ~(USIC_CH_CCR_RIEN_Msk | USIC_CH_CCR_AIEN_Msk);
+}
+
+ALWAYS_INLINE static void spi_bus_rx_it_set_enabled(spi_bus_t* spi, bool enabled)
+{
+    if(enabled) spi_bus_rx_it_enable(spi);
+    else spi_bus_rx_it_disable(spi);
+}
+
+
+ALWAYS_INLINE static bool spi_bus_er_it_enabled(spi_bus_t* spi)
+{
+    return ((spi->spi_device->CCR & USIC_CH_CCR_DLIEN_Msk) != 0) || ((spi->spi_device->PCR_SSCMode & USIC_CH_PCR_SSCMode_DX2TIEN_Msk) != 0);
+}
+
+ALWAYS_INLINE static void spi_bus_er_it_enable(spi_bus_t* spi)
+{
+    spi->spi_device->CCR |= USIC_CH_CCR_DLIEN_Msk;
+    spi->spi_device->PCR_SSCMode |= USIC_CH_PCR_SSCMode_DX2TIEN_Msk;
+}
+
+ALWAYS_INLINE static void spi_bus_er_it_disable(spi_bus_t* spi)
+{
+    spi->spi_device->CCR &= ~USIC_CH_CCR_DLIEN_Msk;
+    spi->spi_device->PCR_SSCMode &= ~USIC_CH_PCR_SSCMode_DX2TIEN_Msk;
+}
+
+ALWAYS_INLINE static void spi_bus_er_it_set_enabled(spi_bus_t* spi, bool enabled)
+{
+    if(enabled) spi_bus_er_it_enable(spi);
+    else spi_bus_er_it_disable(spi);
+}
+
 
 err_t spi_bus_init(spi_bus_t* spi, spi_bus_init_t* init)
 {
@@ -84,7 +169,7 @@ err_t spi_bus_init(spi_bus_t* spi, spi_bus_init_t* init)
     
     spi->tx_default = SPI_DUMMY_DATA_DEF_VAL;
 
-    spi->spi_device->CR2 |= SPI_CR2_ERRIE;
+    spi_bus_er_it_enable(spi);
     
     return E_NO_ERROR;
 }
@@ -269,14 +354,9 @@ static void spi_bus_transfer_error(spi_bus_t* spi)
     spi_bus_done(spi);
 }
 
-static uint16_t spi_bus_read_dr(spi_bus_t* spi)
+static uint16_t spi_bus_read_received_data(spi_bus_t* spi)
 {
-    return spi->spi_device->DR;
-}
-
-static uint16_t spi_bus_read_sr(spi_bus_t* spi)
-{
-    return spi->spi_device->SR;
+    return spi->spi_device->OUTR;
 }
 
 void spi_bus_irq_handler(spi_bus_t* spi)
@@ -285,42 +365,37 @@ void spi_bus_irq_handler(spi_bus_t* spi)
     printf("[SPI] ERR\r\n");
 #endif
     
-    uint16_t SR = spi->spi_device->SR;
+    uint16_t PSR = spi->spi_device->PSR;
     
-    if(SR & SPI_SR_OVR){
+    if(PSR & USIC_CH_PSR_SSCMode_DLIF_Msk){
         // Clear flag.
-        spi_bus_read_sr(spi);
-        spi_bus_read_dr(spi);
+        spi->spi_device->PSCR = USIC_CH_PSCR_CDLIF_Msk;
         
         spi->errors |= SPI_ERROR_OVERRUN;
 
     }
-    if(SR & SPI_SR_MODF){
-        // Clear flag.
-        spi_bus_read_sr(spi);
-        // Restore master.
-        spi->spi_device->CR1 |= SPI_CR1_MSTR;
-        // Enable SPI.
-        spi->spi_device->CR1 |= SPI_CR1_SPE;
+    if(PSR & USIC_CH_PSR_SSCMode_DX2TEV_Msk){
+        spi->spi_device->PSCR = USIC_CH_PSCR_CST3_Msk;
         
         spi->errors |= SPI_ERROR_MASTER_MODE_FAULT;
     }
-    if(SR & SPI_SR_CRCERR){
-        // Clear flag.
-        spi->spi_device->SR &= ~SPI_SR_CRCERR;
-        
-        spi->errors |= SPI_ERROR_CRC;
-    }
+//    if(PSR & SPI_SR_CRCERR){
+//        // Clear flag.
+//
+//        spi->errors |= SPI_ERROR_CRC;
+//    }
 
-    if(SR & SPI_SR_RXNE){
+    if(PSR & (USIC_CH_PSR_SSCMode_RIF_Msk | USIC_CH_PSR_SSCMode_AIF_Msk)){
         // Clear flag.
-        spi_bus_read_dr(spi);
+        spi_bus_clear_rx_events(spi);
         // Disable interrupt.
-        spi->spi_device->CR2 &= ~SPI_CR2_RXNEIE;
+        spi_bus_rx_it_disable(spi);
         
-    }else if(SR & SPI_SR_TXE){
+    }else if(PSR & USIC_CH_PSR_SSCMode_TBIF_Msk){
+        // Clear flag.
+        spi_bus_clear_tx_events(spi);
         // Disable interrupt.
-        spi->spi_device->CR2 &= ~SPI_CR2_TXEIE;
+        spi_bus_tx_it_disable(spi);
     }
     
     if(spi->errors == SPI_NO_ERROR){
@@ -353,7 +428,7 @@ bool spi_bus_dma_rx_channel_irq_handler(spi_bus_t* spi)
         if(!spi_bus_is_crc_enabled(spi)){
             spi_bus_transfer_done(spi);
         }else{
-            spi->spi_device->CR2 |= SPI_CR2_RXNEIE;
+            spi_bus_rx_it_enable(spi);
         }
 
     }else if(dma_channel_it_flag_status(dma_te_flag)){
@@ -391,7 +466,7 @@ bool spi_bus_dma_tx_channel_irq_handler(spi_bus_t* spi)
             if(!spi_bus_is_crc_enabled(spi)){
                 spi_bus_transfer_done(spi);
             }else{
-                spi->spi_device->CR2 |= SPI_CR2_TXEIE;
+                spi_bus_tx_it_enable(spi);
             }
         }
 
@@ -407,7 +482,7 @@ bool spi_bus_dma_tx_channel_irq_handler(spi_bus_t* spi)
 
 bool spi_bus_busy(spi_bus_t* spi)
 {
-    return (spi->spi_device->SR & SPI_SR_BSY) != 0;// && spi->state != SPI_STATE_IDLE;
+    return (spi->spi_device->TCSR & USIC_CH_TCSR_TDVTR_Msk) != 0;// && spi->state != SPI_STATE_IDLE;
 }
 
 void spi_bus_wait(spi_bus_t* spi)
@@ -417,7 +492,7 @@ void spi_bus_wait(spi_bus_t* spi)
 
 bool spi_bus_enabled(spi_bus_t* spi)
 {
-    return (spi->spi_device->CR1 & SPI_CR1_SPE) != 0;
+    return ((spi->spi_device->CCR & USIC_CH_CCR_MODE_Msk) >> USIC_CH_CCR_MODE_Pos) != 0; // == 0b01
 }
 
 bool spi_bus_set_enabled(spi_bus_t* spi, bool enabled)
@@ -425,9 +500,13 @@ bool spi_bus_set_enabled(spi_bus_t* spi, bool enabled)
     if(spi_bus_busy(spi)) return false;
     
     if(enabled){
-        spi->spi_device->CR1 |= SPI_CR1_SPE;
+        uint32_t mode = ((spi->spi_device->CCR & USIC_CH_CCR_MODE_Msk) >> USIC_CH_CCR_MODE_Pos);
+        if((mode != 0b01) && (mode != 0b00)){
+            spi->spi_device->CCR &= ~USIC_CH_CCR_MODE_Msk;
+        }
+        spi->spi_device->CCR = (spi->spi_device->CCR & ~USIC_CH_CCR_MODE_Msk) | (0b01 << USIC_CH_CCR_MODE_Pos);
     }else{
-        spi->spi_device->CR1 &= ~SPI_CR1_SPE;
+        spi->spi_device->CCR &= ~USIC_CH_CCR_MODE_Msk;
     }
     
     return true;
@@ -469,51 +548,46 @@ bool spi_bus_crc_enabled(spi_bus_t* spi)
 
 bool spi_bus_set_crc_enabled(spi_bus_t* spi, bool enabled)
 {
-    if(spi_bus_busy(spi)) return false;
-    
-    if(enabled){
-        spi->spi_device->CR1 |= SPI_CR1_CRCEN;
-    }else{
-        spi->spi_device->CR1 &= ~SPI_CR1_CRCEN;
-    }
-    
-    return true;
+    (void) spi;
+    (void) enabled;
+
+    return false;
 }
 
 uint16_t spi_bus_crc_polynomial(spi_bus_t* spi)
 {
-    return spi->spi_device->CRCPR;
+    (void) spi;
+
+    return 0;
 }
 
 bool spi_bus_set_crc_polynomial(spi_bus_t* spi, uint16_t polynomial)
 {
-    if(spi_bus_busy(spi)) return false;
-    
-    spi->spi_device->CRCPR = polynomial;
-    
-    return true;
+    (void) spi;
+    (void) polynomial;
+
+    return false;
 }
 
 uint16_t spi_bus_tx_crc(spi_bus_t* spi)
 {
-    return spi->spi_device->TXCRCR;
+    (void) spi;
+
+    return 0;
 }
 
 uint16_t spi_bus_rx_crc(spi_bus_t* spi)
 {
-    return spi->spi_device->RXCRCR;
+    (void) spi;
+
+    return 0;
 }
 
 bool spi_bus_reset_crc(spi_bus_t* spi)
 {
-    if(spi_bus_busy(spi)) return false;
-    if(!spi_bus_is_crc_enabled(spi)) return false;
+    (void) spi;
     
-    spi->spi_device->CR1 &= ~SPI_CR1_CRCEN;
-    __NOP();
-    spi->spi_device->CR1 |= SPI_CR1_CRCEN;
-    
-    return true;
+    return false;
 }
 
 spi_data_frame_format_t spi_bus_data_frame_format(spi_bus_t* spi)
@@ -529,9 +603,9 @@ bool spi_bus_set_data_frame_format(spi_bus_t* spi, spi_data_frame_format_t forma
     if(spi_bus_busy(spi)) return false;
 
     if(format == SPI_DATA_FRAME_FORMAT_8BIT){
-        spi->spi_device->CR1 &= ~SPI_CR1_DFF;
+        spi->spi_device->SCTR = (spi->spi_device->SCTR & ~USIC_CH_SCTR_FLE_Msk) | (7 << USIC_CH_SCTR_FLE_Pos);
     }else{
-        spi->spi_device->CR1 |= SPI_CR1_DFF;
+        spi->spi_device->SCTR = (spi->spi_device->SCTR & ~USIC_CH_SCTR_FLE_Msk) | (15 << USIC_CH_SCTR_FLE_Pos);
     }
 
     return true;
@@ -550,9 +624,9 @@ bool spi_bus_set_frame_format(spi_bus_t* spi, spi_frame_format_t format)
     if(spi_bus_busy(spi)) return false;
 
     if(format == SPI_FRAME_FORMAT_MSBFIRST){
-        spi->spi_device->CR1 &= ~SPI_CR1_LSBFIRST;
+        spi->spi_device->SCTR |= USIC_CH_SCTR_SDIR_Msk;
     }else{
-        spi->spi_device->CR1 |= SPI_CR1_LSBFIRST;
+        spi->spi_device->SCTR &= ~USIC_CH_SCTR_SDIR_Msk;
     }
 
     return true;
@@ -661,14 +735,17 @@ err_t spi_bus_transmit(spi_bus_t* spi, uint16_t tx_data, uint16_t* rx_data)
 {
     if(spi_bus_busy(spi)) return E_BUSY;
 
-    spi->spi_device->DR = tx_data;
+    spi_bus_clear_rxtx_events(spi);
+
+    spi->spi_device->TBUF[0] = tx_data;
+
     // Подождать отправки.
-    spi_bus_wait_txe(spi);
+    spi_bus_wait_can_tx(spi);
     // Подождать получения.
-    spi_bus_wait_rxne(spi);
+    spi_bus_wait_can_rx(spi);
 
     // Очистим RXNE flag.
-    uint16_t data = spi_bus_read_dr(spi);
+    uint16_t data = spi_bus_read_received_data(spi);
     if(rx_data) *rx_data = data;
 
     return E_NO_ERROR;
