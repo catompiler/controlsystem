@@ -1,12 +1,15 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 /**
  * @file spi.h
  * Библиотека для работы с SPI.
  */
 
-#ifndef SPI_H
-#define	SPI_H
+#ifndef SPI_XMC4XXX_H
+#define	SPI_XMC4XXX_H
 
 #include "cpu.h"
+#include "dma/dma_xmc4xxx.h"
 #include <stddef.h>
 #include <stdbool.h>
 #include "errors/errors.h"
@@ -16,6 +19,11 @@
 #define E_SPI (E_USER + 10)
 //! Ошибка при некорректном сообщении.
 #define E_SPI_INVALID_MESSAGE (E_SPI)
+
+
+//! Использовать ли FIFO.
+#define SPI_BUS_USE_FIFO 0
+
 
 /**
  * Тип функции обратного вызова.
@@ -92,9 +100,17 @@ typedef struct _SPI_Message {
 
 //! Структуры шины spi.
 typedef struct _SPI_Bus {
+    // DMA.
+    dma_channel_t* dma_rx_channel;
+    size_t dma_rx_ch_n;//!< Номер канала DMA для приёма.
+    size_t dma_rx_line_n; //!< Номер линии DMA для приёма.
+    dma_req_line_source_t dma_rx_line_req_n; //!< Номер источника запроса DMA для приёма.
+    dma_channel_t* dma_tx_channel;
+    size_t dma_tx_ch_n;//!< Номер канала DMA для передачи.
+    size_t dma_tx_line_n; //!< Номер линии DMA для передачи.
+    dma_req_line_source_t dma_tx_line_req_n; //!< Номер источника запроса DMA для передачи.
+    // SPI.
     USIC_CH_TypeDef* spi_device;//!< Периферия.
-    GPDMA0_CH_TypeDef* dma_rx_channel;//!< Канал DMA для приёма.
-    GPDMA0_CH_TypeDef* dma_tx_channel;//!< Канал DMA для передачи.
     spi_status_t status;//!< Статус шины.
     spi_errors_t errors;//!< Ошибка шины.
     spi_callback_t callback;//!< Функция обратного вызова.
@@ -111,8 +127,12 @@ typedef struct _SPI_Bus {
 //! Структура инициализации шины spi.
 typedef struct _SPI_Bus_Init{
     USIC_CH_TypeDef* spi_device;//!< Периферия.
-    GPDMA0_CH_TypeDef* dma_rx_channel;//!< Канал DMA для приёма.
-    GPDMA0_CH_TypeDef* dma_tx_channel;//!< Канал DMA для передачи.
+    size_t dma_rx_ch_n;//!< Номер канала DMA для приёма.
+    size_t dma_rx_line_n; //!< Номер линии DMA для приёма.
+    dma_req_line_source_t dma_rx_line_req_n; //!< Номер источника запроса DMA для приёма.
+    size_t dma_tx_ch_n;//!< Номер канала DMA для передачи.
+    size_t dma_tx_line_n; //!< Номер линии DMA для передачи.
+    dma_req_line_source_t dma_tx_line_req_n; //!< Номер источника запроса DMA для передачи.
 } spi_bus_init_t;
 
 /**
@@ -394,5 +414,6 @@ EXTERN err_t spi_bus_transfer(spi_bus_t* spi, spi_message_t* messages, size_t me
  */
 EXTERN err_t spi_bus_transmit(spi_bus_t* spi, uint16_t tx_data, uint16_t* rx_data);
 
-#endif	/* SPI_H */
+#endif	/* SPI_XMC4XXX_H */
 
+#endif

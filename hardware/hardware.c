@@ -32,4 +32,21 @@ void hardware_init_usarts(void)
     USARTS_RESET_DISABLE();
 }
 
+void hardware_init_spis(void)
+{
+    // reset.
+    SPIS_RESET_ENABLE();
+    SPIS_RESET_DISABLE();
+}
+
+void hardware_init_dma(void)
+{
+    // reset.
+    DMA_RESET_ENABLE();
+    DMA_RESET_DISABLE();
+
+    // enable clock.
+    DMA_CLOCK_ENABLE();
+}
+
 #endif

@@ -1,4 +1,6 @@
-#include "spi.h"
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
+#include "spi_xmc4xxx.h"
 #include <stddef.h>
 #include "utils/utils.h"
 #include "defs/defs.h"
@@ -147,14 +149,34 @@ ALWAYS_INLINE static void spi_bus_er_it_set_enabled(spi_bus_t* spi, bool enabled
     else spi_bus_er_it_disable(spi);
 }
 
+ALWAYS_INLINE static const void* spi_bus_rx_reg_ptr(spi_bus_t* spi)
+{
+    return (const void*)&spi->spi_device->OUTR;
+}
+
+ALWAYS_INLINE static void* spi_bus_tx_reg_ptr(spi_bus_t* spi)
+{
+    return (void*)&spi->spi_device->TBUF[0];
+}
+
 
 err_t spi_bus_init(spi_bus_t* spi, spi_bus_init_t* init)
 {
     if(init == NULL) return E_NULL_POINTER;
     
+    // DMA.
+    spi->dma_rx_ch_n = init->dma_rx_ch_n;
+    spi->dma_rx_line_n = init->dma_rx_line_n;
+    spi->dma_rx_line_req_n = init->dma_rx_line_req_n;
+    spi->dma_rx_channel = dma_get_channel(init->dma_rx_ch_n);
+    if(spi->dma_rx_channel == NULL) return E_INVALID_VALUE;
+    spi->dma_tx_ch_n = init->dma_tx_ch_n;
+    spi->dma_tx_line_n = init->dma_tx_line_n;
+    spi->dma_tx_line_req_n = init->dma_tx_line_req_n;
+    spi->dma_tx_channel = dma_get_channel(init->dma_tx_ch_n);
+    if(spi->dma_tx_channel == NULL) return E_INVALID_VALUE;
+    // SPI.
     spi->spi_device = init->spi_device;
-    spi->dma_rx_channel = init->dma_rx_channel;
-    spi->dma_tx_channel = init->dma_tx_channel;
     spi->messages = NULL;
     spi->messages_count = 0;
     spi->message_index = 0;
@@ -176,59 +198,68 @@ err_t spi_bus_init(spi_bus_t* spi, spi_bus_init_t* init)
 
 static void spi_bus_dma_rxtx_config(spi_bus_t* spi, void* rx_address, const void* tx_address, size_t size)
 {
-    uint32_t ccr = DMA_CCR1_PL_0 | DMA_CCR1_TEIE | DMA_CCR1_TCIE;
-    
-    if(spi_bus_is_frame_16bit(spi)){
-        ccr |= DMA_CCR1_MSIZE_0 | DMA_CCR1_PSIZE_0;
-        size >>= 1;
-    }
+    dma_transfer_width_t tf_w = spi_bus_is_frame_16bit(spi) ? DMA_TRANSFER_WIDTH_16_BIT : DMA_TRANSFER_WIDTH_8_BIT;
+    dma_addr_inc_t rx_addr_inc = (rx_address != NULL) ? DMA_ADDR_INC : DMA_ADDR_NO_CHANGE;
+    dma_addr_inc_t tx_addr_inc = (tx_address != NULL) ? DMA_ADDR_INC : DMA_ADDR_NO_CHANGE;
 
     // RX.
     if(spi->dma_rx_locked){
         
-        spi->dma_rx_channel->CCR = 0;
-        
-        spi->dma_rx_channel->CNDTR = size;
-        
-        spi->dma_rx_channel->CPAR = (uint32_t)&spi->spi_device->DR;
-        
-        if(rx_address){
-            spi->dma_rx_channel->CMAR = (uint32_t)rx_address;
-            spi->dma_rx_channel->CCR = ccr | DMA_CCR1_MINC;
-        }else{
-            spi->dma_rx_channel->CMAR = (uint32_t)&spi_rx_default_data;
-            spi->dma_rx_channel->CCR = ccr;
-        }
+        if(rx_address == NULL) rx_address = &spi_rx_default_data;
+
+        dma_int_clear_pending_requests(spi->dma_rx_ch_n);
+        dma_channel_config(spi->dma_rx_channel, DMA_FLOW_CONTROL_PREFETCH_DISABLED, DMA_FIFO_SINGLE_DATA_FOR_BURST,
+                           spi->dma_rx_line_n, 0,
+                           DMA_PRIOR_DEFAULT, DMA_HS_HARDWARE, DMA_HS_HARDWARE, DMA_HS_ACTIVE_HIGH, DMA_HS_ACTIVE_HIGH,
+                           DMA_BURST_LEN_NO_LIMIT);
+        dma_channel_control(spi->dma_rx_channel, DMA_INT_ENABLE,
+                            tf_w, tf_w, rx_addr_inc, DMA_ADDR_NO_CHANGE,
+                            DMA_BURST_TRANS_LEN_1, DMA_BURST_TRANS_LEN_1,
+                            DMA_TRANSFER_PER_TO_MEM_FC_PER);
+        dma_channel_set_block_transfer_size(spi->dma_rx_channel, size);
+        dma_channel_set_source_address(spi->dma_rx_channel, spi_bus_rx_reg_ptr(spi));
+        dma_channel_set_dest_address(spi->dma_rx_channel, rx_address);
+        dma_channel_enable(spi->dma_rx_ch_n);
+
+        dma_request_line_overrun_clear(spi->dma_rx_line_n);
+        dma_request_line_set_source(spi->dma_rx_line_n, spi->dma_rx_line_req_n);
+        dma_request_line_enable(spi->dma_rx_line_n);
     }
     
     // TX.
     if(spi->dma_tx_locked){
         
-        spi->dma_tx_channel->CCR = 0;
-        
-        spi->dma_tx_channel->CNDTR = size;
-        
-        spi->dma_tx_channel->CPAR = (uint32_t)&spi->spi_device->DR;
-        
-        if(tx_address){
-            spi->dma_tx_channel->CMAR = (uint32_t)tx_address;
-            spi->dma_tx_channel->CCR = ccr | DMA_CCR1_DIR | DMA_CCR1_MINC;
-        }else{
-            spi->dma_tx_channel->CMAR = (uint32_t)&spi->tx_default;
-            spi->dma_tx_channel->CCR = ccr | DMA_CCR1_DIR;
-        }
+        if(tx_address == NULL) tx_address = &spi->tx_default;
+
+        dma_int_clear_pending_requests(spi->dma_tx_ch_n);
+        dma_channel_config(spi->dma_tx_channel, DMA_FLOW_CONTROL_PREFETCH_DISABLED, DMA_FIFO_SINGLE_DATA_FOR_BURST,
+                           spi->dma_tx_line_n, 0,
+                           DMA_PRIOR_DEFAULT, DMA_HS_HARDWARE, DMA_HS_HARDWARE, DMA_HS_ACTIVE_HIGH, DMA_HS_ACTIVE_HIGH,
+                           DMA_BURST_LEN_NO_LIMIT);
+        dma_channel_control(spi->dma_tx_channel, DMA_INT_ENABLE,
+                            tf_w, tf_w, tx_addr_inc, DMA_ADDR_NO_CHANGE,
+                            DMA_BURST_TRANS_LEN_1, DMA_BURST_TRANS_LEN_1,
+                            DMA_TRANSFER_PER_TO_MEM_FC_PER);
+        dma_channel_set_block_transfer_size(spi->dma_tx_channel, size);
+        dma_channel_set_source_address(spi->dma_tx_channel, tx_address);
+        dma_channel_set_dest_address(spi->dma_tx_channel, spi_bus_tx_reg_ptr(spi));
+        dma_channel_enable(spi->dma_tx_ch_n);
+
+        dma_request_line_overrun_clear(spi->dma_tx_line_n);
+        dma_request_line_set_source(spi->dma_tx_line_n, spi->dma_tx_line_req_n);
+        dma_request_line_enable(spi->dma_tx_line_n);
     }
 }
 
 ALWAYS_INLINE static void spi_bus_dma_start(spi_bus_t* spi)
 {
     if(spi->dma_rx_locked){
-        spi->spi_device->CR2 |= SPI_CR2_RXDMAEN;
-        spi->dma_rx_channel->CCR |= DMA_CCR1_EN;
+        spi_bus_rx_it_enable(spi);
+        dma_request_line_enable(spi->dma_rx_line_n);
     }
     if(spi->dma_tx_locked){
-        spi->spi_device->CR2 |= SPI_CR2_TXDMAEN;
-        spi->dma_tx_channel->CCR |= DMA_CCR1_EN;
+        spi_bus_tx_it_enable(spi);
+        dma_request_line_enable(spi->dma_tx_line_n);
     }
 }
 
@@ -236,16 +267,16 @@ ALWAYS_INLINE static void spi_bus_dma_start(spi_bus_t* spi)
 ALWAYS_INLINE static void spi_bus_dma_stop_rx(spi_bus_t* spi)
 {
     if(spi->dma_rx_locked){
-        spi->dma_rx_channel->CCR &= ~DMA_CCR1_EN;
-        spi->spi_device->CR2 &= ~SPI_CR2_RXDMAEN;
+        dma_request_line_disable(spi->dma_rx_line_n);
+        spi_bus_rx_it_disable(spi);
     }
 }
 
 ALWAYS_INLINE static void spi_bus_dma_stop_tx(spi_bus_t* spi)
 {
     if(spi->dma_tx_locked){
-        spi->dma_tx_channel->CCR &= ~DMA_CCR1_EN;
-        spi->spi_device->CR2 &= ~SPI_CR2_TXDMAEN;
+        dma_request_line_disable(spi->dma_tx_line_n);
+        spi_bus_tx_it_disable(spi);
     }
 }
 
@@ -258,14 +289,14 @@ ALWAYS_INLINE static void spi_bus_dma_stop(spi_bus_t* spi)
 static bool spi_bus_dma_lock_channels(spi_bus_t* spi, bool lock_rx, bool lock_tx)
 {
     if(lock_rx){
-        spi->dma_rx_locked = dma_channel_trylock(spi->dma_rx_channel);
+        spi->dma_rx_locked = dma_channel_trylock(spi->dma_rx_ch_n);
         if(!spi->dma_rx_locked) return false;
     }
     if(lock_tx){
-        spi->dma_tx_locked = dma_channel_trylock(spi->dma_tx_channel);
+        spi->dma_tx_locked = dma_channel_trylock(spi->dma_tx_ch_n);
         if(!spi->dma_tx_locked){
             if(spi->dma_rx_locked){
-                dma_channel_unlock(spi->dma_rx_channel);
+                dma_channel_unlock(spi->dma_rx_ch_n);
                 spi->dma_rx_locked = false;
             }
             return false;
@@ -278,12 +309,12 @@ static void spi_bus_dma_unlock_channels(spi_bus_t* spi)
 {
     if(spi->dma_rx_locked){
         dma_channel_deinit(spi->dma_rx_channel);
-        dma_channel_unlock(spi->dma_rx_channel);
+        dma_channel_unlock(spi->dma_rx_ch_n);
         spi->dma_rx_locked = false;
     }
     if(spi->dma_tx_locked){
         dma_channel_deinit(spi->dma_tx_channel);
-        dma_channel_unlock(spi->dma_tx_channel);
+        dma_channel_unlock(spi->dma_tx_ch_n);
         spi->dma_tx_locked = false;
     }
 }
@@ -417,13 +448,10 @@ bool spi_bus_dma_rx_channel_irq_handler(spi_bus_t* spi)
     
     // Если мы не можем принимать - возврат.
     if(!can_rx || !spi->dma_rx_locked) return false;
-        
-    uint32_t dma_tc_flag = dma_channel_it_flag(spi->dma_rx_channel, DMA_IT_TC);
-    uint32_t dma_te_flag = dma_channel_it_flag(spi->dma_tx_channel, DMA_IT_TE);
 
-    if(dma_channel_it_flag_status(dma_tc_flag)){
+    if(dma_int_status_transfer_complete(spi->dma_rx_ch_n)){
 
-        dma_channel_it_flag_clear(dma_tc_flag);
+        dma_int_clear_transfer_complete(spi->dma_rx_ch_n);
         
         if(!spi_bus_is_crc_enabled(spi)){
             spi_bus_transfer_done(spi);
@@ -431,9 +459,9 @@ bool spi_bus_dma_rx_channel_irq_handler(spi_bus_t* spi)
             spi_bus_rx_it_enable(spi);
         }
 
-    }else if(dma_channel_it_flag_status(dma_te_flag)){
+    }else if(dma_int_status_error(spi->dma_rx_ch_n)){
 
-        dma_channel_it_flag_clear(dma_te_flag);
+        dma_int_clear_error(spi->dma_rx_ch_n);
         
         spi->errors |= SPI_ERROR_DMA;
         spi_bus_transfer_error(spi);
@@ -454,13 +482,10 @@ bool spi_bus_dma_tx_channel_irq_handler(spi_bus_t* spi)
     
     // Если мы не можем передавать - возврат.
     if(!can_tx || !spi->dma_tx_locked) return false;
-        
-    uint32_t dma_tc_flag = dma_channel_it_flag(spi->dma_tx_channel, DMA_IT_TC);
-    uint32_t dma_te_flag = dma_channel_it_flag(spi->dma_tx_channel, DMA_IT_TE);
 
-    if(dma_channel_it_flag_status(dma_tc_flag)){
+    if(dma_int_status_transfer_complete(spi->dma_tx_ch_n)){
 
-        dma_channel_it_flag_clear(dma_tc_flag);
+        dma_int_clear_transfer_complete(spi->dma_tx_ch_n);
 
         if(!can_rx){
             if(!spi_bus_is_crc_enabled(spi)){
@@ -470,9 +495,9 @@ bool spi_bus_dma_tx_channel_irq_handler(spi_bus_t* spi)
             }
         }
 
-    }else if(dma_channel_it_flag_status(dma_te_flag)){
+    }else if(dma_int_status_error(spi->dma_tx_ch_n)){
 
-        dma_channel_it_flag_clear(dma_te_flag);
+        dma_int_clear_error(spi->dma_tx_ch_n);
         
         spi->errors |= SPI_ERROR_DMA;
         spi_bus_transfer_error(spi);
@@ -750,3 +775,5 @@ err_t spi_bus_transmit(spi_bus_t* spi, uint16_t tx_data, uint16_t* rx_data)
 
     return E_NO_ERROR;
 }
+
+#endif

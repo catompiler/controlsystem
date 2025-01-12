@@ -6,15 +6,46 @@
 #include "cpu.h"
 
 
+// DMA.
+#define DMA_RESET_ENABLE() do{\
+        SCU_RESET->PRSET2 = (SCU_RESET_PRSET2_DMA0RS_Msk | SCU_RESET_PRSET2_DMA1RS_Msk);\
+        __DMB();\
+        while((SCU_RESET->PRSTAT2 & (SCU_RESET_PRSTAT2_DMA0RS_Msk | SCU_RESET_PRSTAT2_DMA1RS_Msk)) == 0){ __NOP(); }\
+    }while(0)
+#define DMA_RESET_DISABLE() do{\
+        SCU_RESET->PRCLR2 = (SCU_RESET_PRCLR2_DMA0RS_Msk | SCU_RESET_PRCLR2_DMA1RS_Msk);\
+        __DMB();\
+        while((SCU_RESET->PRSTAT2 & (SCU_RESET_PRSTAT2_DMA0RS_Msk | SCU_RESET_PRSTAT2_DMA1RS_Msk)) != 0){ __NOP(); }\
+    }while(0)
+#define DMA_CLOCK_ENABLE() do{\
+        GPDMA0->DMACFGREG = GPDMA0_DMACFGREG_DMA_EN_Msk;\
+        GPDMA1->DMACFGREG = GPDMA1_DMACFGREG_DMA_EN_Msk;\
+        __DSB();\
+    }while(0)
+#define DMA_CLOCK_DISABLE() do{\
+        GPDMA0->DMACFGREG = 0;\
+        GPDMA1->DMACFGREG = 0;\
+        __DSB();\
+    }while(0)
+// DMA1.
+#define DMA1_IRQ_Handler GPDMA0_0_IRQHandler
+#define DMA1_IRQn GPDMA0_0_IRQn
+// DMA2.
+#define DMA2_IRQ_Handler GPDMA1_0_IRQHandler
+#define DMA2_IRQn GPDMA1_0_IRQn
+
+
 // Timers.
 // Periodic.
 #define PERIODIC_TIMS_RESET_ENABLE() do{\
         SCU_RESET->PRSET1 = SCU_RESET_PRSET1_CCU43RS_Msk;\
         __DMB();\
+        while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_CCU43RS_Msk) == 0){ __NOP(); }\
     }while(0)
 #define PERIODIC_TIMS_RESET_DISABLE() do{\
         SCU_RESET->PRCLR1 = SCU_RESET_PRCLR1_CCU43RS_Msk;\
         __DMB();\
+        while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_CCU43RS_Msk) != 0){ __NOP(); }\
     }while(0)
 #define PERIODIC_TIMS_CLOCK_ENABLE() do{\
         SCU_CLK->CLKSET = SCU_CLK_CLKSET_CCUCEN_Msk;\
@@ -65,10 +96,12 @@
 #define COUNTING_TIMS_RESET_ENABLE() do{\
         SCU_RESET->PRSET0 = SCU_RESET_PRSET0_CCU42RS_Msk;\
         __DMB();\
+        while((SCU_RESET->PRSTAT0 & SCU_RESET_PRSTAT0_CCU42RS_Msk) == 0){ __NOP(); }\
     }while(0)
 #define COUNTING_TIMS_RESET_DISABLE() do{\
         SCU_RESET->PRCLR0 = SCU_RESET_PRCLR0_CCU42RS_Msk;\
         __DMB();\
+        while((SCU_RESET->PRSTAT0 & SCU_RESET_PRSTAT0_CCU42RS_Msk) != 0){ __NOP(); }\
     }while(0)
 #define COUNTING_TIMS_CLOCK_ENABLE() do{\
         SCU_CLK->CLKSET = SCU_CLK_CLKSET_CCUCEN_Msk;\
@@ -96,7 +129,6 @@
 
 
 // Usarts.
-// Counting.
 #define USARTS_RESET_ENABLE() do{\
         SCU_RESET->PRSET1 = SCU_RESET_PRSET1_USIC1RS_Msk;\
         __DMB();\
@@ -169,7 +201,6 @@
 
 
 // SPIs.
-// eep.
 #define SPIS_RESET_ENABLE() do{\
         SCU_RESET->PRSET1 = SCU_RESET_PRSET1_USIC1RS_Msk;\
         __DMB();\
@@ -217,9 +248,20 @@
 #define EEP_SPI_USIC_CH_FIFO_RX_SIZE 16
 #define EEP_SPI_USIC_CH_FIFO_RX_SIZE_SEL 0b100 // 16
 //#define EEP_SPI_USIC_CH_FIFO_RX_LIMIT 0
-#define EEP_SPI_USIC_CH_SR_SEL 0b000
-#define EEP_SPI_USIC_CH_IRQ_Handler USIC0_0_IRQHandler
-#define EEP_SPI_USIC_CH_IRQn USIC0_0_IRQn
+#define EEP_SPI_USIC_CH_SR_SEL 0b010
+#define EEP_SPI_USIC_CH_IRQ_Handler USIC0_2_IRQHandler
+#define EEP_SPI_USIC_CH_IRQn USIC0_2_IRQn
+// dma.
+// tx.
+#define EEP_SPI_USIC_TX_SR_SEL 0b000
+#define EEP_SPI_DMA_TX_CHANNEL 0
+#define EEP_SPI_DMA_TX_REQ_LINE 0
+#define EEP_SPI_DMA_TX_REQ_LINE_SOURCE 0b1010
+// rx.
+#define EEP_SPI_USIC_RX_SR_SEL 0b001
+#define EEP_SPI_DMA_RX_CHANNEL 1
+#define EEP_SPI_DMA_RX_REQ_LINE 2
+#define EEP_SPI_DMA_RX_REQ_LINE_SOURCE 0b1011
 
 
 #endif /* HARDWARE_CONFIG_H_ */

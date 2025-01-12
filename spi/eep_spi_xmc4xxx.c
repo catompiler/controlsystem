@@ -1,16 +1,17 @@
+
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 
-#include "eep_spi.h"
+#include "eep_spi_xmc4xxx.h"
 #include "gpio/gpio_xmc4xxx.h"
 #include "hardware/config.h"
-#include "spi.h"
+#include "spi/spi_xmc4xxx.h"
 #include <stdint.h>
 #include <stddef.h>
 
 
 //! Структура eep spi.
 typedef struct _S_Eep_Spi {
-    spi_bus_t spi;
+    spi_bus_t* spi_bus;
 } eep_spi_t;
 
 
@@ -21,12 +22,16 @@ static eep_spi_t eep_spi;
 //! Обработчик прерывания.
 void EEP_SPI_USIC_CH_IRQ_Handler(void)
 {
-    spi_bus_irq_handler(&eep_spi.spi);
+    spi_bus_irq_handler(eep_spi.spi_bus);
 }
 
 
-err_t usart_stdio_init(void)
+err_t eep_spi_init(spi_bus_t* spi_bus)
 {
+    if(spi_bus == NULL) return E_NULL_POINTER;
+
+    eep_spi.spi_bus = spi_bus;
+
     // enable module.
     EEP_SPI_USIC_CH->KSCFG = USIC_CH_KSCFG_MODEN_Msk | USIC_CH_KSCFG_BPMODEN_Msk;
     while((EEP_SPI_USIC_CH->KSCFG & USIC_CH_KSCFG_MODEN_Msk) == 0){ __NOP(); }
@@ -66,8 +71,10 @@ err_t usart_stdio_init(void)
                                    //((1) << USIC_CH_PCR_SSCMode_MSLSIEN_Pos); // sel interrupt.
 
     // interrup selector.
-    EEP_SPI_USIC_CH->INPR = ((EEP_SPI_USIC_CH_SR_SEL) << USIC_CH_INPR_RINP_Pos) |
-                            ((EEP_SPI_USIC_CH_SR_SEL) << USIC_CH_INPR_TBINP_Pos);
+    EEP_SPI_USIC_CH->INPR = ((EEP_SPI_USIC_CH_SR_SEL) << USIC_CH_INPR_PINP_Pos) |
+                            ((EEP_SPI_USIC_RX_SR_SEL) << USIC_CH_INPR_AINP_Pos) |
+                            ((EEP_SPI_USIC_RX_SR_SEL) << USIC_CH_INPR_RINP_Pos) |
+                            ((EEP_SPI_USIC_TX_SR_SEL) << USIC_CH_INPR_TBINP_Pos);
 
     // enable tbuf.
     EEP_SPI_USIC_CH->TCSR = ((1) << USIC_CH_TCSR_TDEN_Pos) |
@@ -87,6 +94,7 @@ err_t usart_stdio_init(void)
     EEP_SPI_USIC_CH->TBCTR = 0;
     EEP_SPI_USIC_CH->RBCTR = 0;
 
+#if defined(SPI_BUS_USE_FIFO) && SPI_BUS_USE_FIFO == 1
     __DSB();
     EEP_SPI_USIC_CH->TBCTR = ((EEP_SPI_USIC_CH_FIFO_TX_OFFSET) << USIC_CH_TBCTR_DPTR_Pos) |
                                 ((EEP_SPI_USIC_CH_FIFO_TX_SIZE_SEL) << USIC_CH_TBCTR_SIZE_Pos) |
@@ -106,6 +114,7 @@ err_t usart_stdio_init(void)
                                 /*((1) << USIC_CH_RBCTR_SRBIEN_Pos) |*/
                                 ((0b11) << USIC_CH_RBCTR_RCIM_Pos) |
                                 ((0) << USIC_CH_RBCTR_RNM_Pos);
+#endif
 
     // cs.
     gpio_set_pad_driver(EEP_SPI_PORT_CS, EEP_SPI_PIN_CS_Msk, EEP_SPI_PIN_CS_DRIVER);
@@ -125,8 +134,14 @@ err_t usart_stdio_init(void)
 
     spi_bus_init_t sbi;
     sbi.spi_device = EEP_SPI_USIC_CH;
+    sbi.dma_rx_ch_n = EEP_SPI_DMA_RX_CHANNEL;
+    sbi.dma_rx_line_n = EEP_SPI_DMA_RX_REQ_LINE;
+    sbi.dma_rx_line_req_n = EEP_SPI_DMA_RX_REQ_LINE_SOURCE;
+    sbi.dma_tx_ch_n = EEP_SPI_DMA_TX_CHANNEL;
+    sbi.dma_tx_line_n = EEP_SPI_DMA_TX_REQ_LINE;
+    sbi.dma_tx_line_req_n = EEP_SPI_DMA_TX_REQ_LINE_SOURCE;
 
-    err_t err = spi_init(&eep_spi.spi, &sbi);
+    err_t err = spi_bus_init(eep_spi.spi_bus, &sbi);
 
     // if error.
     if(err != E_NO_ERROR){

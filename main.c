@@ -11,10 +11,14 @@
 #include "sys_counter/sys_counter.h"
 #include "gpio/gpio_xmc4xxx.h"
 #include "usart/usart_stdio_xmc4xxx.h"
+#include "spi/spi_xmc4xxx.h"
+#include "spi/eep_spi_xmc4xxx.h"
 #endif
 
 
 syslog_t SYSLOG_NAME;
+
+static spi_bus_t eep_spi_bus;
 
 
 #ifndef __arm__
@@ -199,20 +203,29 @@ static void write_dlog_to_file_vcd(void)
 int main(void)
 {
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    // Configure NVIC.
     interrupts_init();
+
+    // Configure DMA.
+    hardware_init_dma();
 #endif
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    // Init sys counter.
+
     hardware_init_counting_timers();
     sys_counter_init();
     interrupts_enable_sys_counter();
     sys_counter_start();
 #endif
 
+    // Init syslog.
     syslog_init(&SYSLOG_NAME);
     syslog_set_level(&SYSLOG_NAME, SYSLOG_DEBUG);
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    // Init stdio.
+
     err_t err = E_NO_ERROR;
 
     hardware_init_usarts();
@@ -223,9 +236,26 @@ int main(void)
         SYSLOG(SYSLOG_WARNING, "Error init usart stdio!");
     }else{
         syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
+        SYSLOG(SYSLOG_INFO, "usart stdio initialized!");
     }
+#endif
 
-    SYSLOG(SYSLOG_INFO, "usart stdio initialized!");
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    // Init eeprom.
+
+    hardware_init_spis();
+    interrupts_enable_eep_spi();
+
+    err = eep_spi_init(&eep_spi_bus);
+    if(err != E_NO_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Error init eep spi!");
+    }else{
+        SYSLOG(SYSLOG_INFO, "Eep spi initialized!");
+    }
+#endif
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    // Temporary stub.
 
     for(;;){
         //STDIO_UART_USIC_CH->TBUF[0] = 'h';

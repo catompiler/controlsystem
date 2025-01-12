@@ -8,6 +8,12 @@
 //! Инициализирует приоритеты и разрешает соответствующие прерывания.
 EXTERN void interrupts_init(void);
 
+//! Разрешает прерывания от ПДП.
+EXTERN void interrupts_enable_dma(void);
+
+//! Разрешает прерывания от EEP spi.
+EXTERN void interrupts_enable_eep_spi(void);
+
 //! Разрешает прерывания от UART stdio.
 EXTERN void interrupts_enable_stdio_uart(void);
 
