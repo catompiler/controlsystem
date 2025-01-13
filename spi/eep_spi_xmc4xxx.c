@@ -54,6 +54,8 @@ err_t eep_spi_init(spi_bus_t* spi_bus)
 
     // inputs.
     EEP_SPI_USIC_CH->DX0CR = ((EEP_SPI_USIC_CH_MISO) << USIC_CH_DX0CR_DSEL_Pos);
+    EEP_SPI_USIC_CH->DX1CR = ((0b011) << USIC_CH_DX1CR_DSEL_Pos); //0
+    EEP_SPI_USIC_CH->DX2CR = ((0b011) << USIC_CH_DX2CR_DSEL_Pos); //0 // | USIC_CH_DX2CR_DPOL_Msk; // Always 1
 
     // data shifting.
     EEP_SPI_USIC_CH->SCTR = ((0b01) << USIC_CH_SCTR_TRM_Pos) | // needed.
@@ -68,8 +70,11 @@ err_t eep_spi_init(spi_bus_t* spi_bus)
     EEP_SPI_USIC_CH->PCR_SSCMode = ((1) << USIC_CH_PCR_SSCMode_MSLSEN_Pos) | // clk gen.
                                    ((1) << USIC_CH_PCR_SSCMode_SELCTR_Pos) | // direct sel.
                                    ((1) << USIC_CH_PCR_SSCMode_SELINV_Pos) | // sel active low.
-                                   ((1) << USIC_CH_PCR_SSCMode_FEM_Pos);// | // sw sel management.
+                                   ((0) << USIC_CH_PCR_SSCMode_FEM_Pos);// | // sw sel management.
                                    //((1) << USIC_CH_PCR_SSCMode_MSLSIEN_Pos); // sel interrupt.
+
+    // SS.
+    //EEP_SPI_USIC_CH->PCR_SSCMode |= ((1) << USIC_CH_PCR_SSCMode_SELO_Pos);
 
     // interrup selector.
     EEP_SPI_USIC_CH->INPR = ((EEP_SPI_USIC_CH_SR_SEL) << USIC_CH_INPR_PINP_Pos) |

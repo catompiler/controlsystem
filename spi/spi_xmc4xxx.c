@@ -26,7 +26,7 @@ static uint16_t spi_rx_default_data = 0;
 
 ALWAYS_INLINE static bool spi_bus_is_duplex(spi_bus_t* spi)
 {
-    return false;
+    return true;
 }
 
 ALWAYS_INLINE static bool spi_bus_can_rx(spi_bus_t* spi)
@@ -128,21 +128,21 @@ ALWAYS_INLINE static void spi_bus_rx_it_set_enabled(spi_bus_t* spi, bool enabled
 
 ALWAYS_INLINE static bool spi_bus_er_it_enabled(spi_bus_t* spi)
 {
-    return ((spi->spi_device->CCR & USIC_CH_CCR_DLIEN_Msk) != 0) || ((spi->spi_device->PCR_SSCMode & USIC_CH_PCR_SSCMode_DX2TIEN_Msk) != 0);
+    return ((spi->spi_device->CCR & USIC_CH_CCR_DLIEN_Msk) != 0);// || ((spi->spi_device->PCR_SSCMode & USIC_CH_PCR_SSCMode_DX2TIEN_Msk) != 0);
 }
 
 ALWAYS_INLINE static void spi_bus_er_it_enable(spi_bus_t* spi)
 {
 //#warning Uncomment
     spi->spi_device->CCR |= USIC_CH_CCR_DLIEN_Msk;
-    spi->spi_device->PCR_SSCMode |= USIC_CH_PCR_SSCMode_DX2TIEN_Msk;
+    //spi->spi_device->PCR_SSCMode |= USIC_CH_PCR_SSCMode_DX2TIEN_Msk;
 }
 
 ALWAYS_INLINE static void spi_bus_er_it_disable(spi_bus_t* spi)
 {
 //#warning Uncomment
     spi->spi_device->CCR &= ~USIC_CH_CCR_DLIEN_Msk;
-    spi->spi_device->PCR_SSCMode &= ~USIC_CH_PCR_SSCMode_DX2TIEN_Msk;
+    //spi->spi_device->PCR_SSCMode &= ~USIC_CH_PCR_SSCMode_DX2TIEN_Msk;
 }
 
 ALWAYS_INLINE static void spi_bus_er_it_set_enabled(spi_bus_t* spi, bool enabled)
@@ -223,17 +223,18 @@ static void spi_bus_dma_rxtx_config(spi_bus_t* spi, void* rx_address, const void
         if(rx_address == NULL) rx_address = &spi_rx_default_data;
 
         dma_int_clear_pending_requests(spi->dma_rx_ch_n);
-        dma_channel_config(spi->dma_rx_channel, DMA_FLOW_CONTROL_PREFETCH_DISABLED, DMA_FIFO_SINGLE_DATA_FOR_BURST,
-                           spi->dma_rx_line_n, 0,
-                           DMA_PRIOR_DEFAULT, DMA_HS_HARDWARE, DMA_HS_HARDWARE, DMA_HS_ACTIVE_HIGH, DMA_HS_ACTIVE_HIGH,
-                           DMA_BURST_LEN_NO_LIMIT);
+        dma_channel_set_block_transfer_size(spi->dma_rx_channel, size);
+        dma_channel_set_source_address(spi->dma_rx_channel, spi_bus_rx_reg_ptr(spi));
+        dma_channel_set_dest_address(spi->dma_rx_channel, rx_address);
         dma_channel_control(spi->dma_rx_channel, DMA_INT_ENABLE,
                             tf_w, tf_w, rx_addr_inc, DMA_ADDR_NO_CHANGE,
                             DMA_BURST_TRANS_LEN_1, DMA_BURST_TRANS_LEN_1,
                             DMA_TRANSFER_PER_TO_MEM_FC_DMA);
-        dma_channel_set_block_transfer_size(spi->dma_rx_channel, size);
-        dma_channel_set_source_address(spi->dma_rx_channel, spi_bus_rx_reg_ptr(spi));
-        dma_channel_set_dest_address(spi->dma_rx_channel, rx_address);
+        dma_channel_config(spi->dma_rx_channel, DMA_FLOW_CONTROL_PREFETCH_ENABLED, DMA_FIFO_SINGLE_DATA_FOR_BURST, // DMA_FLOW_CONTROL_PREFETCH_DISABLED // DMA_FIFO_SINGLE_DATA_FOR_BURST
+                           spi->dma_rx_line_n, 0,
+                           DMA_PRIOR_DEFAULT, DMA_HS_SOFTWARE, DMA_HS_HARDWARE, DMA_HS_ACTIVE_HIGH, DMA_HS_ACTIVE_HIGH, //DMA_HS_HARDWARE
+                           DMA_BURST_LEN_NO_LIMIT);
+        dma_int_mask_set_transfer_complete(spi->dma_rx_ch_n);
         //dma_channel_enable(spi->dma_rx_ch_n);
 
         dma_request_line_overrun_clear(spi->dma_rx_line_n);
@@ -251,12 +252,12 @@ static void spi_bus_dma_rxtx_config(spi_bus_t* spi, void* rx_address, const void
         dma_channel_set_source_address(spi->dma_tx_channel, tx_address);
         dma_channel_set_dest_address(spi->dma_tx_channel, spi_bus_tx_reg_ptr(spi));
         dma_channel_control(spi->dma_tx_channel, DMA_INT_ENABLE,
-                            tf_w, tf_w, tx_addr_inc, DMA_ADDR_NO_CHANGE,
-                            DMA_BURST_TRANS_LEN_8, DMA_BURST_TRANS_LEN_8,
+                            tf_w, tf_w, DMA_ADDR_NO_CHANGE, tx_addr_inc,
+                            DMA_BURST_TRANS_LEN_1, DMA_BURST_TRANS_LEN_1,
                             DMA_TRANSFER_MEM_TO_PER_FC_DMA);
         dma_channel_config(spi->dma_tx_channel, DMA_FLOW_CONTROL_PREFETCH_ENABLED, DMA_FIFO_SINGLE_DATA_FOR_BURST, // DMA_FLOW_CONTROL_PREFETCH_DISABLED // DMA_FIFO_SINGLE_DATA_FOR_BURST
                            0, spi->dma_tx_line_n,
-                           DMA_PRIOR_DEFAULT, DMA_HS_HARDWARE, DMA_HS_HARDWARE, DMA_HS_ACTIVE_HIGH, DMA_HS_ACTIVE_HIGH, //DMA_HS_HARDWARE
+                           DMA_PRIOR_DEFAULT, DMA_HS_HARDWARE, DMA_HS_SOFTWARE, DMA_HS_ACTIVE_HIGH, DMA_HS_ACTIVE_HIGH, //DMA_HS_HARDWARE
                            DMA_BURST_LEN_NO_LIMIT);
         dma_int_mask_set_transfer_complete(spi->dma_tx_ch_n);
         //dma_channel_enable(spi->dma_tx_ch_n);
@@ -272,7 +273,7 @@ ALWAYS_INLINE static void spi_bus_dma_start(spi_bus_t* spi)
     if(spi->dma_rx_locked){
         spi_bus_clear_rx_events(spi);
         spi_bus_rx_it_enable(spi);
-        spi_bus_trigger_rx_req(spi);
+        //spi_bus_trigger_rx_req(spi);
         //dma_request_line_enable(spi->dma_rx_line_n);
         dma_channel_enable(spi->dma_rx_ch_n);
     }

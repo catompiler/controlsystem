@@ -18,7 +18,14 @@
 
 syslog_t SYSLOG_NAME;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 static spi_bus_t eep_spi_bus;
+
+// DEBUG!
+uint8_t spi_tx_data[4] = {0x55, 0xaa, 0x5a, 0xa5};
+uint8_t spi_rx_data[4] = {0x00, 0x00, 0x00, 0x00};
+spi_message_t spi_msg;
+#endif
 
 
 #ifndef __arm__
@@ -254,14 +261,11 @@ int main(void)
     }
 
     if(err == E_NO_ERROR){
-        uint8_t tx_data[4] = {0x55, 0xaa, 0x5a, 0xa5};
-        uint8_t rx_data[4] = {0x00, 0x00, 0x00, 0x00};
-        spi_message_t msg;
-        err = spi_message_init(&msg, SPI_WRITE, tx_data, NULL, 4); //rx_data
+        err = spi_message_init(&spi_msg, SPI_READ_WRITE, spi_tx_data, spi_rx_data, 4); //
         if(err != E_NO_ERROR){
             SYSLOG(SYSLOG_WARNING, "spi msg init failed!");
         }else{
-            err = spi_bus_transfer(&eep_spi_bus, &msg, 1);
+            err = spi_bus_transfer(&eep_spi_bus, &spi_msg, 1);
             if(err != E_NO_ERROR){
                 SYSLOG(SYSLOG_WARNING, "spi transfer start failed!");
             }else{
@@ -297,15 +301,15 @@ int main(void)
 
     SYSLOG(SYSLOG_DEBUG, "INTEGERRR!!! %d", 123456);
 
-    char msg[SYSLOG_MAX_FULL_MSG_LEN + 1];
-    msg[SYSLOG_MAX_FULL_MSG_LEN] = 0;
+    char msg_str[SYSLOG_MAX_FULL_MSG_LEN + 1];
+    msg_str[SYSLOG_MAX_FULL_MSG_LEN] = 0;
 
     int first_index = syslog_first_message_index(&SYSLOG_NAME);
     if(first_index >= 0){
         int index = 0;
         do{
-            if(syslog_get_message(&SYSLOG_NAME, first_index, index, msg, SYSLOG_MAX_FULL_MSG_LEN) > 0){
-                puts(msg);
+            if(syslog_get_message(&SYSLOG_NAME, first_index, index, msg_str, SYSLOG_MAX_FULL_MSG_LEN) > 0){
+                puts(msg_str);
             }
             index = syslog_next_message_index(&SYSLOG_NAME, first_index, index);
         }while(index >= 0);
