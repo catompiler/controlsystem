@@ -3,6 +3,7 @@
 #include "sys_counter_xmc4xxx.h"
 #include <stddef.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <errno.h>
 #include "hardware/config.h"
 #include "interrupts/interrupts.h"

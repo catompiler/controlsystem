@@ -39,14 +39,15 @@ err_t eep_spi_init(spi_bus_t* spi_bus)
     // set idle.
     EEP_SPI_USIC_CH->CCR = 0;
 
-    uint32_t pdiv = (SystemCoreClock / (2 * EEP_SPI_FREQ)) - 1;
+    uint32_t step = SystemCoreClock / (EEP_SPI_OVERSAMPLING * EEP_SPI_FREQ);
 
     // clk.
-    EEP_SPI_USIC_CH->FDR = 0;
-    EEP_SPI_USIC_CH->BRG = ((pdiv) << USIC_CH_BRG_PDIV_Pos) |
-                           ((0b10) << USIC_CH_BRG_CTQSEL_Pos) |
+    EEP_SPI_USIC_CH->FDR = ((1) << USIC_CH_FDR_DM_Pos) |
+                           ((1024 - step) << USIC_CH_FDR_STEP_Pos);
+    EEP_SPI_USIC_CH->BRG = ((0) << USIC_CH_BRG_PDIV_Pos) |
+                           ((0b00) << USIC_CH_BRG_CTQSEL_Pos) |
                            ((0) << USIC_CH_BRG_PCTQ_Pos) |
-                           ((0) << USIC_CH_BRG_DCTQ_Pos) |
+                           ((EEP_SPI_OVERSAMPLING - 1) << USIC_CH_BRG_DCTQ_Pos) |
                            ((0) << USIC_CH_BRG_SCLKOSEL_Pos) |
                            ((0) << USIC_CH_BRG_MCLKCFG_Pos) |
                            ((0) << USIC_CH_BRG_SCLKCFG_Pos);
@@ -56,7 +57,7 @@ err_t eep_spi_init(spi_bus_t* spi_bus)
 
     // data shifting.
     EEP_SPI_USIC_CH->SCTR = ((0b01) << USIC_CH_SCTR_TRM_Pos) | // needed.
-                               ((7) << USIC_CH_SCTR_FLE_Pos) | // 8 bit frame.
+                               ((63) << USIC_CH_SCTR_FLE_Pos) | // Inf bit frame.
                                ((7) << USIC_CH_SCTR_WLE_Pos) | // 8 bit word.
                                ((0) << USIC_CH_SCTR_PDL_Pos) | // 0 passive.
                                ((1) << USIC_CH_SCTR_SDIR_Pos) | // MSB first.
@@ -65,7 +66,7 @@ err_t eep_spi_init(spi_bus_t* spi_bus)
 
     // uart.
     EEP_SPI_USIC_CH->PCR_SSCMode = ((1) << USIC_CH_PCR_SSCMode_MSLSEN_Pos) | // clk gen.
-                                   ((1) << USIC_CH_PCR_SSCMode_SELCTR_Pos) | // durect sel.
+                                   ((1) << USIC_CH_PCR_SSCMode_SELCTR_Pos) | // direct sel.
                                    ((1) << USIC_CH_PCR_SSCMode_SELINV_Pos) | // sel active low.
                                    ((1) << USIC_CH_PCR_SSCMode_FEM_Pos);// | // sw sel management.
                                    //((1) << USIC_CH_PCR_SSCMode_MSLSIEN_Pos); // sel interrupt.
@@ -137,9 +138,11 @@ err_t eep_spi_init(spi_bus_t* spi_bus)
     sbi.dma_rx_ch_n = EEP_SPI_DMA_RX_CHANNEL;
     sbi.dma_rx_line_n = EEP_SPI_DMA_RX_REQ_LINE;
     sbi.dma_rx_line_req_n = EEP_SPI_DMA_RX_REQ_LINE_SOURCE;
+    sbi.dma_rx_sr_n = EEP_SPI_USIC_RX_SR_SEL;
     sbi.dma_tx_ch_n = EEP_SPI_DMA_TX_CHANNEL;
     sbi.dma_tx_line_n = EEP_SPI_DMA_TX_REQ_LINE;
     sbi.dma_tx_line_req_n = EEP_SPI_DMA_TX_REQ_LINE_SOURCE;
+    sbi.dma_tx_sr_n = EEP_SPI_USIC_TX_SR_SEL;
 
     err_t err = spi_bus_init(eep_spi.spi_bus, &sbi);
 

@@ -202,14 +202,14 @@
 
 // SPIs.
 #define SPIS_RESET_ENABLE() do{\
-        SCU_RESET->PRSET1 = SCU_RESET_PRSET1_USIC1RS_Msk;\
+        SCU_RESET->PRSET0 = SCU_RESET_PRSET0_USIC0RS_Msk;\
         __DMB();\
-        while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_USIC1RS_Msk) == 0){ __NOP(); }\
+        while((SCU_RESET->PRSTAT0 & SCU_RESET_PRSTAT0_USIC0RS_Msk) == 0){ __NOP(); }\
     }while(0)
 #define SPIS_RESET_DISABLE() do{\
-        SCU_RESET->PRCLR1 = SCU_RESET_PRCLR1_USIC1RS_Msk;\
+        SCU_RESET->PRCLR0 = SCU_RESET_PRCLR0_USIC0RS_Msk;\
         __DMB();\
-        while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_USIC1RS_Msk) != 0){ __NOP(); }\
+        while((SCU_RESET->PRSTAT0 & SCU_RESET_PRSTAT0_USIC0RS_Msk) != 0){ __NOP(); }\
     }while(0)
 // eep spi.
 // gpio.

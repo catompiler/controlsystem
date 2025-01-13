@@ -12,6 +12,9 @@
 //! Частота тактирующих импульсов.
 #define EEP_SPI_FREQ 10000000
 
+//! Oversampling.
+#define EEP_SPI_OVERSAMPLING 2
+
 
 /**
  * Инициализирует периферию и шину SPI.

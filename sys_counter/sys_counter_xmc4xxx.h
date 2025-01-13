@@ -95,7 +95,7 @@ EXTERN void sys_counter_delay(struct timeval* tv);
 #include <time.h>
 
 #ifndef CLOCK_MONOTONIC
-#define CLOCK_MONOTONIC 1
+#define CLOCK_MONOTONIC 4
 #endif
 
 EXTERN int clock_gettime (clockid_t clock_id, struct timespec *tp);

@@ -105,10 +105,12 @@ typedef struct _SPI_Bus {
     size_t dma_rx_ch_n;//!< Номер канала DMA для приёма.
     size_t dma_rx_line_n; //!< Номер линии DMA для приёма.
     dma_req_line_source_t dma_rx_line_req_n; //!< Номер источника запроса DMA для приёма.
+    size_t dma_rx_sr_n; //!< Номер SR канала DMA для приёма.
     dma_channel_t* dma_tx_channel;
     size_t dma_tx_ch_n;//!< Номер канала DMA для передачи.
     size_t dma_tx_line_n; //!< Номер линии DMA для передачи.
     dma_req_line_source_t dma_tx_line_req_n; //!< Номер источника запроса DMA для передачи.
+    size_t dma_tx_sr_n; //!< Номер SR канала DMA для передачи.
     // SPI.
     USIC_CH_TypeDef* spi_device;//!< Периферия.
     spi_status_t status;//!< Статус шины.
@@ -130,9 +132,11 @@ typedef struct _SPI_Bus_Init{
     size_t dma_rx_ch_n;//!< Номер канала DMA для приёма.
     size_t dma_rx_line_n; //!< Номер линии DMA для приёма.
     dma_req_line_source_t dma_rx_line_req_n; //!< Номер источника запроса DMA для приёма.
+    size_t dma_rx_sr_n; //!< Номер SR канала DMA для приёма.
     size_t dma_tx_ch_n;//!< Номер канала DMA для передачи.
     size_t dma_tx_line_n; //!< Номер линии DMA для передачи.
     dma_req_line_source_t dma_tx_line_req_n; //!< Номер источника запроса DMA для передачи.
+    size_t dma_tx_sr_n; //!< Номер SR канала DMA для передачи.
 } spi_bus_init_t;
 
 /**

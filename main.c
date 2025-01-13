@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
+#include "sys_counter/sys_counter.h"
 #include "syslog/syslog.h"
 //#include <sys/time.h>
 //#include <stdio.h>
@@ -8,7 +9,6 @@
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 #include "hardware/hardware.h"
 #include "interrupts/interrupts.h"
-#include "sys_counter/sys_counter.h"
 #include "gpio/gpio_xmc4xxx.h"
 #include "usart/usart_stdio_xmc4xxx.h"
 #include "spi/spi_xmc4xxx.h"
@@ -252,6 +252,26 @@ int main(void)
     }else{
         SYSLOG(SYSLOG_INFO, "Eep spi initialized!");
     }
+
+    if(err == E_NO_ERROR){
+        uint8_t tx_data[4] = {0x55, 0xaa, 0x5a, 0xa5};
+        uint8_t rx_data[4] = {0x00, 0x00, 0x00, 0x00};
+        spi_message_t msg;
+        err = spi_message_init(&msg, SPI_WRITE, tx_data, NULL, 4); //rx_data
+        if(err != E_NO_ERROR){
+            SYSLOG(SYSLOG_WARNING, "spi msg init failed!");
+        }else{
+            err = spi_bus_transfer(&eep_spi_bus, &msg, 1);
+            if(err != E_NO_ERROR){
+                SYSLOG(SYSLOG_WARNING, "spi transfer start failed!");
+            }else{
+                spi_bus_wait(&eep_spi_bus);
+                SYSLOG(SYSLOG_DEBUG, "spi transfers errs: 0x%x", (unsigned int)spi_bus_errors(&eep_spi_bus));
+                __NOP();
+            }
+        }
+    }
+
 #endif
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
