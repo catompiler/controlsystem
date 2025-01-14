@@ -168,6 +168,14 @@ EXTERN bool spi_bus_dma_rx_channel_irq_handler(spi_bus_t* spi);
 EXTERN bool spi_bus_dma_tx_channel_irq_handler(spi_bus_t* spi);
 
 /**
+ * Устанавливает аппаратный nCS.
+ * @param spi Шина spi.
+ * @param sel Маска аппаратных CS, 0 - снятия CS.
+ * @return Флаг установки аппаратных CS.
+ */
+EXTERN bool spi_bus_set_hw_sel(spi_bus_t* spi, uint32_t sel);
+
+/**
  * Получает флаг занятости шины spi.
  * @param spi Шина spi.
  * @return Флаг занятости шины spi.

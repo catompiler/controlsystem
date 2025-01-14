@@ -403,7 +403,7 @@ ALWAYS_INLINE static bool dma_channel_fifo_empty(dma_channel_t* ch)
 ALWAYS_INLINE static void dma_channel_config(dma_channel_t* ch,
                                              // CFGH
                                              dma_flow_control_mode_t fc_mode, dma_fifo_mode_t fifo_mode,
-                                             size_t src_req_line, size_t dst_req_line,
+                                             size_t dst_req_line, size_t src_req_line,
                                              // CFGL
                                              size_t ch_prior, dma_hs_type_t dst_hs, dma_hs_type_t src_hs,
                                              dma_hs_polarity_t dst_hs_pol, dma_hs_polarity_t src_hs_pol,

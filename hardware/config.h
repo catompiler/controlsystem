@@ -214,6 +214,8 @@
 // eep spi.
 // gpio.
 // cs.
+#define EEP_CS_SEL_Pos 1
+#define EEP_CS_SEL_Msk ((1)<<(EEP_CS_SEL_Pos))
 #define EEP_SPI_PORT_CS PORT1
 #define EEP_SPI_PIN_CS_Pos 8
 #define EEP_SPI_PIN_CS_Msk ((1)<<(EEP_SPI_PIN_CS_Pos))

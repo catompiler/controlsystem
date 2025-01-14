@@ -22,8 +22,9 @@ syslog_t SYSLOG_NAME;
 static spi_bus_t eep_spi_bus;
 
 // DEBUG!
-uint8_t spi_tx_data[4] = {0x55, 0xaa, 0x5a, 0xa5};
-uint8_t spi_rx_data[4] = {0x00, 0x00, 0x00, 0x00};
+#define SPI_DATA_LEN 128
+uint8_t spi_tx_data[SPI_DATA_LEN] = {0x0};
+uint8_t spi_rx_data[SPI_DATA_LEN] = {0x0};
 spi_message_t spi_msg;
 #endif
 
@@ -215,6 +216,7 @@ int main(void)
 
     // Configure DMA.
     hardware_init_dma();
+    interrupts_enable_dma();
 #endif
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
@@ -261,10 +263,16 @@ int main(void)
     }
 
     if(err == E_NO_ERROR){
-        err = spi_message_init(&spi_msg, SPI_READ_WRITE, spi_tx_data, spi_rx_data, 4); //
+        err = spi_message_init(&spi_msg, SPI_READ_WRITE, spi_tx_data, spi_rx_data, SPI_DATA_LEN); //
         if(err != E_NO_ERROR){
             SYSLOG(SYSLOG_WARNING, "spi msg init failed!");
         }else{
+            size_t i;
+            for(i = 0; i < SPI_DATA_LEN; i ++){
+                spi_tx_data[i] = ((uint8_t)i & 0xff);
+                spi_rx_data[i] = 0x0;
+            }
+            spi_bus_set_hw_sel(&eep_spi_bus, 0x2);
             err = spi_bus_transfer(&eep_spi_bus, &spi_msg, 1);
             if(err != E_NO_ERROR){
                 SYSLOG(SYSLOG_WARNING, "spi transfer start failed!");

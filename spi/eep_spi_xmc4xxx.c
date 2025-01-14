@@ -53,7 +53,8 @@ err_t eep_spi_init(spi_bus_t* spi_bus)
                            ((0) << USIC_CH_BRG_SCLKCFG_Pos);
 
     // inputs.
-    EEP_SPI_USIC_CH->DX0CR = ((EEP_SPI_USIC_CH_MISO) << USIC_CH_DX0CR_DSEL_Pos);
+    //EEP_SPI_USIC_CH->DX0CR = ((0b110) << USIC_CH_DX0CR_DSEL_Pos) | USIC_CH_DX0CR_INSW_Msk;
+    EEP_SPI_USIC_CH->DX0CR = ((EEP_SPI_USIC_CH_MISO) << USIC_CH_DX0CR_DSEL_Pos) | USIC_CH_DX0CR_INSW_Msk;
     EEP_SPI_USIC_CH->DX1CR = ((0b011) << USIC_CH_DX1CR_DSEL_Pos); //0
     EEP_SPI_USIC_CH->DX2CR = ((0b011) << USIC_CH_DX2CR_DSEL_Pos); //0 // | USIC_CH_DX2CR_DPOL_Msk; // Always 1
 
