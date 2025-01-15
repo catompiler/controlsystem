@@ -346,14 +346,16 @@ METHOD_INIT_IMPL(M_sys_main, sys)
         init_errors |= SYS_MAIN_ERROR_HARDWARE;
     }
 
-    // Хранилище.
-    INIT(storage);
-    if(storage.status & STATUS_ERROR){
-        init_errors |= SYS_MAIN_ERROR_HARDWARE;
-    }
+    // Инициализируется в main().
+//    // Хранилище.
+//    INIT(storage);
+//    if(storage.status & STATUS_ERROR){
+//        init_errors |= SYS_MAIN_ERROR_HARDWARE;
+//    }
 
-    // Настройки.
-    INIT(settings);
+    // Инициализируется в main().
+//    // Настройки.
+//    INIT(settings);
 
     // Включение в работу модулей.
     // Не будем включать модули,

@@ -253,6 +253,8 @@
 #define EEP_SPI_USIC_CH_SR_SEL 0b010
 #define EEP_SPI_USIC_CH_IRQ_Handler USIC0_2_IRQHandler
 #define EEP_SPI_USIC_CH_IRQn USIC0_2_IRQn
+// pre / post delay time in half SCK cycles.
+#define EEP_SPI_USIC_Tld_Ttd 1
 // dma.
 // tx.
 #define EEP_SPI_USIC_TX_SR_SEL 0b000

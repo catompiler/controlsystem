@@ -3,27 +3,31 @@
 
 
 
-METHOD_INIT_IMPL(M_storage, storage)
+STORAGE_METHOD_INIT_IMPL(M_storage, storage, eeprom_t* eeprom)
 {
+    err_t err = E_NO_ERROR;
+
+    if(eeprom == NULL) err = E_NULL_POINTER;
+
+    storage->m_eeprom = eeprom;
     storage->m_q_count = 0;
     storage->m_q_head_index = 0;
     storage->m_q_tail_index = 0;
 
     future_init(&storage->m_future);
 
-    err_t err;
-
-    err = eeprom_init(&storage->m_eeprom, STORAGE_EEPROM_FILE, STORAGE_EEPROM_SIZE);
     if(err != E_NO_ERROR){
         storage->status = STORAGE_STATUS_ERROR;
     }else{
         storage->status = STORAGE_STATUS_READY;
     }
+
+    return err;
 }
 
 METHOD_DEINIT_IMPL(M_storage, storage)
 {
-    eeprom_deinit(&storage->m_eeprom);
+    eeprom_deinit(storage->m_eeprom);
 }
 
 static void storage_inc_queue_count(M_storage* storage)
@@ -74,7 +78,7 @@ static void storage_process_erase(M_storage* storage, storage_cmd_t* cmd)
 
     future_init(&storage->m_future);
 
-    err_t err = eeprom_erase(&storage->m_eeprom, cmd->address, cmd->size, &storage->m_future, EEPROM_FLAG_NONE);
+    err_t err = eeprom_erase(storage->m_eeprom, cmd->address, cmd->size, &storage->m_future, EEPROM_FLAG_NONE);
     if(err != E_IN_PROGRESS){
         storage_cmd_done(storage, cmd, err);
         return;
@@ -94,7 +98,7 @@ static void storage_process_write(M_storage* storage, storage_cmd_t* cmd)
 
     future_init(&storage->m_future);
 
-    err_t err = eeprom_write(&storage->m_eeprom, cmd->address, cmd->data, cmd->size, &storage->m_future, EEPROM_FLAG_NONE);
+    err_t err = eeprom_write(storage->m_eeprom, cmd->address, cmd->data, cmd->size, &storage->m_future, EEPROM_FLAG_NONE);
     if(err != E_IN_PROGRESS){
         storage_cmd_done(storage, cmd, err);
         return;
@@ -114,7 +118,7 @@ static void storage_process_read(M_storage* storage, storage_cmd_t* cmd)
 
     future_init(&storage->m_future);
 
-    err_t err = eeprom_read(&storage->m_eeprom, cmd->address, cmd->data, cmd->size, &storage->m_future, EEPROM_FLAG_NONE);
+    err_t err = eeprom_read(storage->m_eeprom, cmd->address, cmd->data, cmd->size, &storage->m_future, EEPROM_FLAG_NONE);
     if(err != E_IN_PROGRESS){
         storage_cmd_done(storage, cmd, err);
         return;
@@ -139,7 +143,7 @@ METHOD_IDLE_IMPL(M_storage, storage)
         storage_process_read(storage, cmd);
     }
 
-    eeprom_process(&storage->m_eeprom);
+    eeprom_process(storage->m_eeprom);
 }
 
 static size_t storage_region_address(unsigned int rgn)

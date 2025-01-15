@@ -47,7 +47,7 @@ err_t eep_spi_init(spi_bus_t* spi_bus)
     EEP_SPI_USIC_CH->BRG = ((0) << USIC_CH_BRG_PDIV_Pos) |
                            ((0b00) << USIC_CH_BRG_CTQSEL_Pos) |
                            ((0) << USIC_CH_BRG_PCTQ_Pos) |
-                           ((EEP_SPI_OVERSAMPLING - 1) << USIC_CH_BRG_DCTQ_Pos) |
+                           ((EEP_SPI_USIC_Tld_Ttd) << USIC_CH_BRG_DCTQ_Pos) |
                            ((0) << USIC_CH_BRG_SCLKOSEL_Pos) |
                            ((0) << USIC_CH_BRG_MCLKCFG_Pos) |
                            ((0) << USIC_CH_BRG_SCLKCFG_Pos);

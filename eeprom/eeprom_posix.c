@@ -123,7 +123,7 @@ err_t eeprom_init(eeprom_t* eeprom, const char* filename, size_t size)
 {
     assert(eeprom != NULL);
 
-    if(filename == NULL) return E_NULL_POINTER;
+    //if(filename == NULL) return E_NULL_POINTER;
     if(size == 0) return E_INVALID_VALUE;
 
     eeprom->f = NULL;

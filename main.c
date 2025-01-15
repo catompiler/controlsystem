@@ -3,8 +3,23 @@
 #include <string.h>
 #include "sys_counter/sys_counter.h"
 #include "syslog/syslog.h"
-//#include <sys/time.h>
-//#include <stdio.h>
+#include "eeprom/eeprom.h"
+
+
+
+syslog_t SYSLOG_NAME;
+static eeprom_t eep;
+
+
+
+// Размер EEPROM.
+#define EEPROM_SIZE (128*1024)
+
+#if defined(PORT_POSIX)
+// Имя файла EEPROM.
+#define EEPROM_FILENAME "eeprom.bin"
+#endif
+
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 #include "hardware/hardware.h"
@@ -13,19 +28,18 @@
 #include "usart/usart_stdio_xmc4xxx.h"
 #include "spi/spi_xmc4xxx.h"
 #include "spi/eep_spi_xmc4xxx.h"
-#endif
 
 
-syslog_t SYSLOG_NAME;
-
-#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 static spi_bus_t eep_spi_bus;
+static m95x_t eep_m95x;
+
 
 // DEBUG!
 #define SPI_DATA_LEN 128
 uint8_t spi_tx_data[SPI_DATA_LEN] = {0x0};
 uint8_t spi_rx_data[SPI_DATA_LEN] = {0x0};
 spi_message_t spi_msg;
+
 #endif
 
 
@@ -210,6 +224,12 @@ static void write_dlog_to_file_vcd(void)
 
 int main(void)
 {
+#if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
+    windows_timer_set_max_res();
+#endif
+
+    err_t err = E_NO_ERROR;
+
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Configure NVIC.
     interrupts_init();
@@ -235,18 +255,26 @@ int main(void)
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Init stdio.
 
-    err_t err = E_NO_ERROR;
-
     hardware_init_usarts();
     interrupts_enable_stdio_uart();
 
     err = usart_stdio_init();
     if(err != E_NO_ERROR){
-        SYSLOG(SYSLOG_WARNING, "Error init usart stdio!");
+        SYSLOG(SYSLOG_WARNING, "Error init usart stdio! (%u)", (unsigned int)err);
     }else{
         syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
         SYSLOG(SYSLOG_INFO, "usart stdio initialized!");
     }
+#endif
+
+#if defined(PORT_POSIX)
+    syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
+#endif
+
+    void* eep_param_ptr = NULL;
+
+#if defined(PORT_POSIX)
+    eep_param_ptr = EEPROM_FILENAME;
 #endif
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
@@ -257,12 +285,27 @@ int main(void)
 
     err = eep_spi_init(&eep_spi_bus);
     if(err != E_NO_ERROR){
-        SYSLOG(SYSLOG_WARNING, "Error init eep spi!");
+        SYSLOG(SYSLOG_WARNING, "Error init eep spi! (%u)", (unsigned int)err);
     }else{
         SYSLOG(SYSLOG_INFO, "Eep spi initialized!");
+
+        // init m95x.
+        m95x_init_t m95x_is;
+        m95x_is.transfer_id = M95X_DEFAULT_TRANSFER_ID;
+        m95x_is.spi = &eep_spi_bus;
+        m95x_is.page = M95X_PAGE_256;
+        m95x_is.ce_gpio = NULL;
+        m95x_is.ce_pin_sel_msk = EEP_CS_SEL_Msk;
+        err = m95x_init(&eep_m95x, &m95x_is);
+        if(err != E_NO_ERROR){
+            SYSLOG(SYSLOG_WARNING, "Error init eep m95x! (%u)", (unsigned int)err);
+        }else{
+            SYSLOG(SYSLOG_INFO, "Eep m95x initialized!");
+            eep_param_ptr = &eep_m95x;
+        }
     }
 
-    if(err == E_NO_ERROR){
+    /*if(err == E_NO_ERROR){
         err = spi_message_init(&spi_msg, SPI_READ_WRITE, spi_tx_data, spi_rx_data, SPI_DATA_LEN); //
         if(err != E_NO_ERROR){
             SYSLOG(SYSLOG_WARNING, "spi msg init failed!");
@@ -282,9 +325,48 @@ int main(void)
                 __NOP();
             }
         }
+    }*/
+#endif
+
+    err = eeprom_init(&eep, eep_param_ptr, EEPROM_SIZE);
+    if(err != E_NO_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Error init eeprom! (%u)", (unsigned int)err);
+    }else{
+        SYSLOG(SYSLOG_INFO, "Eeprom initialized!");
     }
 
-#endif
+    err = STORAGE_INIT(storage, &eep);
+    if(err != E_NO_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Error init storage! (%u)", (unsigned int)err);
+    }else{
+        SYSLOG(SYSLOG_INFO, "Storage initialized!");
+    }
+
+    INIT(settings);
+
+    //loadsettings();
+
+    // Read settings.
+    settings.control = SETTINGS_CONTROL_LOAD;
+    CONTROL(settings);
+
+    for(;;){
+        // Настройки.
+        IDLE(settings);
+
+        if((settings.control & SETTINGS_CONTROL_LOAD) == 0) break;
+
+        // Хранилище.
+        IDLE(storage);
+    }
+
+    if(settings.status & STATUS_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Settings read error!");
+        settings.control = SETTINGS_CONTROL_STORE;
+        CONTROL(settings);
+    }else{
+        SYSLOG(SYSLOG_INFO, "Settings readed successfully!");
+    }
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Temporary stub.
@@ -297,38 +379,7 @@ int main(void)
         //STDIO_UART_USIC_CH->TBUF[0] = '.';
     }
 #endif
-#if defined(PORT_POSIX)
-    syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
-#endif
 
-    SYSLOG(SYSLOG_INFO, "Hello, syslog!");
-    SYSLOG(SYSLOG_DEBUG, "Blablabla!");
-    SYSLOG(SYSLOG_WARNING, "Ololo!");
-    SYSLOG(SYSLOG_ERROR, "AAAAAAAAAAggggghhhh!");
-    SYSLOG(SYSLOG_FATAL, "UUUUuuuuuuu!");
-
-    SYSLOG(SYSLOG_DEBUG, "INTEGERRR!!! %d", 123456);
-
-    char msg_str[SYSLOG_MAX_FULL_MSG_LEN + 1];
-    msg_str[SYSLOG_MAX_FULL_MSG_LEN] = 0;
-
-    int first_index = syslog_first_message_index(&SYSLOG_NAME);
-    if(first_index >= 0){
-        int index = 0;
-        do{
-            if(syslog_get_message(&SYSLOG_NAME, first_index, index, msg_str, SYSLOG_MAX_FULL_MSG_LEN) > 0){
-                puts(msg_str);
-            }
-            index = syslog_next_message_index(&SYSLOG_NAME, first_index, index);
-        }while(index >= 0);
-    }
-
-    return 0;
-
-    //loadsettings();
-#if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
-    windows_timer_set_max_res();
-#endif
     int dlog_i = 0;
     // Stator Uabc
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_S_UA;
@@ -459,24 +510,6 @@ int main(void)
     // ADC model set to noise scales.
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);
-
-    settings.control = SETTINGS_CONTROL_LOAD;
-    CONTROL(settings);
-
-    for(;;){
-        IDLE(sys);
-        if((settings.control & SETTINGS_CONTROL_LOAD) == 0) break;
-    }
-
-    if(settings.status & STATUS_ERROR){
-        printf("Settings read error!\n");
-        printf("Starting write default settings.\n");
-        settings.control = SETTINGS_CONTROL_STORE;
-        CONTROL(settings);
-    }
-//    else{
-//        printf("Settings readed successfully!\n");
-//    }
 
     //printf("Ks: %f, Kl: %f\n", (float)FRACT_MEAN_KS/(1<<24), (float)FRACT_MEAN_KL/(1<<24));
 

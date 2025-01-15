@@ -3,8 +3,8 @@
 /**
  * @file gpio.h Библиотека GPIO.
  */
-#ifndef GPIO_H_
-#define GPIO_H_
+#ifndef GPIO_XMC4500_H_
+#define GPIO_XMC4500_H_
 
 #include "cpu.h"
 #include <stdint.h>
@@ -267,6 +267,6 @@ ALWAYS_INLINE static void gpio_set_output_value(GPIO_t* GPIO, gpio_pin_t pins, u
     ((PORT0_Type*)GPIO)->OMR = (uint32_t)(pins & ~val) << 16;
 }
 
-#endif /* GPIO_H_ */
+#endif /* GPIO_XMC4500_H_ */
 
 #endif

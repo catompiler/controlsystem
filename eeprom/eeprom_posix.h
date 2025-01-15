@@ -71,6 +71,9 @@ typedef struct _S_Eeprom {
 
 /**
  * Инициализирует EEPROM.
+ * @param eeprom EEPROM.
+ * @param filename Имя файла EEPROM, NULL при ошибке доступа.
+ * @param size Размер EEPROM.
  * @return Код ошибки.
  */
 err_t eeprom_init(eeprom_t* eeprom, const char* filename, size_t size);

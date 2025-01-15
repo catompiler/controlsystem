@@ -24,6 +24,9 @@
 //! Использовать ли FIFO.
 #define SPI_BUS_USE_FIFO 0
 
+//! Имеется ли аппаратный селектор.
+#define SPI_BUS_HW_SEL 1
+
 
 /**
  * Тип функции обратного вызова.
@@ -167,6 +170,7 @@ EXTERN bool spi_bus_dma_rx_channel_irq_handler(spi_bus_t* spi);
  */
 EXTERN bool spi_bus_dma_tx_channel_irq_handler(spi_bus_t* spi);
 
+#if defined(SPI_BUS_HW_SEL) && SPI_BUS_HW_SEL == 1
 /**
  * Устанавливает аппаратный nCS.
  * @param spi Шина spi.
@@ -174,6 +178,7 @@ EXTERN bool spi_bus_dma_tx_channel_irq_handler(spi_bus_t* spi);
  * @return Флаг установки аппаратных CS.
  */
 EXTERN bool spi_bus_set_hw_sel(spi_bus_t* spi, uint32_t sel);
+#endif
 
 /**
  * Получает флаг занятости шины spi.

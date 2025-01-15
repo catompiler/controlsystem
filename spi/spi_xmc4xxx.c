@@ -171,6 +171,10 @@ ALWAYS_INLINE static void spi_bus_trigger_rx_req(spi_bus_t* spi)
 }
 
 
+ALWAYS_INLINE static void spi_bus_frame_begin(spi_bus_t* spi)
+{
+}
+
 ALWAYS_INLINE static void spi_bus_frame_end(spi_bus_t* spi)
 {
     spi->spi_device->PSCR = USIC_CH_PSR_SSCMode_MSLS_Msk;
@@ -274,6 +278,8 @@ static void spi_bus_dma_rxtx_config(spi_bus_t* spi, void* rx_address, const void
 
 ALWAYS_INLINE static void spi_bus_dma_start(spi_bus_t* spi)
 {
+    spi_bus_frame_begin(spi);
+
     if(spi->dma_rx_locked){
         spi_bus_clear_rx_events(spi);
         spi_bus_rx_it_enable(spi);
@@ -542,6 +548,7 @@ bool spi_bus_dma_tx_channel_irq_handler(spi_bus_t* spi)
     return true;
 }
 
+#if defined(SPI_BUS_HW_SEL) && SPI_BUS_HW_SEL == 1
 bool spi_bus_set_hw_sel(spi_bus_t* spi, uint32_t sel)
 {
     spi->spi_device->PCR_SSCMode = (spi->spi_device->PCR_SSCMode & ~USIC_CH_PCR_SSCMode_SELO_Msk) |
@@ -549,6 +556,7 @@ bool spi_bus_set_hw_sel(spi_bus_t* spi, uint32_t sel)
 
     return true;
 }
+#endif
 
 bool spi_bus_busy(spi_bus_t* spi)
 {

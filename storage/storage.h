@@ -45,12 +45,8 @@ enum _E_Storage_Region {
 };
 
 // Карта памяти.
-// Размер EEPROM.
-#define STORAGE_EEPROM_SIZE 64*1024
 // Размер страницы EEPROM.
-//#define STORAGE_EEPROM_PAGE 128
-// Имя файла EEPROM.
-#define STORAGE_EEPROM_FILE "eeprom.bin"
+//#define STORAGE_EEPROM_PAGE EEPROM_PAGE_SIZE
 // Начало памяти.
 #define STORAGE_MEM_BEG 0x0
 // Регионы памяти.
@@ -73,6 +69,16 @@ typedef struct _S_Storage_Cmd {
 
 //! Размер очереди.
 #define STORAGE_QUEUE_LEN 8
+
+// Метод err_t init(eeprom_t* eeprom).
+#define STORAGE_METHOD_INIT_M_NAME init
+#define STORAGE_METHOD_INIT_RET err_t
+#define STORAGE_METHOD_INIT_ARGS eeprom_t* eeprom
+#define STORAGE_METHOD_INIT(MOD_TYPE)                       METHOD(MOD_TYPE, STORAGE_METHOD_INIT_M_NAME, STORAGE_METHOD_INIT_RET, STORAGE_METHOD_INIT_ARGS)
+#define STORAGE_METHOD_INIT_PTR(MOD_NAME)                   METHOD_PTR(MOD_NAME, STORAGE_METHOD_INIT_M_NAME)
+#define STORAGE_METHOD_INIT_PROTO(MOD_NAME)                 METHOD_PROTO(MOD_NAME, STORAGE_METHOD_INIT_M_NAME, STORAGE_METHOD_INIT_RET, STORAGE_METHOD_INIT_ARGS)
+#define STORAGE_METHOD_INIT_IMPL(MOD_NAME, THIS, EEP)       METHOD_IMPL(MOD_NAME, THIS, STORAGE_METHOD_INIT_M_NAME, STORAGE_METHOD_INIT_RET, EEP)
+#define STORAGE_INIT(MOD, EEP)                              CALL(MOD, STORAGE_METHOD_INIT_M_NAME, EEP)
 
 // Метод err_t read(unsigned int rgn, size_t offset, void* data, size_t size, future_t* future).
 #define STORAGE_METHOD_READ_M_NAME read
@@ -125,7 +131,7 @@ struct _S_Storage {
     // Параметры.
     // Регистры.
     // Методы.
-    METHOD_INIT(M_storage);
+    STORAGE_METHOD_INIT(M_storage);
     METHOD_DEINIT(M_storage);
     METHOD_IDLE(M_storage);
     STORAGE_METHOD_ERASE(M_storage);
@@ -138,15 +144,15 @@ struct _S_Storage {
     size_t m_q_tail_index; //!< Хвост очереди.
     size_t m_q_count; //!< Число элементов в очереди.
     future_t m_future; //!< Будущее.
-    eeprom_t m_eeprom; //!< EEPROM.
+    eeprom_t* m_eeprom; //!< EEPROM.
 };
 
-EXTERN METHOD_INIT_PROTO(M_storage);
+EXTERN STORAGE_METHOD_INIT_PROTO(M_storage);
 EXTERN METHOD_DEINIT_PROTO(M_storage);
 EXTERN METHOD_IDLE_PROTO(M_storage);
-STORAGE_METHOD_ERASE_PROTO(M_storage);
-STORAGE_METHOD_WRITE_PROTO(M_storage);
-STORAGE_METHOD_READ_PROTO(M_storage);
+EXTERN STORAGE_METHOD_ERASE_PROTO(M_storage);
+EXTERN STORAGE_METHOD_WRITE_PROTO(M_storage);
+EXTERN STORAGE_METHOD_READ_PROTO(M_storage);
 
 #define STORAGE_DEFAULTS {\
         /* Базовые поля */\
@@ -156,7 +162,7 @@ STORAGE_METHOD_READ_PROTO(M_storage);
         /* Параметры */\
         /* Регистры */\
         /* Методы */\
-        METHOD_INIT_PTR(M_storage), METHOD_DEINIT_PTR(M_storage),\
+        STORAGE_METHOD_INIT_PTR(M_storage), METHOD_DEINIT_PTR(M_storage),\
         METHOD_IDLE_PTR(M_storage),\
         STORAGE_METHOD_ERASE_PTR(M_storage),\
         STORAGE_METHOD_WRITE_PTR(M_storage),\
@@ -168,7 +174,7 @@ STORAGE_METHOD_READ_PROTO(M_storage);
         0, /* m_q_tail_index */\
         0, /* m_q_count */\
         {0}, /* m_future */\
-        {0}, /* m_eeprom */\
+        NULL, /* m_eeprom */\
     }
 
 #endif /* STORAGE_H */

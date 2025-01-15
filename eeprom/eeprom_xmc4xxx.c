@@ -10,66 +10,36 @@
 
 static err_t eeprom_create(eeprom_t* eeprom)
 {
-    FILE* f = fopen(eeprom->filename, "wb");
-    if(!f) return E_IO_ERROR;
-
-    memset(eeprom->page_buf, 0xff, EEPROM_PAGE_SIZE);
-
-    size_t size;
-    for(size = 0; size < eeprom->size; size += EEPROM_PAGE_SIZE){
-        if(fwrite(eeprom->page_buf, 1, EEPROM_PAGE_SIZE, f) != EEPROM_PAGE_SIZE){
-            fclose(f);
-            return E_IO_ERROR;
-        }
-    }
-
-    fclose(f);
-
-    return E_NO_ERROR;
+    return E_INVALID_OPERATION;
 }
 
 
 static err_t eeprom_open(eeprom_t* eeprom)
 {
-    FILE* f = fopen(eeprom->filename, "rb+");
-
-    // file is not exist.
-    if(!f){
-        err_t err = eeprom_create(eeprom);
-        if(err != E_NO_ERROR) return err;
-    }
-
-    f = fopen(eeprom->filename, "rb+");
-    if(!f) return E_IO_ERROR;
-
-    eeprom->f = f;
     return E_NO_ERROR;
 }
 
 static err_t eeprom_erase_block(eeprom_t* eeprom, size_t address)
 {
-    if(eeprom->f == NULL) return E_STATE;
+    if(eeprom->m95x == NULL) return E_STATE;
 
     size_t erase_address = address & ~(EEPROM_ERASE_SIZE - 1);
     if((erase_address + EEPROM_ERASE_SIZE) > eeprom->size) return E_OUT_OF_RANGE;
 
-    memset(eeprom->page_buf, 0xff, EEPROM_PAGE_SIZE);
+    memset(eeprom->page_buf, 0xff, EEPROM_ERASE_SIZE);
 
-    if(fseek(eeprom->f, erase_address, SEEK_SET) != 0) return E_IO_ERROR;
+    err_t err = m95x_write_enable(eeprom->m95x);
+    if(err != E_NO_ERROR) return err;
 
-    size_t size;
-    for(size = 0; size < EEPROM_ERASE_SIZE; size += EEPROM_PAGE_SIZE){
-        if(fwrite(eeprom->page_buf, 1, EEPROM_PAGE_SIZE, eeprom->f) != EEPROM_PAGE_SIZE){
-            return E_IO_ERROR;
-        }
-    }
+    err = m95x_write(eeprom->m95x, (m95x_address_t)erase_address, eeprom->page_buf, EEPROM_ERASE_SIZE);
+    if(err != E_NO_ERROR) return err;
 
-    return E_NO_ERROR;
+    return E_IN_PROGRESS;
 }
 
 err_t eeprom_write_page(eeprom_t* eeprom, size_t address, const void* cur_data_ptr, size_t cur_data_size)
 {
-    if(eeprom->f == NULL) return E_STATE;
+    if(eeprom->m95x == NULL) return E_STATE;
 
     size_t page_address = address & ~(EEPROM_PAGE_SIZE - 1);
     if((page_address + EEPROM_PAGE_SIZE) > eeprom->size) return E_OUT_OF_RANGE;
@@ -77,20 +47,22 @@ err_t eeprom_write_page(eeprom_t* eeprom, size_t address, const void* cur_data_p
     size_t in_page_address = address - page_address;
     if((in_page_address + cur_data_size) > EEPROM_PAGE_SIZE) return E_OUT_OF_RANGE;
 
-    memset(eeprom->page_buf, 0xff, EEPROM_PAGE_SIZE);
-    memcpy(&eeprom->page_buf[in_page_address], cur_data_ptr, cur_data_size);
+    //memset(eeprom->page_buf, 0xff, EEPROM_PAGE_SIZE);
+    //memcpy(&eeprom->page_buf[in_page_address], cur_data_ptr, cur_data_size);
+    memcpy(eeprom->page_buf, cur_data_ptr, cur_data_size);
 
-    if(fseek(eeprom->f, page_address, SEEK_SET) != 0) return E_IO_ERROR;
-    if(fwrite(eeprom->page_buf, 1, EEPROM_PAGE_SIZE, eeprom->f) != EEPROM_PAGE_SIZE){
-        return E_IO_ERROR;
-    }
+    err_t err = m95x_write_enable(eeprom->m95x);
+    if(err != E_NO_ERROR) return err;
 
-    return E_NO_ERROR;
+    err = m95x_write(eeprom->m95x, (m95x_address_t)address, eeprom->page_buf, cur_data_size);
+    if(err != E_NO_ERROR) return err;
+
+    return E_IN_PROGRESS;
 }
 
 err_t eeprom_read_page(eeprom_t* eeprom, size_t address, void* cur_data_ptr, size_t cur_data_size)
 {
-    if(eeprom->f == NULL) return E_STATE;
+    if(eeprom->m95x == NULL) return E_STATE;
 
     size_t page_address = address & ~(EEPROM_PAGE_SIZE - 1);
     if((page_address + EEPROM_PAGE_SIZE) > eeprom->size) return E_OUT_OF_RANGE;
@@ -98,35 +70,32 @@ err_t eeprom_read_page(eeprom_t* eeprom, size_t address, void* cur_data_ptr, siz
     size_t in_page_address = address - page_address;
     if((in_page_address + cur_data_size) > EEPROM_PAGE_SIZE) return E_OUT_OF_RANGE;
 
-    if(fseek(eeprom->f, page_address, SEEK_SET) != 0) return E_IO_ERROR;
-    if(fread(eeprom->page_buf, 1, EEPROM_PAGE_SIZE, eeprom->f) != EEPROM_PAGE_SIZE){
-        return E_IO_ERROR;
-    }
+    err_t err = m95x_read(eeprom->m95x, (m95x_address_t)address, eeprom->page_buf, cur_data_size);
+    if(err != E_NO_ERROR) return err;
 
-    memcpy(cur_data_ptr, &eeprom->page_buf[in_page_address], cur_data_size);
+    return E_IN_PROGRESS;
+}
 
-    return E_NO_ERROR;
+static err_t eeprom_cur_op_state(eeprom_t* eeprom)
+{
+    if(m95x_done(eeprom->m95x)) return m95x_error(eeprom->m95x);
+    return E_IN_PROGRESS;
 }
 
 static void eeprom_close(eeprom_t* eeprom)
 {
-    if(eeprom->f){
-        fclose(eeprom->f);
-        eeprom->f = NULL;
-    }
 }
 
 
 
-err_t eeprom_init(eeprom_t* eeprom, const char* filename, size_t size)
+err_t eeprom_init(eeprom_t* eeprom, m95x_t* m95x, size_t size)
 {
     assert(eeprom != NULL);
 
-    if(filename == NULL) return E_NULL_POINTER;
+    //if(m95x == NULL) return E_NULL_POINTER;
     if(size == 0) return E_INVALID_VALUE;
 
-    eeprom->f = NULL;
-    eeprom->filename = filename;
+    eeprom->m95x = m95x;
     eeprom->size = size;
     eeprom->state = EEPROM_STATE_NONE;
     eeprom->address = 0;
@@ -151,7 +120,7 @@ void eeprom_deinit(eeprom_t* eeprom)
 
     eeprom_close(eeprom);
 
-    eeprom->filename = NULL;
+    eeprom->m95x = NULL;
     eeprom->size = 0;
     eeprom->state = EEPROM_STATE_NONE;
 }
@@ -183,6 +152,9 @@ static err_t eeprom_process_erase(eeprom_t* eeprom)
     size_t cur_address = eeprom->address + eeprom->data_processed;
     size_t cur_data_remain = eeprom->data_size - eeprom->data_processed;
 
+    size_t cur_data_erase_size = cur_data_remain;
+    if(cur_data_erase_size > EEPROM_ERASE_SIZE) cur_data_erase_size = EEPROM_ERASE_SIZE;
+
     if(eeprom->state == EEPROM_STATE_NONE){
         eeprom->state = EEPROM_STATE_ERASE;
         eeprom_future_start(eeprom);
@@ -194,24 +166,33 @@ static err_t eeprom_process_erase(eeprom_t* eeprom)
     default:
         break;
     case EEPROM_STATE_ERASE:{
-        size_t cur_data_erase_size = cur_data_remain;
-        if(cur_data_erase_size > EEPROM_ERASE_SIZE) cur_data_erase_size = EEPROM_ERASE_SIZE;
-
         err = eeprom_open(eeprom);
         if(err != E_NO_ERROR) break;
 
         err = eeprom_erase_block(eeprom, cur_address);
+        if(err == E_IN_PROGRESS) eeprom->state = EEPROM_STATE_WAIT_ERASE;
         if(err != E_NO_ERROR) break;
 
         eeprom->data_processed += cur_data_erase_size;
         if(eeprom->data_processed == eeprom->data_size){
-            eeprom->data_processed = 0;
             eeprom->state = EEPROM_STATE_DONE;
             err = E_NO_ERROR;
         }else{
             err = E_IN_PROGRESS;
         }
     }break;
+    case EEPROM_STATE_WAIT_ERASE:
+        err = eeprom_cur_op_state(eeprom);
+        if(err != E_NO_ERROR) break;
+
+        eeprom->data_processed += cur_data_erase_size;
+        if(eeprom->data_processed == eeprom->data_size){
+            eeprom->state = EEPROM_STATE_DONE;
+        }else{
+            eeprom->state = EEPROM_STATE_ERASE;
+        }
+        err = E_IN_PROGRESS;
+        break;
     case EEPROM_STATE_DONE:
         break;
     }
@@ -242,6 +223,12 @@ static err_t eeprom_process_write(eeprom_t* eeprom)
     size_t cur_address = eeprom->address + eeprom->data_processed;
     size_t cur_data_remain = eeprom->data_size - eeprom->data_processed;
 
+    size_t cur_data_write_size = cur_data_remain;
+    if(cur_data_write_size > EEPROM_PAGE_SIZE) cur_data_write_size = EEPROM_PAGE_SIZE;
+
+    size_t cur_data_erase_size = cur_data_remain;
+    if(cur_data_erase_size > EEPROM_ERASE_SIZE) cur_data_erase_size = EEPROM_ERASE_SIZE;
+
     if(eeprom->state == EEPROM_STATE_NONE){
         if(eeprom->flags & EEPROM_FLAG_ERASE){
             eeprom->state = EEPROM_STATE_ERASE;
@@ -257,15 +244,13 @@ static err_t eeprom_process_write(eeprom_t* eeprom)
     default:
         break;
     case EEPROM_STATE_WRITE:{
-        size_t cur_data_write_size = cur_data_remain;
-        if(cur_data_write_size > EEPROM_PAGE_SIZE) cur_data_write_size = EEPROM_PAGE_SIZE;
-
         void* cur_data_ptr = (void*)((uint8_t*)eeprom->data_ptr + eeprom->data_processed);
 
         err = eeprom_open(eeprom);
         if(err != E_NO_ERROR) break;
 
         err = eeprom_write_page(eeprom, cur_address, cur_data_ptr, cur_data_write_size);
+        if(err == E_IN_PROGRESS) eeprom->state = EEPROM_STATE_WAIT_WRITE;
         if(err != E_NO_ERROR) break;
 
         eeprom->data_processed += cur_data_write_size;
@@ -276,14 +261,25 @@ static err_t eeprom_process_write(eeprom_t* eeprom)
             err = E_IN_PROGRESS;
         }
     }break;
-    case EEPROM_STATE_ERASE:{
-        size_t cur_data_erase_size = cur_data_remain;
-        if(cur_data_erase_size > EEPROM_ERASE_SIZE) cur_data_erase_size = EEPROM_ERASE_SIZE;
+    case EEPROM_STATE_WAIT_WRITE:
+        err = eeprom_cur_op_state(eeprom);
+        if(err != E_NO_ERROR) break;
 
+        eeprom->data_processed += cur_data_write_size;
+        if(eeprom->data_processed == eeprom->data_size){
+            eeprom->state = EEPROM_STATE_DONE;
+            err = E_NO_ERROR;
+        }else{
+            eeprom->state = EEPROM_STATE_WRITE;
+            err = E_IN_PROGRESS;
+        }
+        break;
+    case EEPROM_STATE_ERASE:{
         err = eeprom_open(eeprom);
         if(err != E_NO_ERROR) break;
 
         err = eeprom_erase_block(eeprom, cur_address);
+        if(err == E_IN_PROGRESS) eeprom->state = EEPROM_STATE_WAIT_ERASE;
         if(err != E_NO_ERROR) break;
 
         eeprom->data_processed += cur_data_erase_size;
@@ -293,6 +289,19 @@ static err_t eeprom_process_write(eeprom_t* eeprom)
             err = E_IN_PROGRESS;
         }
     }break;
+    case EEPROM_STATE_WAIT_ERASE:
+        err = eeprom_cur_op_state(eeprom);
+        if(err != E_NO_ERROR) break;
+
+        eeprom->data_processed += cur_data_erase_size;
+        if(eeprom->data_processed == eeprom->data_size){
+            eeprom->data_processed = 0;
+            eeprom->state = EEPROM_STATE_WRITE;
+        }else{
+            eeprom->state = EEPROM_STATE_ERASE;
+        }
+        err = E_IN_PROGRESS;
+        break;
     case EEPROM_STATE_DONE:
         break;
     }
@@ -318,6 +327,11 @@ static err_t eeprom_process_read(eeprom_t* eeprom)
     size_t cur_address = eeprom->address + eeprom->data_processed;
     size_t cur_data_remain = eeprom->data_size - eeprom->data_processed;
 
+    size_t cur_data_read_size = cur_data_remain;
+    if(cur_data_read_size > EEPROM_PAGE_SIZE) cur_data_read_size = EEPROM_PAGE_SIZE;
+
+    void* cur_data_ptr = (void*)((uint8_t*)eeprom->data_ptr + eeprom->data_processed);
+
     if(eeprom->state == EEPROM_STATE_NONE){
         eeprom->state = EEPROM_STATE_READ;
         eeprom_future_start(eeprom);
@@ -329,15 +343,11 @@ static err_t eeprom_process_read(eeprom_t* eeprom)
     default:
         break;
     case EEPROM_STATE_READ:{
-        size_t cur_data_read_size = cur_data_remain;
-        if(cur_data_read_size > EEPROM_PAGE_SIZE) cur_data_read_size = EEPROM_PAGE_SIZE;
-
-        void* cur_data_ptr = (void*)((uint8_t*)eeprom->data_ptr + eeprom->data_processed);
-
         err = eeprom_open(eeprom);
         if(err != E_NO_ERROR) break;
 
         err = eeprom_read_page(eeprom, cur_address, cur_data_ptr, cur_data_read_size);
+        if(err == E_IN_PROGRESS) eeprom->state = EEPROM_STATE_WAIT_READ;
         if(err != E_NO_ERROR) break;
 
         eeprom->data_processed += cur_data_read_size;
@@ -348,6 +358,21 @@ static err_t eeprom_process_read(eeprom_t* eeprom)
             err = E_IN_PROGRESS;
         }
     }break;
+    case EEPROM_STATE_WAIT_READ:
+        err = eeprom_cur_op_state(eeprom);
+        if(err != E_NO_ERROR) break;
+
+        memcpy(cur_data_ptr, eeprom->page_buf, cur_data_read_size);
+
+        eeprom->data_processed += cur_data_read_size;
+        if(eeprom->data_processed == eeprom->data_size){
+            eeprom->state = EEPROM_STATE_DONE;
+            err = E_NO_ERROR;
+        }else{
+            eeprom->state = EEPROM_STATE_READ;
+            err = E_IN_PROGRESS;
+        }
+        break;
     case EEPROM_STATE_DONE:
         break;
     }
@@ -368,7 +393,7 @@ err_t eeprom_erase(eeprom_t* eeprom, size_t address, size_t size, future_t* futu
 {
     assert(eeprom != NULL);
 
-    if(eeprom->filename == NULL || eeprom->size == 0) return E_STATE;
+    if(eeprom->m95x == NULL || eeprom->size == 0) return E_STATE;
     if(size == 0) return E_INVALID_VALUE;
     if(eeprom_busy(eeprom)) return E_BUSY;
 
@@ -392,7 +417,7 @@ err_t eeprom_write(eeprom_t* eeprom, size_t address, const void* data, size_t si
 {
     assert(eeprom != NULL);
 
-    if(eeprom->filename == NULL || eeprom->size == 0) return E_STATE;
+    if(eeprom->m95x == NULL || eeprom->size == 0) return E_STATE;
     if(data == NULL) return E_NULL_POINTER;
     if(size == 0) return E_INVALID_VALUE;
     if(eeprom_busy(eeprom)) return E_BUSY;
@@ -416,7 +441,7 @@ err_t eeprom_read(eeprom_t* eeprom, size_t address, void* data, size_t size, fut
 {
     assert(eeprom != NULL);
 
-    if(eeprom->filename == NULL || eeprom->size == 0) return E_STATE;
+    if(eeprom->m95x == NULL || eeprom->size == 0) return E_STATE;
     if(data == NULL) return E_NULL_POINTER;
     if(size == 0) return E_INVALID_VALUE;
     if(eeprom_busy(eeprom)) return E_BUSY;
@@ -440,7 +465,7 @@ void eeprom_process(eeprom_t* eeprom)
 {
     assert(eeprom != NULL);
 
-    if(eeprom->filename == NULL || eeprom->size == 0) return;
+    if(eeprom->m95x == NULL || eeprom->size == 0) return;
 
     switch(eeprom->op){
     case EEPROM_OP_NONE:
@@ -461,7 +486,7 @@ bool eeprom_busy(eeprom_t* eeprom)
 {
     assert(eeprom != NULL);
 
-    if(eeprom->filename == NULL || eeprom->size == 0) return false;
+    if(eeprom->m95x == NULL || eeprom->size == 0) return false;
 
     return eeprom->state != EEPROM_STATE_NONE && eeprom->state != EEPROM_STATE_DONE;
 }

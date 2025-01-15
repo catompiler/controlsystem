@@ -10,16 +10,17 @@
 #include <assert.h>
 #include "errors/errors.h"
 #include "future/future.h"
+#include "m95x/m95x.h"
 
 
 
 //! Размер читаемой / записываемой страницы.
-#define EEPROM_PAGE_SIZE 128
+#define EEPROM_PAGE_SIZE M95X_PAGE_256
 
 static_assert((EEPROM_PAGE_SIZE & (EEPROM_PAGE_SIZE - 1)) == 0, "EEPROM page size is not power of two!");
 
 //! Размер стираемого блока.
-#define EEPROM_ERASE_SIZE 512
+#define EEPROM_ERASE_SIZE EEPROM_PAGE_SIZE
 
 static_assert((EEPROM_ERASE_SIZE & (EEPROM_ERASE_SIZE - 1)) == 0, "EEPROM erase size is not power of two!");
 
@@ -35,6 +36,9 @@ typedef enum _E_Eeprom_State {
     EEPROM_STATE_DONE = 4,
     //EEPROM_STATE_MOD_READ = 5,
     //EEPROM_STATE_MOD_WRITE = 6,
+    EEPROM_STATE_WAIT_READ = 7,
+    EEPROM_STATE_WAIT_WRITE = 8,
+    EEPROM_STATE_WAIT_ERASE = 9,
 } eeprom_state_t;
 
 //! Тип операции.
@@ -57,8 +61,7 @@ typedef uint32_t eeprom_flags_t;
 
 //! Структура EEPROM.
 typedef struct _S_Eeprom {
-    void* f; //!< Файл.
-    const char* filename; //!< Местонахождение.
+    m95x_t* m95x; //!< Микросхема EEPROM.
     size_t size; //!< Размер.
     uint8_t page_buf[EEPROM_ERASE_SIZE]; //!< Буфер данных.
     eeprom_state_t state; //!< Состояние.
@@ -74,9 +77,12 @@ typedef struct _S_Eeprom {
 
 /**
  * Инициализирует EEPROM.
+ * @param eeprom EEPROM.
+ * @param m95x Микросхема EEPROM, NULL при ошибке доступа.
+ * @param size Размер EEPROM.
  * @return Код ошибки.
  */
-err_t eeprom_init(eeprom_t* eeprom, const char* filename, size_t size);
+err_t eeprom_init(eeprom_t* eeprom, m95x_t* m95x, size_t size);
 
 
 /**
