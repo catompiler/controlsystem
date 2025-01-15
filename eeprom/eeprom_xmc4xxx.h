@@ -11,6 +11,7 @@
 #include "errors/errors.h"
 #include "future/future.h"
 #include "m95x/m95x.h"
+#include "gpio/gpio.h"
 
 
 
@@ -62,6 +63,10 @@ typedef uint32_t eeprom_flags_t;
 //! Структура EEPROM.
 typedef struct _S_Eeprom {
     m95x_t* m95x; //!< Микросхема EEPROM.
+    GPIO_t* gpio_nwp; //!< Порт nWP.
+    gpio_pin_t pin_nwp; //!< Пин nWP.
+    GPIO_t* gpio_nhold; //!< Порт nHOLD.
+    gpio_pin_t pin_nhold; //!< Пин nHOLD.
     size_t size; //!< Размер.
     uint8_t page_buf[EEPROM_ERASE_SIZE]; //!< Буфер данных.
     eeprom_state_t state; //!< Состояние.
@@ -75,6 +80,16 @@ typedef struct _S_Eeprom {
 } eeprom_t;
 
 
+//! Структура инициализации.
+typedef struct _S_Eeprom_Init {
+    m95x_t* m95x; //!< Микросхема EEPROM.
+    GPIO_t* gpio_nwp; //!< Порт nWP.
+    gpio_pin_t pin_nwp; //!< Пин nWP.
+    GPIO_t* gpio_nhold; //!< Порт nHOLD.
+    gpio_pin_t pin_nhold; //!< Пин nHOLD.
+} eeprom_init_t;
+
+
 /**
  * Инициализирует EEPROM.
  * @param eeprom EEPROM.
@@ -82,7 +97,7 @@ typedef struct _S_Eeprom {
  * @param size Размер EEPROM.
  * @return Код ошибки.
  */
-err_t eeprom_init(eeprom_t* eeprom, m95x_t* m95x, size_t size);
+err_t eeprom_init(eeprom_t* eeprom, eeprom_init_t* is, size_t size);
 
 
 /**

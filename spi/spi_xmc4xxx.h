@@ -34,7 +34,7 @@
  * даннх, или при возникновении ошибки.
  * @return true, если событие обработано, иначе false.
  */
-typedef bool (*spi_callback_t)(void);
+typedef bool (*spi_callback_t)(void* user_data);
 
 //! Декларация структуры сообщения ниже.
 struct _SPI_Message;
@@ -119,6 +119,7 @@ typedef struct _SPI_Bus {
     spi_status_t status;//!< Статус шины.
     spi_errors_t errors;//!< Ошибка шины.
     spi_callback_t callback;//!< Функция обратного вызова.
+    void* user_data; //!< Данные пользователя.
     spi_transfer_id_t transfer_id;//!< Идентификатор передачи.
     spi_message_t* messages;//!< Массив сообщений.
     size_t messages_count;//!< Число сообщений.
@@ -221,6 +222,20 @@ EXTERN spi_callback_t spi_bus_callback(spi_bus_t* spi);
  * @param callback Функция обратного вызова.
  */
 EXTERN void spi_bus_set_callback(spi_bus_t* spi, spi_callback_t callback);
+
+/**
+ * Получает данные пользователя.
+ * @param spi Шина spi.
+ * @return Данные пользователя.
+ */
+EXTERN void* spi_bus_user_data(spi_bus_t* spi);
+
+/**
+ * Устанавливает данные пользователя.
+ * @param spi Шина spi.
+ * @param user_data Данные пользователя.
+ */
+EXTERN void spi_bus_set_user_data(spi_bus_t* spi, void* user_data);
 
 /**
  * Получает идентификатор передачи.

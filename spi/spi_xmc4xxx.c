@@ -207,6 +207,7 @@ err_t spi_bus_init(spi_bus_t* spi, spi_bus_init_t* init)
     spi->errors = SPI_NO_ERROR;
     spi->transfer_id = SPI_BUS_DEFAULT_TRANSFER_ID;
     spi->callback = NULL;
+    spi->user_data = NULL;
     
     spi->state = SPI_STATE_IDLE;
     spi->dma_rx_locked = false;
@@ -398,7 +399,7 @@ static ALWAYS_INLINE bool spi_bus_done(spi_bus_t* spi)
 {
     spi_bus_frame_end(spi);
 
-    if(spi->callback) spi->callback();
+    if(spi->callback) spi->callback(spi->user_data);
     return spi->state == SPI_STATE_IDLE;
 }
 
@@ -598,6 +599,16 @@ spi_callback_t spi_bus_callback(spi_bus_t* spi)
 void spi_bus_set_callback(spi_bus_t* spi, spi_callback_t callback)
 {
     spi->callback = callback;
+}
+
+void* spi_bus_user_data(spi_bus_t* spi)
+{
+    return spi->user_data;
+}
+
+void spi_bus_set_user_data(spi_bus_t* spi, void* user_data)
+{
+    spi->user_data = user_data;
 }
 
 spi_transfer_id_t spi_bus_transfer_id(spi_bus_t* spi)

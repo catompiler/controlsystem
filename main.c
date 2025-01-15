@@ -280,6 +280,24 @@ int main(void)
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Init eeprom.
 
+    // Init nHOLD.
+    gpio_set(EEP_PORT_nHOLD, EEP_PIN_nHOLD_Msk);
+    gpio_set_pad_driver(EEP_PORT_nHOLD, EEP_PIN_nHOLD_Msk, EEP_PIN_nHOLD_DRIVER);
+    gpio_init(EEP_PORT_nHOLD, EEP_PIN_nHOLD_Msk, EEP_PIN_nHOLD_CONF);
+
+    // Init nWP.
+    gpio_set(EEP_PORT_nWP, EEP_PIN_nWP_Msk);
+    gpio_set_pad_driver(EEP_PORT_nWP, EEP_PIN_nWP_Msk, EEP_PIN_nWP_DRIVER);
+    gpio_init(EEP_PORT_nWP, EEP_PIN_nWP_Msk, EEP_PIN_nWP_CONF);
+
+    eeprom_init_t eep_is;
+    eep_is.gpio_nhold = EEP_PORT_nHOLD;
+    eep_is.pin_nhold = EEP_PIN_nHOLD_Msk;
+    eep_is.gpio_nwp = EEP_PORT_nWP;
+    eep_is.pin_nwp = EEP_PIN_nWP_Msk;
+    eep_is.m95x = NULL; // Invalid (not initializable eeprom).
+    eep_param_ptr = &eep_is;
+
     hardware_init_spis();
     interrupts_enable_eep_spi();
 
@@ -301,7 +319,9 @@ int main(void)
             SYSLOG(SYSLOG_WARNING, "Error init eep m95x! (%u)", (unsigned int)err);
         }else{
             SYSLOG(SYSLOG_INFO, "Eep m95x initialized!");
-            eep_param_ptr = &eep_m95x;
+            eep_is.m95x = &eep_m95x;
+            spi_bus_set_user_data(&eep_spi_bus, &eep_m95x);
+            spi_bus_set_callback(&eep_spi_bus, (spi_callback_t)m95x_spi_callback);
         }
     }
 
