@@ -231,10 +231,11 @@ static err_t eeprom_process_erase(eeprom_t* eeprom)
         eeprom->data_processed += cur_data_erase_size;
         if(eeprom->data_processed == eeprom->data_size){
             eeprom->state = EEPROM_STATE_DONE;
+            err = E_NO_ERROR;
         }else{
             eeprom->state = EEPROM_STATE_ERASE;
+            err = E_IN_PROGRESS;
         }
-        err = E_IN_PROGRESS;
         break;
     case EEPROM_STATE_DONE:
         break;

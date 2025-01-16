@@ -3,6 +3,7 @@
 #include "defs/defs.h"
 #include <assert.h>
 #include <stdbool.h>
+#include "sys_counter/sys_counter.h"
 //#include <sys/time.h>
 //#include <stdio.h>
 
@@ -25,34 +26,70 @@
 
 static void adc_tim_handler(void* arg)
 {
+    // Измерение времени выполнения.
+    struct timeval tv_run_start, tv_run_end, tv_run_time;
+    sys_counter_value(&tv_run_start);
+
     M_sys_main* sys = (M_sys_main*)arg;
     assert(sys != NULL);
 
     CALC(adc);
+
+    // Измерение времени выаполнения.
+    sys_counter_value(&tv_run_end);
+    timersub(&tv_run_end, &tv_run_start, &tv_run_time);
+    sys->r_adc_tim_run_time_us = tv_run_time.tv_sec * 1000000 + tv_run_time.tv_usec;
 }
 
 static void sys_tim_handler(void* arg)
 {
+    // Измерение времени выполнения.
+    struct timeval tv_run_start, tv_run_end, tv_run_time;
+    sys_counter_value(&tv_run_start);
+
     M_sys_main* sys = (M_sys_main*)arg;
     assert(sys != NULL);
 
     CALC((*sys));
+
+    // Измерение времени выаполнения.
+    sys_counter_value(&tv_run_end);
+    timersub(&tv_run_end, &tv_run_start, &tv_run_time);
+    sys->r_sys_tim_run_time_us = tv_run_time.tv_sec * 1000000 + tv_run_time.tv_usec;
 }
 
 static void ms_tim_handler(void* arg)
 {
+    // Измерение времени выполнения.
+    struct timeval tv_run_start, tv_run_end, tv_run_time;
+    sys_counter_value(&tv_run_start);
+
     M_sys_main* sys = (M_sys_main*)arg;
     assert(sys != NULL);
 
     CALC(sys_time); // Системное время.
+
+    // Измерение времени выаполнения.
+    sys_counter_value(&tv_run_end);
+    timersub(&tv_run_end, &tv_run_start, &tv_run_time);
+    sys->r_ms_tim_run_time_us = tv_run_time.tv_sec * 1000000 + tv_run_time.tv_usec;
 }
 
 static void net_tim_handler(void* arg)
 {
+    // Измерение времени выполнения.
+    struct timeval tv_run_start, tv_run_end, tv_run_time;
+    sys_counter_value(&tv_run_start);
+
     M_sys_main* sys = (M_sys_main*)arg;
     assert(sys != NULL);
 
     CALC(canopen); // CANopen.
+
+    // Измерение времени выаполнения.
+    sys_counter_value(&tv_run_end);
+    timersub(&tv_run_end, &tv_run_start, &tv_run_time);
+    sys->r_net_run_time_us = tv_run_time.tv_sec * 1000000 + tv_run_time.tv_usec;
 }
 
 static void adc_handler(void* arg)
@@ -865,6 +902,10 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
 METHOD_IDLE_IMPL(M_sys_main, sys)
 {
+    // Измерение времени выполнения.
+    struct timeval tv_run_start, tv_run_end, tv_run_time;
+    sys_counter_value(&tv_run_start);
+
     IDLE(conf);
     IDLE(dlog);
     // Мотор.
@@ -917,5 +958,10 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
 
     // Хранилище.
     IDLE(storage);
+
+    // Измерение времени выаполнения.
+    sys_counter_value(&tv_run_end);
+    timersub(&tv_run_end, &tv_run_start, &tv_run_time);
+    sys->r_idle_run_time_us = tv_run_time.tv_sec * 1000000 + tv_run_time.tv_usec;
 }
 
