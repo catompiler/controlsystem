@@ -106,6 +106,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Ошибки инициализации модулей.
     error_t init_errors = ERROR_NONE;
 
+    // Предупреждения инициализации модулей.
+    warning_t init_warnings = WARNING_NONE;
+
     // Базовый конфиг.
     INIT(conf);
 
@@ -310,7 +313,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // CANopen.
     INIT(canopen);
     if(canopen.status & CANOPEN_STATUS_ERROR){
-        init_errors |= SYS_MAIN_ERROR_HARDWARE;
+        init_warnings |= SYS_MAIN_WARNING_NET;
     }
 
     // Таймеры.
@@ -383,6 +386,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
             init_errors |= SYS_MAIN_ERROR_HARDWARE;
         }
     }
+
+    // Установка предупреждений инициализации.
+    sys->warnings = init_warnings;
 
     // Проверка ошибок инициализации.
     // Если есть ошибки - установим состояние непоправимой ошибки.

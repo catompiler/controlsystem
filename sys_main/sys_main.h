@@ -33,6 +33,7 @@ enum _E_Sys_Main_Errors {
 //! Перечисление возможных бит предупреждений.
 enum _E_Sys_Main_Warnings {
     SYS_MAIN_WARNING_NONE = WARNING_NONE, //!< Нет предупреждений.
+    SYS_MAIN_WARNING_NET = (WARNING_USER << 0), //!< Предупреждение сети.
     //SYS_MAIN_WARNING_ = 0x00, //!<
 };
 

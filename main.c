@@ -223,10 +223,10 @@ static void write_dlog_to_file_vcd(void)
 #endif
 
 
-static void adc_tim_handler(void *arg)
-{
-    __NOP();
-}
+//static void adc_tim_handler(void *arg)
+//{
+//    __NOP();
+//}
 
 
 int main(void)
@@ -414,28 +414,28 @@ int main(void)
         SYSLOG(SYSLOG_INFO, "Settings readed successfully!");
     }
 
-#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
-    // Temporary stub.
-
-    hardware_init_periodic_timers();
-    interrupts_inited_enable();
-
-    // Таймер АЦП.
-    INIT(adc_tim);
-    CALLBACK_PROC(adc_tim.on_timeout) = adc_tim_handler;
-    CALLBACK_ARG(adc_tim.on_timeout) = (void*)NULL;
-    // Запуск таймера АЦП.
-    adc_tim.control = ADC_TIMER_CONTROL_ENABLE;
-    CONTROL(adc_tim);
-
-    for(;;){
-        //STDIO_UART_USIC_CH->TBUF[0] = 'h';
-        struct timeval tv = {1, 0};
-        sys_counter_delay(&tv);
-        SYSLOG_MSG(SYSLOG_DEBUG, "IDLE");
-        //STDIO_UART_USIC_CH->TBUF[0] = '.';
-    }
-#endif
+//#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+//    // Temporary stub.
+//
+//    hardware_init_periodic_timers();
+//    interrupts_inited_enable();
+//
+//    // Таймер АЦП.
+//    INIT(adc_tim);
+//    CALLBACK_PROC(adc_tim.on_timeout) = adc_tim_handler;
+//    CALLBACK_ARG(adc_tim.on_timeout) = (void*)NULL;
+//    // Запуск таймера АЦП.
+//    adc_tim.control = ADC_TIMER_CONTROL_ENABLE;
+//    CONTROL(adc_tim);
+//
+//    for(;;){
+//        //STDIO_UART_USIC_CH->TBUF[0] = 'h';
+//        struct timeval tv = {1, 0};
+//        sys_counter_delay(&tv);
+//        SYSLOG_MSG(SYSLOG_DEBUG, "IDLE");
+//        //STDIO_UART_USIC_CH->TBUF[0] = '.';
+//    }
+//#endif
 
     int dlog_i = 0;
     // Stator Uabc
@@ -534,7 +534,6 @@ int main(void)
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_POWER_FACTOR_OUT_TAN_PHI;
     dlog.p_ch[dlog_i++].enabled = 1;
 
-
     dlog.control = CONTROL_ENABLE;*/
 
     // ADC model set to zero scales.
@@ -552,6 +551,11 @@ int main(void)
     mux_slip.p_sel = 0;
     calc_Ucell.p_sel = 0;
     calc_Icell.p_sel = 0;
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    hardware_init_periodic_timers();
+    interrupts_inited_enable();
+#endif
 
     INIT(sys);
 
