@@ -8,6 +8,9 @@
 #include "defs/defs.h"
 
 
+#define EEPROM_NEED_ERASING 0
+
+
 
 ALWAYS_INLINE static void eeprom_nhold_state_disable(eeprom_t* eeprom)
 {
@@ -25,6 +28,7 @@ ALWAYS_INLINE static void eeprom_nwp_state_disable(eeprom_t* eeprom)
 
 static err_t eeprom_erase_block(eeprom_t* eeprom, size_t address)
 {
+#if !defined(EEPROM_NEED_ERASING) || EEPROM_NEED_ERASING == 1
     if(eeprom->m95x == NULL) return E_STATE;
 
     size_t erase_address = address & ~(EEPROM_ERASE_SIZE - 1);
@@ -39,6 +43,9 @@ static err_t eeprom_erase_block(eeprom_t* eeprom, size_t address)
     if(err != E_NO_ERROR) return err;
 
     return E_IN_PROGRESS;
+#else
+    return E_NO_ERROR;
+#endif
 }
 
 err_t eeprom_write_page(eeprom_t* eeprom, size_t address, const void* cur_data_ptr, size_t cur_data_size)
@@ -313,31 +320,31 @@ static err_t eeprom_process_write(eeprom_t* eeprom)
             err = E_IN_PROGRESS;
         }
         break;
-    case EEPROM_STATE_ERASE:{
-        err = eeprom_erase_block(eeprom, cur_address);
-        if(err == E_IN_PROGRESS) eeprom->state = EEPROM_STATE_WAIT_ERASE;
-        if(err != E_NO_ERROR) break;
-
-        eeprom->data_processed += cur_data_erase_size;
-        if(eeprom->data_processed == eeprom->data_size){
-            eeprom->data_processed = 0;
-            eeprom->state = EEPROM_STATE_WRITE;
-            err = E_IN_PROGRESS;
-        }
-    }break;
-    case EEPROM_STATE_WAIT_ERASE:
-        err = eeprom_cur_op_state(eeprom);
-        if(err != E_NO_ERROR) break;
-
-        eeprom->data_processed += cur_data_erase_size;
-        if(eeprom->data_processed == eeprom->data_size){
-            eeprom->data_processed = 0;
-            eeprom->state = EEPROM_STATE_WRITE;
-        }else{
-            eeprom->state = EEPROM_STATE_ERASE;
-        }
-        err = E_IN_PROGRESS;
-        break;
+//    case EEPROM_STATE_ERASE:{
+//        err = eeprom_erase_block(eeprom, cur_address);
+//        if(err == E_IN_PROGRESS) eeprom->state = EEPROM_STATE_WAIT_ERASE;
+//        if(err != E_NO_ERROR) break;
+//
+//        eeprom->data_processed += cur_data_erase_size;
+//        if(eeprom->data_processed == eeprom->data_size){
+//            eeprom->data_processed = 0;
+//            eeprom->state = EEPROM_STATE_WRITE;
+//            err = E_IN_PROGRESS;
+//        }
+//    }break;
+//    case EEPROM_STATE_WAIT_ERASE:
+//        err = eeprom_cur_op_state(eeprom);
+//        if(err != E_NO_ERROR) break;
+//
+//        eeprom->data_processed += cur_data_erase_size;
+//        if(eeprom->data_processed == eeprom->data_size){
+//            eeprom->data_processed = 0;
+//            eeprom->state = EEPROM_STATE_WRITE;
+//        }else{
+//            eeprom->state = EEPROM_STATE_ERASE;
+//        }
+//        err = E_IN_PROGRESS;
+//        break;
     case EEPROM_STATE_DONE:
         break;
     }
