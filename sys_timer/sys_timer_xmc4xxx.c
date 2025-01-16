@@ -37,10 +37,14 @@ static int timer_init_impl(M_sys_timer* sys_tmr)
     SYS_TIM_CCU4_CC4->PRS = CCU_PERIOD - 1;
     // one-shot.
     SYS_TIM_CCU4_CC4->TC = CCU4_CC4_TC_TSSM_Msk;
+    // shadow transfer.
+    SYS_TIM_CCU4->GCSS = SYS_TIM_SHADOW_TRANSFER_Msk;
 
     // irqs.
     SYS_TIM_CCU4_CC4->INTE = CCU4_CC4_INTE_PME_Msk;
     SYS_TIM_CCU4_CC4->SRS = SYS_TIM_SR << CCU4_CC4_SRS_POSR_Pos;
+    // clear.
+    SYS_TIM_CCU4_CC4->SWR = CCU4_CC4_SWR_RPM_Msk;
 
     // idle.
     SYS_TIM_CCU4->GIDLC = SYS_TIM_IDLE_CLR_Msk;

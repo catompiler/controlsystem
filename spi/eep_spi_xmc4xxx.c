@@ -50,13 +50,13 @@ err_t eep_spi_init(spi_bus_t* spi_bus)
                            ((EEP_SPI_USIC_Tld_Ttd) << USIC_CH_BRG_DCTQ_Pos) |
                            ((0) << USIC_CH_BRG_SCLKOSEL_Pos) |
                            ((0) << USIC_CH_BRG_MCLKCFG_Pos) |
-                           ((0) << USIC_CH_BRG_SCLKCFG_Pos);
+                           ((0b10) << USIC_CH_BRG_SCLKCFG_Pos);
 
     // inputs.
     //EEP_SPI_USIC_CH->DX0CR = ((0b110) << USIC_CH_DX0CR_DSEL_Pos) | USIC_CH_DX0CR_INSW_Msk;
     EEP_SPI_USIC_CH->DX0CR = ((EEP_SPI_USIC_CH_MISO) << USIC_CH_DX0CR_DSEL_Pos) | USIC_CH_DX0CR_INSW_Msk;
-    EEP_SPI_USIC_CH->DX1CR = ((0b011) << USIC_CH_DX1CR_DSEL_Pos); //0
-    EEP_SPI_USIC_CH->DX2CR = ((0b011) << USIC_CH_DX2CR_DSEL_Pos); //0 // | USIC_CH_DX2CR_DPOL_Msk; // Always 1
+    //EEP_SPI_USIC_CH->DX1CR = ((0b011) << USIC_CH_DX1CR_DSEL_Pos); //0
+    //EEP_SPI_USIC_CH->DX2CR = ((0b011) << USIC_CH_DX2CR_DSEL_Pos); //0 // | USIC_CH_DX2CR_DPOL_Msk; // Always 1
 
     // data shifting.
     EEP_SPI_USIC_CH->SCTR = ((0b01) << USIC_CH_SCTR_TRM_Pos) | // needed.
@@ -71,7 +71,7 @@ err_t eep_spi_init(spi_bus_t* spi_bus)
     EEP_SPI_USIC_CH->PCR_SSCMode = ((1) << USIC_CH_PCR_SSCMode_MSLSEN_Pos) | // clk gen.
                                    ((1) << USIC_CH_PCR_SSCMode_SELCTR_Pos) | // direct sel.
                                    ((1) << USIC_CH_PCR_SSCMode_SELINV_Pos) | // sel active low.
-                                   ((0) << USIC_CH_PCR_SSCMode_FEM_Pos);// | // sw sel management.
+                                   ((1) << USIC_CH_PCR_SSCMode_FEM_Pos);// | // sw sel management.
                                    //((1) << USIC_CH_PCR_SSCMode_MSLSIEN_Pos); // sel interrupt.
 
     // SS.

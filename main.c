@@ -222,6 +222,13 @@ static void write_dlog_to_file_vcd(void)
 }
 #endif
 
+
+static void adc_tim_handler(void *arg)
+{
+    __NOP();
+}
+
+
 int main(void)
 {
 #if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
@@ -233,6 +240,9 @@ int main(void)
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Configure NVIC.
     interrupts_init();
+
+    // Configure GPIO.
+    hardware_init_ports();
 
     // Configure DMA.
     hardware_init_dma();
@@ -297,7 +307,8 @@ int main(void)
     eep_is.pin_nwp = EEP_PIN_nWP_Msk;
     eep_is.m95x = NULL; // Invalid (not initializable eeprom).
     eep_param_ptr = &eep_is;
-
+    //for(;;){
+        //hardware_init_dma();
     hardware_init_spis();
     interrupts_enable_eep_spi();
 
@@ -326,7 +337,7 @@ int main(void)
     }
 
     /*if(err == E_NO_ERROR){
-        err = spi_message_init(&spi_msg, SPI_READ_WRITE, spi_tx_data, spi_rx_data, SPI_DATA_LEN); //
+        err = spi_message_init(&spi_msg, SPI_WRITE, spi_tx_data, NULL, SPI_DATA_LEN); //spi_rx_data
         if(err != E_NO_ERROR){
             SYSLOG(SYSLOG_WARNING, "spi msg init failed!");
         }else{
@@ -335,7 +346,7 @@ int main(void)
                 spi_tx_data[i] = ((uint8_t)i & 0xff);
                 spi_rx_data[i] = 0x0;
             }
-            spi_bus_set_hw_sel(&eep_spi_bus, 0x2);
+            spi_bus_set_hw_sel(&eep_spi_bus, 0x0);
             err = spi_bus_transfer(&eep_spi_bus, &spi_msg, 1);
             if(err != E_NO_ERROR){
                 SYSLOG(SYSLOG_WARNING, "spi transfer start failed!");
@@ -345,8 +356,23 @@ int main(void)
                 __NOP();
             }
         }
-    }*/
+    }
+
+    for(;;) __NOP();*/
 #endif
+
+    /*m95x_status_t status;
+    status.block_protect = 0;
+    status.status_reg_write_protect = 0;
+    status.write_enable_latch = 0;
+    status.write_in_progress = 0;
+
+    for(;;){
+        err = m95x_write_status(&eep_m95x, &status);
+        if(err != E_NO_ERROR){
+            SYSLOG(SYSLOG_WARNING, "Error m95x_write_status! (%u)", (unsigned int)err);
+        }
+    }*/
 
     err = eeprom_init(&eep, eep_param_ptr, EEPROM_SIZE);
     if(err != E_NO_ERROR){
@@ -390,6 +416,17 @@ int main(void)
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Temporary stub.
+
+    /*hardware_init_periodic_timers();
+    interrupts_inited_enable();
+
+    // Таймер АЦП.
+    INIT(adc_tim);
+    CALLBACK_PROC(adc_tim.on_timeout) = adc_tim_handler;
+    CALLBACK_ARG(adc_tim.on_timeout) = (void*)NULL;
+    // Запуск таймера АЦП.
+    adc_tim.control = ADC_TIMER_CONTROL_ENABLE;
+    CONTROL(adc_tim);*/
 
     for(;;){
         //STDIO_UART_USIC_CH->TBUF[0] = 'h';

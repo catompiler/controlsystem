@@ -4,6 +4,14 @@
 
 
 
+void hardware_init_ports(void)
+{
+    // reset.
+    PORTS_RESET_ENABLE();
+    PORTS_RESET_DISABLE();
+}
+
+
 void hardware_init_periodic_timers(void)
 {
     // reset.

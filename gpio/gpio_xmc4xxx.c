@@ -25,7 +25,8 @@ ALWAYS_INLINE static void gpio_init_pin_impl(GPIO_t* GPIO, uint32_t pin_n, gpio_
         iocr_pc_n = pin_n - 0;
     }
 
-    *IOCR |= ((uint32_t)conf) << (PORT0_IOCR0_PC0_Pos + (iocr_pc_n << 3));
+    uint32_t shift = iocr_pc_n << 3;
+    *IOCR = ((*IOCR) & ~(PORT0_IOCR0_PC0_Msk << shift)) | ((uint32_t)conf << (shift + PORT0_IOCR0_PC0_Pos));
 }
 
 void gpio_init(GPIO_t* GPIO, gpio_pin_t pins, gpio_conf_t conf)
@@ -59,7 +60,8 @@ ALWAYS_INLINE static void gpio_set_pad_driver_impl(GPIO_t* GPIO, uint32_t pin_n,
         pdr_pd_n = pin_n - 0;
     }
 
-    *PDR |= ((uint32_t)pad_driver) << (PORT0_PDR0_PD0_Pos + (pdr_pd_n << 2));
+    uint32_t shift = pdr_pd_n << 2;
+    *PDR = ((*PDR) & ~(PORT0_PDR0_PD0_Msk << shift)) | ((uint32_t)pad_driver << (shift + PORT0_PDR0_PD0_Pos));
 }
 
 void gpio_set_pad_driver(GPIO_t* GPIO, gpio_pin_t pins, gpio_pad_driver_t pad_driver)
@@ -83,7 +85,8 @@ ALWAYS_INLINE static void gpio_set_hw_control_impl(GPIO_t* GPIO, uint32_t pin_n,
 {
     PORT0_Type* port = (PORT0_Type*)GPIO;
 
-    port->HWSEL |= ((uint32_t)hwsel) << (PORT0_HWSEL_HW0_Pos + (pin_n << 1));
+    uint32_t shift = pin_n << 1;
+    port->HWSEL = (port->HWSEL & ~(PORT0_HWSEL_HW0_Msk << shift)) | ((uint32_t)hwsel << (shift + PORT0_HWSEL_HW0_Pos));
 }
 
 void gpio_set_hw_control(GPIO_t* GPIO, gpio_pin_t pins, gpio_hwsel_t hwsel)

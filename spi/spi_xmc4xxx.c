@@ -159,6 +159,16 @@ ALWAYS_INLINE static void* spi_bus_tx_reg_ptr(spi_bus_t* spi)
     return (void*)&spi->spi_device->TBUF[0];
 }
 
+static void spi_bus_write_transmit_data(spi_bus_t* spi, uint16_t data)
+{
+    spi->spi_device->TBUF[0] = data;
+}
+
+static uint16_t spi_bus_read_received_data(spi_bus_t* spi)
+{
+    return spi->spi_device->RBUF;
+}
+
 
 ALWAYS_INLINE static void spi_bus_trigger_tx_req(spi_bus_t* spi)
 {
@@ -177,7 +187,10 @@ ALWAYS_INLINE static void spi_bus_frame_begin(spi_bus_t* spi)
 
 ALWAYS_INLINE static void spi_bus_frame_end(spi_bus_t* spi)
 {
+    //WAIT_WHILE_TRUE((spi->spi_device->PSR_SSCMode & USIC_CH_PSR_SSCMode_TSIF_Msk) == 0);
     spi->spi_device->PSCR = USIC_CH_PSR_SSCMode_MSLS_Msk;
+
+    //spi->spi_device->PSCR = 0xffffffff;
 }
 
 
@@ -237,7 +250,7 @@ static void spi_bus_dma_rxtx_config(spi_bus_t* spi, void* rx_address, const void
         dma_channel_set_dest_address(spi->dma_rx_channel, rx_address);
         dma_channel_control(spi->dma_rx_channel, DMA_INT_ENABLE,
                             tf_w, tf_w, rx_addr_inc, DMA_ADDR_NO_CHANGE,
-                            DMA_BURST_TRANS_LEN_1, DMA_BURST_TRANS_LEN_1,
+                            DMA_BURST_TRANS_LEN_8, DMA_BURST_TRANS_LEN_1,
                             DMA_TRANSFER_PER_TO_MEM_FC_DMA);
         dma_channel_config(spi->dma_rx_channel, DMA_FLOW_CONTROL_PREFETCH_DISABLED, DMA_FIFO_SINGLE_DATA_FOR_BURST, // DMA_FLOW_CONTROL_PREFETCH_DISABLED // DMA_FIFO_SINGLE_DATA_FOR_BURST
                            0, spi->dma_rx_line_n,
@@ -262,7 +275,7 @@ static void spi_bus_dma_rxtx_config(spi_bus_t* spi, void* rx_address, const void
         dma_channel_set_dest_address(spi->dma_tx_channel, spi_bus_tx_reg_ptr(spi));
         dma_channel_control(spi->dma_tx_channel, DMA_INT_ENABLE,
                             tf_w, tf_w, DMA_ADDR_NO_CHANGE, tx_addr_inc,
-                            DMA_BURST_TRANS_LEN_1, DMA_BURST_TRANS_LEN_1,
+                            DMA_BURST_TRANS_LEN_1, DMA_BURST_TRANS_LEN_8,
                             DMA_TRANSFER_MEM_TO_PER_FC_DMA);
         dma_channel_config(spi->dma_tx_channel, DMA_FLOW_CONTROL_PREFETCH_DISABLED, DMA_FIFO_SINGLE_DATA_FOR_BURST, // DMA_FLOW_CONTROL_PREFETCH_DISABLED // DMA_FIFO_SINGLE_DATA_FOR_BURST
                            spi->dma_tx_line_n, 0,
@@ -301,18 +314,18 @@ ALWAYS_INLINE static void spi_bus_dma_start(spi_bus_t* spi)
 ALWAYS_INLINE static void spi_bus_dma_stop_rx(spi_bus_t* spi)
 {
     if(spi->dma_rx_locked){
-        dma_channel_disable(spi->dma_rx_ch_n);
-        //dma_request_line_disable(spi->dma_rx_line_n);
         spi_bus_rx_it_disable(spi);
+        dma_channel_disable(spi->dma_rx_ch_n);
+        dma_request_line_disable(spi->dma_rx_line_n);
     }
 }
 
 ALWAYS_INLINE static void spi_bus_dma_stop_tx(spi_bus_t* spi)
 {
     if(spi->dma_tx_locked){
-        dma_channel_disable(spi->dma_tx_ch_n);
-        //dma_request_line_disable(spi->dma_tx_line_n);
         spi_bus_tx_it_disable(spi);
+        dma_channel_disable(spi->dma_tx_ch_n);
+        dma_request_line_disable(spi->dma_tx_line_n);
     }
 }
 
@@ -348,14 +361,14 @@ static bool spi_bus_dma_lock_channels(spi_bus_t* spi, bool lock_rx, bool lock_tx
 static void spi_bus_dma_unlock_channels(spi_bus_t* spi)
 {
     if(spi->dma_rx_locked){
-        dma_channel_deinit(spi->dma_rx_channel);
         dma_set_int_callback(spi->dma_rx_ch_n, NULL, NULL);
+        dma_channel_deinit(spi->dma_rx_channel);
         dma_channel_unlock(spi->dma_rx_ch_n);
         spi->dma_rx_locked = false;
     }
     if(spi->dma_tx_locked){
-        dma_channel_deinit(spi->dma_tx_channel);
         dma_set_int_callback(spi->dma_tx_ch_n, NULL, NULL);
+        dma_channel_deinit(spi->dma_tx_channel);
         dma_channel_unlock(spi->dma_tx_ch_n);
         spi->dma_tx_locked = false;
     }
@@ -429,11 +442,6 @@ static void spi_bus_transfer_error(spi_bus_t* spi)
     spi_bus_done(spi);
 }
 
-static uint16_t spi_bus_read_received_data(spi_bus_t* spi)
-{
-    return spi->spi_device->OUTR;
-}
-
 void spi_bus_irq_handler(spi_bus_t* spi)
 {
 #ifdef SPI_BUS_DEBUG
@@ -497,11 +505,11 @@ bool spi_bus_dma_rx_channel_irq_handler(spi_bus_t* spi)
 
         dma_int_clear_transfer_complete(spi->dma_rx_ch_n);
         
-        if(!spi_bus_is_crc_enabled(spi)){
+//        if(!spi_bus_is_crc_enabled(spi)){
             spi_bus_transfer_done(spi);
-        }else{
-            spi_bus_rx_it_enable(spi);
-        }
+//        }else{
+//            spi_bus_rx_it_enable(spi);
+//        }
 
     }else if(dma_int_status_error(spi->dma_rx_ch_n)){
 
@@ -531,12 +539,14 @@ bool spi_bus_dma_tx_channel_irq_handler(spi_bus_t* spi)
 
         dma_int_clear_transfer_complete(spi->dma_tx_ch_n);
 
+        //WAIT_WHILE_TRUE((spi->spi_device->TCSR & USIC_CH_TCSR_TDV_Msk) != 0);
+
         if(!can_rx){
-            if(!spi_bus_is_crc_enabled(spi)){
+//            if(!spi_bus_is_crc_enabled(spi)){
                 spi_bus_transfer_done(spi);
-            }else{
-                spi_bus_tx_it_enable(spi);
-            }
+//            }else{
+//                spi_bus_tx_it_enable(spi);
+//            }
         }
 
     }else if(dma_int_status_error(spi->dma_tx_ch_n)){
@@ -826,7 +836,7 @@ err_t spi_bus_transmit(spi_bus_t* spi, uint16_t tx_data, uint16_t* rx_data)
 
     spi_bus_clear_rxtx_events(spi);
 
-    spi->spi_device->TBUF[0] = tx_data;
+    spi_bus_write_transmit_data(spi, tx_data);
 
     // Подождать отправки.
     spi_bus_wait_can_tx(spi);

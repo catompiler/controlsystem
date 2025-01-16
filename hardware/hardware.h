@@ -6,6 +6,10 @@
 #include "config.h"
 #include "defs/defs.h"
 
+
+//! Сбрасывает и разрешает тактирование портов.
+EXTERN void hardware_init_ports(void);
+
 //! Сбрасывает и разрешает тактирование периодических таймеров.
 EXTERN void hardware_init_periodic_timers(void);
 
