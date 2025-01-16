@@ -16,7 +16,7 @@
 
 
 //! Размер читаемой / записываемой страницы.
-#define EEPROM_PAGE_SIZE M95X_PAGE_256
+#define EEPROM_PAGE_SIZE 256
 
 static_assert((EEPROM_PAGE_SIZE & (EEPROM_PAGE_SIZE - 1)) == 0, "EEPROM page size is not power of two!");
 

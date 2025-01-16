@@ -417,7 +417,7 @@ int main(void)
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Temporary stub.
 
-    /*hardware_init_periodic_timers();
+    hardware_init_periodic_timers();
     interrupts_inited_enable();
 
     // Таймер АЦП.
@@ -426,7 +426,7 @@ int main(void)
     CALLBACK_ARG(adc_tim.on_timeout) = (void*)NULL;
     // Запуск таймера АЦП.
     adc_tim.control = ADC_TIMER_CONTROL_ENABLE;
-    CONTROL(adc_tim);*/
+    CONTROL(adc_tim);
 
     for(;;){
         //STDIO_UART_USIC_CH->TBUF[0] = 'h';

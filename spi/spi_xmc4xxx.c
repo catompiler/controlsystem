@@ -418,10 +418,11 @@ static ALWAYS_INLINE bool spi_bus_done(spi_bus_t* spi)
 
 static void spi_bus_transfer_done(spi_bus_t* spi)
 {
+    spi_bus_dma_stop(spi);
+
     if(spi_bus_setup_next_message(spi)){
         spi_bus_dma_start(spi);
     }else{
-        spi_bus_dma_stop(spi);
         spi_bus_dma_unlock_channels(spi);
 
         spi->state = SPI_STATE_IDLE;
