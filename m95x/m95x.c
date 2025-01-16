@@ -35,7 +35,7 @@
 //! Размер регистра.
 #define M95X_DATA_SIZE 1
 //! Размер адреса.
-#define M95X_ADDRESS_SIZE 2
+#define M95X_ADDRESS_SIZE_MAX 3
 
 
 //! Сообщение команды.
@@ -380,7 +380,9 @@ err_t m95x_read(m95x_t* eeprom, m95x_address_t address, void* data, size_t size)
     size_t buffer_index = 0;
     size_t message_index = 0;
     
-    uint8_t* cmd_addr_buf = m95x_get_buffer(eeprom, M95X_CMD_SIZE + M95X_ADDRESS_SIZE, &buffer_index);
+    size_t address_size = (eeprom->page_size >= M95X_PAGE_256) ? 3 : 2;
+
+    uint8_t* cmd_addr_buf = m95x_get_buffer(eeprom, M95X_CMD_SIZE + address_size, &buffer_index);
 #ifdef M95X_GET_MEM_DEBUG
     if(cmd_addr_buf == NULL) return E_OUT_OF_MEMORY;
 #endif
@@ -396,10 +398,16 @@ err_t m95x_read(m95x_t* eeprom, m95x_address_t address, void* data, size_t size)
 #endif
     
     cmd_addr_buf[0] = M95X_CMD_READ;
-    cmd_addr_buf[1] = (address >> 8) & 0xff;
-    cmd_addr_buf[2] = address & 0xff;
+    if(address_size == 3){
+        cmd_addr_buf[1] = (address >> 16) & 0xff;
+        cmd_addr_buf[2] = (address >> 8) & 0xff;
+        cmd_addr_buf[3] = address & 0xff;
+    }else{
+        cmd_addr_buf[1] = (address >> 8) & 0xff;
+        cmd_addr_buf[2] = address & 0xff;
+    }
     
-    err = spi_message_init(cmd_msg, SPI_WRITE, cmd_addr_buf, NULL, M95X_CMD_SIZE + M95X_ADDRESS_SIZE);
+    err = spi_message_init(cmd_msg, SPI_WRITE, cmd_addr_buf, NULL, M95X_CMD_SIZE + address_size);
     if(err != E_NO_ERROR) return err;
     
     err = spi_message_init(data_msg, SPI_READ, NULL, data, size);
@@ -489,7 +497,9 @@ err_t m95x_write(m95x_t* eeprom, m95x_address_t address, const void* data, size_
     size_t buffer_index = 0;
     size_t message_index = 0;
     
-    uint8_t* cmd_addr_buf = m95x_get_buffer(eeprom, M95X_CMD_SIZE + M95X_ADDRESS_SIZE, &buffer_index);
+    size_t address_size = (eeprom->page_size >= M95X_PAGE_256) ? 3 : 2;
+
+    uint8_t* cmd_addr_buf = m95x_get_buffer(eeprom, M95X_CMD_SIZE + address_size, &buffer_index);
 #ifdef M95X_GET_MEM_DEBUG
     if(cmd_addr_buf == NULL) return E_OUT_OF_MEMORY;
 #endif
@@ -505,10 +515,16 @@ err_t m95x_write(m95x_t* eeprom, m95x_address_t address, const void* data, size_
 #endif
     
     cmd_addr_buf[0] = M95X_CMD_WRITE;
-    cmd_addr_buf[1] = (address >> 8) & 0xff;
-    cmd_addr_buf[2] = address & 0xff;
+    if(address_size == 3){
+        cmd_addr_buf[1] = (address >> 16) & 0xff;
+        cmd_addr_buf[2] = (address >> 8) & 0xff;
+        cmd_addr_buf[3] = address & 0xff;
+    }else{
+        cmd_addr_buf[1] = (address >> 8) & 0xff;
+        cmd_addr_buf[2] = address & 0xff;
+    }
     
-    err = spi_message_init(cmd_msg, SPI_WRITE, cmd_addr_buf, NULL, M95X_CMD_SIZE + M95X_ADDRESS_SIZE);
+    err = spi_message_init(cmd_msg, SPI_WRITE, cmd_addr_buf, NULL, M95X_CMD_SIZE + address_size);
     if(err != E_NO_ERROR) return err;
     
     err = spi_message_init(data_msg, SPI_WRITE, data, NULL, size);

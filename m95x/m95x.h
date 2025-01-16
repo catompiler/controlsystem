@@ -17,8 +17,8 @@
 //! Идентификатор передачи по-умолчанию.
 #define M95X_DEFAULT_TRANSFER_ID 95
 
-//! Размер буфера данных (WREN8 + WRITE8 + ADDRESS16).
-#define M95X_BUFFER_SIZE 4
+//! Размер буфера данных (WREN8 + WRITE8 + ADDRESS24).
+#define M95X_BUFFER_SIZE 5
 //! Число доступных сообщений SPI.
 #define M95X_MESSAGES_COUNT 2
 
@@ -47,7 +47,7 @@ typedef struct _M95X {
 } m95x_t;
 
 //! Тип адреса памяти EEPROM.
-typedef uint16_t m95x_address_t;
+typedef size_t m95x_address_t;
 
 //! Размер страницы.
 typedef enum _M95X_Page {
