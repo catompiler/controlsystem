@@ -1,10 +1,12 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/times.h>
 #include <sys/unistd.h>
 #include "defs/defs.h"
+#include "cpu.h"
 
-extern uint32_t __get_MSP(void);
 
 // errno
 #undef errno
@@ -121,13 +123,13 @@ int WEAK _lseek(int file, int ptr, int dir)
  */
 caddr_t WEAK _sbrk(int incr)
 {
-    extern char _ebss; 
-    static char *heap_end;
+    extern char __bss_end;
+    static char *heap_end = 0;
     char *prev_heap_end;
 
     if (heap_end == 0)
     {
-        heap_end = &_ebss;
+        heap_end = &__bss_end;
     }
     prev_heap_end = heap_end;
 
@@ -213,3 +215,5 @@ int WEAK _write(int file, char *ptr, int len)
     }
     return len;
 }
+
+#endif

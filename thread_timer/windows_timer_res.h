@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #ifndef WINDOWS_TIMER_RES_H
 #define WINDOWS_TIMER_RES_H
 
@@ -37,3 +39,5 @@ EXTERN int windows_timer_restore_res(void);
 
 
 #endif //WINDOWS_TIMER_RES_H
+
+#endif

@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #include "slcan/slcan_port.h"
 #include <fcntl.h> // Contains file controls like O_RDWR
 #include <errno.h> // Error integer and strerror() function
@@ -244,3 +246,5 @@ int slcan_serial_nbytes(slcan_serial_handle_t serial_port, size_t* size)
 
     return SLCAN_IO_SUCCESS;
 }
+
+#endif

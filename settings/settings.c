@@ -209,8 +209,9 @@ static void settings_process_store(M_settings* settings)
 
     // Если операция завершена.
     if(future_done(&settings->m_future)){
+        err = FUTURE_RESULT_ERR(future_result(&settings->m_future));
         // Проверим успех операции.
-        if(FUTURE_RESULT_ERR(future_result(&settings->m_future)) != E_NO_ERROR){
+        if(err != E_NO_ERROR){
             settings->control &= ~SETTINGS_CONTROL_STORE;
             settings->errors = SETTINGS_ERROR_STORE;
             settings->status = STATUS_ERROR;
@@ -314,8 +315,9 @@ static void settings_process_load(M_settings* settings)
 
     // Если операция завершена.
     if(future_done(&settings->m_future)){
+        err = FUTURE_RESULT_ERR(future_result(&settings->m_future));
         // Проверим успех операции.
-        if(FUTURE_RESULT_ERR(future_result(&settings->m_future)) != E_NO_ERROR){
+        if(err != E_NO_ERROR){
             settings->control &= ~SETTINGS_CONTROL_LOAD;
             settings->errors = SETTINGS_ERROR_LOAD;
             settings->status = STATUS_ERROR;
@@ -435,6 +437,8 @@ static void settings_process_load(M_settings* settings)
 
 METHOD_IDLE_IMPL(M_settings, settings)
 {
+    CONTROL((*settings));
+
     if(settings->control & SETTINGS_CONTROL_STORE){
         settings_process_store(settings);
     }

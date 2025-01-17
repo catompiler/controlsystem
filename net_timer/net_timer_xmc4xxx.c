@@ -1,3 +1,5 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 #include "net_timer_xmc4xxx.h"
 #include <assert.h>
 #include <stddef.h>
@@ -33,10 +35,14 @@ static int timer_init_impl(M_net_timer* net_tmr)
     // configure.
     NET_TIM_CCU4_CC4->PSC = CCU_PRESCALER;
     NET_TIM_CCU4_CC4->PRS = CCU_PERIOD - 1;
+    // shadow transfer.
+    NET_TIM_CCU4->GCSS = NET_TIM_SHADOW_TRANSFER_Msk;
 
     // irqs.
     NET_TIM_CCU4_CC4->INTE = CCU4_CC4_INTE_PME_Msk;
     NET_TIM_CCU4_CC4->SRS = NET_TIM_SR << CCU4_CC4_SRS_POSR_Pos;
+    // clear.
+    NET_TIM_CCU4_CC4->SWR = CCU4_CC4_SWR_RPM_Msk;
 
     // idle.
     NET_TIM_CCU4->GIDLC = NET_TIM_IDLE_CLR_Msk;
@@ -121,3 +127,5 @@ METHOD_CONTROL_IMPL(M_net_timer, net_tmr)
         }
     }
 }
+
+#endif

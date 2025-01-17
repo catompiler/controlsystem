@@ -1,5 +1,7 @@
-#ifndef MS_TIMER_H
-#define MS_TIMER_H
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
+#ifndef MS_TIMER_XMC4XXX_H
+#define MS_TIMER_XMC4XXX_H
 
 #include "module/base.h"
 
@@ -55,4 +57,6 @@ EXTERN METHOD_CONTROL_PROTO(M_ms_timer);
         CALLBACK_DEFAULTS /* on_timeout */,\
     }
 
-#endif /* MS_TIMER_H */
+#endif /* MS_TIMER_XMC4XXX_H */
+
+#endif

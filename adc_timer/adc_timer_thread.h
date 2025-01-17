@@ -1,5 +1,7 @@
-#ifndef ADC_TIMER_H
-#define ADC_TIMER_H
+#if defined(PORT_POSIX)
+
+#ifndef ADC_TIMER_THREAD_H
+#define ADC_TIMER_THREAD_H
 
 #include "module/base.h"
 #include "conf/conf.h"
@@ -58,4 +60,6 @@ EXTERN METHOD_CONTROL_PROTO(M_adc_timer);
         THREAD_TIMER_DEFAULTS /* m_thr_tim */,\
     }
 
-#endif /* ADC_TIMER_H */
+#endif /* ADC_TIMER_THREAD_H */
+
+#endif

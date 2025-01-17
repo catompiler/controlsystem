@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #include "net_timer.h"
 #include <assert.h>
 #include <stddef.h>
@@ -118,3 +120,5 @@ METHOD_CONTROL_IMPL(M_net_timer, net_tmr)
         }
     }
 }
+
+#endif

@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #ifndef THREAD_TIMER_H
 #define THREAD_TIMER_H
 
@@ -174,3 +176,5 @@ EXTERN int thread_timer_stop(thread_timer_t* thr_tim);
 
 
 #endif //THREAD_TIMER_H
+
+#endif

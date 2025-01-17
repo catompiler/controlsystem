@@ -1,3 +1,5 @@
+#if defined(PORT_POSIX)
+
 #include "adc_timer_thread.h"
 #include <assert.h>
 #include <stddef.h>
@@ -118,3 +120,5 @@ METHOD_CONTROL_IMPL(M_adc_timer, adc_tmr)
         }
     }
 }
+
+#endif

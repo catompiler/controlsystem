@@ -1,5 +1,7 @@
-#ifndef SYS_TIMER_H
-#define SYS_TIMER_H
+#if defined(PORT_POSIX)
+
+#ifndef SYS_TIMER_THREAD_H
+#define SYS_TIMER_THREAD_H
 
 #include "module/base.h"
 #include "thread_timer/thread_timer.h"
@@ -57,4 +59,6 @@ EXTERN METHOD_CONTROL_PROTO(M_sys_timer);
         THREAD_TIMER_DEFAULTS /* m_thr_tim */,\
     }
 
-#endif /* SYS_TIMER_H */
+#endif /* SYS_TIMER_THREAD_H */
+
+#endif

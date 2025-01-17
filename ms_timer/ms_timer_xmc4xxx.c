@@ -1,3 +1,5 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 #include "ms_timer_xmc4xxx.h"
 #include <assert.h>
 #include <stddef.h>
@@ -33,10 +35,14 @@ static int timer_init_impl(M_ms_timer* ms_tmr)
     // configure.
     MS_TIM_CCU4_CC4->PSC = CCU_PRESCALER;
     MS_TIM_CCU4_CC4->PRS = CCU_PERIOD - 1;
+    // shadow transfer.
+    MS_TIM_CCU4->GCSS = MS_TIM_SHADOW_TRANSFER_Msk;
 
     // irqs.
     MS_TIM_CCU4_CC4->INTE = CCU4_CC4_INTE_PME_Msk;
     MS_TIM_CCU4_CC4->SRS = MS_TIM_SR << CCU4_CC4_SRS_POSR_Pos;
+    // clear.
+    MS_TIM_CCU4_CC4->SWR = CCU4_CC4_SWR_RPM_Msk;
 
     // idle.
     MS_TIM_CCU4->GIDLC = MS_TIM_IDLE_CLR_Msk;
@@ -121,3 +127,5 @@ METHOD_CONTROL_IMPL(M_ms_timer, ms_tmr)
         }
     }
 }
+
+#endif

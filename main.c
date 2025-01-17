@@ -1,8 +1,47 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
-//#include <sys/time.h>
-//#include <stdio.h>
+#include "sys_counter/sys_counter.h"
+#include "syslog/syslog.h"
+#include "eeprom/eeprom.h"
+
+
+
+syslog_t SYSLOG_NAME;
+static eeprom_t eep;
+
+
+
+// Размер EEPROM.
+#define EEPROM_SIZE (128*1024)
+
+#if defined(PORT_POSIX)
+// Имя файла EEPROM.
+#define EEPROM_FILENAME "eeprom.bin"
+#endif
+
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+#include "hardware/hardware.h"
+#include "interrupts/interrupts.h"
+#include "gpio/gpio_xmc4xxx.h"
+#include "usart/usart_stdio_xmc4xxx.h"
+#include "spi/spi_xmc4xxx.h"
+#include "spi/eep_spi_xmc4xxx.h"
+
+
+static spi_bus_t eep_spi_bus;
+static m95x_t eep_m95x;
+
+
+// DEBUG!
+#define SPI_DATA_LEN 128
+uint8_t spi_tx_data[SPI_DATA_LEN] = {0x0};
+uint8_t spi_rx_data[SPI_DATA_LEN] = {0x0};
+spi_message_t spi_msg;
+
+#endif
+
 
 #ifndef __arm__
 #define RUN_TESTS 0
@@ -183,12 +222,221 @@ static void write_dlog_to_file_vcd(void)
 }
 #endif
 
+
+//static void adc_tim_handler(void *arg)
+//{
+//    __NOP();
+//}
+
+
 int main(void)
 {
-    //loadsettings();
 #if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
     windows_timer_set_max_res();
 #endif
+
+    err_t err = E_NO_ERROR;
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    // Configure NVIC.
+    interrupts_init();
+
+    // Configure GPIO.
+    hardware_init_ports();
+
+    // Configure DMA.
+    hardware_init_dma();
+    interrupts_enable_dma();
+#endif
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    // Init sys counter.
+
+    hardware_init_counting_timers();
+    sys_counter_init();
+    interrupts_enable_sys_counter();
+    sys_counter_start();
+#endif
+
+    // Init syslog.
+    syslog_init(&SYSLOG_NAME);
+    syslog_set_level(&SYSLOG_NAME, SYSLOG_DEBUG);
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    // Init stdio.
+
+    hardware_init_usarts();
+    interrupts_enable_stdio_uart();
+
+    err = usart_stdio_init();
+    if(err != E_NO_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Error init usart stdio! (%u)", (unsigned int)err);
+    }else{
+        syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
+        SYSLOG(SYSLOG_INFO, "usart stdio initialized!");
+    }
+#endif
+
+#if defined(PORT_POSIX)
+    syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
+#endif
+
+    void* eep_param_ptr = NULL;
+
+#if defined(PORT_POSIX)
+    eep_param_ptr = EEPROM_FILENAME;
+#endif
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    // Init eeprom.
+
+    // Init nHOLD.
+    gpio_set(EEP_PORT_nHOLD, EEP_PIN_nHOLD_Msk);
+    gpio_set_pad_driver(EEP_PORT_nHOLD, EEP_PIN_nHOLD_Msk, EEP_PIN_nHOLD_DRIVER);
+    gpio_init(EEP_PORT_nHOLD, EEP_PIN_nHOLD_Msk, EEP_PIN_nHOLD_CONF);
+
+    // Init nWP.
+    gpio_set(EEP_PORT_nWP, EEP_PIN_nWP_Msk);
+    gpio_set_pad_driver(EEP_PORT_nWP, EEP_PIN_nWP_Msk, EEP_PIN_nWP_DRIVER);
+    gpio_init(EEP_PORT_nWP, EEP_PIN_nWP_Msk, EEP_PIN_nWP_CONF);
+
+    eeprom_init_t eep_is;
+    eep_is.gpio_nhold = EEP_PORT_nHOLD;
+    eep_is.pin_nhold = EEP_PIN_nHOLD_Msk;
+    eep_is.gpio_nwp = EEP_PORT_nWP;
+    eep_is.pin_nwp = EEP_PIN_nWP_Msk;
+    eep_is.m95x = NULL; // Invalid (not initializable eeprom).
+    eep_param_ptr = &eep_is;
+    //for(;;){
+        //hardware_init_dma();
+    hardware_init_spis();
+    interrupts_enable_eep_spi();
+
+    err = eep_spi_init(&eep_spi_bus);
+    if(err != E_NO_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Error init eep spi! (%u)", (unsigned int)err);
+    }else{
+        SYSLOG(SYSLOG_INFO, "Eep spi initialized!");
+
+        // init m95x.
+        m95x_init_t m95x_is;
+        m95x_is.transfer_id = M95X_DEFAULT_TRANSFER_ID;
+        m95x_is.spi = &eep_spi_bus;
+        m95x_is.page = M95X_PAGE_256;
+        m95x_is.ce_gpio = NULL;
+        m95x_is.ce_pin_sel_msk = EEP_CS_SEL_Msk;
+        err = m95x_init(&eep_m95x, &m95x_is);
+        if(err != E_NO_ERROR){
+            SYSLOG(SYSLOG_WARNING, "Error init eep m95x! (%u)", (unsigned int)err);
+        }else{
+            SYSLOG(SYSLOG_INFO, "Eep m95x initialized!");
+            eep_is.m95x = &eep_m95x;
+            spi_bus_set_user_data(&eep_spi_bus, &eep_m95x);
+            spi_bus_set_callback(&eep_spi_bus, (spi_callback_t)m95x_spi_callback);
+        }
+    }
+
+    /*if(err == E_NO_ERROR){
+        err = spi_message_init(&spi_msg, SPI_WRITE, spi_tx_data, NULL, SPI_DATA_LEN); //spi_rx_data
+        if(err != E_NO_ERROR){
+            SYSLOG(SYSLOG_WARNING, "spi msg init failed!");
+        }else{
+            size_t i;
+            for(i = 0; i < SPI_DATA_LEN; i ++){
+                spi_tx_data[i] = ((uint8_t)i & 0xff);
+                spi_rx_data[i] = 0x0;
+            }
+            spi_bus_set_hw_sel(&eep_spi_bus, 0x0);
+            err = spi_bus_transfer(&eep_spi_bus, &spi_msg, 1);
+            if(err != E_NO_ERROR){
+                SYSLOG(SYSLOG_WARNING, "spi transfer start failed!");
+            }else{
+                spi_bus_wait(&eep_spi_bus);
+                SYSLOG(SYSLOG_DEBUG, "spi transfers errs: 0x%x", (unsigned int)spi_bus_errors(&eep_spi_bus));
+                __NOP();
+            }
+        }
+    }
+
+    for(;;) __NOP();*/
+#endif
+
+    /*m95x_status_t status;
+    status.block_protect = 0;
+    status.status_reg_write_protect = 0;
+    status.write_enable_latch = 0;
+    status.write_in_progress = 0;
+
+    for(;;){
+        err = m95x_write_status(&eep_m95x, &status);
+        if(err != E_NO_ERROR){
+            SYSLOG(SYSLOG_WARNING, "Error m95x_write_status! (%u)", (unsigned int)err);
+        }
+    }*/
+
+    err = eeprom_init(&eep, eep_param_ptr, EEPROM_SIZE);
+    if(err != E_NO_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Error init eeprom! (%u)", (unsigned int)err);
+    }else{
+        SYSLOG(SYSLOG_INFO, "Eeprom initialized!");
+    }
+
+    err = STORAGE_INIT(storage, &eep);
+    if(err != E_NO_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Error init storage! (%u)", (unsigned int)err);
+    }else{
+        SYSLOG(SYSLOG_INFO, "Storage initialized!");
+    }
+
+    INIT(settings);
+
+    //loadsettings();
+
+    // Read settings.
+    settings.control = SETTINGS_CONTROL_LOAD;
+    CONTROL(settings);
+
+    for(;;){
+        // Настройки.
+        IDLE(settings);
+
+        if((settings.control & SETTINGS_CONTROL_LOAD) == 0) break;
+
+        // Хранилище.
+        IDLE(storage);
+    }
+
+    if(settings.status & STATUS_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Settings read error!");
+        settings.control = SETTINGS_CONTROL_STORE;
+        CONTROL(settings);
+    }else{
+        SYSLOG(SYSLOG_INFO, "Settings readed successfully!");
+    }
+
+//#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+//    // Temporary stub.
+//
+//    hardware_init_periodic_timers();
+//    interrupts_inited_enable();
+//
+//    // Таймер АЦП.
+//    INIT(adc_tim);
+//    CALLBACK_PROC(adc_tim.on_timeout) = adc_tim_handler;
+//    CALLBACK_ARG(adc_tim.on_timeout) = (void*)NULL;
+//    // Запуск таймера АЦП.
+//    adc_tim.control = ADC_TIMER_CONTROL_ENABLE;
+//    CONTROL(adc_tim);
+//
+//    for(;;){
+//        //STDIO_UART_USIC_CH->TBUF[0] = 'h';
+//        struct timeval tv = {1, 0};
+//        sys_counter_delay(&tv);
+//        SYSLOG_MSG(SYSLOG_DEBUG, "IDLE");
+//        //STDIO_UART_USIC_CH->TBUF[0] = '.';
+//    }
+//#endif
+
     int dlog_i = 0;
     // Stator Uabc
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_S_UA;
@@ -286,7 +534,6 @@ int main(void)
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_POWER_FACTOR_OUT_TAN_PHI;
     dlog.p_ch[dlog_i++].enabled = 1;
 
-
     dlog.control = CONTROL_ENABLE;*/
 
     // ADC model set to zero scales.
@@ -305,6 +552,11 @@ int main(void)
     calc_Ucell.p_sel = 0;
     calc_Icell.p_sel = 0;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    hardware_init_periodic_timers();
+    interrupts_inited_enable();
+#endif
+
     INIT(sys);
 
     if(sys.status & SYS_MAIN_STATUS_ERROR){
@@ -319,24 +571,6 @@ int main(void)
     // ADC model set to noise scales.
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);
-
-    settings.control = SETTINGS_CONTROL_LOAD;
-    CONTROL(settings);
-
-    for(;;){
-        IDLE(sys);
-        if((settings.control & SETTINGS_CONTROL_LOAD) == 0) break;
-    }
-
-    if(settings.status & STATUS_ERROR){
-        printf("Settings read error!\n");
-        printf("Starting write default settings.\n");
-        settings.control = SETTINGS_CONTROL_STORE;
-        CONTROL(settings);
-    }
-//    else{
-//        printf("Settings readed successfully!\n");
-//    }
 
     //printf("Ks: %f, Kl: %f\n", (float)FRACT_MEAN_KS/(1<<24), (float)FRACT_MEAN_KL/(1<<24));
 

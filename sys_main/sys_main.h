@@ -33,6 +33,7 @@ enum _E_Sys_Main_Errors {
 //! Перечисление возможных бит предупреждений.
 enum _E_Sys_Main_Warnings {
     SYS_MAIN_WARNING_NONE = WARNING_NONE, //!< Нет предупреждений.
+    SYS_MAIN_WARNING_NET = (WARNING_USER << 0), //!< Предупреждение сети.
     //SYS_MAIN_WARNING_ = 0x00, //!<
 };
 
@@ -59,6 +60,11 @@ struct _S_Sys_Main {
     //reg_u32_t p_ready_on_wait_mains_time; //!< Время ожидания сетевого напряжения, мс.
     //reg_u32_t p_ready_on_wait_freq_time; //!< Время ожидания частоты сети, мс.
     // Регистры.
+    reg_u32_t r_adc_tim_run_time_us; //!< Время выполнения прерывания таймера ADC.
+    reg_u32_t r_sys_tim_run_time_us; //!< Время выполнения прерывания таймера SYS.
+    reg_u32_t r_ms_tim_run_time_us; //!< Время выполнения прерывания таймера MS.
+    reg_u32_t r_net_run_time_us; //!< Время выполнения прерывания таймера NET.
+    reg_u32_t r_idle_run_time_us; //!< Время выполнения IDLE.
     // Методы.
     METHOD_INIT(M_sys_main);
     METHOD_DEINIT(M_sys_main);
@@ -81,6 +87,11 @@ EXTERN METHOD_IDLE_PROTO(M_sys_main);
         /* Выходные данные */\
         /* Параметры */\
         /* Регистры */\
+        0, /* r_adc_tim_run_time_us */\
+        0, /* r_sys_tim_run_time_us */\
+        0, /* r_ms_tim_run_time_us */\
+        0, /* r_net_run_time_us */\
+        0, /* r_idle_run_time_us */\
         /* Методы */\
         METHOD_INIT_PTR(M_sys_main), METHOD_DEINIT_PTR(M_sys_main),\
         METHOD_CALC_PTR(M_sys_main), METHOD_IDLE_PTR(M_sys_main),\

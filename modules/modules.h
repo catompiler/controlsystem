@@ -10,17 +10,10 @@
 #include "sys_command/sys_command.h"
 #include "sys_control/sys_control.h"
 #include "sys_status/sys_status.h"
-#ifdef __arm__
-#include "adc_timer/adc_timer_xmc4xxx.h"
-#include "sys_timer/sys_timer_xmc4xxx.h"
-#include "ms_timer/ms_timer_xmc4xxx.h"
-#include "net_timer/net_timer_xmc4xxx.h"
-#else
-#include "adc_timer/adc_timer_thread.h"
-#include "sys_timer/sys_timer_thread.h"
-#include "ms_timer/ms_timer_thread.h"
-#include "net_timer/net_timer_thread.h"
-#endif
+#include "adc_timer/adc_timer.h"
+#include "sys_timer/sys_timer.h"
+#include "ms_timer/ms_timer.h"
+#include "net_timer/net_timer.h"
 #include "sys_time/sys_time.h"
 #include "timer/timer.h"
 #include "timer/timer_on.h"
