@@ -1,4 +1,6 @@
-#include <dma/dma_xmc4xxx.h>
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
+#include "dma_xmc4xxx.h"
 #include "hardware/config.h"
 
 
@@ -99,3 +101,4 @@ void DMA2_IRQ_Handler(void)
     }
 }
 
+#endif

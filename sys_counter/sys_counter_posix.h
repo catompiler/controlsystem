@@ -103,6 +103,89 @@ EXTERN int clock_gettime (clockid_t clock_id, struct timespec *tp);
 
 #endif // SYS_COUNTER_CLOCK_GETTIME
 
+
+// From time.h
+
+/* Operations on timespecs */
+#ifndef timespecclear
+#define timespecclear(tvp)  ((tvp)->tv_sec = (tvp)->tv_nsec = 0)
+#endif
+
+#ifndef timespecisset
+#define timespecisset(tvp)  ((tvp)->tv_sec || (tvp)->tv_nsec)
+#endif
+
+#ifndef timespeccmp
+#define timespeccmp(tvp, uvp, cmp)                  \
+    (((tvp)->tv_sec == (uvp)->tv_sec) ?             \
+        ((tvp)->tv_nsec cmp (uvp)->tv_nsec) :           \
+        ((tvp)->tv_sec cmp (uvp)->tv_sec))
+#endif
+
+#ifndef timespecadd
+#define timespecadd(tsp, usp, vsp)                  \
+    do {                                \
+        (vsp)->tv_sec = (tsp)->tv_sec + (usp)->tv_sec;      \
+        (vsp)->tv_nsec = (tsp)->tv_nsec + (usp)->tv_nsec;   \
+        if ((vsp)->tv_nsec >= 1000000000L) {            \
+            (vsp)->tv_sec++;                \
+            (vsp)->tv_nsec -= 1000000000L;          \
+        }                           \
+    } while (0)
+#endif
+
+#ifndef timespecsub
+#define timespecsub(tsp, usp, vsp)                  \
+    do {                                \
+        (vsp)->tv_sec = (tsp)->tv_sec - (usp)->tv_sec;      \
+        (vsp)->tv_nsec = (tsp)->tv_nsec - (usp)->tv_nsec;   \
+        if ((vsp)->tv_nsec < 0) {               \
+            (vsp)->tv_sec--;                \
+            (vsp)->tv_nsec += 1000000000L;          \
+        }                           \
+    } while (0)
+#endif
+
+/* Operations on timeval */
+#ifndef timerclear
+#define timerclear(tvp)     ((tvp)->tv_sec = (tvp)->tv_usec = 0)
+#endif
+
+#ifndef timerisset
+#define timerisset(tvp)     ((tvp)->tv_sec || (tvp)->tv_usec)
+#endif
+
+#ifndef timercmp
+#define timercmp(tvp, uvp, cmp)                 \
+    (((tvp)->tv_sec == (uvp)->tv_sec) ?             \
+        ((tvp)->tv_usec cmp (uvp)->tv_usec) :           \
+        ((tvp)->tv_sec cmp (uvp)->tv_sec))
+#endif
+
+#ifndef timeradd
+#define timeradd(tvp, uvp, vvp)                     \
+    do {                                \
+        (vvp)->tv_sec = (tvp)->tv_sec + (uvp)->tv_sec;      \
+        (vvp)->tv_usec = (tvp)->tv_usec + (uvp)->tv_usec;   \
+        if ((vvp)->tv_usec >= 1000000) {            \
+            (vvp)->tv_sec++;                \
+            (vvp)->tv_usec -= 1000000;          \
+        }                           \
+    } while (0)
+#endif
+
+#ifndef timersub
+#define timersub(tvp, uvp, vvp)                     \
+    do {                                \
+        (vvp)->tv_sec = (tvp)->tv_sec - (uvp)->tv_sec;      \
+        (vvp)->tv_usec = (tvp)->tv_usec - (uvp)->tv_usec;   \
+        if ((vvp)->tv_usec < 0) {               \
+            (vvp)->tv_sec--;                \
+            (vvp)->tv_usec += 1000000;          \
+        }                           \
+    } while (0)
+#endif
+
 #endif /* SYSTEM_COUNTER_POSIX_H */
 
 #endif

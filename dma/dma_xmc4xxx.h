@@ -1,3 +1,5 @@
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 #ifndef DMA_DMA_XMC4XXX_H_
 #define DMA_DMA_XMC4XXX_H_
 
@@ -1632,3 +1634,5 @@ ALWAYS_INLINE static void dma_channel_set_enabled(size_t ch_n, bool enabled)
 
 
 #endif /* DMA_DMA_XMC4XXX_H_ */
+
+#endif
