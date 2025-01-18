@@ -5,21 +5,22 @@
 #include "syslog/syslog.h"
 #include "eeprom/eeprom.h"
 
+#if defined(PORT_POSIX)
+#include <stdlib.h>
+#endif
 
-
+// Системный лог.
 syslog_t SYSLOG_NAME;
-static eeprom_t eep;
 
-
-
-// Размер EEPROM.
-#define EEPROM_SIZE (128*1024)
-
+// Конфигурация EEPROM.
 #if defined(PORT_POSIX)
 // Имя файла EEPROM.
 #define EEPROM_FILENAME "eeprom.bin"
 #endif
-
+// Размер EEPROM.
+#define EEPROM_SIZE (128*1024)
+// EEPROM.
+static eeprom_t eep;
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 #include "hardware/hardware.h"
@@ -29,16 +30,17 @@ static eeprom_t eep;
 #include "spi/spi_xmc4xxx.h"
 #include "spi/eep_spi_xmc4xxx.h"
 
-
+// Шина SPI для EEPROM.
 static spi_bus_t eep_spi_bus;
+// Микросхема EEPROM.
 static m95x_t eep_m95x;
 
 
-// DEBUG!
-#define SPI_DATA_LEN 128
-uint8_t spi_tx_data[SPI_DATA_LEN] = {0x0};
-uint8_t spi_rx_data[SPI_DATA_LEN] = {0x0};
-spi_message_t spi_msg;
+// // DEBUG!
+//#define SPI_DATA_LEN 128
+//uint8_t spi_tx_data[SPI_DATA_LEN] = {0x0};
+//uint8_t spi_rx_data[SPI_DATA_LEN] = {0x0};
+//spi_message_t spi_msg;
 
 #endif
 
@@ -223,41 +225,55 @@ static void write_dlog_to_file_vcd(void)
 #endif
 
 
-//static void adc_tim_handler(void *arg)
-//{
-//    __NOP();
-//}
 
-
-int main(void)
+static void init_first()
 {
 #if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
     windows_timer_set_max_res();
 #endif
 
-    err_t err = E_NO_ERROR;
-
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Configure NVIC.
     interrupts_init();
+#endif
+}
 
+static void init_hardware()
+{
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Configure GPIO.
     hardware_init_ports();
 
     // Configure DMA.
     hardware_init_dma();
     interrupts_enable_dma();
-#endif
 
-#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
-    // Init sys counter.
-
+    // Counting timers.
     hardware_init_counting_timers();
-    sys_counter_init();
+
+    // Usarts.
+    hardware_init_usarts();
+
+    // SPIs.
+    hardware_init_spis();
+
+    // Periodic timers.
+    hardware_init_periodic_timers();
+#endif
+}
+
+static void init_sys_counter()
+{
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     interrupts_enable_sys_counter();
-    sys_counter_start();
 #endif
 
+    sys_counter_init();
+    sys_counter_start();
+}
+
+static void init_syslog()
+{
     // Init syslog.
     syslog_init(&SYSLOG_NAME);
     syslog_set_level(&SYSLOG_NAME, SYSLOG_DEBUG);
@@ -265,10 +281,9 @@ int main(void)
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Init stdio.
 
-    hardware_init_usarts();
     interrupts_enable_stdio_uart();
 
-    err = usart_stdio_init();
+    err_t err = usart_stdio_init();
     if(err != E_NO_ERROR){
         SYSLOG(SYSLOG_WARNING, "Error init usart stdio! (%u)", (unsigned int)err);
     }else{
@@ -280,7 +295,11 @@ int main(void)
 #if defined(PORT_POSIX)
     syslog_set_putchar_callback(&SYSLOG_NAME, putchar);
 #endif
+}
 
+static void init_eeprom()
+{
+    err_t err = E_NO_ERROR;
     void* eep_param_ptr = NULL;
 
 #if defined(PORT_POSIX)
@@ -309,7 +328,6 @@ int main(void)
     eep_param_ptr = &eep_is;
     //for(;;){
         //hardware_init_dma();
-    hardware_init_spis();
     interrupts_enable_eep_spi();
 
     err = eep_spi_init(&eep_spi_bus);
@@ -380,6 +398,11 @@ int main(void)
     }else{
         SYSLOG(SYSLOG_INFO, "Eeprom initialized!");
     }
+}
+
+static void init_storage()
+{
+    err_t err = E_NO_ERROR;
 
     err = STORAGE_INIT(storage, &eep);
     if(err != E_NO_ERROR){
@@ -387,11 +410,15 @@ int main(void)
     }else{
         SYSLOG(SYSLOG_INFO, "Storage initialized!");
     }
+}
 
+static void init_settings()
+{
     INIT(settings);
+}
 
-    //loadsettings();
-
+static void load_settings()
+{
     // Read settings.
     settings.control = SETTINGS_CONTROL_LOAD;
     CONTROL(settings);
@@ -408,35 +435,15 @@ int main(void)
 
     if(settings.status & STATUS_ERROR){
         SYSLOG(SYSLOG_WARNING, "Settings read error!");
-        settings.control = SETTINGS_CONTROL_STORE;
-        CONTROL(settings);
+        //settings.control = SETTINGS_CONTROL_STORE;
+        //CONTROL(settings);
     }else{
         SYSLOG(SYSLOG_INFO, "Settings readed successfully!");
     }
+}
 
-//#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
-//    // Temporary stub.
-//
-//    hardware_init_periodic_timers();
-//    interrupts_inited_enable();
-//
-//    // Таймер АЦП.
-//    INIT(adc_tim);
-//    CALLBACK_PROC(adc_tim.on_timeout) = adc_tim_handler;
-//    CALLBACK_ARG(adc_tim.on_timeout) = (void*)NULL;
-//    // Запуск таймера АЦП.
-//    adc_tim.control = ADC_TIMER_CONTROL_ENABLE;
-//    CONTROL(adc_tim);
-//
-//    for(;;){
-//        //STDIO_UART_USIC_CH->TBUF[0] = 'h';
-//        struct timeval tv = {1, 0};
-//        sys_counter_delay(&tv);
-//        SYSLOG_MSG(SYSLOG_DEBUG, "IDLE");
-//        //STDIO_UART_USIC_CH->TBUF[0] = '.';
-//    }
-//#endif
-
+static void setup()
+{
     int dlog_i = 0;
     // Stator Uabc
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_S_UA;
@@ -552,22 +559,6 @@ int main(void)
     calc_Ucell.p_sel = 0;
     calc_Icell.p_sel = 0;
 
-#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
-    hardware_init_periodic_timers();
-    interrupts_inited_enable();
-#endif
-
-    INIT(sys);
-
-    if(sys.status & SYS_MAIN_STATUS_ERROR){
-        printf("Error init main system!\n");
-        DEINIT(sys);
-#if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
-        windows_timer_restore_res();
-#endif
-        return 0;
-    }
-
     // ADC model set to noise scales.
     adc_model.in_U_scale = IQ24(0.01);
     adc_model.in_F_scale = IQ24(100);
@@ -580,6 +571,105 @@ int main(void)
     // ADC model set to normal scales.
     adc_model.in_U_scale = IQ24(1.0);
     adc_model.in_F_scale = IQ24(1.0);
+}
+
+static void init_sysmain()
+{
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    interrupts_inited_enable();
+#endif
+
+    INIT(sys);
+
+    if(sys.status & SYS_MAIN_STATUS_ERROR){
+        SYSLOG(SYSLOG_FATAL, "Error init main system!\n");
+        DEINIT(sys);
+#if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
+        windows_timer_restore_res();
+#endif
+
+#if defined(PORT_POSIX)
+        exit(-1);
+#endif
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+        for(;;){
+            // TODO: led blinking.
+            __NOP();
+        }
+#endif
+    }
+}
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+__attribute__((noreturn))
+#endif
+static void main_end()
+{
+#if defined(PORT_POSIX)
+    dlog.control = CONTROL_NONE;
+
+    DEINIT(sys);
+
+    printf("done\n");
+
+#if defined(WRITE_DLOG_TO_CSV) && WRITE_DLOG_TO_CSV == 1
+    write_dlog_to_file_csv();
+    printf("csv written\n");
+#endif
+#if defined(WRITE_DLOG_TO_VCD) && WRITE_DLOG_TO_VCD == 1
+    write_dlog_to_file_vcd();
+    printf("vcd written\n");
+#endif
+
+#if defined(RUN_TESTS) && RUN_TESTS == 1
+    test_main();
+#endif
+
+#if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
+    windows_timer_restore_res();
+#endif
+
+#endif
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    for(;;){
+        // TODO: led blinking.
+        __NOP();
+    }
+#endif
+}
+
+int main(void)
+{
+    init_first();
+    init_hardware();
+
+    init_sys_counter();
+    init_syslog();
+
+    init_eeprom();
+    init_storage();
+    init_settings();
+
+    load_settings();
+
+
+//#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+//    // Temporary stub.
+//
+//    for(;;){
+//        //STDIO_UART_USIC_CH->TBUF[0] = 'h';
+//        struct timeval tv = {1, 0};
+//        sys_counter_delay(&tv);
+//        SYSLOG_MSG(SYSLOG_DEBUG, "IDLE");
+//        //STDIO_UART_USIC_CH->TBUF[0] = '.';
+//    }
+//#endif
+
+    setup();
+
+    init_sysmain();
 
     for(;;){
         IDLE(sys);
@@ -617,28 +707,7 @@ int main(void)
 #endif
     }
 
-    dlog.control = CONTROL_NONE;
-
-    DEINIT(sys);
-
-    printf("done\n");
-
-#if defined(WRITE_DLOG_TO_CSV) && WRITE_DLOG_TO_CSV == 1
-    write_dlog_to_file_csv();
-    printf("csv written\n");
-#endif
-#if defined(WRITE_DLOG_TO_VCD) && WRITE_DLOG_TO_VCD == 1
-    write_dlog_to_file_vcd();
-    printf("vcd written\n");
-#endif
-
-#if defined(RUN_TESTS) && RUN_TESTS == 1
-    test_main();
-#endif
-
-#if defined(WINDOWS_SET_TIMER_RESOLUTION) && WINDOWS_SET_TIMER_RESOLUTION == 1
-        windows_timer_restore_res();
-#endif
+    main_end();
 
     return 0;
 }

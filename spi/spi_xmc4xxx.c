@@ -46,6 +46,7 @@ ALWAYS_INLINE static bool spi_bus_is_crc_enabled(spi_bus_t* spi)
     return false;
 }
 
+
 ALWAYS_INLINE static bool spi_bus_is_frame_16bit(spi_bus_t* spi)
 {
     return ((spi->spi_device->SCTR & USIC_CH_SCTR_FLE_Msk) >> USIC_CH_SCTR_FLE_Pos) == 15;
@@ -71,6 +72,7 @@ ALWAYS_INLINE static void spi_bus_clear_rxtx_events(spi_bus_t* spi)
     spi_bus_clear_tx_events(spi);
     spi_bus_clear_rx_events(spi);
 }
+
 
 ALWAYS_INLINE static void spi_bus_wait_can_tx(spi_bus_t* spi)
 {
@@ -103,6 +105,7 @@ ALWAYS_INLINE static void spi_bus_tx_it_set_enabled(spi_bus_t* spi, bool enabled
     if(enabled) spi_bus_tx_it_enable(spi);
     else spi_bus_tx_it_disable(spi);
 }
+
 
 ALWAYS_INLINE static bool spi_bus_rx_it_enabled(spi_bus_t* spi)
 {
@@ -148,6 +151,7 @@ ALWAYS_INLINE static void spi_bus_er_it_set_enabled(spi_bus_t* spi, bool enabled
     if(enabled) spi_bus_er_it_enable(spi);
     else spi_bus_er_it_disable(spi);
 }
+
 
 ALWAYS_INLINE static const void* spi_bus_rx_reg_ptr(spi_bus_t* spi)
 {
