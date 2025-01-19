@@ -22,7 +22,10 @@
 
 #include "301/CO_driver.h"
 
-#if CAN_DRIVER == CAN_DRIVER_SLCAN
+#if CAN_DRIVER == CAN_DRIVER_HW
+
+#include "CO_driver_xmc4xxx.h"
+#include "hardware/config.h"
 
 #include "slcan/slcan_slave.h"
 //#include <stdint.h>

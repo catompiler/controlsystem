@@ -25,6 +25,9 @@ EXTERN void hardware_init_spis(void);
 //! Сбрасывает и разрешает тактирование ПДП.
 EXTERN void hardware_init_dma(void);
 
+//! Сбрасывает и разрешает тактирование CAN.
+EXTERN void hardware_init_can(void);
+
 
 #endif /* HARDWARE_H */
 

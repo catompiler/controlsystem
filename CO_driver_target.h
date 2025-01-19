@@ -8,6 +8,36 @@
 
 
 /*
+ * Тип драйвера CAN.
+ */
+// Serial Line CAN.
+#define CAN_DRIVER_SLCAN 0
+// CAN hw
+#define CAN_DRIVER_HW 1
+
+// Выбор драйвера.
+#ifndef CAN_DRIVER
+
+#if defined(PORT_POSIX)
+
+#define CAN_DRIVER CAN_DRIVER_SLCAN
+
+#elif defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
+#define CAN_DRIVER CAN_DRIVER_HW
+
+#else
+
+#error Unknown CAN port!
+#define CAN_DRIVER -1
+
+#endif
+
+#endif // CAN_DRIVER
+
+
+
+/*
  * User Configuration.
  */
 

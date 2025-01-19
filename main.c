@@ -259,6 +259,9 @@ static void init_hardware()
 
     // Periodic timers.
     hardware_init_periodic_timers();
+
+    // CAN.
+    hardware_init_can();
 #endif
 }
 
@@ -440,6 +443,17 @@ static void load_settings()
     }else{
         SYSLOG(SYSLOG_INFO, "Settings readed successfully!");
     }
+}
+
+static void init_can()
+{
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    interrupts_enable_can();
+#endif
+}
+
+static void test_can()
+{
 }
 
 static void setup()
@@ -647,6 +661,12 @@ int main(void)
 
     init_sys_counter();
     init_syslog();
+
+    init_can();
+    test_can();
+    for(;;){
+        __NOP();
+    }
 
     init_eeprom();
     init_storage();

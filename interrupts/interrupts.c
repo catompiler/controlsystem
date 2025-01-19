@@ -21,6 +21,7 @@ void interrupts_init(void)
     NVIC_SetPriority(DMA1_IRQn, DMA1_IRQ_PRIORITY);
     NVIC_SetPriority(DMA2_IRQn, DMA2_IRQ_PRIORITY);
     NVIC_SetPriority(EEP_SPI_USIC_CH_IRQn, EEP_SPI_IRQ_PRIORITY);
+    NVIC_SetPriority(CAN_IRQn, CAN_IRQ_PRIORITY);
 }
 
 
@@ -28,6 +29,11 @@ void interrupts_enable_dma(void)
 {
     NVIC_EnableIRQ(DMA1_IRQn);
     NVIC_EnableIRQ(DMA2_IRQn);
+}
+
+void interrupts_enable_can(void)
+{
+    NVIC_EnableIRQ(CAN_IRQn);
 }
 
 void interrupts_enable_eep_spi(void)

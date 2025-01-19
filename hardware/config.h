@@ -301,6 +301,40 @@
 #define EEP_SPI_DMA_RX_REQ_LINE_SOURCE 0b1011
 
 
+
+// CAN.
+#define CAN_RESET_ENABLE() do{\
+        SCU_RESET->PRSET1 = SCU_RESET_PRSET1_MCAN0RS_Msk;\
+        __DMB();\
+        while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_MCAN0RS_Msk) == 0){ __NOP(); }\
+    }while(0)
+#define CAN_RESET_DISABLE() do{\
+        SCU_RESET->PRCLR1 = SCU_RESET_PRCLR1_MCAN0RS_Msk;\
+        __DMB();\
+        while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_MCAN0RS_Msk) != 0){ __NOP(); }\
+    }while(0)
+// can.
+// gpio.
+// tx.
+#define CAN_PORT_TX PORT1
+#define CAN_PIN_TX_Pos 12
+#define CAN_PIN_TX_Msk ((1)<<(CAN_PIN_TX_Pos))
+#define CAN_PIN_TX_CONF GPIO_CONF_OUTPUT_PP_ALT2 // N1_TXD P1.12
+#define CAN_PIN_TX_DRIVER GPIO_PAD_A1P_DRIVER_STRONG_EDGE_SOFT
+// rx.
+#define CAN_PORT_RX PORT1
+#define CAN_PIN_RX_Pos 13
+#define CAN_PIN_RX_Msk ((1)<<(CAN_PIN_RX_Pos)) // N1_RXDC P1.13
+#define CAN_PIN_RX_CONF GPIO_CONF_INPUT
+// can.
+//#define CAN CAN
+#define CAN_NODE CAN_NODE1
+#define CAN_NODE_RX_SEL 0b10
+//#define CAN_
+#define CAN_SR 0
+#define CAN_IRQ_Handler CAN0_0_IRQHandler
+#define CAN_IRQn CAN0_0_IRQn
+
 #endif /* HARDWARE_CONFIG_H_ */
 
 #endif
