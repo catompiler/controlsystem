@@ -6,6 +6,9 @@
 #include "cpu.h"
 #include "defs/defs.h"
 #include "errors/errors.h"
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
 
 
 //! Частота тактирования блока CAN.
@@ -26,15 +29,24 @@ typedef enum _E_Can_Bit_Rate {
 } can_bit_rate_t;
 
 
-// Битрейт по-умолчанию.
+//! Битрейт по-умолчанию.
 #define CAN_BIT_RATE_DEFAULT CAN_BIT_RATE_125kbit
 
 
-// Режим замыкания на себя.
+//! Режим замыкания на себя.
 #define CAN_LOOPBACK 0
 
 
-// Инициализирует CAN.
+//! Число элементов в FIFO буфера.
+#define CAN_FIFO_SIZE 3
+
+
+// //! Тип CAN.
+//typedef struct _S_Can {
+//} can_t;
+
+
+//! Инициализирует CAN.
 EXTERN err_t can_init();
 
 //! Устанавливает режим конфигурации.
@@ -45,6 +57,9 @@ EXTERN err_t can_set_bitrate(can_bit_rate_t bit_rate);
 
 //! Устанавливает нормальный режим.
 EXTERN void can_set_normal_mode();
+
+//! Инициализирует буфер приёма с заданным индексом.
+EXTERN err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr);
 
 #endif /* CAN_CAN_XMC4XXX_H_ */
 

@@ -2,9 +2,6 @@
 
 #include "can_xmc4xxx.h"
 #include "hardware/config.h"
-#include <stdint.h>
-#include <stddef.h>
-#include <stdbool.h>
 
 
 static const uint32_t NBTR_values[] = {
@@ -20,6 +17,11 @@ static const uint32_t NBTR_values[] = {
 };
 
 const size_t NBTR_values_count = (sizeof(NBTR_values)/sizeof(NBTR_values[0]));
+
+
+#define CAN_MO_INVALID_INDEX (0xffffffff)
+
+#define CAN_MO_FIFO_LIST ((CAN_NODES) + 1)
 
 
 err_t can_init()
@@ -67,17 +69,15 @@ err_t can_init()
     // RX.
     gpio_init(CAN_PORT_RX, CAN_PIN_RX_Msk, CAN_PIN_RX_CONF);
 
+    // Wait list 0 init.
+    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+
     return E_NO_ERROR;
 }
 
 void can_set_configuration_mode()
 {
     CAN_NODE->NCR |= CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk;
-}
-
-void can_set_normal_mode()
-{
-    CAN_NODE->NCR &= ~(CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk);
 }
 
 err_t can_set_bitrate(can_bit_rate_t bit_rate)
@@ -87,6 +87,65 @@ err_t can_set_bitrate(can_bit_rate_t bit_rate)
     CAN_NODE->NBTR = NBTR_values[(size_t)bit_rate];
 
     return E_NO_ERROR;
+}
+
+void can_set_normal_mode()
+{
+    CAN_NODE->NCR &= ~(CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk);
+}
+
+ALWAYS_INLINE static CAN_MO_TypeDef* can_get_mo(size_t index)
+{
+    // Согласно Reference Manual.
+    return &CAN_MO0[index];
+}
+
+static uint32_t can_list_alloc_mo(size_t index)
+{
+    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+
+    CAN->PANCTR = ((0x3) << CAN_PANCTR_PANCMD_Pos) |
+                  ((0) << CAN_PANCTR_PANAR1_Pos) |
+                  ((index) << CAN_PANCTR_PANAR2_Pos);
+
+    while(CAN->PANCTR & CAN_PANCTR_RBUSY_Msk){ __NOP(); }
+
+    if((CAN->PANCTR >> CAN_PANCTR_PANAR2_Pos) & 0x80) return CAN_MO_INVALID_INDEX;
+
+    uint32_t mo_n = (CAN->PANCTR & CAN_PANCTR_PANAR1_Msk) >> CAN_PANCTR_PANAR1_Pos;
+
+    return mo_n;
+}
+
+err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool_t rtr)
+{
+    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+
+    uint32_t free_mo_count = ((CAN->LIST[0] & CAN_LIST_SIZE_Msk) >> CAN_LIST_SIZE_Pos);
+
+    if(free_mo_count < (CAN_FIFO_SIZE + 1)) return E_OUT_OF_MEMORY;
+
+    uint32_t fifo_base_mo = can_list_alloc_mo(index);
+    if(fifo_base_mo == CAN_MO_INVALID_INDEX) return E_OUT_OF_MEMORY;
+
+    CAN_MO_TypeDef* MO_Base = can_get_mo(fifo_base_mo);
+    // Настроим базовый объект фифо.
+    MO_Base->MOFCR = ((0b0001) << CAN_MO_MOFCR_MMC_Pos) |
+                     ((1) << CAN_MO_MOFCR_RXIE_Pos) |
+                     ((0) << CAN_MO_MOFCR_TXIE_Pos) |
+                     ((0) << CAN_MO_MOFCR_OVIE_Pos) |
+                     ((0) << CAN_MO_MOFCR_FRREN_Pos) |
+                     ((0) << CAN_MO_MOFCR_RMM_Pos) |
+                     ((0) << CAN_MO_MOFCR_SDT_Pos) |
+                     ((0) << CAN_MO_MOFCR_STT_Pos) |
+                     ((0) << CAN_MO_MOFCR_DLC_Pos);
+
+    // Добавим ведомые объекты.
+    size_t i = 0;
+    for(; i < CAN_FIFO_SIZE; i ++){
+        uint32_t fifo_mo = can_list_alloc_mo(CAN_NODE_N + CAN_MO_FIFO_LIST);
+        CAN_MO_TypeDef* MO = can_get_mo(fifo_mo);
+    }
 }
 
 

@@ -313,6 +313,9 @@
         __DMB();\
         while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_MCAN0RS_Msk) != 0){ __NOP(); }\
     }while(0)
+// Количество нод в модуле CAN.
+// Определяет номер первого ничейного списка объектов сообщений.
+#define CAN_NODES 3
 // can.
 // gpio.
 // tx.
@@ -328,6 +331,7 @@
 #define CAN_PIN_RX_CONF GPIO_CONF_INPUT
 // can.
 //#define CAN CAN
+#define CAN_NODE_N 1
 #define CAN_NODE CAN_NODE1
 #define CAN_NODE_RX_SEL 0b10
 //#define CAN_
