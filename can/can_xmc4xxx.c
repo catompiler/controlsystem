@@ -117,7 +117,7 @@ static uint32_t can_list_alloc_mo(size_t index)
     return mo_n;
 }
 
-err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool_t rtr)
+err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr)
 {
     while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
 
@@ -131,7 +131,7 @@ err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool_t rtr
     CAN_MO_TypeDef* MO_Base = can_get_mo(fifo_base_mo);
     // Настроим базовый объект фифо.
     MO_Base->MOFCR = ((0b0001) << CAN_MO_MOFCR_MMC_Pos) |
-                     ((1) << CAN_MO_MOFCR_RXIE_Pos) |
+                     ((0) << CAN_MO_MOFCR_RXIE_Pos) |
                      ((0) << CAN_MO_MOFCR_TXIE_Pos) |
                      ((0) << CAN_MO_MOFCR_OVIE_Pos) |
                      ((0) << CAN_MO_MOFCR_FRREN_Pos) |
@@ -139,13 +139,99 @@ err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool_t rtr
                      ((0) << CAN_MO_MOFCR_SDT_Pos) |
                      ((0) << CAN_MO_MOFCR_STT_Pos) |
                      ((0) << CAN_MO_MOFCR_DLC_Pos);
+    MO_Base->MOCTR = /* 0 */ CAN_MO_MOCTR_RESDIR_Msk |
+                     /* 0 */ CAN_MO_MOCTR_RESTXEN0_Msk |
+                     /* 0 */ CAN_MO_MOCTR_RESTXEN1_Msk |
+                     /* 0 */ CAN_MO_MOCTR_RESTXRQ_Msk |
+                     /* 1 */ CAN_MO_MOCTR_SETRXEN_Msk |
+                     /* 0 */ CAN_MO_MOCTR_RESRTSEL_Msk |
+                     /* 0 */ CAN_MO_MOCTR_RESMSGVAL_Msk |
+                     /* 0 */ CAN_MO_MOCTR_RESMSGLST_Msk |
+                     /* 0 */ CAN_MO_MOCTR_RESNEWDAT_Msk |
+                     /* 0 */ CAN_MO_MOCTR_RESRXUPD_Msk |
+                     /* 0 */ CAN_MO_MOCTR_RESTXPND_Msk |
+                     /* 0 */ CAN_MO_MOCTR_RESRXPND_Msk;
+    MO_Base->MOIPR = ((0) << CAN_MO_MOIPR_RXINP_Pos) |
+                     ((0) << CAN_MO_MOIPR_TXINP_Pos) |
+                     ((0) << CAN_MO_MOIPR_MPN_Pos) |
+                     ((0) << CAN_MO_MOIPR_CFCVAL_Pos);
+    MO_Base->MOAMR = ((1) << CAN_MO_MOAMR_MIDE_Pos) |
+                     ((mask << 18) << CAN_MO_MOAMR_AM_Pos);
+    MO_Base->MOAR = ((0) << CAN_MO_MOAR_IDE_Pos) |
+                    ((ident << 18) << CAN_MO_MOAR_ID_Pos) |
+                    ((0b10) << CAN_MO_MOAR_PRI_Pos); // 0b01 by list order, 0b10 - by priority
+    MO_Base->MODATAL = ((0) << CAN_MO_MODATAL_DB0_Pos) |
+                       ((0) << CAN_MO_MODATAL_DB1_Pos) |
+                       ((0) << CAN_MO_MODATAL_DB2_Pos) |
+                       ((0) << CAN_MO_MODATAL_DB3_Pos);
+    MO_Base->MODATAH = ((0) << CAN_MO_MODATAH_DB4_Pos) |
+                       ((0) << CAN_MO_MODATAH_DB5_Pos) |
+                       ((0) << CAN_MO_MODATAH_DB6_Pos) |
+                       ((0) << CAN_MO_MODATAH_DB7_Pos);
+
+    uint32_t mo_bot = 0;
+    uint32_t mo_top = 0;
 
     // Добавим ведомые объекты.
     size_t i = 0;
     for(; i < CAN_FIFO_SIZE; i ++){
         uint32_t fifo_mo = can_list_alloc_mo(CAN_NODE_N + CAN_MO_FIFO_LIST);
         CAN_MO_TypeDef* MO = can_get_mo(fifo_mo);
+        // Настроим объект фифо.
+        MO->MOFCR = ((0b0000) << CAN_MO_MOFCR_MMC_Pos) |
+                         ((0) << CAN_MO_MOFCR_RXIE_Pos) |
+                         ((0) << CAN_MO_MOFCR_TXIE_Pos) |
+                         ((0) << CAN_MO_MOFCR_OVIE_Pos) |
+                         ((0) << CAN_MO_MOFCR_FRREN_Pos) |
+                         ((0) << CAN_MO_MOFCR_RMM_Pos) |
+                         ((0) << CAN_MO_MOFCR_SDT_Pos) |
+                         ((0) << CAN_MO_MOFCR_STT_Pos) |
+                         ((0) << CAN_MO_MOFCR_DLC_Pos);
+        MO->MOCTR = /* 0 */ CAN_MO_MOCTR_RESDIR_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESTXEN0_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESTXEN1_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESTXRQ_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESRXEN_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESRTSEL_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESMSGVAL_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESMSGLST_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESNEWDAT_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESRXUPD_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESTXPND_Msk |
+                    /* 0 */ CAN_MO_MOCTR_RESRXPND_Msk;
+        MO->MOIPR = ((0) << CAN_MO_MOIPR_RXINP_Pos) |
+                    ((0) << CAN_MO_MOIPR_TXINP_Pos) |
+                    ((0) << CAN_MO_MOIPR_MPN_Pos) |
+                    ((0) << CAN_MO_MOIPR_CFCVAL_Pos);
+        MO->MOFGPR = ((0)) << CAN_MO_MOFGPR_BOT_Pos |
+                     ((0)) << CAN_MO_MOFGPR_TOP_Pos |
+                     ((0)) << CAN_MO_MOFGPR_CUR_Pos |
+                     ((0)) << CAN_MO_MOFGPR_SEL_Pos;
+        MO->MOAMR = ((0) << CAN_MO_MOAMR_MIDE_Pos) |
+                    ((0) << CAN_MO_MOAMR_AM_Pos);
+        MO->MOAR = ((0) << CAN_MO_MOAR_IDE_Pos) |
+                   ((0) << CAN_MO_MOAR_ID_Pos) |
+                   ((0) << CAN_MO_MOAR_PRI_Pos);
+        MO->MODATAL = ((0) << CAN_MO_MODATAL_DB0_Pos) |
+                      ((0) << CAN_MO_MODATAL_DB1_Pos) |
+                      ((0) << CAN_MO_MODATAL_DB2_Pos) |
+                      ((0) << CAN_MO_MODATAL_DB3_Pos);
+        MO->MODATAH = ((0) << CAN_MO_MODATAH_DB4_Pos) |
+                      ((0) << CAN_MO_MODATAH_DB5_Pos) |
+                      ((0) << CAN_MO_MODATAH_DB6_Pos) |
+                      ((0) << CAN_MO_MODATAH_DB7_Pos);
+        if(i == 0){
+            mo_bot = fifo_mo;
+        }
+        if(i == CAN_FIFO_SIZE - 1){
+            mo_top = fifo_mo;
+        }
     }
+
+    MO_Base->MOFGPR = ((mo_bot)) << CAN_MO_MOFGPR_BOT_Pos |
+                      ((mo_top)) << CAN_MO_MOFGPR_TOP_Pos |
+                      ((mo_bot)) << CAN_MO_MOFGPR_CUR_Pos |
+                      ((mo_bot)) << CAN_MO_MOFGPR_SEL_Pos;
 }
 
 
