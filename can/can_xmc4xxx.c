@@ -21,7 +21,9 @@ const size_t NBTR_values_count = (sizeof(NBTR_values)/sizeof(NBTR_values[0]));
 
 #define CAN_MO_INVALID_INDEX (0xffffffff)
 
-#define CAN_MO_FIFO_LIST ((CAN_NODES) + 1)
+//#define CAN_MO_FIFO_LIST ((CAN_NODES) + 1)
+
+#define CAN_NODE_LIST_N ((CAN_NODE_N) + 1)
 
 
 err_t can_init()
@@ -100,13 +102,13 @@ ALWAYS_INLINE static CAN_MO_TypeDef* can_get_mo(size_t index)
     return &CAN_MO0[index];
 }
 
-static uint32_t can_list_alloc_mo(size_t index)
+static uint32_t can_list_alloc_mo(size_t list_index)
 {
     while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
 
     CAN->PANCTR = ((0x3) << CAN_PANCTR_PANCMD_Pos) |
                   ((0) << CAN_PANCTR_PANAR1_Pos) |
-                  ((index) << CAN_PANCTR_PANAR2_Pos);
+                  ((list_index) << CAN_PANCTR_PANAR2_Pos);
 
     while(CAN->PANCTR & CAN_PANCTR_RBUSY_Msk){ __NOP(); }
 
@@ -123,10 +125,12 @@ err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr)
 
     uint32_t free_mo_count = ((CAN->LIST[0] & CAN_LIST_SIZE_Msk) >> CAN_LIST_SIZE_Pos);
 
-    if(free_mo_count < (CAN_FIFO_SIZE + 1)) return E_OUT_OF_MEMORY;
+    if(free_mo_count < (CAN_FIFO_SIZE)) return E_OUT_OF_MEMORY;
 
-    uint32_t fifo_base_mo = can_list_alloc_mo(index);
+    uint32_t fifo_base_mo = can_list_alloc_mo(CAN_NODE_LIST_N); // LIST[0] - list of empty items.
     if(fifo_base_mo == CAN_MO_INVALID_INDEX) return E_OUT_OF_MEMORY;
+
+    uint32_t dir = (rtr ? (CAN_MO_MOCTR_SETDIR_Msk) : (CAN_MO_MOCTR_RESDIR_Msk));
 
     CAN_MO_TypeDef* MO_Base = can_get_mo(fifo_base_mo);
     // Настроим базовый объект фифо.
@@ -139,7 +143,7 @@ err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr)
                      ((0) << CAN_MO_MOFCR_SDT_Pos) |
                      ((0) << CAN_MO_MOFCR_STT_Pos) |
                      ((0) << CAN_MO_MOFCR_DLC_Pos);
-    MO_Base->MOCTR = /* 0 */ CAN_MO_MOCTR_RESDIR_Msk |
+    MO_Base->MOCTR = /* dir */ dir |
                      /* 0 */ CAN_MO_MOCTR_RESTXEN0_Msk |
                      /* 0 */ CAN_MO_MOCTR_RESTXEN1_Msk |
                      /* 0 */ CAN_MO_MOCTR_RESTXRQ_Msk |
@@ -169,13 +173,14 @@ err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr)
                        ((0) << CAN_MO_MODATAH_DB6_Pos) |
                        ((0) << CAN_MO_MODATAH_DB7_Pos);
 
-    uint32_t mo_bot = 0;
     uint32_t mo_top = 0;
 
     // Добавим ведомые объекты.
     size_t i = 0;
     for(; i < CAN_FIFO_SIZE; i ++){
-        uint32_t fifo_mo = can_list_alloc_mo(CAN_NODE_N + CAN_MO_FIFO_LIST);
+        uint32_t fifo_mo = can_list_alloc_mo(CAN_NODE_LIST_N);
+        if(fifo_mo == CAN_MO_INVALID_INDEX) return E_OUT_OF_MEMORY;
+
         CAN_MO_TypeDef* MO = can_get_mo(fifo_mo);
         // Настроим объект фифо.
         MO->MOFCR = ((0b0000) << CAN_MO_MOFCR_MMC_Pos) |
@@ -187,7 +192,7 @@ err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr)
                          ((0) << CAN_MO_MOFCR_SDT_Pos) |
                          ((0) << CAN_MO_MOFCR_STT_Pos) |
                          ((0) << CAN_MO_MOFCR_DLC_Pos);
-        MO->MOCTR = /* 0 */ CAN_MO_MOCTR_RESDIR_Msk |
+        MO->MOCTR = /* dir */ dir |
                     /* 0 */ CAN_MO_MOCTR_RESTXEN0_Msk |
                     /* 0 */ CAN_MO_MOCTR_RESTXEN1_Msk |
                     /* 0 */ CAN_MO_MOCTR_RESTXRQ_Msk |
@@ -220,18 +225,16 @@ err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr)
                       ((0) << CAN_MO_MODATAH_DB5_Pos) |
                       ((0) << CAN_MO_MODATAH_DB6_Pos) |
                       ((0) << CAN_MO_MODATAH_DB7_Pos);
-        if(i == 0){
-            mo_bot = fifo_mo;
-        }
-        if(i == CAN_FIFO_SIZE - 1){
+
+        if(i == (CAN_FIFO_SIZE - 1)){
             mo_top = fifo_mo;
         }
     }
 
-    MO_Base->MOFGPR = ((mo_bot)) << CAN_MO_MOFGPR_BOT_Pos |
-                      ((mo_top)) << CAN_MO_MOFGPR_TOP_Pos |
-                      ((mo_bot)) << CAN_MO_MOFGPR_CUR_Pos |
-                      ((mo_bot)) << CAN_MO_MOFGPR_SEL_Pos;
+    MO_Base->MOFGPR = ((fifo_base_mo)) << CAN_MO_MOFGPR_BOT_Pos |
+                      ((mo_top      )) << CAN_MO_MOFGPR_TOP_Pos |
+                      ((fifo_base_mo)) << CAN_MO_MOFGPR_CUR_Pos |
+                      ((fifo_base_mo)) << CAN_MO_MOFGPR_SEL_Pos;
 }
 
 

@@ -38,7 +38,7 @@ typedef enum _E_Can_Bit_Rate {
 
 
 //! Число элементов в FIFO буфера.
-#define CAN_FIFO_SIZE 3
+#define CAN_FIFO_SIZE 4
 
 
 // //! Тип CAN.
