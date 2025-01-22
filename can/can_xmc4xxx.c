@@ -102,22 +102,39 @@ ALWAYS_INLINE static CAN_MO_TypeDef* can_get_mo(size_t index)
     return &CAN_MO0[index];
 }
 
-static uint32_t can_list_alloc_mo(size_t list_index)
+//! Получает номер объекта для приёма сообщения по индексу буфера и номеру в fifo.
+static uint32_t can_mo_get_number_rx(size_t buf_index, size_t fifo_n)
+{
+    return buf_index * CAN_FIFO_SIZE + fifo_n;
+}
+
+static uint32_t can_list_alloc_mo_static(uint32_t mo_n, size_t list_index)
 {
     while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
 
-    CAN->PANCTR = ((0x3) << CAN_PANCTR_PANCMD_Pos) |
-                  ((0) << CAN_PANCTR_PANAR1_Pos) |
+    CAN->PANCTR = ((0x2) << CAN_PANCTR_PANCMD_Pos) |
+                  ((mo_n) << CAN_PANCTR_PANAR1_Pos) |
                   ((list_index) << CAN_PANCTR_PANAR2_Pos);
-
-    while(CAN->PANCTR & CAN_PANCTR_RBUSY_Msk){ __NOP(); }
-
-    if((CAN->PANCTR >> CAN_PANCTR_PANAR2_Pos) & 0x80) return CAN_MO_INVALID_INDEX;
-
-    uint32_t mo_n = (CAN->PANCTR & CAN_PANCTR_PANAR1_Msk) >> CAN_PANCTR_PANAR1_Pos;
 
     return mo_n;
 }
+
+//static uint32_t can_list_alloc_mo(size_t list_index)
+//{
+//    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+//
+//    CAN->PANCTR = ((0x3) << CAN_PANCTR_PANCMD_Pos) |
+//                  ((0) << CAN_PANCTR_PANAR1_Pos) |
+//                  ((list_index) << CAN_PANCTR_PANAR2_Pos);
+//
+//    while(CAN->PANCTR & CAN_PANCTR_RBUSY_Msk){ __NOP(); }
+//
+//    if((CAN->PANCTR >> CAN_PANCTR_PANAR2_Pos) & 0x80) return CAN_MO_INVALID_INDEX;
+//
+//    uint32_t mo_n = (CAN->PANCTR & CAN_PANCTR_PANAR1_Msk) >> CAN_PANCTR_PANAR1_Pos;
+//
+//    return mo_n;
+//}
 
 err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr)
 {
@@ -127,7 +144,7 @@ err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr)
 
     if(free_mo_count < (CAN_FIFO_SIZE)) return E_OUT_OF_MEMORY;
 
-    uint32_t fifo_base_mo = can_list_alloc_mo(CAN_NODE_LIST_N); // LIST[0] - list of empty items.
+    uint32_t fifo_base_mo = can_list_alloc_mo_static(can_mo_get_number_rx(index, 0), CAN_NODE_LIST_N); // LIST[0] - list of empty items.
     if(fifo_base_mo == CAN_MO_INVALID_INDEX) return E_OUT_OF_MEMORY;
 
     uint32_t dir = (rtr ? (CAN_MO_MOCTR_SETDIR_Msk) : (CAN_MO_MOCTR_RESDIR_Msk));
@@ -178,7 +195,7 @@ err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr)
     // Добавим ведомые объекты.
     size_t i = 0;
     for(; i < CAN_FIFO_SIZE; i ++){
-        uint32_t fifo_mo = can_list_alloc_mo(CAN_NODE_LIST_N);
+        uint32_t fifo_mo = can_list_alloc_mo_static(can_mo_get_number_rx(index, i + 1), CAN_NODE_LIST_N);
         if(fifo_mo == CAN_MO_INVALID_INDEX) return E_OUT_OF_MEMORY;
 
         CAN_MO_TypeDef* MO = can_get_mo(fifo_mo);
