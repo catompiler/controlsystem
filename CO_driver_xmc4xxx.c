@@ -28,7 +28,6 @@
 #include "can/can_xmc4xxx.h"
 #include "hardware/config.h"
 
-#include "slcan/slcan_slave.h"
 //#include <stdint.h>
 //#include <stddef.h>
 #include <stdbool.h>
@@ -44,14 +43,9 @@ CO_CANsetConfigurationMode(void* CANptr) {
     /* Put CAN module in configuration mode */
     if(CANptr == NULL) return;
 
-    slcan_slave_t* slave = (slcan_slave_t*)CANptr;
+    can_t* can = (can_t*)CANptr;
 
-    slcan_slave_flags_t flags = slcan_slave_flags(slave);
-    flags &= ~(SLCAN_SLAVE_FLAG_OPENED | SLCAN_SLAVE_FLAG_CONFIGURED | SLCAN_SLAVE_FLAG_LISTEN_ONLY | SLCAN_SLAVE_FLAG_AUTO_POLL);
-    slcan_slave_set_flags(slave, flags);
-
-    slcan_slave_flush(slave, NULL);
-    slcan_slave_reset(slave);
+    can_set_configuration_mode(can);
 }
 
 void
@@ -60,12 +54,9 @@ CO_CANsetNormalMode(CO_CANmodule_t* CANmodule) {
     if(CANmodule == NULL) return;
     if(CANmodule->CANptr == NULL) return;
 
-    slcan_slave_t* slave = (slcan_slave_t*)CANmodule->CANptr;
+    can_t* can = (can_t*)CANmodule->CANptr;
 
-    slcan_slave_flags_t flags = slcan_slave_flags(slave);
-    flags &= SLCAN_SLAVE_FLAG_LISTEN_ONLY;
-    flags |= SLCAN_SLAVE_FLAG_OPENED | SLCAN_SLAVE_FLAG_CONFIGURED | SLCAN_SLAVE_FLAG_AUTO_POLL;
-    slcan_slave_set_flags(slave, flags);
+    can_set_normal_mode(can);
 
     CANmodule->CANnormal = true;
 }
@@ -80,6 +71,8 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
         return CO_ERROR_ILLEGAL_ARGUMENT;
     }
 
+    can_t* can = (can_t*)CANmodule->CANptr;
+
     /* Configure object variables */
     CANmodule->CANptr = CANptr;
     CANmodule->rxArray = rxArray;
@@ -88,7 +81,7 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     CANmodule->txSize = txSize;
     CANmodule->CANerrorStatus = 0;
     CANmodule->CANnormal = false;
-    CANmodule->useCANrxFilters = false; //(rxSize <= 32U) ? true : false; /* microcontroller dependent */
+    CANmodule->useCANrxFilters = (rxSize <= (CAN_RX_FILTERS_COUNT)) ? true : false; /* microcontroller dependent */
     CANmodule->bufferInhibitFlag = false;
     CANmodule->firstCANtxMessage = true;
     CANmodule->CANtxCount = 0U;
@@ -105,10 +98,23 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     }
 
     /* Configure CAN module registers */
-    //slcan_slave_t* slave = (slcan_slave_t*)CANptr;
+    can_init(can);
 
     /* Configure CAN timing */
-    // slcan не нуждается в настройке битрейта CAN.
+    can_bit_rate_t bit_rate = CAN_BIT_RATE_125kbit;
+    switch(CANbitRate){
+    default: break;
+    case 10: bit_rate = CAN_BIT_RATE_10kbit; break;
+    case 20: bit_rate = CAN_BIT_RATE_20kbit; break;
+    case 50: bit_rate = CAN_BIT_RATE_50kbit; break;
+    case 100: bit_rate = CAN_BIT_RATE_100kbit; break;
+    case 125: bit_rate = CAN_BIT_RATE_125kbit; break;
+    case 250: bit_rate = CAN_BIT_RATE_250kbit; break;
+    case 500: bit_rate = CAN_BIT_RATE_500kbit; break;
+    case 800: bit_rate = CAN_BIT_RATE_800kbit; break;
+    case 1000: bit_rate = CAN_BIT_RATE_1000kbit; break;
+    }
+    can_set_bitrate(can, bit_rate);
 
     /* Configure CAN module hardware filters */
     if (CANmodule->useCANrxFilters) {
@@ -129,8 +135,10 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
 
 void
 CO_CANmodule_disable(CO_CANmodule_t* CANmodule) {
-    if (CANmodule != NULL) {
+    if (CANmodule != NULL && CANmodule->CANptr != NULL) {
+        can_t* can = (can_t*)CANmodule->CANptr;
         /* turn off the module */
+        can_disable(can);
     }
 }
 
@@ -139,7 +147,10 @@ CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, ui
                    void (*CANrx_callback)(void* object, void* message)) {
     CO_ReturnError_t ret = CO_ERROR_NO;
 
-    if ((CANmodule != NULL) && (object != NULL) && (CANrx_callback != NULL) && (index < CANmodule->rxSize)) {
+    if ((CANmodule != NULL) && (CANmodule->CANptr != NULL) && (object != NULL) && (CANrx_callback != NULL) && (index < CANmodule->rxSize)) {
+
+        can_t* can = (can_t*)CANmodule->CANptr;
+
         /* buffer, which will be configured */
         CO_CANrx_t* buffer = &CANmodule->rxArray[index];
 
@@ -155,7 +166,11 @@ CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, ui
         buffer->mask = (mask & 0x07FFU) | 0x0800U;
 
         /* Set CAN hardware module filter and mask. */
-        if (CANmodule->useCANrxFilters) {}
+        if(CANmodule->useCANrxFilters){
+            can_init_rx_buffer(can, index, ident, mask, rtr);
+        }else{
+            can_init_rx_buffer(can, index, ident, 0, rtr);
+        }
     } else {
         ret = CO_ERROR_ILLEGAL_ARGUMENT;
     }
@@ -168,7 +183,10 @@ CO_CANtxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bo
                    bool_t syncFlag) {
     CO_CANtx_t* buffer = NULL;
 
-    if ((CANmodule != NULL) && (index < CANmodule->txSize)) {
+    if ((CANmodule != NULL) && (CANmodule->CANptr != NULL) && (index < CANmodule->txSize)) {
+
+        can_t* can = (can_t*)CANmodule->CANptr;
+
         /* get specific buffer */
         buffer = &CANmodule->txArray[index];
 
@@ -178,6 +196,8 @@ CO_CANtxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bo
         buffer->DLC = noOfBytes;
         buffer->bufferFull = false;
         buffer->syncFlag = syncFlag;
+
+        can_init_tx_buffer(can, index, ident, rtr, noOfBytes);
     }
 
     return buffer;

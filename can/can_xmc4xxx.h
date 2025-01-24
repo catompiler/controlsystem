@@ -36,30 +36,46 @@ typedef enum _E_Can_Bit_Rate {
 //! Режим замыкания на себя.
 #define CAN_LOOPBACK 0
 
+//! Тип сообщения CAN.
+typedef struct _S_Can_Msg {
+    uint8_t ide;
+    uint32_t id;
+    bool rtr;
+    uint8_t dlc;
+    uint8_t* data;
+} can_msg_t;
 
-//! Число элементов в FIFO буфера.
-#define CAN_FIFO_SIZE 4
-
-
-// //! Тип CAN.
-//typedef struct _S_Can {
-//} can_t;
+//! Тип CAN.
+typedef struct _S_Can {
+} can_t;
 
 
 //! Инициализирует CAN.
-EXTERN err_t can_init();
+EXTERN err_t can_init(can_t* can);
+
+//! Запрещает модуль CAN.
+EXTERN void can_disable(can_t* can);
 
 //! Устанавливает режим конфигурации.
-EXTERN void can_set_configuration_mode();
+EXTERN void can_set_configuration_mode(can_t* can);
 
 //! Устанавливает битрейт.
-EXTERN err_t can_set_bitrate(can_bit_rate_t bit_rate);
+EXTERN err_t can_set_bitrate(can_t* can, can_bit_rate_t bit_rate);
 
 //! Устанавливает нормальный режим.
-EXTERN void can_set_normal_mode();
+EXTERN void can_set_normal_mode(can_t* can);
 
 //! Инициализирует буфер приёма с заданным индексом.
-EXTERN err_t can_init_rx_buffer(size_t index, uint16_t ident, uint16_t mask, bool rtr);
+EXTERN err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask, bool rtr);
+
+//! Инициализирует буфер передачи с заданным индексом.
+EXTERN err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uint8_t noOfBytes);
+
+//! Отправляет сообщение.
+EXTERN err_t can_send_msg(can_t* can, size_t index, const can_msg_t* msg);
+
+//! Принимает сообщение.
+EXTERN err_t can_recv_msg(can_t* can, size_t index, can_msg_t* msg);
 
 #endif /* CAN_CAN_XMC4XXX_H_ */
 
