@@ -24,6 +24,8 @@
 
 #if CAN_DRIVER == CAN_DRIVER_SLCAN
 
+#include "CO_driver_slcan_slave.h"
+
 #include "slcan/slcan_slave.h"
 //#include <stdint.h>
 //#include <stddef.h>

@@ -29,6 +29,7 @@ static eeprom_t eep;
 #include "usart/usart_stdio_xmc4xxx.h"
 #include "spi/spi_xmc4xxx.h"
 #include "spi/eep_spi_xmc4xxx.h"
+#include "can/can_xmc4xxx.h"
 
 // Шина SPI для EEPROM.
 static spi_bus_t eep_spi_bus;
@@ -445,15 +446,42 @@ static void load_settings()
     }
 }
 
+static can_t can;
+
 static void init_can()
 {
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    //hardware_init_can();
     interrupts_enable_can();
+
+    can_init(&can);
+    can_init_tx_buffer(&can, 0, 0x500, false, 8);
+    can_set_normal_mode(&can);
 #endif
 }
 
 static void test_can()
 {
+    can_msg_t can_msg;
+    size_t i;
+
+    can_msg.rtr = false;
+    can_msg.ide = 0;
+    can_msg.id = 0x01;
+    can_msg.dlc = 8;
+    for(i = 0; i < 8; i ++){
+        can_msg.data[i] = i;
+    }
+    can_send_msg(&can, 0, &can_msg);
+
+    can_msg.rtr = false;
+    can_msg.ide = 0;
+    can_msg.id = 0x100;
+    can_msg.dlc = 8;
+    for(i = 0; i < 8; i ++){
+        can_msg.data[i] = i;
+    }
+    can_send_msg(&can, 0, &can_msg);
 }
 
 static void setup()

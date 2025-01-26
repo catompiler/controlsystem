@@ -27,6 +27,11 @@ const size_t NBTR_values_count = (sizeof(NBTR_values)/sizeof(NBTR_values[0]));
 #define CAN_NODE_LIST_N ((CAN_NODE_N) + 1)
 
 
+#define CAN_RX_FIFO_PRI 0b01 // 0b01 by list order, 0b10 - by priority
+
+#define CAN_TX_FIFO_PRI 0b01 // 0b01 by list order, 0b10 - by priority
+
+
 
 void CAN_IRQ_Handler(void)
 {
@@ -260,7 +265,7 @@ err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask
                      ((mask << 18) << CAN_MO_MOAMR_AM_Pos);
     MO_Base->MOAR = ((0) << CAN_MO_MOAR_IDE_Pos) |
                     ((ident << 18) << CAN_MO_MOAR_ID_Pos) |
-                    ((0b10) << CAN_MO_MOAR_PRI_Pos); // 0b01 by list order, 0b10 - by priority
+                    ((CAN_RX_FIFO_PRI) << CAN_MO_MOAR_PRI_Pos); // 0b01 by list order, 0b10 - by priority
     MO_Base->MODATAL = ((0) << CAN_MO_MODATAL_DB0_Pos) |
                        ((0) << CAN_MO_MODATAL_DB1_Pos) |
                        ((0) << CAN_MO_MODATAL_DB2_Pos) |
@@ -313,7 +318,7 @@ err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask
                     ((0) << CAN_MO_MOAMR_AM_Pos);
         MO->MOAR = ((0) << CAN_MO_MOAR_IDE_Pos) |
                    ((0) << CAN_MO_MOAR_ID_Pos) |
-                   ((0b10) << CAN_MO_MOAR_PRI_Pos);
+                   ((CAN_RX_FIFO_PRI) << CAN_MO_MOAR_PRI_Pos);
         MO->MODATAL = ((0) << CAN_MO_MODATAL_DB0_Pos) |
                       ((0) << CAN_MO_MODATAL_DB1_Pos) |
                       ((0) << CAN_MO_MODATAL_DB2_Pos) |
@@ -341,7 +346,10 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
 {
     while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
 
-    uint32_t free_mo_count = ((CAN->LIST[0] & CAN_LIST_SIZE_Msk) >> CAN_LIST_SIZE_Pos);
+    bool list_empty = (CAN->LIST[0] & CAN_LIST_EMPTY_Msk) >> CAN_LIST_EMPTY_Pos;
+    if(list_empty) return E_OUT_OF_MEMORY;
+
+    uint32_t free_mo_count = ((CAN->LIST[0] & CAN_LIST_SIZE_Msk) >> CAN_LIST_SIZE_Pos) + 1;
 
     if(free_mo_count < (CAN_FIFO_SIZE)) return E_OUT_OF_MEMORY;
 
@@ -359,7 +367,7 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
                      ((0) << CAN_MO_MOFCR_FRREN_Pos) |
                      ((0) << CAN_MO_MOFCR_RMM_Pos) |
                      ((0) << CAN_MO_MOFCR_SDT_Pos) |
-                     ((0) << CAN_MO_MOFCR_STT_Pos) |
+                     ((CAN_SINGLE_TRANSMIT_TRIAL) << CAN_MO_MOFCR_STT_Pos) |
                      ((noOfBytes) << CAN_MO_MOFCR_DLC_Pos);
     MO_Base->MOCTR = /* dir */ dir |
                      /* 0 */ CAN_MO_MOCTR_RESTXEN0_Msk |
@@ -381,7 +389,7 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
                      ((0) << CAN_MO_MOAMR_AM_Pos);
     MO_Base->MOAR = ((0) << CAN_MO_MOAR_IDE_Pos) |
                     ((ident << 18) << CAN_MO_MOAR_ID_Pos) |
-                    ((0b10) << CAN_MO_MOAR_PRI_Pos); // 0b01 by list order, 0b10 - by priority
+                    ((CAN_TX_FIFO_PRI) << CAN_MO_MOAR_PRI_Pos); // 0b01 by list order, 0b10 - by priority
     MO_Base->MODATAL = ((0) << CAN_MO_MODATAL_DB0_Pos) |
                        ((0) << CAN_MO_MODATAL_DB1_Pos) |
                        ((0) << CAN_MO_MODATAL_DB2_Pos) |
@@ -408,7 +416,7 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
                          ((0) << CAN_MO_MOFCR_FRREN_Pos) |
                          ((0) << CAN_MO_MOFCR_RMM_Pos) |
                          ((0) << CAN_MO_MOFCR_SDT_Pos) |
-                         ((0) << CAN_MO_MOFCR_STT_Pos) |
+                         ((CAN_SINGLE_TRANSMIT_TRIAL) << CAN_MO_MOFCR_STT_Pos) |
                          ((noOfBytes) << CAN_MO_MOFCR_DLC_Pos);
         MO->MOCTR = /* dir */ dir |
                     /* 0 */ CAN_MO_MOCTR_RESTXEN0_Msk |
@@ -434,7 +442,7 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
                     ((0) << CAN_MO_MOAMR_AM_Pos);
         MO->MOAR = ((0) << CAN_MO_MOAR_IDE_Pos) |
                    ((ident << 18) << CAN_MO_MOAR_ID_Pos) |
-                   ((0b10) << CAN_MO_MOAR_PRI_Pos);
+                   ((CAN_TX_FIFO_PRI) << CAN_MO_MOAR_PRI_Pos);
         MO->MODATAL = ((0) << CAN_MO_MODATAL_DB0_Pos) |
                       ((0) << CAN_MO_MODATAL_DB1_Pos) |
                       ((0) << CAN_MO_MODATAL_DB2_Pos) |
@@ -457,18 +465,85 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
     return E_NO_ERROR;
 }
 
+static uint32_t can_fifo_first(can_t* can, uint32_t mo_base_n)
+{
+    CAN_MO_TypeDef* MO_Base = can_get_mo(can, mo_base_n);
+
+    uint32_t mo_n = (MO_Base->MOFGPR & CAN_MO_MOFGPR_CUR_Msk) >> CAN_MO_MOFGPR_CUR_Pos;
+
+    return mo_n;
+}
+
+static uint32_t can_fifo_next(can_t* can, uint32_t mo_base_n, uint32_t mo_n)
+{
+    CAN_MO_TypeDef* MO_Base = can_get_mo(can, mo_base_n);
+
+    uint32_t mo_bot = (MO_Base->MOFGPR & CAN_MO_MOFGPR_BOT_Msk) >> CAN_MO_MOFGPR_BOT_Pos;
+    uint32_t mo_top = (MO_Base->MOFGPR & CAN_MO_MOFGPR_TOP_Msk) >> CAN_MO_MOFGPR_TOP_Pos;
+
+    if(mo_n == mo_top) return mo_bot;
+
+    CAN_MO_TypeDef* MO = can_get_mo(can, mo_n);
+    uint32_t mo_next_n = (MO->MOSTAT & CAN_MO_MOSTAT_PNEXT_Msk) >> CAN_MO_MOSTAT_PNEXT_Pos;
+
+    return mo_next_n;
+}
+
 static err_t can_send_msg_mo(can_t* can, CAN_MO_TypeDef* MO, const can_msg_t* msg)
 {
+    //if(MO->MOSTAT & CAN_MO_MOSTAT_TXRQ_Msk) return E_BUSY;
+    if(MO->MOSTAT & CAN_MO_MOSTAT_RTSEL_Msk) return E_BUSY;
+
+    MO->MOCTR = CAN_MO_MOCTR_RESMSGVAL_Msk;
+
+    if(msg->rtr){
+        MO->MOCTR = CAN_MO_MOCTR_RESDIR_Msk;
+    }else{
+        MO->MOCTR = CAN_MO_MOCTR_SETDIR_Msk;
+    }
+
+    if(msg->ide == 0){
+        MO->MOAR = (MO->MOAR & ~(CAN_MO_MOAR_ID_Msk | CAN_MO_MOAR_IDE_Msk)) | ((msg->id) << (CAN_MO_MOAR_ID_Pos + 18));
+    }else{
+        MO->MOAR = (MO->MOAR & ~(CAN_MO_MOAR_ID_Msk)) | ((msg->id) << (CAN_MO_MOAR_ID_Pos)) | CAN_MO_MOAR_IDE_Msk;
+    }
+
+    MO->MOFCR = (MO->MOFCR & ~(CAN_MO_MOFCR_DLC_Msk)) | ((msg->dlc) << CAN_MO_MOFCR_DLC_Pos);
+
+    if(!msg->rtr){
+        MO->MODATAL = (((uint32_t)msg->data[0]) << CAN_MO_MODATAL_DB0_Pos) |
+                      (((uint32_t)msg->data[1]) << CAN_MO_MODATAL_DB1_Pos) |
+                      (((uint32_t)msg->data[2]) << CAN_MO_MODATAL_DB2_Pos) |
+                      (((uint32_t)msg->data[3]) << CAN_MO_MODATAL_DB3_Pos);
+        MO->MODATAH = (((uint32_t)msg->data[4]) << CAN_MO_MODATAH_DB4_Pos) |
+                      (((uint32_t)msg->data[5]) << CAN_MO_MODATAH_DB5_Pos) |
+                      (((uint32_t)msg->data[6]) << CAN_MO_MODATAH_DB6_Pos) |
+                      (((uint32_t)msg->data[7]) << CAN_MO_MODATAH_DB7_Pos);
+    }
+
+    MO->MOCTR = CAN_MO_MOCTR_RESRTSEL_Msk |
+                CAN_MO_MOCTR_SETNEWDAT_Msk |
+                CAN_MO_MOCTR_SETTXRQ_Msk |
+                CAN_MO_MOCTR_SETTXEN0_Msk |
+                //CAN_MO_MOCTR_SETTXEN1_Msk |
+                CAN_MO_MOCTR_SETMSGVAL_Msk;
+
+    return E_NO_ERROR;
 }
 
 err_t can_send_msg(can_t* can, size_t index, const can_msg_t* msg)
 {
-    err_t err = E_BUSY;
+    err_t err = E_AGAIN;
+    uint32_t mo_base_n = can_mo_get_number_tx(can, index, 0);
     uint32_t mo_n;
     CAN_MO_TypeDef* MO;
     size_t i;
     for(i = 0; i < CAN_FIFO_SIZE; i ++){
-        mo_n = can_mo_get_number_tx(can, index, i);
+        if(i == 0){
+            mo_n = can_fifo_first(can, mo_base_n);
+        }else{
+            mo_n = can_fifo_next(can, mo_base_n, mo_n);
+        }
 
         MO = can_get_mo(can, mo_n);
 
@@ -481,8 +556,66 @@ err_t can_send_msg(can_t* can, size_t index, const can_msg_t* msg)
     return err;
 }
 
+static err_t can_recv_msg_mo(can_t* can, CAN_MO_TypeDef* MO, can_msg_t* msg)
+{
+    if(MO->MOSTAT & CAN_MO_MOSTAT_RTSEL_Msk) return E_BUSY;
+
+    do{
+        MO->MOCTR = CAN_MO_MOCTR_RESNEWDAT_Msk;
+
+        msg->rtr = (MO->MOCTR & CAN_MO_MOSTAT_TXRQ_Msk) ? true : false;
+
+        if((MO->MOAR & CAN_MO_MOAR_IDE_Msk) == 0){
+            msg->ide = 0;
+            msg->id = (MO->MOAR & CAN_MO_MOAR_ID_Msk) >> (CAN_MO_MOAR_ID_Pos + 18);
+        }else{
+            msg->ide = 1;
+            msg->id = (MO->MOAR & CAN_MO_MOAR_ID_Msk) >> CAN_MO_MOAR_ID_Pos;
+        }
+
+        MO->MOFCR = (MO->MOFCR & ~(CAN_MO_MOFCR_DLC_Msk)) | ((msg->dlc) << CAN_MO_MOFCR_DLC_Pos);
+
+        if(!msg->rtr){
+            msg->data[0] = (MO->MODATAL & CAN_MO_MODATAL_DB0_Msk) >> CAN_MO_MODATAL_DB0_Pos;
+            msg->data[1] = (MO->MODATAL & CAN_MO_MODATAL_DB1_Msk) >> CAN_MO_MODATAL_DB1_Pos;
+            msg->data[2] = (MO->MODATAL & CAN_MO_MODATAL_DB2_Msk) >> CAN_MO_MODATAL_DB2_Pos;
+            msg->data[3] = (MO->MODATAL & CAN_MO_MODATAL_DB3_Msk) >> CAN_MO_MODATAL_DB3_Pos;
+            msg->data[4] = (MO->MODATAL & CAN_MO_MODATAH_DB4_Msk) >> CAN_MO_MODATAH_DB4_Pos;
+            msg->data[5] = (MO->MODATAL & CAN_MO_MODATAH_DB5_Msk) >> CAN_MO_MODATAH_DB5_Pos;
+            msg->data[6] = (MO->MODATAL & CAN_MO_MODATAH_DB6_Msk) >> CAN_MO_MODATAH_DB6_Pos;
+            msg->data[7] = (MO->MODATAL & CAN_MO_MODATAH_DB7_Msk) >> CAN_MO_MODATAH_DB7_Pos;
+        }
+
+    }while(MO->MOSTAT & (CAN_MO_MOSTAT_NEWDAT_Msk | CAN_MO_MOSTAT_RXUPD_Msk));
+
+    //MO->MOCTR = CAN_MO_MOCTR_SETMSGVAL_Msk;
+
+    return E_NO_ERROR;
+}
+
 err_t can_recv_msg(can_t* can, size_t index, can_msg_t* msg)
 {
+    err_t err = E_AGAIN;
+    uint32_t mo_base_n = can_mo_get_number_rx(can, index, 0);
+    uint32_t mo_n;
+    CAN_MO_TypeDef* MO;
+    size_t i;
+    for(i = 0; i < CAN_FIFO_SIZE; i ++){
+        if(i == 0){
+            mo_n = can_fifo_first(can, mo_base_n);
+        }else{
+            mo_n = can_fifo_next(can, mo_base_n, mo_n);
+        }
+
+        MO = can_get_mo(can, mo_n);
+
+        if((MO->MOSTAT & CAN_MO_MOSTAT_NEWDAT_Msk) != 0){
+            err = can_recv_msg_mo(can, MO, msg);
+            if(err == E_NO_ERROR) return err;
+        }
+    }
+
+    return err;
 }
 
 #endif

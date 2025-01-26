@@ -204,46 +204,50 @@ CO_CANtxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bo
 }
 
 
-static bool can_send_msg(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer)
+static bool CO_driver_can_send_msg(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer)
 {
     if(CANmodule == NULL || CANmodule->CANptr == NULL || buffer == NULL) return false;
 
-    slcan_slave_t* slave = CANmodule->CANptr;
+    can_t* can = (can_t*)CANmodule->CANptr;
 
-    slcan_can_msg_t can_msg;
+    can_msg_t can_msg;
 
-    can_msg.frame_type = ((buffer->ident & CAN_ID_FLAG_RTR) == 0) ? SLCAN_CAN_FRAME_NORMAL : SLCAN_CAN_FRAME_RTR;
-    can_msg.id_type = SLCAN_CAN_ID_NORMAL;
+    can_msg.rtr = ((buffer->ident & CAN_ID_FLAG_RTR) == 0) ? 0 : 1;
+    can_msg.ide = 0;
     can_msg.id = buffer->ident & CAN_ID_MASK;
     can_msg.dlc = buffer->DLC;
 
-    if(can_msg.frame_type == SLCAN_CAN_FRAME_NORMAL){
+    if(can_msg.rtr == 0){
         int i;
         for(i = 0; i < can_msg.dlc; i ++){
             can_msg.data[i] = buffer->data[i];
         }
     }
 
-    slcan_err_t err = slcan_slave_send_can_msg(slave, &can_msg, NULL);
-    if(err != E_SLCAN_NO_ERROR) return false;
+    ptrdiff_t buf_index = ((ptrdiff_t)buffer - (ptrdiff_t)CANmodule->txArray) / sizeof(CANmodule->txArray[0]);
+
+    err_t err = can_send_msg(can, buf_index, &can_msg);
+    if(err != E_NO_ERROR) return false;
 
     return true;
 }
 
-static bool can_recv_msg(CO_CANmodule_t* CANmodule, CO_CANrxMsg_t* rxMsg)
+static bool CO_driver_can_recv_msg(CO_CANmodule_t* CANmodule, CO_CANrxMsg_t* rxMsg)
 {
     if(CANmodule == NULL || CANmodule->CANptr == NULL || rxMsg == NULL) return false;
 
-    slcan_slave_t* slave = CANmodule->CANptr;
+    can_t* can = (can_t*)CANmodule->CANptr;
 
-    slcan_can_msg_t can_msg;
+    can_msg_t can_msg;
 
-    if(slcan_slave_recv_can_msg(slave, &can_msg) != E_SLCAN_NO_ERROR) return false;
+    ptrdiff_t buf_index = ((ptrdiff_t)rxMsg - (ptrdiff_t)CANmodule->rxArray) / sizeof(CANmodule->rxArray[0]);
 
-    rxMsg->ident = (can_msg.id & CAN_ID_MASK) | ((can_msg.frame_type == SLCAN_CAN_FRAME_NORMAL) ? 0x0 : CAN_ID_FLAG_RTR);
+    if(can_recv_msg(can, buf_index, &can_msg) != E_NO_ERROR) return false;
+
+    rxMsg->ident = (can_msg.id & CAN_ID_MASK) | ((can_msg.rtr == 0) ? 0x0 : CAN_ID_FLAG_RTR);
     rxMsg->DLC = can_msg.dlc;
 
-    if(can_msg.frame_type == SLCAN_CAN_FRAME_NORMAL){
+    if(can_msg.rtr == 0){
         int i;
         for(i = 0; i < can_msg.dlc; i ++){
             rxMsg->data[i] = can_msg.data[i];
@@ -253,13 +257,13 @@ static bool can_recv_msg(CO_CANmodule_t* CANmodule, CO_CANrxMsg_t* rxMsg)
     return true;
 }
 
-static bool can_is_can_send_msg(CO_CANmodule_t* CANmodule)
+static bool CO_driver_can_is_can_send_msg(CO_CANmodule_t* CANmodule)
 {
     if(CANmodule == NULL || CANmodule->CANptr == NULL) return false;
 
-    slcan_slave_t* slave = CANmodule->CANptr;
+    can_t* can = (can_t*)CANmodule->CANptr;
 
-    return slcan_slave_send_can_msgs_avail(slave) != 0;
+    return false; //slcan_slave_send_can_msgs_avail(slave) != 0;
 }
 
 
@@ -278,7 +282,7 @@ CO_CANsend(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer) {
 
     CO_LOCK_CAN_SEND(CANmodule);
     /* if CAN TX buffer is free, copy message to it */
-    if (can_send_msg(CANmodule, buffer) && CANmodule->CANtxCount == 0) {
+    if (CO_driver_can_send_msg(CANmodule, buffer) && CANmodule->CANtxCount == 0) {
         CANmodule->bufferInhibitFlag = buffer->syncFlag;
         /* copy message and txRequest */
         // copied in can_send_msg(...).
@@ -386,7 +390,7 @@ CO_CANinterrupt(CO_CANmodule_t* CANmodule) {
     CO_CANrxMsg_t rcvMsgData;
 
     /* receive interrupt */
-    if (can_recv_msg(CANmodule, &rcvMsgData)) {
+    if (CO_driver_can_recv_msg(CANmodule, &rcvMsgData)) {
         CO_CANrxMsg_t* rcvMsg;     /* pointer to received message in CAN module */
         uint16_t index;            /* index of received message */
         uint32_t rcvMsgIdent;      /* identifier of the received message */
@@ -427,7 +431,7 @@ CO_CANinterrupt(CO_CANmodule_t* CANmodule) {
     }
 
     /* transmit interrupt */
-    else if (can_is_can_send_msg(CANmodule)) {
+    else if (CO_driver_can_is_can_send_msg(CANmodule)) {
         /* Clear interrupt flag */
 
         /* First CAN message (bootup) was sent successfully */
@@ -444,7 +448,7 @@ CO_CANinterrupt(CO_CANmodule_t* CANmodule) {
             for (i = CANmodule->txSize; i > 0U; i--) {
                 /* if message buffer is full, send it. */
                 if (buffer->bufferFull) {
-                    if(can_send_msg(CANmodule, buffer)){
+                    if(CO_driver_can_send_msg(CANmodule, buffer)){
                         buffer->bufferFull = false;
                         CANmodule->CANtxCount--;
 

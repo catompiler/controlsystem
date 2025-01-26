@@ -36,17 +36,27 @@ typedef enum _E_Can_Bit_Rate {
 //! Режим замыкания на себя.
 #define CAN_LOOPBACK 0
 
+
+//! Пытаться отправить только один раз.
+#define CAN_SINGLE_TRANSMIT_TRIAL 1
+
+
+//! Размер данныех сообщения CAN.
+#define CAN_DATA_SIZE 8
+
 //! Тип сообщения CAN.
 typedef struct _S_Can_Msg {
     uint8_t ide;
     uint32_t id;
     bool rtr;
     uint8_t dlc;
-    uint8_t* data;
+    uint8_t data[CAN_DATA_SIZE];
 } can_msg_t;
 
 //! Тип CAN.
 typedef struct _S_Can {
+    //CAN_GLOBAL_TypeDef* can_device; //!< Периферия CAN.
+    //CAN_NODE_TypeDef* can_node; //!< CAN Node.
 } can_t;
 
 
@@ -71,10 +81,10 @@ EXTERN err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16
 //! Инициализирует буфер передачи с заданным индексом.
 EXTERN err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uint8_t noOfBytes);
 
-//! Отправляет сообщение.
+//! Отправляет сообщение через буфер с указанным индексом.
 EXTERN err_t can_send_msg(can_t* can, size_t index, const can_msg_t* msg);
 
-//! Принимает сообщение.
+//! Принимает сообщение из буфера с указанным индексом.
 EXTERN err_t can_recv_msg(can_t* can, size_t index, can_msg_t* msg);
 
 #endif /* CAN_CAN_XMC4XXX_H_ */

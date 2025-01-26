@@ -331,15 +331,15 @@
 #define CAN_PIN_TX_CONF GPIO_CONF_OUTPUT_PP_ALT2 // N1_TXD P1.12
 #define CAN_PIN_TX_DRIVER GPIO_PAD_A1P_DRIVER_STRONG_EDGE_SOFT
 // rx.
-#define CAN_PORT_RX PORT1
-#define CAN_PIN_RX_Pos 13
-#define CAN_PIN_RX_Msk ((1)<<(CAN_PIN_RX_Pos)) // N1_RXDC P1.13
+#define CAN_PORT_RX PORT2
+#define CAN_PIN_RX_Pos 6
+#define CAN_PIN_RX_Msk ((1)<<(CAN_PIN_RX_Pos)) // N1_RXDC1A P2.6
 #define CAN_PIN_RX_CONF GPIO_CONF_INPUT
 // can.
 //#define CAN CAN
 #define CAN_NODE_N 1
 #define CAN_NODE CAN_NODE1
-#define CAN_NODE_RX_SEL 0b10
+#define CAN_NODE_RX_SEL 0b0 //0b10
 //#define CAN_
 #define CAN_SR 0
 #define CAN_IRQ_Handler CAN0_0_IRQHandler

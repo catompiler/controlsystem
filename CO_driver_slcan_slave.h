@@ -1,9 +1,5 @@
-#if CAN_DRIVER == CAN_DRIVER_HW
-
-#ifndef CO_DRIVER_XMC4XXX_H_
-#define CO_DRIVER_XMC4XXX_H_
-
-#include "cpu.h"
+#ifndef CO_DRIVER_SLCAN_SLAVE_H_
+#define CO_DRIVER_SLCAN_SLAVE_H_
 
 
 /*
@@ -142,6 +138,4 @@ typedef struct {
 /** @} */
 
 
-#endif /* CO_DRIVER_XMC4XXX_H_ */
-
-#endif
+#endif /* CO_DRIVER_SLCAN_SLAVE_H_ */
