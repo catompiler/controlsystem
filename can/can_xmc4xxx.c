@@ -27,14 +27,169 @@ const size_t NBTR_values_count = (sizeof(NBTR_values)/sizeof(NBTR_values[0]));
 #define CAN_NODE_LIST_N ((CAN_NODE_N) + 1)
 
 
-#define CAN_RX_FIFO_PRI 0b01 // 0b01 by list order, 0b10 - by priority
+#define CAN_RX_FIFO_PRI 0b010 // 0b01 by list order, 0b10 - by priority
 
-#define CAN_TX_FIFO_PRI 0b01 // 0b01 by list order, 0b10 - by priority
+#define CAN_TX_FIFO_PRI 0b010 // 0b01 by list order, 0b10 - by priority
 
+
+#define CAN_MSG_PEND_REGS_COUNT 8
+#define CAN_MSG_INDEX_MAX 31
+
+
+/*
+ * Функции для работы с индексами сообщений.
+ */
+
+
+ALWAYS_INLINE static CAN_MO_TypeDef* can_get_mo(can_t* can, size_t index)
+{
+    // Согласно Reference Manual.
+    return &CAN_MO0[index];
+}
+
+//! Получает номер объекта для сообщения по индексу буфера и номеру в fifo.
+static uint32_t can_mo_get_number(can_t* can, size_t buf_index, size_t fifo_n)
+{
+    return buf_index * CAN_FIFO_SIZE + fifo_n;
+}
+
+//! Получает номер объекта для приёма сообщения по индексу буфера и номеру в fifo.
+static uint32_t can_mo_get_number_rx(can_t* can, size_t buf_index, size_t fifo_n)
+{
+    uint32_t mo_n = can_mo_get_number(can, buf_index, fifo_n);
+
+    mo_n = (mo_n << 1);
+
+    return mo_n;
+}
+
+//! Получает номер объекта для передачи сообщения по индексу буфера и номеру в fifo.
+static uint32_t can_mo_get_number_tx(can_t* can, size_t buf_index, size_t fifo_n)
+{
+    uint32_t mo_n = can_mo_get_number(can, buf_index, fifo_n);
+
+    mo_n = (mo_n << 1) + 1;
+
+    return mo_n;
+}
+
+static bool can_mo_is_tx(can_t* can, uint32_t mo_n)
+{
+    return mo_n & 0x1;
+}
+
+static size_t can_mo_buf_index_rx(can_t* can, uint32_t mo_n)
+{
+    return (mo_n) / (2 * CAN_FIFO_SIZE);
+}
+
+static size_t can_mo_buf_index_tx(can_t* can, uint32_t mo_n)
+{
+    return (mo_n - 1) / (2 * CAN_FIFO_SIZE);
+}
+
+static size_t can_mo_buf_index(can_t* can, uint32_t mo_n)
+{
+    if(can_mo_is_tx(can, mo_n)){
+        return can_mo_buf_index_tx(can, mo_n);
+    }else{
+        return can_mo_buf_index_rx(can, mo_n);
+    }
+}
+
+static size_t can_mo_fifo_n_rx(can_t* can, uint32_t mo_n)
+{
+    size_t bi = can_mo_buf_index_rx(can, mo_n);
+
+    size_t fn = (mo_n) / 2 - bi * CAN_FIFO_SIZE;
+
+    return fn;
+}
+
+static size_t can_mo_fifo_n_tx(can_t* can, uint32_t mo_n)
+{
+    size_t bi = can_mo_buf_index_tx(can, mo_n);
+
+    size_t fn = (mo_n - 1) / 2 - bi * CAN_FIFO_SIZE;
+
+    return fn;
+}
+
+static size_t can_mo_fifo_n(can_t* can, uint32_t mo_n)
+{
+    if(can_mo_is_tx(can, mo_n)){
+        return can_mo_fifo_n_tx(can, mo_n);
+    }else{
+        return can_mo_fifo_n_rx(can, mo_n);
+    }
+}
+
+static uint32_t can_list_alloc_mo_static(can_t* can, uint32_t mo_n, size_t list_index)
+{
+    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+
+    CAN->PANCTR = ((0x2) << CAN_PANCTR_PANCMD_Pos) |
+                  ((mo_n) << CAN_PANCTR_PANAR1_Pos) |
+                  ((list_index) << CAN_PANCTR_PANAR2_Pos);
+
+    return mo_n;
+}
+
+//static uint32_t can_list_alloc_mo(can_t* can, size_t list_index)
+//{
+//    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+//
+//    CAN->PANCTR = ((0x3) << CAN_PANCTR_PANCMD_Pos) |
+//                  ((0) << CAN_PANCTR_PANAR1_Pos) |
+//                  ((list_index) << CAN_PANCTR_PANAR2_Pos);
+//
+//    while(CAN->PANCTR & CAN_PANCTR_RBUSY_Msk){ __NOP(); }
+//
+//    if((CAN->PANCTR >> CAN_PANCTR_PANAR2_Pos) & 0x80) return CAN_MO_INVALID_INDEX;
+//
+//    uint32_t mo_n = (CAN->PANCTR & CAN_PANCTR_PANAR1_Msk) >> CAN_PANCTR_PANAR1_Pos;
+//
+//    return mo_n;
+//}
+
+
+static can_t* can_ptr = NULL;
 
 
 void CAN_IRQ_Handler(void)
 {
+    can_t* can = can_ptr;
+
+    CAN_MO_TypeDef* MO;
+    uint32_t mo_n;
+    uint32_t mo_index;
+    size_t buf_index;
+    size_t fifo_n;
+    size_t i;
+    for(i = 0; i < CAN_MSG_PEND_REGS_COUNT; i ++){
+        CAN->MSIMASK = CAN_MSIMASK_IM_Msk;
+
+        for(;;){
+            mo_index = CAN->MSID[i] & CAN_MSID_INDEX_Msk;
+
+            if(mo_index > CAN_MSG_INDEX_MAX) break;
+
+            mo_n = mo_index + i * (CAN_MSG_INDEX_MAX + 1);
+
+            buf_index = can_mo_buf_index(can, mo_n);
+            fifo_n = can_mo_fifo_n(can, mo_n);
+
+            MO = can_get_mo(can, mo_n);
+
+            MO->MOCTR = CAN_MO_MOCTR_RESRTSEL_Msk |
+                        CAN_MO_MOCTR_RESTXEN0_Msk | CAN_MO_MOCTR_RESTXPND_Msk |
+                        CAN_MO_MOCTR_RESRXEN_Msk | CAN_MO_MOCTR_RESRXPND_Msk;
+
+            CAN->MSPND[i] = ~(1 << mo_index);
+
+        }
+    }
+
     if(CAN_NODE->NSR & CAN_NODE_NSR_TXOK_Msk){
         CAN_NODE->NSR = ~CAN_NODE_NSR_TXOK_Msk;
     }
@@ -50,6 +205,8 @@ void CAN_IRQ_Handler(void)
 err_t can_init(can_t* can)
 {
     err_t err = E_NO_ERROR;
+
+    can_ptr = can;
 
     // Enable clock.
     CAN->CLC = CAN->CLC & ~(CAN_CLC_SBWE_Msk | CAN_CLC_DISR_Msk);
@@ -128,99 +285,6 @@ void can_set_normal_mode(can_t* can)
     CAN_NODE->NCR &= ~(CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk);
 }
 
-ALWAYS_INLINE static CAN_MO_TypeDef* can_get_mo(can_t* can, size_t index)
-{
-    // Согласно Reference Manual.
-    return &CAN_MO0[index];
-}
-
-//! Получает номер объекта для сообщения по индексу буфера и номеру в fifo.
-static uint32_t can_mo_get_number(can_t* can, size_t buf_index, size_t fifo_n)
-{
-    return buf_index * CAN_FIFO_SIZE + fifo_n;
-}
-
-//! Получает номер объекта для приёма сообщения по индексу буфера и номеру в fifo.
-static uint32_t can_mo_get_number_rx(can_t* can, size_t buf_index, size_t fifo_n)
-{
-    uint32_t mo_n = can_mo_get_number(can, buf_index, fifo_n);
-
-    mo_n = (mo_n << 1);
-
-    return mo_n;
-}
-
-//! Получает номер объекта для передачи сообщения по индексу буфера и номеру в fifo.
-static uint32_t can_mo_get_number_tx(can_t* can, size_t buf_index, size_t fifo_n)
-{
-    uint32_t mo_n = can_mo_get_number(can, buf_index, fifo_n);
-
-    mo_n = (mo_n << 1) + 1;
-
-    return mo_n;
-}
-
-static bool can_mo_is_tx(can_t* can, uint32_t mo_n)
-{
-    return mo_n & 0x1;
-}
-
-static size_t can_mo_buf_index_rx(can_t* can, uint32_t mo_n)
-{
-    return (mo_n) / (2 * CAN_FIFO_SIZE);
-}
-
-static size_t can_mo_buf_index_tx(can_t* can, uint32_t mo_n)
-{
-    return (mo_n - 1) / (2 * CAN_FIFO_SIZE);
-}
-
-static size_t can_mo_fifo_n_rx(can_t* can, uint32_t mo_n)
-{
-    size_t bi = can_mo_buf_index_rx(can, mo_n);
-
-    size_t fn = (mo_n) / 2 - bi * CAN_FIFO_SIZE;
-
-    return fn;
-}
-
-static size_t can_mo_fifo_n_tx(can_t* can, uint32_t mo_n)
-{
-    size_t bi = can_mo_buf_index_tx(can, mo_n);
-
-    size_t fn = (mo_n - 1) / 2 - bi * CAN_FIFO_SIZE;
-
-    return fn;
-}
-
-static uint32_t can_list_alloc_mo_static(can_t* can, uint32_t mo_n, size_t list_index)
-{
-    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
-
-    CAN->PANCTR = ((0x2) << CAN_PANCTR_PANCMD_Pos) |
-                  ((mo_n) << CAN_PANCTR_PANAR1_Pos) |
-                  ((list_index) << CAN_PANCTR_PANAR2_Pos);
-
-    return mo_n;
-}
-
-//static uint32_t can_list_alloc_mo(can_t* can, size_t list_index)
-//{
-//    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
-//
-//    CAN->PANCTR = ((0x3) << CAN_PANCTR_PANCMD_Pos) |
-//                  ((0) << CAN_PANCTR_PANAR1_Pos) |
-//                  ((list_index) << CAN_PANCTR_PANAR2_Pos);
-//
-//    while(CAN->PANCTR & CAN_PANCTR_RBUSY_Msk){ __NOP(); }
-//
-//    if((CAN->PANCTR >> CAN_PANCTR_PANAR2_Pos) & 0x80) return CAN_MO_INVALID_INDEX;
-//
-//    uint32_t mo_n = (CAN->PANCTR & CAN_PANCTR_PANAR1_Msk) >> CAN_PANCTR_PANAR1_Pos;
-//
-//    return mo_n;
-//}
-
 err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask, bool rtr)
 {
     while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
@@ -237,7 +301,7 @@ err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask
     CAN_MO_TypeDef* MO_Base = can_get_mo(can, fifo_base_mo);
     // Настроим базовый объект фифо.
     MO_Base->MOFCR = ((0b0001) << CAN_MO_MOFCR_MMC_Pos) |
-                     ((0) << CAN_MO_MOFCR_RXIE_Pos) |
+                     ((1) << CAN_MO_MOFCR_RXIE_Pos) |
                      ((0) << CAN_MO_MOFCR_TXIE_Pos) |
                      ((0) << CAN_MO_MOFCR_OVIE_Pos) |
                      ((0) << CAN_MO_MOFCR_FRREN_Pos) |
@@ -286,7 +350,7 @@ err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask
         CAN_MO_TypeDef* MO = can_get_mo(can, fifo_mo);
         // Настроим объект фифо.
         MO->MOFCR = ((0b0000) << CAN_MO_MOFCR_MMC_Pos) |
-                         ((0) << CAN_MO_MOFCR_RXIE_Pos) |
+                         ((1) << CAN_MO_MOFCR_RXIE_Pos) |
                          ((0) << CAN_MO_MOFCR_TXIE_Pos) |
                          ((0) << CAN_MO_MOFCR_OVIE_Pos) |
                          ((0) << CAN_MO_MOFCR_FRREN_Pos) |
@@ -362,7 +426,7 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
     // Настроим базовый объект фифо.
     MO_Base->MOFCR = ((0b0010) << CAN_MO_MOFCR_MMC_Pos) |
                      ((0) << CAN_MO_MOFCR_RXIE_Pos) |
-                     ((0) << CAN_MO_MOFCR_TXIE_Pos) |
+                     ((1) << CAN_MO_MOFCR_TXIE_Pos) |
                      ((0) << CAN_MO_MOFCR_OVIE_Pos) |
                      ((0) << CAN_MO_MOFCR_FRREN_Pos) |
                      ((0) << CAN_MO_MOFCR_RMM_Pos) |
@@ -383,7 +447,7 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
                      /* 0 */ CAN_MO_MOCTR_RESRXPND_Msk;
     MO_Base->MOIPR = ((0) << CAN_MO_MOIPR_RXINP_Pos) |
                      ((0) << CAN_MO_MOIPR_TXINP_Pos) |
-                     ((0) << CAN_MO_MOIPR_MPN_Pos) |
+                     ((fifo_base_mo) << CAN_MO_MOIPR_MPN_Pos) |
                      ((0) << CAN_MO_MOIPR_CFCVAL_Pos);
     MO_Base->MOAMR = ((0) << CAN_MO_MOAMR_MIDE_Pos) |
                      ((0) << CAN_MO_MOAMR_AM_Pos);
@@ -411,7 +475,7 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
         // Настроим объект фифо.
         MO->MOFCR = ((0b0011) << CAN_MO_MOFCR_MMC_Pos) |
                          ((0) << CAN_MO_MOFCR_RXIE_Pos) |
-                         ((0) << CAN_MO_MOFCR_TXIE_Pos) |
+                         ((1) << CAN_MO_MOFCR_TXIE_Pos) |
                          ((0) << CAN_MO_MOFCR_OVIE_Pos) |
                          ((0) << CAN_MO_MOFCR_FRREN_Pos) |
                          ((0) << CAN_MO_MOFCR_RMM_Pos) |
@@ -432,7 +496,7 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
                     /* 0 */ CAN_MO_MOCTR_RESRXPND_Msk;
         MO->MOIPR = ((0) << CAN_MO_MOIPR_RXINP_Pos) |
                     ((0) << CAN_MO_MOIPR_TXINP_Pos) |
-                    ((0) << CAN_MO_MOIPR_MPN_Pos) |
+                    ((fifo_mo) << CAN_MO_MOIPR_MPN_Pos) |
                     ((0) << CAN_MO_MOIPR_CFCVAL_Pos);
         MO->MOFGPR = ((0)) << CAN_MO_MOFGPR_BOT_Pos |
                      ((0)) << CAN_MO_MOFGPR_TOP_Pos |
@@ -489,7 +553,7 @@ static uint32_t can_fifo_next(can_t* can, uint32_t mo_base_n, uint32_t mo_n)
     return mo_next_n;
 }
 
-static err_t can_send_msg_mo(can_t* can, CAN_MO_TypeDef* MO, const can_msg_t* msg)
+static err_t can_send_msg_mo(can_t* can, CAN_MO_TypeDef* MO_Base, CAN_MO_TypeDef* MO, const can_msg_t* msg)
 {
     //if(MO->MOSTAT & CAN_MO_MOSTAT_TXRQ_Msk) return E_BUSY;
     if(MO->MOSTAT & CAN_MO_MOSTAT_RTSEL_Msk) return E_BUSY;
@@ -528,6 +592,10 @@ static err_t can_send_msg_mo(can_t* can, CAN_MO_TypeDef* MO, const can_msg_t* ms
                 //CAN_MO_MOCTR_SETTXEN1_Msk |
                 CAN_MO_MOCTR_SETMSGVAL_Msk;
 
+    //if((MO != MO_Base) && (MO_Base->MOSTAT & CAN_MO_MOSTAT_TXRQ_Msk) == 0){
+        MO_Base->MOCTR = CAN_MO_MOCTR_SETTXRQ_Msk;
+    //}
+
     return E_NO_ERROR;
 }
 
@@ -535,6 +603,7 @@ err_t can_send_msg(can_t* can, size_t index, const can_msg_t* msg)
 {
     err_t err = E_AGAIN;
     uint32_t mo_base_n = can_mo_get_number_tx(can, index, 0);
+    CAN_MO_TypeDef* MO_Base = can_get_mo(can, mo_base_n);
     uint32_t mo_n;
     CAN_MO_TypeDef* MO;
     size_t i;
@@ -548,7 +617,7 @@ err_t can_send_msg(can_t* can, size_t index, const can_msg_t* msg)
         MO = can_get_mo(can, mo_n);
 
         if((MO->MOSTAT & CAN_MO_MOSTAT_TXRQ_Msk) == 0){
-            err = can_send_msg_mo(can, MO, msg);
+            err = can_send_msg_mo(can, MO_Base, MO, msg);
             if(err == E_NO_ERROR) return err;
         }
     }

@@ -472,15 +472,19 @@ static void test_can()
     for(i = 0; i < 8; i ++){
         can_msg.data[i] = i;
     }
+
     can_send_msg(&can, 0, &can_msg);
 
-    can_msg.rtr = false;
-    can_msg.ide = 0;
-    can_msg.id = 0x100;
-    can_msg.dlc = 8;
-    for(i = 0; i < 8; i ++){
-        can_msg.data[i] = i;
-    }
+    can_msg.id ++;
+    can_send_msg(&can, 0, &can_msg);
+
+    can_msg.id ++;
+    can_send_msg(&can, 0, &can_msg);
+
+    can_msg.id ++;
+    can_send_msg(&can, 0, &can_msg);
+
+    can_msg.id ++;
     can_send_msg(&can, 0, &can_msg);
 }
 
@@ -693,6 +697,7 @@ int main(void)
     init_can();
     test_can();
     for(;;){
+        //test_can();
         __NOP();
     }
 
