@@ -3,8 +3,72 @@
 #include "can_xmc4xxx.h"
 #include "hardware/config.h"
 #include "gpio/gpio_xmc4xxx.h"
+#include <assert.h>
 
 
+#define MAKE_CAN(PTR) {PTR}
+
+static can_t cans[] = {
+#ifdef CAN
+        MAKE_CAN(CAN),
+#endif
+};
+static_assert((sizeof(cans)/sizeof(cans[0])) == CANS_COUNT, "Invalid can array!");
+
+
+#define MAKE_CAN_NODE(N) { &cans[0], CAN_NODE ## N, N}
+
+static can_node_t can_nodes[] = {
+#ifdef CAN_NODE0
+    MAKE_CAN_NODE(0),
+#endif
+#ifdef CAN_NODE1
+    MAKE_CAN_NODE(1),
+#endif
+#ifdef CAN_NODE2
+    MAKE_CAN_NODE(2),
+#endif
+#ifdef CAN_NODE3
+    MAKE_CAN_NODE(3),
+#endif
+#ifdef CAN_NODE4
+    MAKE_CAN_NODE(4),
+#endif
+#ifdef CAN_NODE5
+    MAKE_CAN_NODE(5),
+#endif
+#ifdef CAN_NODE6
+    MAKE_CAN_NODE(6),
+#endif
+#ifdef CAN_NODE7
+    MAKE_CAN_NODE(7),
+#endif
+};
+static_assert((sizeof(can_nodes)/sizeof(can_nodes[0])) == CAN_NODES_COUNT, "Invalid can nodes array!");
+
+
+//! Число MO.
+#if defined(CAN_MO255)
+#define CAN_MOS_COUNT 256
+#elif defined(CAN_MO63)
+#define CAN_MOS_COUNT 64
+#else
+#error Unknown CAN MOs count!
+#endif
+
+
+//! Число обработчиков прерываний CAN.
+#define CAN_SR_COUNT 8
+static_assert(CAN_SR_COUNT >= CAN_NODES_COUNT, "Count of SR handlers must be greater than nodes count!");
+
+
+//! Номер бита в поле MPN для поля хранения номера ноды.
+#define CAN_MSG_PEND_NODE_N_Pos 5
+//! Маска в поле MPN для поля хранения номера ноды.
+#define CAN_MSG_PEND_NODE_N_Msk (0x7 << (CAN_MSG_PEND_NODE_N_Pos))
+
+
+#if CAN_FREQ == 60000000
 static const uint32_t NBTR_values[] = {
     0x00009b31, // 10 kbit
     0x00009b18, // 20 kbit
@@ -16,6 +80,9 @@ static const uint32_t NBTR_values[] = {
     0x00001b04, // 800 kbit
     0x00001b03  // 1000 kbit
 };
+#else
+#error Unknown NBTR values for defined CAN frequency!
+#endif
 
 const size_t NBTR_values_count = (sizeof(NBTR_values)/sizeof(NBTR_values[0]));
 
@@ -24,32 +91,90 @@ const size_t NBTR_values_count = (sizeof(NBTR_values)/sizeof(NBTR_values[0]));
 
 //#define CAN_MO_FIFO_LIST ((CAN_NODES) + 1)
 
-#define CAN_NODE_LIST_N ((CAN_NODE_N) + 1)
+#define CAN_NODE_LIST_NUMBER(N) ((N) + 1)
 
 
+// Очердёдность передачи сообщений.
+// Rx FIFO.
 #define CAN_RX_FIFO_PRI 0b010 // 0b01 by list order, 0b10 - by priority
-
+// Tx FIFO.
 #define CAN_TX_FIFO_PRI 0b010 // 0b01 by list order, 0b10 - by priority
 
 
+// Число регистров MSPND.
 #define CAN_MSG_PEND_REGS_COUNT 8
+// Максимальный номер бита в регистре MSPND.
 #define CAN_MSG_INDEX_MAX 31
+
+
+
+/*
+ * Функции получения объектов CAN по индексу (номеру).
+ */
+
+
+//! Получает указатель на CAN по индексу.
+ALWAYS_INLINE static can_t* can_get_can(size_t index)
+{
+    assert(index == 0);
+
+    // Согласно Reference Manual.
+    return &cans[0];
+}
+
+//! Получает указатель на CAN_NODE по индексу.
+ALWAYS_INLINE static can_node_t* can_get_node(can_t* can, size_t index)
+{
+    assert(can != NULL);
+    assert(index < CAN_NODES_COUNT);
+
+    // Согласно Reference Manual.
+    return &can_nodes[index];
+}
+
+/*
+ * Функции получения регистров объектов CAN по индексу (номеру).
+ */
+
+//! Получает указатель на CAN по индексу.
+ALWAYS_INLINE static CAN_GLOBAL_TypeDef* can_get_can_device(size_t index)
+{
+    assert(index == 0);
+
+    // Согласно Reference Manual.
+    return (CAN_GLOBAL_TypeDef*)CAN_BASE;
+}
+
+//! Получает указатель на CAN_NODE по индексу.
+ALWAYS_INLINE static CAN_NODE_TypeDef* can_get_node_device(can_t* can, size_t index)
+{
+    assert(can != NULL);
+        assert(index < CAN_NODES_COUNT);
+
+    // Согласно Reference Manual.
+    return (CAN_NODE_TypeDef*)(CAN_NODE0_BASE + 0x100 * index);
+}
+
+//! Получает указатель на CAN_MO по индексу.
+ALWAYS_INLINE static CAN_MO_TypeDef* can_get_mo(can_t* can, size_t index)
+{
+    assert(can != NULL);
+    assert(index < CAN_MOS_COUNT);
+
+    // Согласно Reference Manual.
+    return (CAN_MO_TypeDef*)(CAN_MO0_BASE + 0x20 * index);
+}
 
 
 /*
  * Функции для работы с индексами сообщений.
  */
 
-
-ALWAYS_INLINE static CAN_MO_TypeDef* can_get_mo(can_t* can, size_t index)
-{
-    // Согласно Reference Manual.
-    return &CAN_MO0[index];
-}
-
 //! Получает номер объекта для сообщения по индексу буфера и номеру в fifo.
 static uint32_t can_mo_get_number(can_t* can, size_t buf_index, size_t fifo_n)
 {
+    (void) can;
+
     return buf_index * CAN_FIFO_SIZE + fifo_n;
 }
 
@@ -75,16 +200,22 @@ static uint32_t can_mo_get_number_tx(can_t* can, size_t buf_index, size_t fifo_n
 
 static bool can_mo_is_tx(can_t* can, uint32_t mo_n)
 {
+    (void) can;
+
     return mo_n & 0x1;
 }
 
 static size_t can_mo_buf_index_rx(can_t* can, uint32_t mo_n)
 {
+    (void) can;
+
     return (mo_n) / (2 * CAN_FIFO_SIZE);
 }
 
 static size_t can_mo_buf_index_tx(can_t* can, uint32_t mo_n)
 {
+    (void) can;
+
     return (mo_n - 1) / (2 * CAN_FIFO_SIZE);
 }
 
@@ -124,11 +255,32 @@ static size_t can_mo_fifo_n(can_t* can, uint32_t mo_n)
     }
 }
 
+static size_t can_mo_n_node_n_to_pend_n(can_t* can, size_t mo_n, size_t node_n)
+{
+    (void) can;
+
+    return mo_n | (node_n << (CAN_MSG_PEND_NODE_N_Pos));
+}
+
+static size_t can_pend_n_to_mo_n(can_t* can, size_t pend_n)
+{
+    (void) can;
+
+    return pend_n & ~(CAN_MSG_PEND_NODE_N_Msk);
+}
+
+static size_t can_pend_n_to_node_n(can_t* can, size_t pend_n)
+{
+    (void) can;
+
+    return (pend_n & (CAN_MSG_PEND_NODE_N_Msk)) >> CAN_MSG_PEND_NODE_N_Pos;
+}
+
 static uint32_t can_list_alloc_mo_static(can_t* can, uint32_t mo_n, size_t list_index)
 {
-    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+    while(can->can_device->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
 
-    CAN->PANCTR = ((0x2) << CAN_PANCTR_PANCMD_Pos) |
+    can->can_device->PANCTR = ((0x2) << CAN_PANCTR_PANCMD_Pos) |
                   ((mo_n) << CAN_PANCTR_PANAR1_Pos) |
                   ((list_index) << CAN_PANCTR_PANAR2_Pos);
 
@@ -137,44 +289,47 @@ static uint32_t can_list_alloc_mo_static(can_t* can, uint32_t mo_n, size_t list_
 
 //static uint32_t can_list_alloc_mo(can_t* can, size_t list_index)
 //{
-//    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+//    while(can->can_device->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
 //
-//    CAN->PANCTR = ((0x3) << CAN_PANCTR_PANCMD_Pos) |
+//    can->can_device->PANCTR = ((0x3) << CAN_PANCTR_PANCMD_Pos) |
 //                  ((0) << CAN_PANCTR_PANAR1_Pos) |
 //                  ((list_index) << CAN_PANCTR_PANAR2_Pos);
 //
-//    while(CAN->PANCTR & CAN_PANCTR_RBUSY_Msk){ __NOP(); }
+//    while(can->can_device->PANCTR & CAN_PANCTR_RBUSY_Msk){ __NOP(); }
 //
-//    if((CAN->PANCTR >> CAN_PANCTR_PANAR2_Pos) & 0x80) return CAN_MO_INVALID_INDEX;
+//    if((can->can_device->PANCTR >> CAN_PANCTR_PANAR2_Pos) & 0x80) return CAN_MO_INVALID_INDEX;
 //
-//    uint32_t mo_n = (CAN->PANCTR & CAN_PANCTR_PANAR1_Msk) >> CAN_PANCTR_PANAR1_Pos;
+//    uint32_t mo_n = (can->can_device->PANCTR & CAN_PANCTR_PANAR1_Msk) >> CAN_PANCTR_PANAR1_Pos;
 //
 //    return mo_n;
 //}
 
 
-static can_t* can_ptr = NULL;
 
-
-void CAN_IRQ_Handler(void)
+static void can_mo_irq_handler_impl(size_t can_n)
 {
-    can_t* can = can_ptr;
+    can_t* can = can_get_can(can_n);
 
     CAN_MO_TypeDef* MO;
+    uint32_t node_n;
     uint32_t mo_n;
     uint32_t mo_index;
+    uint32_t pend_n;
     size_t buf_index;
     size_t fifo_n;
     size_t i;
     for(i = 0; i < CAN_MSG_PEND_REGS_COUNT; i ++){
-        CAN->MSIMASK = CAN_MSIMASK_IM_Msk;
+        can->can_device->MSIMASK = CAN_MSIMASK_IM_Msk;
 
         for(;;){
-            mo_index = CAN->MSID[i] & CAN_MSID_INDEX_Msk;
+            mo_index = can->can_device->MSID[i] & CAN_MSID_INDEX_Msk;
 
             if(mo_index > CAN_MSG_INDEX_MAX) break;
 
-            mo_n = mo_index + i * (CAN_MSG_INDEX_MAX + 1);
+            pend_n = mo_index + i * (CAN_MSG_INDEX_MAX + 1);
+
+            node_n = can_pend_n_to_node_n(can, pend_n);
+            mo_n = can_pend_n_to_mo_n(can, pend_n);
 
             buf_index = can_mo_buf_index(can, mo_n);
             fifo_n = can_mo_fifo_n(can, mo_n);
@@ -185,64 +340,168 @@ void CAN_IRQ_Handler(void)
                         CAN_MO_MOCTR_RESTXEN0_Msk | CAN_MO_MOCTR_RESTXPND_Msk |
                         CAN_MO_MOCTR_RESRXEN_Msk | CAN_MO_MOCTR_RESRXPND_Msk;
 
-            CAN->MSPND[i] = ~(1 << mo_index);
+            can->can_device->MSPND[i] = ~(1 << mo_index);
 
         }
     }
+}
 
-    if(CAN_NODE->NSR & CAN_NODE_NSR_TXOK_Msk){
-        CAN_NODE->NSR = ~CAN_NODE_NSR_TXOK_Msk;
+static void can_node_irq_handler_impl(size_t can_n, size_t node_n)
+{
+    can_t* can = can_get_can(can_n);
+    CAN_NODE_TypeDef* node_device = can_get_node_device(can, node_n);
+
+    if(node_device->NSR & CAN_NODE_NSR_TXOK_Msk){
+        node_device->NSR = ~CAN_NODE_NSR_TXOK_Msk;
     }
-    if(CAN_NODE->NSR & CAN_NODE_NSR_RXOK_Msk){
-        CAN_NODE->NSR = ~CAN_NODE_NSR_RXOK_Msk;
+    if(node_device->NSR & CAN_NODE_NSR_RXOK_Msk){
+        node_device->NSR = ~CAN_NODE_NSR_RXOK_Msk;
     }
     // clear all.
-    CAN_NODE->NSR = 0x0;
+    node_device->NSR = 0x0;
 }
 
 
-
-err_t can_init(can_t* can)
+//! Обработчик событий от MO и CAN.
+void CAN0_0_IRQHandler(void)
 {
-    err_t err = E_NO_ERROR;
+    can_mo_irq_handler_impl(0);
+}
 
-    can_ptr = can;
+#ifdef CAN_NODE0
+//! Обработчик событий от NODE0
+void CAN0_1_IRQHandler(void)
+{
+    can_node_irq_handler_impl(0, 0);
+}
+#endif
+
+#ifdef CAN_NODE1
+//! Обработчик событий от NODE1
+void CAN0_2_IRQHandler(void)
+{
+    can_node_irq_handler_impl(0, 1);
+}
+#endif
+
+#ifdef CAN_NODE2
+//! Обработчик событий от NODE2
+void CAN0_3_IRQHandler(void)
+{
+    can_node_irq_handler_impl(0, 2);
+}
+#endif
+
+#ifdef CAN_NODE3
+//! Обработчик событий от NODE3
+void CAN0_4_IRQHandler(void)
+{
+    can_node_irq_handler_impl(0, 3);
+}
+#endif
+
+#ifdef CAN_NODE4
+//! Обработчик событий от NODE4
+void CAN0_5_IRQHandler(void)
+{
+    can_node_irq_handler_impl(0, 4);
+}
+#endif
+
+#ifdef CAN_NODE5
+//! Обработчик событий от NODE5
+void CAN0_6_IRQHandler(void)
+{
+    can_node_irq_handler_impl(0, 5);
+}
+#endif
+
+#ifdef CAN_NODE6
+//! Обработчик событий от NODE6
+void CAN0_7_IRQHandler(void)
+{
+    can_node_irq_handler_impl(0, 6);
+}
+#endif
+
+#ifdef CAN_NODE7
+//! Обработчик событий от NODE7
+void CAN0_8_IRQHandler(void)
+{
+    can_node_irq_handler_impl(0, 7);
+}
+#endif
+
+
+
+can_t* can_init(can_init_t* is)
+{
+    if(is == NULL) return NULL;
+    if(is->can_n != 0) return NULL;
+
+    can_t* can = can_get_can(is->can_n);
 
     // Enable clock.
-    CAN->CLC = CAN->CLC & ~(CAN_CLC_SBWE_Msk | CAN_CLC_DISR_Msk);
+    can->can_device->CLC = can->can_device->CLC & ~(CAN_CLC_SBWE_Msk | CAN_CLC_DISR_Msk);
     // wait.
-    while(CAN->CLC & CAN_CLC_DISS_Msk){ __NOP(); }
+    while(can->can_device->CLC & CAN_CLC_DISS_Msk){ __NOP(); }
 
     // Prescaler.
     uint32_t step = SystemCoreClock / (CAN_FREQ);
 
     // clk.
-    CAN->FDR = ((1) << USIC_CH_FDR_DM_Pos) |
+    can->can_device->FDR = ((1) << USIC_CH_FDR_DM_Pos) |
                ((1024 - step) << USIC_CH_FDR_STEP_Pos);
 
     // Set MPR bit select to manual (by MOIPR_MPN).
-    CAN->MCR = 0;
+    can->can_device->MCR = 0;
+
+    // Wait list 0 init.
+    while(can->can_device->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+
+    return can;
+}
+
+void can_disable(can_t* can)
+{
+    // Disable clock.
+    can->can_device->CLC |= CAN_CLC_DISR_Msk;
+    // wait.
+    while((can->can_device->CLC & CAN_CLC_DISS_Msk) == 0){ __NOP(); }
+}
+
+
+can_node_t* can_node_init(can_node_init_t* is)
+{
+    if(is == NULL) return NULL;
+    if(is->can == NULL) return NULL;
+    if(is->can_node_n >= CAN_NODES_COUNT) return NULL;
+
+    size_t sr_number = is->can_node_n + 1;
+    if(sr_number >= CAN_SR_COUNT) return NULL;
+
+    can_node_t* can_node = can_get_node(is->can, is->can_node_n);
 
     // Set default and configuration mode.
-    CAN_NODE->NCR = CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk;
+    can_node->node_device->NCR = CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk;
 
-    err = can_set_bitrate(can, CAN_BIT_RATE_DEFAULT);
-    if(err != E_NO_ERROR) return err;
+    err_t err = can_node_set_bitrate(can_node, CAN_BIT_RATE_DEFAULT);
+    if(err != E_NO_ERROR) return NULL;
 
     // Count of recv & send frames.
-    CAN_NODE->NFCR = ((0) << CAN_NODE_NFCR_CFMOD_Pos) |
+    can_node->node_device->NFCR = ((0) << CAN_NODE_NFCR_CFMOD_Pos) |
                      ((0b110) << CAN_NODE_NFCR_CFSEL_Pos);
 
-    CAN_NODE->NPCR = ((CAN_LOOPBACK) << CAN_NODE_NPCR_LBM_Pos) |
+    can_node->node_device->NPCR = ((CAN_LOOPBACK) << CAN_NODE_NPCR_LBM_Pos) |
                      ((CAN_NODE_RX_SEL) << CAN_NODE_NPCR_RXSEL_Pos);
 
-    CAN_NODE->NIPR = ((CAN_SR) << CAN_NODE_NIPR_ALINP_Pos) |
-                     ((CAN_SR) << CAN_NODE_NIPR_CFCINP_Pos) |
-                     ((CAN_SR) << CAN_NODE_NIPR_LECINP_Pos) |
-                     ((CAN_SR) << CAN_NODE_NIPR_TRINP_Pos);
+    can_node->node_device->NIPR = ((sr_number) << CAN_NODE_NIPR_ALINP_Pos) |
+                     ((sr_number) << CAN_NODE_NIPR_CFCINP_Pos) |
+                     ((sr_number) << CAN_NODE_NIPR_LECINP_Pos) |
+                     ((sr_number) << CAN_NODE_NIPR_TRINP_Pos);
 
     // Enable TxRx interrupt.
-    CAN_NODE->NCR |= CAN_NODE_NCR_TRIE_Msk;
+    can_node->node_device->NCR |= CAN_NODE_NCR_TRIE_Msk;
 
     // gpio.
     // tx.
@@ -252,51 +511,44 @@ err_t can_init(can_t* can)
     // RX.
     gpio_init(CAN_PORT_RX, CAN_PIN_RX_Msk, CAN_PIN_RX_CONF);
 
-    // Wait list 0 init.
-    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
-
-    return E_NO_ERROR;
+    return can_node;
 }
 
-void can_disable(can_t* can)
+void can_node_set_configuration_mode(can_node_t* can_node)
 {
-    // Disable clock.
-    CAN->CLC |= CAN_CLC_DISR_Msk;
-    // wait.
-    while((CAN->CLC & CAN_CLC_DISS_Msk) == 0){ __NOP(); }
+    can_node->node_device->NCR |= CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk;
 }
 
-void can_set_configuration_mode(can_t* can)
-{
-    CAN_NODE->NCR |= CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk;
-}
-
-err_t can_set_bitrate(can_t* can, can_bit_rate_t bit_rate)
+err_t can_node_set_bitrate(can_node_t* can_node, can_bit_rate_t bit_rate)
 {
     if((size_t)bit_rate >= NBTR_values_count) return E_INVALID_VALUE;
 
-    CAN_NODE->NBTR = NBTR_values[(size_t)bit_rate];
+    can_node->node_device->NBTR = NBTR_values[(size_t)bit_rate];
 
     return E_NO_ERROR;
 }
 
-void can_set_normal_mode(can_t* can)
+void can_node_set_normal_mode(can_node_t* can_node)
 {
-    CAN_NODE->NCR &= ~(CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk);
+    can_node->node_device->NCR &= ~(CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk);
 }
 
-err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask, bool rtr)
+err_t can_init_rx_buffer(can_node_t* can_node, size_t index, uint16_t ident, uint16_t mask, bool rtr)
 {
-    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+    can_t* can = can_node->can;
 
-    uint32_t free_mo_count = ((CAN->LIST[0] & CAN_LIST_SIZE_Msk) >> CAN_LIST_SIZE_Pos);
+    while(can->can_device->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+
+    uint32_t free_mo_count = ((can->can_device->LIST[0] & CAN_LIST_SIZE_Msk) >> CAN_LIST_SIZE_Pos);
 
     if(free_mo_count < (CAN_FIFO_SIZE)) return E_OUT_OF_MEMORY;
 
-    uint32_t fifo_base_mo = can_list_alloc_mo_static(can, can_mo_get_number_rx(can, index, 0), CAN_NODE_LIST_N); // LIST[0] - list of empty items.
+    uint32_t fifo_base_mo = can_list_alloc_mo_static(can, can_mo_get_number_rx(can, index, 0), CAN_NODE_LIST_NUMBER(can_node->node_n)); // LIST[0] - list of empty items.
     if(fifo_base_mo == CAN_MO_INVALID_INDEX) return E_OUT_OF_MEMORY;
 
     uint32_t dir = (rtr ? (CAN_MO_MOCTR_SETDIR_Msk) : (CAN_MO_MOCTR_RESDIR_Msk));
+
+    uint32_t base_pend_n = can_mo_n_node_n_to_pend_n(can, fifo_base_mo, can_node->node_n);
 
     CAN_MO_TypeDef* MO_Base = can_get_mo(can, fifo_base_mo);
     // Настроим базовый объект фифо.
@@ -323,7 +575,7 @@ err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask
                      /* 0 */ CAN_MO_MOCTR_RESRXPND_Msk;
     MO_Base->MOIPR = ((0) << CAN_MO_MOIPR_RXINP_Pos) |
                      ((0) << CAN_MO_MOIPR_TXINP_Pos) |
-                     ((fifo_base_mo) << CAN_MO_MOIPR_MPN_Pos) |
+                     ((base_pend_n) << CAN_MO_MOIPR_MPN_Pos) |
                      ((0) << CAN_MO_MOIPR_CFCVAL_Pos);
     MO_Base->MOAMR = ((1) << CAN_MO_MOAMR_MIDE_Pos) |
                      ((mask << 18) << CAN_MO_MOAMR_AM_Pos);
@@ -344,8 +596,10 @@ err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask
     // Добавим ведомые объекты.
     size_t i = 1;
     for(; i < CAN_FIFO_SIZE; i ++){
-        uint32_t fifo_mo = can_list_alloc_mo_static(can, can_mo_get_number_rx(can, index, i), CAN_NODE_LIST_N);
+        uint32_t fifo_mo = can_list_alloc_mo_static(can, can_mo_get_number_rx(can, index, i), CAN_NODE_LIST_NUMBER(can_node->node_n));
         if(fifo_mo == CAN_MO_INVALID_INDEX) return E_OUT_OF_MEMORY;
+
+        uint32_t pend_n = can_mo_n_node_n_to_pend_n(can, fifo_mo, can_node->node_n);
 
         CAN_MO_TypeDef* MO = can_get_mo(can, fifo_mo);
         // Настроим объект фифо.
@@ -372,7 +626,7 @@ err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask
                     /* 0 */ CAN_MO_MOCTR_RESRXPND_Msk;
         MO->MOIPR = ((0) << CAN_MO_MOIPR_RXINP_Pos) |
                     ((0) << CAN_MO_MOIPR_TXINP_Pos) |
-                    ((fifo_mo) << CAN_MO_MOIPR_MPN_Pos) |
+                    ((pend_n) << CAN_MO_MOIPR_MPN_Pos) |
                     ((0) << CAN_MO_MOIPR_CFCVAL_Pos);
         MO->MOFGPR = ((0)) << CAN_MO_MOFGPR_BOT_Pos |
                      ((0)) << CAN_MO_MOFGPR_TOP_Pos |
@@ -406,21 +660,25 @@ err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask
 }
 
 
-err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uint8_t noOfBytes)
+err_t can_init_tx_buffer(can_node_t* can_node, size_t index, uint16_t ident, bool rtr, uint8_t noOfBytes)
 {
-    while(CAN->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+    can_t* can = can_node->can;
 
-    bool list_empty = (CAN->LIST[0] & CAN_LIST_EMPTY_Msk) >> CAN_LIST_EMPTY_Pos;
+    while(can->can_device->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
+
+    bool list_empty = (can->can_device->LIST[0] & CAN_LIST_EMPTY_Msk) >> CAN_LIST_EMPTY_Pos;
     if(list_empty) return E_OUT_OF_MEMORY;
 
-    uint32_t free_mo_count = ((CAN->LIST[0] & CAN_LIST_SIZE_Msk) >> CAN_LIST_SIZE_Pos) + 1;
+    uint32_t free_mo_count = ((can->can_device->LIST[0] & CAN_LIST_SIZE_Msk) >> CAN_LIST_SIZE_Pos) + 1;
 
     if(free_mo_count < (CAN_FIFO_SIZE)) return E_OUT_OF_MEMORY;
 
-    uint32_t fifo_base_mo = can_list_alloc_mo_static(can, can_mo_get_number_tx(can, index, 0), CAN_NODE_LIST_N); // LIST[0] - list of empty items.
+    uint32_t fifo_base_mo = can_list_alloc_mo_static(can, can_mo_get_number_tx(can, index, 0), CAN_NODE_LIST_NUMBER(can_node->node_n)); // LIST[0] - list of empty items.
     if(fifo_base_mo == CAN_MO_INVALID_INDEX) return E_OUT_OF_MEMORY;
 
     uint32_t dir = (rtr ? (CAN_MO_MOCTR_RESDIR_Msk) : (CAN_MO_MOCTR_SETDIR_Msk));
+
+    uint32_t base_pend_n = can_mo_n_node_n_to_pend_n(can, fifo_base_mo, can_node->node_n);
 
     CAN_MO_TypeDef* MO_Base = can_get_mo(can, fifo_base_mo);
     // Настроим базовый объект фифо.
@@ -447,7 +705,7 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
                      /* 0 */ CAN_MO_MOCTR_RESRXPND_Msk;
     MO_Base->MOIPR = ((0) << CAN_MO_MOIPR_RXINP_Pos) |
                      ((0) << CAN_MO_MOIPR_TXINP_Pos) |
-                     ((fifo_base_mo) << CAN_MO_MOIPR_MPN_Pos) |
+                     ((base_pend_n) << CAN_MO_MOIPR_MPN_Pos) |
                      ((0) << CAN_MO_MOIPR_CFCVAL_Pos);
     MO_Base->MOAMR = ((0) << CAN_MO_MOAMR_MIDE_Pos) |
                      ((0) << CAN_MO_MOAMR_AM_Pos);
@@ -468,8 +726,10 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
     // Добавим ведомые объекты.
     size_t i = 1;
     for(; i < CAN_FIFO_SIZE; i ++){
-        uint32_t fifo_mo = can_list_alloc_mo_static(can, can_mo_get_number_tx(can, index, i), CAN_NODE_LIST_N);
+        uint32_t fifo_mo = can_list_alloc_mo_static(can, can_mo_get_number_tx(can, index, i), CAN_NODE_LIST_NUMBER(can_node->node_n));
         if(fifo_mo == CAN_MO_INVALID_INDEX) return E_OUT_OF_MEMORY;
+
+        uint32_t pend_n = can_mo_n_node_n_to_pend_n(can, fifo_mo, can_node->node_n);
 
         CAN_MO_TypeDef* MO = can_get_mo(can, fifo_mo);
         // Настроим объект фифо.
@@ -496,7 +756,7 @@ err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uin
                     /* 0 */ CAN_MO_MOCTR_RESRXPND_Msk;
         MO->MOIPR = ((0) << CAN_MO_MOIPR_RXINP_Pos) |
                     ((0) << CAN_MO_MOIPR_TXINP_Pos) |
-                    ((fifo_mo) << CAN_MO_MOIPR_MPN_Pos) |
+                    ((pend_n) << CAN_MO_MOIPR_MPN_Pos) |
                     ((0) << CAN_MO_MOIPR_CFCVAL_Pos);
         MO->MOFGPR = ((0)) << CAN_MO_MOFGPR_BOT_Pos |
                      ((0)) << CAN_MO_MOFGPR_TOP_Pos |
@@ -553,7 +813,7 @@ static uint32_t can_fifo_next(can_t* can, uint32_t mo_base_n, uint32_t mo_n)
     return mo_next_n;
 }
 
-static err_t can_send_msg_mo(can_t* can, CAN_MO_TypeDef* MO_Base, CAN_MO_TypeDef* MO, const can_msg_t* msg)
+static err_t can_mo_send_msg(CAN_MO_TypeDef* MO_Base, CAN_MO_TypeDef* MO, const can_msg_t* msg)
 {
     //if(MO->MOSTAT & CAN_MO_MOSTAT_TXRQ_Msk) return E_BUSY;
     if(MO->MOSTAT & CAN_MO_MOSTAT_RTSEL_Msk) return E_BUSY;
@@ -599,8 +859,10 @@ static err_t can_send_msg_mo(can_t* can, CAN_MO_TypeDef* MO_Base, CAN_MO_TypeDef
     return E_NO_ERROR;
 }
 
-err_t can_send_msg(can_t* can, size_t index, const can_msg_t* msg)
+err_t can_send_msg(can_node_t* can_node, size_t index, const can_msg_t* msg)
 {
+    can_t* can = can_node->can;
+
     err_t err = E_AGAIN;
     uint32_t mo_base_n = can_mo_get_number_tx(can, index, 0);
     CAN_MO_TypeDef* MO_Base = can_get_mo(can, mo_base_n);
@@ -617,7 +879,7 @@ err_t can_send_msg(can_t* can, size_t index, const can_msg_t* msg)
         MO = can_get_mo(can, mo_n);
 
         if((MO->MOSTAT & CAN_MO_MOSTAT_TXRQ_Msk) == 0){
-            err = can_send_msg_mo(can, MO_Base, MO, msg);
+            err = can_mo_send_msg(MO_Base, MO, msg);
             if(err == E_NO_ERROR) return err;
         }
     }
@@ -625,7 +887,7 @@ err_t can_send_msg(can_t* can, size_t index, const can_msg_t* msg)
     return err;
 }
 
-static err_t can_recv_msg_mo(can_t* can, CAN_MO_TypeDef* MO, can_msg_t* msg)
+static err_t can_mo_recv_msg(CAN_MO_TypeDef* MO, can_msg_t* msg)
 {
     if(MO->MOSTAT & CAN_MO_MOSTAT_RTSEL_Msk) return E_BUSY;
 
@@ -662,8 +924,10 @@ static err_t can_recv_msg_mo(can_t* can, CAN_MO_TypeDef* MO, can_msg_t* msg)
     return E_NO_ERROR;
 }
 
-err_t can_recv_msg(can_t* can, size_t index, can_msg_t* msg)
+err_t can_recv_msg(can_node_t* can_node, size_t index, can_msg_t* msg)
 {
+    can_t* can = can_node->can;
+
     err_t err = E_AGAIN;
     uint32_t mo_base_n = can_mo_get_number_rx(can, index, 0);
     uint32_t mo_n;
@@ -679,7 +943,7 @@ err_t can_recv_msg(can_t* can, size_t index, can_msg_t* msg)
         MO = can_get_mo(can, mo_n);
 
         if((MO->MOSTAT & CAN_MO_MOSTAT_NEWDAT_Msk) != 0){
-            err = can_recv_msg_mo(can, MO, msg);
+            err = can_mo_recv_msg(MO, msg);
             if(err == E_NO_ERROR) return err;
         }
     }

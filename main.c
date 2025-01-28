@@ -446,7 +446,8 @@ static void load_settings()
     }
 }
 
-static can_t can;
+static can_t* can;
+static can_node_t* can_node;
 
 static void init_can()
 {
@@ -454,9 +455,24 @@ static void init_can()
     //hardware_init_can();
     interrupts_enable_can();
 
-    can_init(&can);
-    can_init_tx_buffer(&can, 0, 0x500, false, 8);
-    can_set_normal_mode(&can);
+    can_init_t cis;
+    cis.can_n = 0;
+    can = can_init(&cis);
+
+    can_node_init_t cnis;
+    cnis.can = can;
+    cnis.can_node_n = 1;
+
+    can_node = can_node_init(&cnis);
+
+    if(can_node == NULL){
+        for(;;){
+            __NOP();
+        }
+    }
+
+    can_init_tx_buffer(can_node, 0, 0x500, false, 8);
+    can_node_set_normal_mode(can_node);
 #endif
 }
 
@@ -473,19 +489,20 @@ static void test_can()
         can_msg.data[i] = i;
     }
 
-    can_send_msg(&can, 0, &can_msg);
+    //can_msg.id ++;
+    can_send_msg(can_node, 0, &can_msg);
 
     can_msg.id ++;
-    can_send_msg(&can, 0, &can_msg);
+    can_send_msg(can_node, 0, &can_msg);
 
     can_msg.id ++;
-    can_send_msg(&can, 0, &can_msg);
+    can_send_msg(can_node, 0, &can_msg);
 
     can_msg.id ++;
-    can_send_msg(&can, 0, &can_msg);
+    can_send_msg(can_node, 0, &can_msg);
 
     can_msg.id ++;
-    can_send_msg(&can, 0, &can_msg);
+    can_send_msg(can_node, 0, &can_msg);
 }
 
 static void setup()

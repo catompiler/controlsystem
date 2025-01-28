@@ -43,9 +43,9 @@ CO_CANsetConfigurationMode(void* CANptr) {
     /* Put CAN module in configuration mode */
     if(CANptr == NULL) return;
 
-    can_t* can = (can_t*)CANptr;
+    can_node_t* can = (can_node_t*)CANptr;
 
-    can_set_configuration_mode(can);
+    can_node_set_configuration_mode(can);
 }
 
 void
@@ -54,9 +54,9 @@ CO_CANsetNormalMode(CO_CANmodule_t* CANmodule) {
     if(CANmodule == NULL) return;
     if(CANmodule->CANptr == NULL) return;
 
-    can_t* can = (can_t*)CANmodule->CANptr;
+    can_node_t* can = (can_node_t*)CANmodule->CANptr;
 
-    can_set_normal_mode(can);
+    can_node_set_normal_mode(can);
 
     CANmodule->CANnormal = true;
 }
@@ -71,7 +71,7 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
         return CO_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    can_t* can = (can_t*)CANmodule->CANptr;
+    can_node_t* can = (can_node_t*)CANmodule->CANptr;
 
     /* Configure object variables */
     CANmodule->CANptr = CANptr;
@@ -98,7 +98,7 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     }
 
     /* Configure CAN module registers */
-    can_init(can);
+#warning CAN node initialization!
 
     /* Configure CAN timing */
     can_bit_rate_t bit_rate = CAN_BIT_RATE_125kbit;
@@ -114,7 +114,7 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     case 800: bit_rate = CAN_BIT_RATE_800kbit; break;
     case 1000: bit_rate = CAN_BIT_RATE_1000kbit; break;
     }
-    can_set_bitrate(can, bit_rate);
+    can_node_set_bitrate(can, bit_rate);
 
     /* Configure CAN module hardware filters */
     if (CANmodule->useCANrxFilters) {
@@ -136,9 +136,9 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
 void
 CO_CANmodule_disable(CO_CANmodule_t* CANmodule) {
     if (CANmodule != NULL && CANmodule->CANptr != NULL) {
-        can_t* can = (can_t*)CANmodule->CANptr;
+        can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
         /* turn off the module */
-        can_disable(can);
+        can_disable(can_node->can);
     }
 }
 
@@ -149,7 +149,7 @@ CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, ui
 
     if ((CANmodule != NULL) && (CANmodule->CANptr != NULL) && (object != NULL) && (CANrx_callback != NULL) && (index < CANmodule->rxSize)) {
 
-        can_t* can = (can_t*)CANmodule->CANptr;
+        can_node_t* can = (can_node_t*)CANmodule->CANptr;
 
         /* buffer, which will be configured */
         CO_CANrx_t* buffer = &CANmodule->rxArray[index];
@@ -185,7 +185,7 @@ CO_CANtxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bo
 
     if ((CANmodule != NULL) && (CANmodule->CANptr != NULL) && (index < CANmodule->txSize)) {
 
-        can_t* can = (can_t*)CANmodule->CANptr;
+        can_node_t* can = (can_node_t*)CANmodule->CANptr;
 
         /* get specific buffer */
         buffer = &CANmodule->txArray[index];
@@ -208,7 +208,7 @@ static bool CO_driver_can_send_msg(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer
 {
     if(CANmodule == NULL || CANmodule->CANptr == NULL || buffer == NULL) return false;
 
-    can_t* can = (can_t*)CANmodule->CANptr;
+    can_node_t* can = (can_node_t*)CANmodule->CANptr;
 
     can_msg_t can_msg;
 
@@ -236,7 +236,7 @@ static bool CO_driver_can_recv_msg(CO_CANmodule_t* CANmodule, CO_CANrxMsg_t* rxM
 {
     if(CANmodule == NULL || CANmodule->CANptr == NULL || rxMsg == NULL) return false;
 
-    can_t* can = (can_t*)CANmodule->CANptr;
+    can_node_t* can = (can_node_t*)CANmodule->CANptr;
 
     can_msg_t can_msg;
 
@@ -261,7 +261,7 @@ static bool CO_driver_can_is_can_send_msg(CO_CANmodule_t* CANmodule)
 {
     if(CANmodule == NULL || CANmodule->CANptr == NULL) return false;
 
-    can_t* can = (can_t*)CANmodule->CANptr;
+    can_node_t* can = (can_node_t*)CANmodule->CANptr;
 
     return false; //slcan_slave_send_can_msgs_avail(slave) != 0;
 }

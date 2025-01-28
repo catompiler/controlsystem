@@ -337,13 +337,15 @@
 #define CAN_PIN_RX_CONF GPIO_CONF_INPUT
 // can.
 //#define CAN CAN
-#define CAN_NODE_N 1
-#define CAN_NODE CAN_NODE1
+//#define CAN_NODE_N 1
+//#define CAN_NODE CAN_NODE1
 #define CAN_NODE_RX_SEL 0b0 //0b10
 //#define CAN_
-#define CAN_SR 0
+//#define CAN_SR 0
 #define CAN_IRQ_Handler CAN0_0_IRQHandler
 #define CAN_IRQn CAN0_0_IRQn
+#define CAN_NODE_IRQ_Handler CAN0_2_IRQHandler
+#define CAN_NODE_IRQn CAN0_2_IRQn
 
 #endif /* HARDWARE_CONFIG_H_ */
 

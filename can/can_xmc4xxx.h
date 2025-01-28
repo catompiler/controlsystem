@@ -11,6 +11,33 @@
 #include <stdbool.h>
 
 
+//! Число CAN.
+#define CANS_COUNT 1
+
+
+//! Число нод CAN.
+#if defined(CAN_NODE7)
+#define CAN_NODES_COUNT 8
+#elif defined(CAN_NODE6)
+#define CAN_NODES_COUNT 7
+#elif defined(CAN_NODE5)
+#define CAN_NODES_COUNT 6
+#elif defined(CAN_NODE4)
+#define CAN_NODES_COUNT 5
+#elif defined(CAN_NODE3)
+#define CAN_NODES_COUNT 4
+#elif defined(CAN_NODE2)
+#define CAN_NODES_COUNT 3
+#elif defined(CAN_NODE1)
+#define CAN_NODES_COUNT 2
+#elif defined(CAN_NODE0)
+#define CAN_NODES_COUNT 1
+#else
+#error Unknown nodes count!
+#define CAN_NODES_COUNT 0
+#endif
+
+
 //! Частота тактирования блока CAN.
 #define CAN_FREQ 60000000
 
@@ -53,39 +80,67 @@ typedef struct _S_Can_Msg {
     uint8_t data[CAN_DATA_SIZE];
 } can_msg_t;
 
+
+
+
 //! Тип CAN.
 typedef struct _S_Can {
-    //CAN_GLOBAL_TypeDef* can_device; //!< Периферия CAN.
-    //CAN_NODE_TypeDef* can_node; //!< CAN Node.
+    CAN_GLOBAL_TypeDef* can_device; //!< Периферия CAN.
 } can_t;
 
 
+//! Структура инициализации CAN.
+typedef struct _S_Can_Init {
+    size_t can_n; //!< Номер CAN. На будущее. Должно быть 0.
+} can_init_t;
+
+
+
+//! Тип ноды CAN.
+typedef struct _S_Can_Node {
+    can_t* can; //!< CAN.
+    CAN_NODE_TypeDef* node_device; //!< CAN Node.
+    size_t node_n; //!< Номер ноды.
+} can_node_t;
+
+
+//! Структура инициализации ноды CAN.
+typedef struct _S_Can_Node_Init {
+    can_t* can; //!< CAN.
+    size_t can_node_n; //!< Номер ноды.
+} can_node_init_t;
+
+
+
 //! Инициализирует CAN.
-EXTERN err_t can_init(can_t* can);
+EXTERN can_t* can_init(can_init_t* is);
 
 //! Запрещает модуль CAN.
 EXTERN void can_disable(can_t* can);
 
+//! Инициализирует CAN.
+EXTERN can_node_t* can_node_init(can_node_init_t* is);
+
 //! Устанавливает режим конфигурации.
-EXTERN void can_set_configuration_mode(can_t* can);
+EXTERN void can_node_set_configuration_mode(can_node_t* can_node);
 
 //! Устанавливает битрейт.
-EXTERN err_t can_set_bitrate(can_t* can, can_bit_rate_t bit_rate);
+EXTERN err_t can_node_set_bitrate(can_node_t* can_node, can_bit_rate_t bit_rate);
 
 //! Устанавливает нормальный режим.
-EXTERN void can_set_normal_mode(can_t* can);
+EXTERN void can_node_set_normal_mode(can_node_t* can_node);
 
 //! Инициализирует буфер приёма с заданным индексом.
-EXTERN err_t can_init_rx_buffer(can_t* can, size_t index, uint16_t ident, uint16_t mask, bool rtr);
+EXTERN err_t can_init_rx_buffer(can_node_t* can_node, size_t index, uint16_t ident, uint16_t mask, bool rtr);
 
 //! Инициализирует буфер передачи с заданным индексом.
-EXTERN err_t can_init_tx_buffer(can_t* can, size_t index, uint16_t ident, bool rtr, uint8_t noOfBytes);
+EXTERN err_t can_init_tx_buffer(can_node_t* can_node, size_t index, uint16_t ident, bool rtr, uint8_t noOfBytes);
 
 //! Отправляет сообщение через буфер с указанным индексом.
-EXTERN err_t can_send_msg(can_t* can, size_t index, const can_msg_t* msg);
+EXTERN err_t can_send_msg(can_node_t* can_node, size_t index, const can_msg_t* msg);
 
 //! Принимает сообщение из буфера с указанным индексом.
-EXTERN err_t can_recv_msg(can_t* can, size_t index, can_msg_t* msg);
+EXTERN err_t can_recv_msg(can_node_t* can_node, size_t index, can_msg_t* msg);
 
 #endif /* CAN_CAN_XMC4XXX_H_ */
 
