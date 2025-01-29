@@ -96,34 +96,59 @@ typedef struct _S_Can_Init {
 } can_init_t;
 
 
+//! Перечисление ошибок CAN.
+typedef enum _E_Can_Error {
+    CAN_ERROR_NONE  = 0b000,
+    CAN_ERROR_STUFF = 0b001,
+    CAN_ERROR_FORM  = 0b010,
+    CAN_ERROR_ACK   = 0b011,
+    CAN_ERROR_BIT1  = 0b100,
+    CAN_ERROR_BIT0  = 0b101,
+    CAN_ERROR_CRC   = 0b110,
+    CAN_ERROR_CPU   = 0b111,
+} can_error_t;
+
 
 //! Тип события ноды.
 typedef enum _E_Can_Node_Event_Type {
-    CAN_NODE_EVENT_NONE = 0,
-    CAN_NODE_EVENT_MSG_RECV = 1,
-    CAN_NODE_EVENT_MSG_SEND = 2,
-    CAN_NODE_EVENT_ERROR = 3,
+    CAN_NODE_EVENT_NONE = 0,    //!< Нет события.
+    CAN_NODE_EVENT_MSG_RECV = 1,//!< Сообщение принято.
+    CAN_NODE_EVENT_MSG_SEND = 2,//!< Сообщение отправлено.
+    CAN_NODE_EVENT_ERROR = 3,   //!< Ошибка.
+    CAN_NODE_EVENT_ALERT = 4,   //!< Тревога.
 } can_node_event_type_t;
 
 //! Событие приёма сообщения.
 typedef struct _S_Can_Node_Event_Msg_Recv {
+    size_t buf_index; //!< Индекс буфера.
 } can_node_event_msg_recv_t;
 
 //! Событие отправки сообщения.
 typedef struct _S_Can_Node_Event_Msg_Send {
+    size_t buf_index; //!< Индекс буфера.
 } can_node_event_msg_send_t;
 
 //! Событие ошибки.
 typedef struct _S_Can_Node_Event_Error {
+    can_error_t error;
 } can_node_event_error_t;
+
+//! Событие тревоги.
+typedef struct _S_Can_Node_Event_Alert {
+    bool bus_off;
+    bool warning_limit_reached;
+    bool init_set_by_hw;
+    bool internal;
+} can_node_event_alert_t;
 
 //! События ноды.
 typedef struct _S_Can_Node_Event {
     can_node_event_type_t type;
     union {
-        can_node_event_msg_recv_t msg_recv;
-        can_node_event_msg_send_t msg_send;
-        can_node_event_error_t error;
+        can_node_event_msg_recv_t msg_recv;//!< Сообщение принято.
+        can_node_event_msg_send_t msg_send;//!< Сообщение отправлено.
+        can_node_event_error_t error;//!< Ошибка.
+        can_node_event_alert_t alert;//!< Тревога.
     };
 } can_node_event_t;
 
@@ -154,11 +179,11 @@ typedef struct _S_Can_Node_Init {
     can_node_event_callback_t callback; //!< Коллбэк событий.
     uint8_t sel_rx; //!< Селектор номера входа CAN ноды.
     GPIO_t* gpio_tx; //!< Порт TX.
-    gpio_pin_t pin_tx; //!< Пин TX.
+    gpio_pin_t pin_tx_msk; //!< Пин TX.
     gpio_conf_t conf_tx; //!< Конфигурация TX.
     gpio_pad_driver_t pad_driver_tx; //!< Выходной драйвер TX.
     GPIO_t* gpio_rx; //!< Порт RX.
-    gpio_pin_t pin_rx; //!< Пин RX.
+    gpio_pin_t pin_rx_msk; //!< Пин RX.
     gpio_conf_t conf_rx; //!< Конфигурация RX.
 } can_node_init_t;
 

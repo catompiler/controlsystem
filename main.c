@@ -474,8 +474,17 @@ static void init_can()
     cnis.can = can;
     cnis.can_node_n = 1;
     cnis.loopback = false;
+    cnis.analyzer = false;
     cnis.bit_rate = CAN_BIT_RATE_125kbit;
     cnis.callback = on_node_event;
+    cnis.sel_rx = CAN_NODE_RX_SEL;
+    cnis.gpio_tx = CAN_PORT_TX;
+    cnis.pin_tx_msk = CAN_PIN_TX_Msk;
+    cnis.conf_tx = CAN_PIN_TX_CONF;
+    cnis.pad_driver_tx = CAN_PIN_TX_DRIVER;
+    cnis.gpio_rx = CAN_PORT_RX;
+    cnis.pin_rx_msk = CAN_PIN_RX_Msk;
+    cnis.conf_rx = CAN_PIN_RX_CONF;
 
     can_node = can_node_init(&cnis);
 
@@ -485,14 +494,15 @@ static void init_can()
         }
     }
 
-    can_init_tx_buffer(can_node, 0, 0x500, false, 8);
+    //can_init_tx_buffer(can_node, 0, 0x500, false, 8);
+    can_init_rx_buffer(can_node, 0, 0x400, 0x0, false);
     can_node_set_normal_mode(can_node);
 #endif
 }
 
 static void test_can()
 {
-    can_msg_t can_msg;
+    /*can_msg_t can_msg;
     size_t i;
 
     can_msg.rtr = false;
@@ -516,7 +526,7 @@ static void test_can()
     can_send_msg(can_node, 0, &can_msg);
 
     can_msg.id ++;
-    can_send_msg(can_node, 0, &can_msg);
+    can_send_msg(can_node, 0, &can_msg);*/
 }
 
 static void setup()
