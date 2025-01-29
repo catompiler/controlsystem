@@ -449,6 +449,17 @@ static void load_settings()
 static can_t* can;
 static can_node_t* can_node;
 
+
+static volatile size_t events_counter = 0;
+
+void on_node_event(can_node_t* can_node, can_node_event_t* event)
+{
+    __NOP();
+
+    events_counter ++;
+}
+
+
 static void init_can()
 {
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
@@ -462,6 +473,9 @@ static void init_can()
     can_node_init_t cnis;
     cnis.can = can;
     cnis.can_node_n = 1;
+    cnis.loopback = false;
+    cnis.bit_rate = CAN_BIT_RATE_125kbit;
+    cnis.callback = on_node_event;
 
     can_node = can_node_init(&cnis);
 

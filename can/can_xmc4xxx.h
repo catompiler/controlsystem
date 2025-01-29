@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include "gpio/gpio_xmc4xxx.h"
 
 
 //! Число CAN.
@@ -96,11 +97,50 @@ typedef struct _S_Can_Init {
 
 
 
+//! Тип события ноды.
+typedef enum _E_Can_Node_Event_Type {
+    CAN_NODE_EVENT_NONE = 0,
+    CAN_NODE_EVENT_MSG_RECV = 1,
+    CAN_NODE_EVENT_MSG_SEND = 2,
+    CAN_NODE_EVENT_ERROR = 3,
+} can_node_event_type_t;
+
+//! Событие приёма сообщения.
+typedef struct _S_Can_Node_Event_Msg_Recv {
+} can_node_event_msg_recv_t;
+
+//! Событие отправки сообщения.
+typedef struct _S_Can_Node_Event_Msg_Send {
+} can_node_event_msg_send_t;
+
+//! Событие ошибки.
+typedef struct _S_Can_Node_Event_Error {
+} can_node_event_error_t;
+
+//! События ноды.
+typedef struct _S_Can_Node_Event {
+    can_node_event_type_t type;
+    union {
+        can_node_event_msg_recv_t msg_recv;
+        can_node_event_msg_send_t msg_send;
+        can_node_event_error_t error;
+    };
+} can_node_event_t;
+
+
+//! Декларация типа ноды CAN.
+struct _S_Can_Node;
+
+//! Коллбэк событий ноды.
+typedef void (*can_node_event_callback_t)(struct _S_Can_Node* can_node, can_node_event_t* event);
+
+
 //! Тип ноды CAN.
 typedef struct _S_Can_Node {
     can_t* can; //!< CAN.
     CAN_NODE_TypeDef* node_device; //!< CAN Node.
     size_t node_n; //!< Номер ноды.
+    can_node_event_callback_t callback; //!< Коллбэк событий.
 } can_node_t;
 
 
@@ -108,6 +148,18 @@ typedef struct _S_Can_Node {
 typedef struct _S_Can_Node_Init {
     can_t* can; //!< CAN.
     size_t can_node_n; //!< Номер ноды.
+    can_bit_rate_t bit_rate; //!< Битрейт.
+    bool loopback; //!< Замыкание на себя.
+    bool analyzer; //!< Анализ трафика.
+    can_node_event_callback_t callback; //!< Коллбэк событий.
+    uint8_t sel_rx; //!< Селектор номера входа CAN ноды.
+    GPIO_t* gpio_tx; //!< Порт TX.
+    gpio_pin_t pin_tx; //!< Пин TX.
+    gpio_conf_t conf_tx; //!< Конфигурация TX.
+    gpio_pad_driver_t pad_driver_tx; //!< Выходной драйвер TX.
+    GPIO_t* gpio_rx; //!< Порт RX.
+    gpio_pin_t pin_rx; //!< Пин RX.
+    gpio_conf_t conf_rx; //!< Конфигурация RX.
 } can_node_init_t;
 
 

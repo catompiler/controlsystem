@@ -2,11 +2,10 @@
 
 #include "can_xmc4xxx.h"
 #include "hardware/config.h"
-#include "gpio/gpio_xmc4xxx.h"
 #include <assert.h>
 
 
-#define MAKE_CAN(PTR) {PTR}
+#define MAKE_CAN(PTR) { PTR }
 
 static can_t cans[] = {
 #ifdef CAN
@@ -16,7 +15,7 @@ static can_t cans[] = {
 static_assert((sizeof(cans)/sizeof(cans[0])) == CANS_COUNT, "Invalid can array!");
 
 
-#define MAKE_CAN_NODE(N) { &cans[0], CAN_NODE ## N, N}
+#define MAKE_CAN_NODE(N) { &cans[0], CAN_NODE ## N, N, NULL }
 
 static can_node_t can_nodes[] = {
 #ifdef CAN_NODE0
@@ -310,6 +309,9 @@ static void can_mo_irq_handler_impl(size_t can_n)
 {
     can_t* can = can_get_can(can_n);
 
+    can_node_t* can_node;
+    can_node_event_t node_event;
+
     CAN_MO_TypeDef* MO;
     uint32_t node_n;
     uint32_t mo_n;
@@ -331,6 +333,14 @@ static void can_mo_irq_handler_impl(size_t can_n)
             node_n = can_pend_n_to_node_n(can, pend_n);
             mo_n = can_pend_n_to_mo_n(can, pend_n);
 
+            can_node = can_get_node(can, node_n);
+
+            if(can_mo_is_tx(can, mo_n)){
+                node_event.type = CAN_NODE_EVENT_MSG_SEND;
+            }else{
+                node_event.type = CAN_NODE_EVENT_MSG_RECV;
+            }
+
             buf_index = can_mo_buf_index(can, mo_n);
             fifo_n = can_mo_fifo_n(can, mo_n);
 
@@ -341,6 +351,10 @@ static void can_mo_irq_handler_impl(size_t can_n)
                         CAN_MO_MOCTR_RESRXEN_Msk | CAN_MO_MOCTR_RESRXPND_Msk;
 
             can->can_device->MSPND[i] = ~(1 << mo_index);
+
+            if(can_node->callback){
+                can_node->callback(can_node, &node_event);
+            }
 
         }
     }
@@ -481,19 +495,24 @@ can_node_t* can_node_init(can_node_init_t* is)
     if(sr_number >= CAN_SR_COUNT) return NULL;
 
     can_node_t* can_node = can_get_node(is->can, is->can_node_n);
+    if(can_node->can != is->can) return NULL;
+
+    can_node->callback = is->callback;
 
     // Set default and configuration mode.
-    can_node->node_device->NCR = CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk;
+    can_node->node_device->NCR = CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk |
+                                 ((is->analyzer) << CAN_NODE_NCR_CALM_Pos);
 
-    err_t err = can_node_set_bitrate(can_node, CAN_BIT_RATE_DEFAULT);
+    err_t err = can_node_set_bitrate(can_node, is->bit_rate);
     if(err != E_NO_ERROR) return NULL;
 
     // Count of recv & send frames.
+
     can_node->node_device->NFCR = ((0) << CAN_NODE_NFCR_CFMOD_Pos) |
                      ((0b110) << CAN_NODE_NFCR_CFSEL_Pos);
 
-    can_node->node_device->NPCR = ((CAN_LOOPBACK) << CAN_NODE_NPCR_LBM_Pos) |
-                     ((CAN_NODE_RX_SEL) << CAN_NODE_NPCR_RXSEL_Pos);
+    can_node->node_device->NPCR = ((is->loopback) << CAN_NODE_NPCR_LBM_Pos) |
+                     ((is->sel_rx) << CAN_NODE_NPCR_RXSEL_Pos);
 
     can_node->node_device->NIPR = ((sr_number) << CAN_NODE_NIPR_ALINP_Pos) |
                      ((sr_number) << CAN_NODE_NIPR_CFCINP_Pos) |
@@ -503,13 +522,17 @@ can_node_t* can_node_init(can_node_init_t* is)
     // Enable TxRx interrupt.
     can_node->node_device->NCR |= CAN_NODE_NCR_TRIE_Msk;
 
-    // gpio.
-    // tx.
-    gpio_set_pad_driver(CAN_PORT_TX, CAN_PIN_TX_Msk, CAN_PIN_TX_DRIVER);
-    gpio_reset(CAN_PORT_TX, CAN_PIN_TX_Msk);
-    gpio_init(CAN_PORT_TX, CAN_PIN_TX_Msk, CAN_PIN_TX_CONF);
-    // RX.
-    gpio_init(CAN_PORT_RX, CAN_PIN_RX_Msk, CAN_PIN_RX_CONF);
+    if(!is->loopback){
+        // gpio.
+        if(!is->analyzer){
+            // tx.
+            gpio_set_pad_driver(CAN_PORT_TX, CAN_PIN_TX_Msk, CAN_PIN_TX_DRIVER);
+            gpio_reset(CAN_PORT_TX, CAN_PIN_TX_Msk);
+            gpio_init(CAN_PORT_TX, CAN_PIN_TX_Msk, CAN_PIN_TX_CONF);
+        }
+        // RX.
+        gpio_init(CAN_PORT_RX, CAN_PIN_RX_Msk, CAN_PIN_RX_CONF);
+    }
 
     return can_node;
 }
