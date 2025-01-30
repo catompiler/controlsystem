@@ -448,7 +448,7 @@ static void load_settings()
 
 static can_t* can;
 static can_node_t* can_node;
-
+static can_msg_t msg;
 
 static volatile size_t events_counter = 0;
 
@@ -457,6 +457,11 @@ void on_node_event(can_node_t* can_node, can_node_event_t* event)
     __NOP();
 
     events_counter ++;
+
+    if(event->type == CAN_NODE_EVENT_MSG_RECV){
+        can_recv_msg(can_node, event->msg_recv.buf_index, &msg);
+        can_send_msg(can_node, event->msg_recv.buf_index, &msg);
+    }
 }
 
 
@@ -494,7 +499,7 @@ static void init_can()
         }
     }
 
-    //can_init_tx_buffer(can_node, 0, 0x500, false, 8);
+    can_init_tx_buffer(can_node, 0, 0x500, false, 8);
     can_init_rx_buffer(can_node, 0, 0x400, 0x0, false);
     can_node_set_normal_mode(can_node);
 #endif
@@ -502,7 +507,7 @@ static void init_can()
 
 static void test_can()
 {
-    /*can_msg_t can_msg;
+    can_msg_t can_msg;
     size_t i;
 
     can_msg.rtr = false;
@@ -526,7 +531,7 @@ static void test_can()
     can_send_msg(can_node, 0, &can_msg);
 
     can_msg.id ++;
-    can_send_msg(can_node, 0, &can_msg);*/
+    can_send_msg(can_node, 0, &can_msg);/**/
 }
 
 static void setup()

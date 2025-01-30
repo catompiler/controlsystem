@@ -66,7 +66,7 @@ typedef enum _E_Can_Bit_Rate {
 
 
 //! Пытаться отправить только один раз.
-#define CAN_SINGLE_TRANSMIT_TRIAL 1
+#define CAN_SINGLE_TRANSMIT_TRIAL 0
 
 
 //! Размер данныех сообщения CAN.

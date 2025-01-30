@@ -97,7 +97,7 @@ const size_t NBTR_values_count = (sizeof(NBTR_values)/sizeof(NBTR_values[0]));
 // Rx FIFO.
 #define CAN_RX_FIFO_PRI 0b001 // 0b01 by list order, 0b10 - by priority
 // Tx FIFO.
-#define CAN_TX_FIFO_PRI 0b010 // 0b01 by list order, 0b10 - by priority
+#define CAN_TX_FIFO_PRI 0b001 // 0b01 by list order, 0b10 - by priority
 
 
 // Число регистров MSPND.
@@ -347,7 +347,8 @@ static void can_mo_irq_handler_impl(size_t can_n)
 
             MO = can_get_mo(can, mo_n);
 
-            MO->MOCTR = CAN_MO_MOCTR_RESTXPND_Msk | CAN_MO_MOCTR_RESRXPND_Msk;
+            MO->MOCTR = CAN_MO_MOCTR_RESTXPND_Msk | CAN_MO_MOCTR_RESRXPND_Msk | CAN_MO_MOCTR_RESRTSEL_Msk |
+                    CAN_MO_MOCTR_RESTXEN0_Msk;
 
             can->can_device->MSPND[i] = ~(1 << mo_index);
 
@@ -863,7 +864,7 @@ static uint32_t can_fifo_next(can_t* can, uint32_t mo_base_n, uint32_t mo_n)
 static err_t can_mo_send_msg(CAN_MO_TypeDef* MO_Base, CAN_MO_TypeDef* MO, const can_msg_t* msg)
 {
     //if(MO->MOSTAT & CAN_MO_MOSTAT_TXRQ_Msk) return E_BUSY;
-    if(MO->MOSTAT & CAN_MO_MOSTAT_RTSEL_Msk) return E_BUSY;
+    //if(MO->MOSTAT & CAN_MO_MOSTAT_RTSEL_Msk) return E_BUSY;
 
     MO->MOCTR = CAN_MO_MOCTR_RESMSGVAL_Msk;
 
@@ -892,16 +893,11 @@ static err_t can_mo_send_msg(CAN_MO_TypeDef* MO_Base, CAN_MO_TypeDef* MO, const 
                       (((uint32_t)msg->data[7]) << CAN_MO_MODATAH_DB7_Pos);
     }
 
-    MO->MOCTR = CAN_MO_MOCTR_RESRTSEL_Msk |
-                CAN_MO_MOCTR_SETNEWDAT_Msk |
+    MO->MOCTR = CAN_MO_MOCTR_SETNEWDAT_Msk |
                 CAN_MO_MOCTR_SETTXRQ_Msk |
                 CAN_MO_MOCTR_SETTXEN0_Msk |
                 //CAN_MO_MOCTR_SETTXEN1_Msk |
                 CAN_MO_MOCTR_SETMSGVAL_Msk;
-
-    //if((MO != MO_Base) && (MO_Base->MOSTAT & CAN_MO_MOSTAT_TXRQ_Msk) == 0){
-        MO_Base->MOCTR = CAN_MO_MOCTR_SETTXRQ_Msk;
-    //}
 
     return E_NO_ERROR;
 }
@@ -927,8 +923,18 @@ err_t can_send_msg(can_node_t* can_node, size_t index, const can_msg_t* msg)
 
         if((MO->MOSTAT & CAN_MO_MOSTAT_TXRQ_Msk) == 0){
             err = can_mo_send_msg(MO_Base, MO, msg);
-            if(err == E_NO_ERROR) return err;
+            if(err == E_NO_ERROR) break;
         }
+    }
+
+    if(err == E_NO_ERROR){
+        //if((MO_Base->MOSTAT & CAN_MO_MOSTAT_TXRQ_Msk) == 0){
+            uint32_t mo_cur_n = can_fifo_first(can, mo_base_n);
+            CAN_MO_TypeDef* MO_Cur = can_get_mo(can, mo_cur_n);
+            MO_Cur->MOCTR = CAN_MO_MOCTR_SETTXEN1_Msk;
+            //MO->MOCTR = CAN_MO_MOCTR_SETTXEN1_Msk;
+            //MO_Base->MOCTR = CAN_MO_MOCTR_SETTXRQ_Msk;
+        //}
     }
 
     return err;
@@ -936,7 +942,7 @@ err_t can_send_msg(can_node_t* can_node, size_t index, const can_msg_t* msg)
 
 static err_t can_mo_recv_msg(CAN_MO_TypeDef* MO, can_msg_t* msg)
 {
-    if(MO->MOSTAT & CAN_MO_MOSTAT_RTSEL_Msk) return E_BUSY;
+    //if(MO->MOSTAT & CAN_MO_MOSTAT_RTSEL_Msk) return E_BUSY;
 
     do{
         MO->MOCTR = CAN_MO_MOCTR_RESNEWDAT_Msk;
@@ -951,17 +957,17 @@ static err_t can_mo_recv_msg(CAN_MO_TypeDef* MO, can_msg_t* msg)
             msg->id = (MO->MOAR & CAN_MO_MOAR_ID_Msk) >> CAN_MO_MOAR_ID_Pos;
         }
 
-        MO->MOFCR = (MO->MOFCR & ~(CAN_MO_MOFCR_DLC_Msk)) | ((msg->dlc) << CAN_MO_MOFCR_DLC_Pos);
+        msg->dlc = (MO->MOFCR & CAN_MO_MOFCR_DLC_Msk) >> CAN_MO_MOFCR_DLC_Pos;
 
         if(!msg->rtr){
             msg->data[0] = (MO->MODATAL & CAN_MO_MODATAL_DB0_Msk) >> CAN_MO_MODATAL_DB0_Pos;
             msg->data[1] = (MO->MODATAL & CAN_MO_MODATAL_DB1_Msk) >> CAN_MO_MODATAL_DB1_Pos;
             msg->data[2] = (MO->MODATAL & CAN_MO_MODATAL_DB2_Msk) >> CAN_MO_MODATAL_DB2_Pos;
             msg->data[3] = (MO->MODATAL & CAN_MO_MODATAL_DB3_Msk) >> CAN_MO_MODATAL_DB3_Pos;
-            msg->data[4] = (MO->MODATAL & CAN_MO_MODATAH_DB4_Msk) >> CAN_MO_MODATAH_DB4_Pos;
-            msg->data[5] = (MO->MODATAL & CAN_MO_MODATAH_DB5_Msk) >> CAN_MO_MODATAH_DB5_Pos;
-            msg->data[6] = (MO->MODATAL & CAN_MO_MODATAH_DB6_Msk) >> CAN_MO_MODATAH_DB6_Pos;
-            msg->data[7] = (MO->MODATAL & CAN_MO_MODATAH_DB7_Msk) >> CAN_MO_MODATAH_DB7_Pos;
+            msg->data[4] = (MO->MODATAH & CAN_MO_MODATAH_DB4_Msk) >> CAN_MO_MODATAH_DB4_Pos;
+            msg->data[5] = (MO->MODATAH & CAN_MO_MODATAH_DB5_Msk) >> CAN_MO_MODATAH_DB5_Pos;
+            msg->data[6] = (MO->MODATAH & CAN_MO_MODATAH_DB6_Msk) >> CAN_MO_MODATAH_DB6_Pos;
+            msg->data[7] = (MO->MODATAH & CAN_MO_MODATAH_DB7_Msk) >> CAN_MO_MODATAH_DB7_Pos;
         }
 
     }while(MO->MOSTAT & (CAN_MO_MOSTAT_NEWDAT_Msk | CAN_MO_MOSTAT_RXUPD_Msk));
