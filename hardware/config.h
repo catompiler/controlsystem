@@ -315,13 +315,13 @@
     }while(0)
 // Количество нод в модуле CAN.
 // Определяет номер первого ничейного списка объектов сообщений.
-#define CAN_NODES 3
+//#define CAN_NODES 3
 // Определяет число аппаратных сообщений.
-#define CAN_MO_COUNT 64
+//#define CAN_MO_COUNT 64
 // Число сообщений в FIFO.
-#define CAN_FIFO_SIZE 4
+//#define CAN_FIFO_SIZE 4
 // Число аппаратных фильтров.
-#define CAN_RX_FILTERS_COUNT ((CAN_MO_COUNT)/(CAN_FIFO_SIZE))
+//#define CAN_RX_FILTERS_COUNT ((CAN_MO_COUNT)/(CAN_FIFO_SIZE))
 // can.
 // gpio.
 // tx.

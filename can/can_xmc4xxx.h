@@ -82,8 +82,6 @@ typedef struct _S_Can_Msg {
 } can_msg_t;
 
 
-
-
 //! Тип CAN.
 typedef struct _S_Can {
     CAN_GLOBAL_TypeDef* can_device; //!< Периферия CAN.
@@ -111,6 +109,7 @@ typedef enum _E_Can_Error {
 
 //! Тип события ноды.
 typedef enum _E_Can_Node_Event_Type {
+    CAN_NODE_EVENT_UNKNOWN = -1,//!< Неизвестное событие.
     CAN_NODE_EVENT_NONE = 0,    //!< Нет события.
     CAN_NODE_EVENT_MSG_RECV = 1,//!< Сообщение принято.
     CAN_NODE_EVENT_MSG_SEND = 2,//!< Сообщение отправлено.
@@ -130,20 +129,20 @@ typedef struct _S_Can_Node_Event_Msg_Send {
 
 //! Событие ошибки.
 typedef struct _S_Can_Node_Event_Error {
-    can_error_t error;
+    can_error_t error; //!< Значение ошибки.
 } can_node_event_error_t;
 
 //! Событие тревоги.
 typedef struct _S_Can_Node_Event_Alert {
-    bool bus_off;
-    bool warning_limit_reached;
-    bool init_set_by_hw;
-    bool internal;
+    bool bus_off; //!< Шина отключена.
+    bool warning_limit_reached; //!< Превышен лимит количества ошибок уровня предупреждения.
+    bool init_set_by_hw; //!< Шина переведена аппаратурой в режим инициализации.
+    bool internal; //!< Внутренняя ошибка (Например, ошибка работы со списками).
 } can_node_event_alert_t;
 
 //! События ноды.
 typedef struct _S_Can_Node_Event {
-    can_node_event_type_t type;
+    can_node_event_type_t type; //!< Тип события.
     union {
         can_node_event_msg_recv_t msg_recv;//!< Сообщение принято.
         can_node_event_msg_send_t msg_send;//!< Сообщение отправлено.
@@ -188,6 +187,9 @@ typedef struct _S_Can_Node_Init {
 } can_node_init_t;
 
 
+//! Тип индекса(номера) буфера.
+typedef uint32_t can_mo_index_t;
+
 
 //! Инициализирует CAN.
 EXTERN can_t* can_init(can_init_t* is);
@@ -208,16 +210,16 @@ EXTERN err_t can_node_set_bitrate(can_node_t* can_node, can_bit_rate_t bit_rate)
 EXTERN void can_node_set_normal_mode(can_node_t* can_node);
 
 //! Инициализирует буфер приёма с заданным индексом.
-EXTERN err_t can_init_rx_buffer(can_node_t* can_node, size_t index, uint16_t ident, uint16_t mask, bool rtr);
+EXTERN can_mo_index_t can_init_rx_buffer(can_node_t* can_node, size_t fifo_len, uint16_t ident, uint16_t mask, bool rtr);
 
 //! Инициализирует буфер передачи с заданным индексом.
-EXTERN err_t can_init_tx_buffer(can_node_t* can_node, size_t index, uint16_t ident, bool rtr, uint8_t noOfBytes);
+EXTERN can_mo_index_t can_init_tx_buffer(can_node_t* can_node, size_t fifo_len, uint16_t ident, bool rtr, uint8_t noOfBytes);
 
 //! Отправляет сообщение через буфер с указанным индексом.
-EXTERN err_t can_send_msg(can_node_t* can_node, size_t index, const can_msg_t* msg);
+EXTERN err_t can_send_msg(can_node_t* can_node, can_mo_index_t mo_index, const can_msg_t* msg);
 
 //! Принимает сообщение из буфера с указанным индексом.
-EXTERN err_t can_recv_msg(can_node_t* can_node, size_t index, can_msg_t* msg);
+EXTERN err_t can_recv_msg(can_node_t* can_node, can_mo_index_t mo_index, can_msg_t* msg);
 
 #endif /* CAN_CAN_XMC4XXX_H_ */
 

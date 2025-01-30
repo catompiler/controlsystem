@@ -81,7 +81,7 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     CANmodule->txSize = txSize;
     CANmodule->CANerrorStatus = 0;
     CANmodule->CANnormal = false;
-    CANmodule->useCANrxFilters = (rxSize <= (CAN_RX_FILTERS_COUNT)) ? true : false; /* microcontroller dependent */
+    CANmodule->useCANrxFilters = true;//(rxSize <= (CAN_RX_FILTERS_COUNT)) ? true : false; /* microcontroller dependent */
     CANmodule->bufferInhibitFlag = false;
     CANmodule->firstCANtxMessage = true;
     CANmodule->CANtxCount = 0U;

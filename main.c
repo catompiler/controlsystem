@@ -447,8 +447,14 @@ static void load_settings()
 }
 
 static can_t* can;
-static can_node_t* can_node;
+//static can_node_t* can_node;
+static can_node_t* can_node[2];
 static can_msg_t msg;
+
+static can_mo_index_t mo_0_tx;
+static can_mo_index_t mo_0_rx;
+static can_mo_index_t mo_1_tx;
+static can_mo_index_t mo_1_rx;
 
 static volatile size_t events_counter = 0;
 
@@ -459,8 +465,15 @@ void on_node_event(can_node_t* can_node, can_node_event_t* event)
     events_counter ++;
 
     if(event->type == CAN_NODE_EVENT_MSG_RECV){
-        can_recv_msg(can_node, event->msg_recv.buf_index, &msg);
-        can_send_msg(can_node, event->msg_recv.buf_index, &msg);
+
+        can_mo_index_t mo_rx_index = event->msg_recv.buf_index;
+        can_mo_index_t mo_tx_index = (mo_rx_index == mo_0_rx) ? mo_0_tx : mo_1_tx;
+
+        can_recv_msg(can_node, mo_rx_index, &msg);
+        for(int i = 0; i < 8; i ++){
+            msg.data[i] ++;
+        }
+        can_send_msg(can_node, mo_tx_index, &msg);
     }
 }
 
@@ -478,36 +491,73 @@ static void init_can()
     can_node_init_t cnis;
     cnis.can = can;
     cnis.can_node_n = 1;
-    cnis.loopback = false;
+    cnis.loopback = true;
     cnis.analyzer = false;
     cnis.bit_rate = CAN_BIT_RATE_125kbit;
     cnis.callback = on_node_event;
-    cnis.sel_rx = CAN_NODE_RX_SEL;
+    /*cnis.sel_rx = CAN_NODE_RX_SEL;
     cnis.gpio_tx = CAN_PORT_TX;
     cnis.pin_tx_msk = CAN_PIN_TX_Msk;
     cnis.conf_tx = CAN_PIN_TX_CONF;
     cnis.pad_driver_tx = CAN_PIN_TX_DRIVER;
     cnis.gpio_rx = CAN_PORT_RX;
     cnis.pin_rx_msk = CAN_PIN_RX_Msk;
-    cnis.conf_rx = CAN_PIN_RX_CONF;
+    cnis.conf_rx = CAN_PIN_RX_CONF;*/
 
-    can_node = can_node_init(&cnis);
+    cnis.sel_rx = 0;
+    cnis.gpio_tx = NULL;
+    cnis.pin_tx_msk = 0;
+    cnis.conf_tx = 0;
+    cnis.pad_driver_tx = 0;
+    cnis.gpio_rx = NULL;
+    cnis.pin_rx_msk = 0;
+    cnis.conf_rx = 0;
 
-    if(can_node == NULL){
+    cnis.can_node_n = 1;
+    can_node[0] = can_node_init(&cnis);
+    if(can_node[0] == NULL){
         for(;;){
             __NOP();
         }
     }
 
-    can_init_tx_buffer(can_node, 0, 0x500, false, 8);
-    can_init_rx_buffer(can_node, 0, 0x400, 0x0, false);
-    can_node_set_normal_mode(can_node);
+    cnis.can_node_n = 2;
+    can_node[1] = can_node_init(&cnis);
+    if(can_node[1] == NULL){
+        for(;;){
+            __NOP();
+        }
+    }
+
+    mo_0_tx = can_init_tx_buffer(can_node[0], 4, 0x400, false, 8);
+    mo_0_rx = can_init_rx_buffer(can_node[0], 4, 0x400, 0x0, false);
+
+    mo_1_tx = can_init_tx_buffer(can_node[1], 4, 0x400, false, 8);
+    mo_1_rx = can_init_rx_buffer(can_node[1], 4, 0x400, 0x0, false);
+
+    can_node_set_normal_mode(can_node[0]);
+    can_node_set_normal_mode(can_node[1]);
+
+    can_msg_t can_msg;
+    size_t i;
+
+    can_msg.rtr = false;
+    can_msg.ide = 0;
+    can_msg.id = 0x01;
+    can_msg.dlc = 8;
+    for(i = 0; i < 8; i ++){
+        can_msg.data[i] = i;
+    }
+
+    //can_msg.id ++;
+    can_send_msg(can_node[0], 0, &can_msg);
+
 #endif
 }
 
 static void test_can()
 {
-    can_msg_t can_msg;
+    /*can_msg_t can_msg;
     size_t i;
 
     can_msg.rtr = false;
@@ -531,7 +581,7 @@ static void test_can()
     can_send_msg(can_node, 0, &can_msg);
 
     can_msg.id ++;
-    can_send_msg(can_node, 0, &can_msg);/**/
+    can_send_msg(can_node, 0, &can_msg);*/
 }
 
 static void setup()
