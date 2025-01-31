@@ -1,5 +1,3 @@
-#if CAN_DRIVER == CAN_DRIVER_HW
-
 #ifndef CO_DRIVER_XMC4XXX_H_
 #define CO_DRIVER_XMC4XXX_H_
 
@@ -28,24 +26,13 @@
  */
 
 /**
- * CAN receive callback function which pre-processes received CAN message
- *
- * It is called by fast CAN receive thread. Each \ref CO_obj "CANopenNode Object" defines its own and registers it with
- * CO_CANrxBufferInit(), by passing function pointer.
- *
- * @param object pointer to specific \ref CO_obj "CANopenNode Object", registered with CO_CANrxBufferInit()
- * @param rxMsg pointer to received CAN message
- */
-void CANrx_callback(void* object, void* rxMsg);
-
-/**
  * CAN rx message structure.
  */
 typedef struct {
     uint32_t ident;
     uint8_t DLC;
     uint8_t data[8];
-} CO_CANrxMsg_t;
+} CO_CANrxMsg_xmc4xxx_t;
 
 /**
  * CANrx_callback() can read CAN identifier from received CAN message
@@ -59,9 +46,9 @@ typedef struct {
  * @param rxMsg Pointer to received message
  * @return 11-bit CAN standard identifier.
  */
-static inline __attribute__((always_inline)) uint16_t
-CO_CANrxMsg_readIdent(void* rxMsg) {
-    return ((CO_CANrxMsg_t*)rxMsg)->ident;
+static uint16_t
+CO_CANrxMsg_readIdent_xmc4xxx(void* rxMsg) {
+    return ((CO_CANrxMsg_xmc4xxx_t*)rxMsg)->ident;
 }
 
 /**
@@ -72,9 +59,9 @@ CO_CANrxMsg_readIdent(void* rxMsg) {
  * @param rxMsg Pointer to received message
  * @return data length in bytes (0 to 8)
  */
-static inline __attribute__((always_inline)) uint8_t
-CO_CANrxMsg_readDLC(void* rxMsg) {
-    return ((CO_CANrxMsg_t*)rxMsg)->DLC;
+static uint8_t
+CO_CANrxMsg_readDLC_xmc4xxx(void* rxMsg) {
+    return ((CO_CANrxMsg_xmc4xxx_t*)rxMsg)->DLC;
 }
 
 /**
@@ -85,9 +72,9 @@ CO_CANrxMsg_readDLC(void* rxMsg) {
  * @param rxMsg Pointer to received message
  * @return pointer to data buffer
  */
-static inline __attribute__((always_inline)) const uint8_t*
-CO_CANrxMsg_readData(void* rxMsg) {
-    return ((CO_CANrxMsg_t*)rxMsg)->data;
+static const uint8_t*
+CO_CANrxMsg_readData_xmc4xxx(void* rxMsg) {
+    return ((CO_CANrxMsg_xmc4xxx_t*)rxMsg)->data;
 }
 /**
  * Configuration object for CAN received message for specific \ref CO_obj "CANopenNode Object".
@@ -103,7 +90,7 @@ typedef struct {
     void* object;   /**< \ref CO_obj "CANopenNode Object" initialized in from CO_CANrxBufferInit() */
     void (*pCANrx_callback)(void* object,
                             void* message); /**< Pointer to CANrx_callback() initialized in CO_CANrxBufferInit() */
-} CO_CANrx_t;
+} CO_CANrx_xmc4xxx_t;
 
 /** @} */
 
@@ -137,11 +124,10 @@ typedef struct {
     volatile bool_t bufferFull; /**< True if previous message is still in the buffer */
     volatile bool_t syncFlag;   /**< Synchronous PDO messages has this flag set. It prevents them to be sent outside the
                                      synchronous window */
-} CO_CANtx_t;
+} CO_CANtx_xmc4xxx_t;
 
 /** @} */
 
 
 #endif /* CO_DRIVER_XMC4XXX_H_ */
 
-#endif

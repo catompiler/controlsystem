@@ -36,6 +36,8 @@ static spi_bus_t eep_spi_bus;
 // Микросхема EEPROM.
 static m95x_t eep_m95x;
 
+// Модуль CAN.
+static can_t* can;
 
 // // DEBUG!
 //#define SPI_DATA_LEN 128
@@ -446,7 +448,7 @@ static void load_settings()
     }
 }
 
-static can_t* can;
+
 //static can_node_t* can_node;
 static can_node_t* can_node[2];
 static can_msg_t msg;
@@ -481,28 +483,36 @@ void on_node_event(can_node_t* can_node, can_node_event_t* event)
 static void init_can()
 {
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
-    //hardware_init_can();
     interrupts_enable_can();
 
     can_init_t cis;
     cis.can_n = 0;
     can = can_init(&cis);
 
+    if(can){
+        SYSLOG(SYSLOG_INFO, "CAN module initialized!");
+    }else{
+        SYSLOG(SYSLOG_ERROR, "CAN module initialization error!");
+    }
+}
+
+static void init_can_node()
+{
     can_node_init_t cnis;
     cnis.can = can;
-    cnis.can_node_n = 1;
-    cnis.loopback = true;
+    cnis.can_node_n = CAN_NODE_N;
+    cnis.loopback = false;
     cnis.analyzer = false;
     cnis.bit_rate = CAN_BIT_RATE_125kbit;
-    cnis.callback = on_node_event;
-    /*cnis.sel_rx = CAN_NODE_RX_SEL;
-    cnis.gpio_tx = CAN_PORT_TX;
-    cnis.pin_tx_msk = CAN_PIN_TX_Msk;
-    cnis.conf_tx = CAN_PIN_TX_CONF;
-    cnis.pad_driver_tx = CAN_PIN_TX_DRIVER;
-    cnis.gpio_rx = CAN_PORT_RX;
-    cnis.pin_rx_msk = CAN_PIN_RX_Msk;
-    cnis.conf_rx = CAN_PIN_RX_CONF;*/
+    cnis.callback = NULL;
+    cnis.sel_rx = CAN_NODE_RX_SEL;
+    cnis.gpio_tx = CAN_NODE_PORT_TX;
+    cnis.pin_tx_msk = CAN_NODE_PIN_TX_Msk;
+    cnis.conf_tx = CAN_NODE_PIN_TX_CONF;
+    cnis.pad_driver_tx = CAN_NODE_PIN_TX_DRIVER;
+    cnis.gpio_rx = CAN_NODE_PORT_RX;
+    cnis.pin_rx_msk = CAN_NODE_PIN_RX_Msk;
+    cnis.conf_rx = CAN_NODE_PIN_RX_CONF;
 
     cnis.sel_rx = 0;
     cnis.gpio_tx = NULL;

@@ -22,7 +22,7 @@
 
 #include "301/CO_driver.h"
 
-#if CAN_DRIVER == CAN_DRIVER_HW
+#if CAN_DRIVER & CAN_DRIVER_HW
 
 #include "CO_driver_xmc4xxx.h"
 #include "can/can_xmc4xxx.h"
@@ -39,30 +39,30 @@
 
 
 void
-CO_CANsetConfigurationMode(void* CANptr) {
+CO_CANsetConfigurationMode_xmc4xxx(void* CANptr) {
     /* Put CAN module in configuration mode */
     if(CANptr == NULL) return;
 
-    can_node_t* can = (can_node_t*)CANptr;
+    can_node_t* can_node = (can_node_t*)CANptr;
 
-    can_node_set_configuration_mode(can);
+    can_node_set_configuration_mode(can_node);
 }
 
 void
-CO_CANsetNormalMode(CO_CANmodule_t* CANmodule) {
+CO_CANsetNormalMode_xmc4xxx(CO_CANmodule_t* CANmodule) {
     /* Put CAN module in normal mode */
     if(CANmodule == NULL) return;
     if(CANmodule->CANptr == NULL) return;
 
-    can_node_t* can = (can_node_t*)CANmodule->CANptr;
+    can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
 
-    can_node_set_normal_mode(can);
+    can_node_set_normal_mode(can_node);
 
     CANmodule->CANnormal = true;
 }
 
 CO_ReturnError_t
-CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[], uint16_t rxSize, CO_CANtx_t txArray[],
+CO_CANmodule_init_xmc4xxx(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[], uint16_t rxSize, CO_CANtx_t txArray[],
                   uint16_t txSize, uint16_t CANbitRate) {
     uint16_t i;
 
@@ -71,7 +71,7 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
         return CO_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    can_node_t* can = (can_node_t*)CANmodule->CANptr;
+    can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
 
     /* Configure object variables */
     CANmodule->CANptr = CANptr;
@@ -114,7 +114,7 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     case 800: bit_rate = CAN_BIT_RATE_800kbit; break;
     case 1000: bit_rate = CAN_BIT_RATE_1000kbit; break;
     }
-    can_node_set_bitrate(can, bit_rate);
+    can_node_set_bitrate(can_node, bit_rate);
 
     /* Configure CAN module hardware filters */
     if (CANmodule->useCANrxFilters) {
@@ -134,7 +134,7 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
 }
 
 void
-CO_CANmodule_disable(CO_CANmodule_t* CANmodule) {
+CO_CANmodule_disable_xmc4xxx(CO_CANmodule_t* CANmodule) {
     if (CANmodule != NULL && CANmodule->CANptr != NULL) {
         can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
         /* turn off the module */
@@ -143,13 +143,13 @@ CO_CANmodule_disable(CO_CANmodule_t* CANmodule) {
 }
 
 CO_ReturnError_t
-CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, uint16_t mask, bool_t rtr, void* object,
+CO_CANrxBufferInit_xmc4xxx(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, uint16_t mask, bool_t rtr, void* object,
                    void (*CANrx_callback)(void* object, void* message)) {
     CO_ReturnError_t ret = CO_ERROR_NO;
 
     if ((CANmodule != NULL) && (CANmodule->CANptr != NULL) && (object != NULL) && (CANrx_callback != NULL) && (index < CANmodule->rxSize)) {
 
-        can_node_t* can = (can_node_t*)CANmodule->CANptr;
+        can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
 
         /* buffer, which will be configured */
         CO_CANrx_t* buffer = &CANmodule->rxArray[index];
@@ -167,9 +167,9 @@ CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, ui
 
         /* Set CAN hardware module filter and mask. */
         if(CANmodule->useCANrxFilters){
-            can_node_init_rx_buffer(can, index, ident, mask, rtr);
+            can_node_init_rx_buffer(can_node, index, ident, mask, rtr);
         }else{
-            can_node_init_rx_buffer(can, index, ident, 0, rtr);
+            can_node_init_rx_buffer(can_node, index, ident, 0, rtr);
         }
     } else {
         ret = CO_ERROR_ILLEGAL_ARGUMENT;
@@ -179,13 +179,13 @@ CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, ui
 }
 
 CO_CANtx_t*
-CO_CANtxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bool_t rtr, uint8_t noOfBytes,
+CO_CANtxBufferInit_xmc4xxx(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bool_t rtr, uint8_t noOfBytes,
                    bool_t syncFlag) {
     CO_CANtx_t* buffer = NULL;
 
     if ((CANmodule != NULL) && (CANmodule->CANptr != NULL) && (index < CANmodule->txSize)) {
 
-        can_node_t* can = (can_node_t*)CANmodule->CANptr;
+        can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
 
         /* get specific buffer */
         buffer = &CANmodule->txArray[index];
@@ -197,7 +197,7 @@ CO_CANtxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bo
         buffer->bufferFull = false;
         buffer->syncFlag = syncFlag;
 
-        can_node_init_tx_buffer(can, index, ident, rtr, noOfBytes);
+        can_node_init_tx_buffer(can_node, index, ident, rtr, noOfBytes);
     }
 
     return buffer;
@@ -208,7 +208,7 @@ static bool CO_driver_can_send_msg(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer
 {
     if(CANmodule == NULL || CANmodule->CANptr == NULL || buffer == NULL) return false;
 
-    can_node_t* can = (can_node_t*)CANmodule->CANptr;
+    can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
 
     can_msg_t can_msg;
 
@@ -226,7 +226,7 @@ static bool CO_driver_can_send_msg(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer
 
     ptrdiff_t buf_index = ((ptrdiff_t)buffer - (ptrdiff_t)CANmodule->txArray) / sizeof(CANmodule->txArray[0]);
 
-    err_t err = can_node_send_msg(can, buf_index, &can_msg);
+    err_t err = can_node_send_msg(can_node, buf_index, &can_msg);
     if(err != E_NO_ERROR) return false;
 
     return true;
@@ -236,13 +236,13 @@ static bool CO_driver_can_recv_msg(CO_CANmodule_t* CANmodule, CO_CANrxMsg_t* rxM
 {
     if(CANmodule == NULL || CANmodule->CANptr == NULL || rxMsg == NULL) return false;
 
-    can_node_t* can = (can_node_t*)CANmodule->CANptr;
+    can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
 
     can_msg_t can_msg;
 
     ptrdiff_t buf_index = ((ptrdiff_t)rxMsg - (ptrdiff_t)CANmodule->rxArray) / sizeof(CANmodule->rxArray[0]);
 
-    if(can_node_recv_msg(can, buf_index, &can_msg) != E_NO_ERROR) return false;
+    if(can_node_recv_msg(can_node, buf_index, &can_msg) != E_NO_ERROR) return false;
 
     rxMsg->ident = (can_msg.id & CAN_ID_MASK) | ((can_msg.rtr == 0) ? 0x0 : CAN_ID_FLAG_RTR);
     rxMsg->DLC = can_msg.dlc;
@@ -261,14 +261,14 @@ static bool CO_driver_can_is_can_send_msg(CO_CANmodule_t* CANmodule)
 {
     if(CANmodule == NULL || CANmodule->CANptr == NULL) return false;
 
-    can_node_t* can = (can_node_t*)CANmodule->CANptr;
+    can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
 
     return false; //slcan_slave_send_can_msgs_avail(slave) != 0;
 }
 
 
 CO_ReturnError_t
-CO_CANsend(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer) {
+CO_CANsend_xmc4xxx(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer) {
     CO_ReturnError_t err = CO_ERROR_NO;
 
     /* Verify overflow */
@@ -298,7 +298,7 @@ CO_CANsend(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer) {
 }
 
 void
-CO_CANclearPendingSyncPDOs(CO_CANmodule_t* CANmodule) {
+CO_CANclearPendingSyncPDOs_xmc4xxx(CO_CANmodule_t* CANmodule) {
     uint32_t tpdoDeleted = 0U;
 
     CO_LOCK_CAN_SEND(CANmodule);
@@ -335,7 +335,7 @@ CO_CANclearPendingSyncPDOs(CO_CANmodule_t* CANmodule) {
 static uint16_t rxErrors = 0, txErrors = 0, overflow = 0;
 
 void
-CO_CANmodule_process(CO_CANmodule_t* CANmodule) {
+CO_CANmodule_process_xmc4xxx(CO_CANmodule_t* CANmodule) {
     uint32_t err;
 
     err = ((uint32_t)txErrors << 16) | ((uint32_t)rxErrors << 8) | overflow;
@@ -385,7 +385,7 @@ CO_CANmodule_process(CO_CANmodule_t* CANmodule) {
 
 
 void
-CO_CANinterrupt(CO_CANmodule_t* CANmodule) {
+CO_CANinterrupt_xmc4xxx(CO_CANmodule_t* CANmodule) {
 
     CO_CANrxMsg_t rcvMsgData;
 

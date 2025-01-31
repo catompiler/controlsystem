@@ -22,7 +22,7 @@
 
 #include "301/CO_driver.h"
 
-#if CAN_DRIVER == CAN_DRIVER_SLCAN
+#if CAN_DRIVER & CAN_DRIVER_SLCAN
 
 #include "CO_driver_slcan_slave.h"
 
@@ -37,8 +37,9 @@
 #define CAN_ID_FLAG_RTR 0x8000
 
 
+
 void
-CO_CANsetConfigurationMode(void* CANptr) {
+CO_CANsetConfigurationMode_slcan_slave(void* CANptr) {
     /* Put CAN module in configuration mode */
     if(CANptr == NULL) return;
 
@@ -53,7 +54,7 @@ CO_CANsetConfigurationMode(void* CANptr) {
 }
 
 void
-CO_CANsetNormalMode(CO_CANmodule_t* CANmodule) {
+CO_CANsetNormalMode_slcan_slave(CO_CANmodule_t* CANmodule) {
     /* Put CAN module in normal mode */
     if(CANmodule == NULL) return;
     if(CANmodule->CANptr == NULL) return;
@@ -69,7 +70,7 @@ CO_CANsetNormalMode(CO_CANmodule_t* CANmodule) {
 }
 
 CO_ReturnError_t
-CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[], uint16_t rxSize, CO_CANtx_t txArray[],
+CO_CANmodule_init_slcan_slave(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[], uint16_t rxSize, CO_CANtx_t txArray[],
                   uint16_t txSize, uint16_t CANbitRate) {
     uint16_t i;
 
@@ -126,14 +127,14 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
 }
 
 void
-CO_CANmodule_disable(CO_CANmodule_t* CANmodule) {
+CO_CANmodule_disable_slcan_slave(CO_CANmodule_t* CANmodule) {
     if (CANmodule != NULL) {
         /* turn off the module */
     }
 }
 
 CO_ReturnError_t
-CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, uint16_t mask, bool_t rtr, void* object,
+CO_CANrxBufferInit_slcan_slave(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, uint16_t mask, bool_t rtr, void* object,
                    void (*CANrx_callback)(void* object, void* message)) {
     CO_ReturnError_t ret = CO_ERROR_NO;
 
@@ -162,7 +163,7 @@ CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, ui
 }
 
 CO_CANtx_t*
-CO_CANtxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bool_t rtr, uint8_t noOfBytes,
+CO_CANtxBufferInit_slcan_slave(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bool_t rtr, uint8_t noOfBytes,
                    bool_t syncFlag) {
     CO_CANtx_t* buffer = NULL;
 
@@ -242,7 +243,7 @@ static bool can_is_can_send_msg(CO_CANmodule_t* CANmodule)
 
 
 CO_ReturnError_t
-CO_CANsend(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer) {
+CO_CANsend_slcan_slave(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer) {
     CO_ReturnError_t err = CO_ERROR_NO;
 
     /* Verify overflow */
@@ -272,7 +273,7 @@ CO_CANsend(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer) {
 }
 
 void
-CO_CANclearPendingSyncPDOs(CO_CANmodule_t* CANmodule) {
+CO_CANclearPendingSyncPDOs_slcan_slave(CO_CANmodule_t* CANmodule) {
     uint32_t tpdoDeleted = 0U;
 
     CO_LOCK_CAN_SEND(CANmodule);
@@ -309,7 +310,7 @@ CO_CANclearPendingSyncPDOs(CO_CANmodule_t* CANmodule) {
 static uint16_t rxErrors = 0, txErrors = 0, overflow = 0;
 
 void
-CO_CANmodule_process(CO_CANmodule_t* CANmodule) {
+CO_CANmodule_process_slcan_slave(CO_CANmodule_t* CANmodule) {
     uint32_t err;
 
     err = ((uint32_t)txErrors << 16) | ((uint32_t)rxErrors << 8) | overflow;
@@ -359,7 +360,7 @@ CO_CANmodule_process(CO_CANmodule_t* CANmodule) {
 
 
 void
-CO_CANinterrupt(CO_CANmodule_t* CANmodule) {
+CO_CANinterrupt_slcan_slave(CO_CANmodule_t* CANmodule) {
 
     CO_CANrxMsg_t rcvMsgData;
 
