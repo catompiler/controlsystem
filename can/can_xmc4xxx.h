@@ -220,6 +220,13 @@ EXTERN can_t* can_init(can_init_t* is);
 EXTERN void can_disable(can_t* can);
 
 /**
+ * Получает модуль CAN с заданным номером.
+ * @param can_n Номер модуля.
+ * @return Модуль CAN.
+ */
+EXTERN can_t* can_get(size_t can_n);
+
+/**
  * Инициализирует ноду CAN.
  * @param is Структура инициализации.
  * @return Указатель на CAN, либо NULL в случае ошибки.

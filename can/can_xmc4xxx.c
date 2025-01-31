@@ -104,7 +104,7 @@ ALWAYS_INLINE static can_t* can_get_can(size_t index)
     assert(index == 0);
 
     // Согласно Reference Manual.
-    return &cans[0];
+    return &cans[index];
 }
 
 //! Получает указатель на CAN_NODE по индексу.
@@ -520,6 +520,10 @@ void can_disable(can_t* can)
     while((can->can_device->CLC & CAN_CLC_DISS_Msk) == 0){ __NOP(); }
 }
 
+can_t* can_get(size_t can_n)
+{
+    return can_get_can(can_n);
+}
 
 can_node_t* can_node_init(can_node_init_t* is)
 {
