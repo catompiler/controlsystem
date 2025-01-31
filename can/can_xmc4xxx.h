@@ -178,6 +178,7 @@ typedef struct _S_Can_Node {
     size_t node_n; //!< Номер ноды.
     can_node_event_callback_t callback; //!< Коллбэк событий.
     uint32_t frames_counter_hi; //!< Верхняя часть счётчика фреймов.
+    void* user_data; //!< Данные пользователя.
 } can_node_t;
 
 
@@ -189,6 +190,7 @@ typedef struct _S_Can_Node_Init {
     bool loopback; //!< Замыкание на себя.
     bool analyzer; //!< Анализ трафика.
     can_node_event_callback_t callback; //!< Коллбэк событий.
+    void* user_data; //!< Данные пользователя.
     uint8_t sel_rx; //!< Селектор номера входа CAN ноды.
     GPIO_t* gpio_tx; //!< Порт TX.
     gpio_pin_t pin_tx_msk; //!< Пин TX.
@@ -243,6 +245,20 @@ EXTERN err_t can_node_set_bitrate(can_node_t* can_node, can_bit_rate_t bit_rate)
  * @param can_node Нода CAN.
  */
 EXTERN void can_node_set_normal_mode(can_node_t* can_node);
+
+/**
+ * Получает данные пользователя.
+ * @param can_node
+ * @return Данные пользователя.
+ */
+EXTERN void* can_node_user_data(can_node_t* can_node);
+
+/**
+ * Устанавливает данные пользователя.
+ * @param can_node
+ * @param user_data Данные пользователя.
+ */
+EXTERN void can_node_set_user_data(can_node_t* can_node, void* user_data);
 
 /**
  * Получает статус отключения шины.

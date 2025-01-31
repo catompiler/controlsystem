@@ -15,7 +15,7 @@ static can_t cans[] = {
 static_assert((sizeof(cans)/sizeof(cans[0])) == CANS_COUNT, "Invalid can array!");
 
 
-#define MAKE_CAN_NODE(N) { &cans[0], CAN_NODE ## N, N, NULL, 0}
+#define MAKE_CAN_NODE(N) { &cans[0], CAN_NODE ## N, N, NULL, 0, NULL}
 
 static can_node_t can_nodes[] = {
 #ifdef CAN_NODE0
@@ -121,25 +121,25 @@ ALWAYS_INLINE static can_node_t* can_get_node(can_t* can, size_t index)
  * Функции получения регистров объектов CAN по индексу (номеру).
  */
 
-//! Получает указатель на CAN по индексу.
-ALWAYS_INLINE static CAN_GLOBAL_TypeDef* can_get_can_device(size_t index)
-{
-    (void) index;
-
-    // Согласно Reference Manual.
-    return (CAN_GLOBAL_TypeDef*)CAN_BASE;
-}
-
-//! Получает указатель на CAN_NODE по индексу.
-ALWAYS_INLINE static CAN_NODE_TypeDef* can_get_node_device(can_t* can, size_t index)
-{
-    (void) can;
-
-    assert(index < CAN_NODES_COUNT);
-
-    // Согласно Reference Manual.
-    return (CAN_NODE_TypeDef*)(CAN_NODE0_BASE + 0x100 * index);
-}
+// //! Получает указатель на CAN по индексу.
+//ALWAYS_INLINE static CAN_GLOBAL_TypeDef* can_get_can_device(size_t index)
+//{
+//    (void) index;
+//
+//    // Согласно Reference Manual.
+//    return (CAN_GLOBAL_TypeDef*)CAN_BASE;
+//}
+//
+// //! Получает указатель на CAN_NODE по индексу.
+//ALWAYS_INLINE static CAN_NODE_TypeDef* can_get_node_device(can_t* can, size_t index)
+//{
+//    (void) can;
+//
+//    assert(index < CAN_NODES_COUNT);
+//
+//    // Согласно Reference Manual.
+//    return (CAN_NODE_TypeDef*)(CAN_NODE0_BASE + 0x100 * index);
+//}
 
 //! Получает указатель на CAN_MO по индексу.
 ALWAYS_INLINE static CAN_MO_TypeDef* can_get_mo(can_t* can, size_t index)
@@ -236,17 +236,17 @@ ALWAYS_INLINE static bool can_mo_event_is_rx(CAN_MO_TypeDef* MO)
     return (MO->MOSTAT & CAN_MO_MOSTAT_RXPND_Msk) >> CAN_MO_MOSTAT_RXPND_Pos;
 }
 
-//! Получает нижний MO в fifo.
-ALWAYS_INLINE static uint32_t can_mo_fifo_bot(CAN_MO_TypeDef* MO)
-{
-    return (MO->MOFGPR & CAN_MO_MOFGPR_BOT_Msk) >> CAN_MO_MOFGPR_BOT_Pos;
-}
-
-//! Получает верхний MO в fifo.
-ALWAYS_INLINE static uint32_t can_mo_fifo_top(CAN_MO_TypeDef* MO)
-{
-    return (MO->MOFGPR & CAN_MO_MOFGPR_TOP_Msk) >> CAN_MO_MOFGPR_TOP_Pos;
-}
+// //! Получает нижний MO в fifo.
+//ALWAYS_INLINE static uint32_t can_mo_fifo_bot(CAN_MO_TypeDef* MO)
+//{
+//    return (MO->MOFGPR & CAN_MO_MOFGPR_BOT_Msk) >> CAN_MO_MOFGPR_BOT_Pos;
+//}
+//
+// //! Получает верхний MO в fifo.
+//ALWAYS_INLINE static uint32_t can_mo_fifo_top(CAN_MO_TypeDef* MO)
+//{
+//    return (MO->MOFGPR & CAN_MO_MOFGPR_TOP_Msk) >> CAN_MO_MOFGPR_TOP_Pos;
+//}
 
 //! Получает текущий MO в fifo.
 ALWAYS_INLINE static uint32_t can_mo_fifo_cur(CAN_MO_TypeDef* MO)
@@ -534,6 +534,7 @@ can_node_t* can_node_init(can_node_init_t* is)
     if(can_node->can != is->can) return NULL;
 
     can_node->callback = is->callback;
+    can_node->user_data = is->user_data;
 
     // Set default and configuration mode.
     can_node->node_device->NCR = CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk |
@@ -598,6 +599,20 @@ void can_node_set_normal_mode(can_node_t* can_node)
     assert(can_node != NULL);
 
     can_node->node_device->NCR &= ~(CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk);
+}
+
+void* can_node_user_data(can_node_t* can_node)
+{
+    assert(can_node != NULL);
+
+    return can_node->user_data;
+}
+
+void can_node_set_user_data(can_node_t* can_node, void* user_data)
+{
+    assert(can_node != NULL);
+
+    can_node->user_data = user_data;
 }
 
 bool can_node_status_bus_off(can_node_t* can_node)
