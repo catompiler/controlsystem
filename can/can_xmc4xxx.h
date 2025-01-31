@@ -39,6 +39,18 @@
 #endif
 
 
+
+//! Число MO.
+#if defined(CAN_MO255)
+#define CAN_MO_COUNT 256
+#elif defined(CAN_MO63)
+#define CAN_MO_COUNT 64
+#else
+#error Unknown CAN MOs count!
+#endif
+
+
+
 //! Частота тактирования блока CAN.
 #define CAN_FREQ 60000000
 
@@ -74,17 +86,17 @@ typedef enum _E_Can_Bit_Rate {
 
 //! Тип сообщения CAN.
 typedef struct _S_Can_Msg {
-    uint8_t ide;
-    uint32_t id;
-    bool rtr;
-    uint8_t dlc;
-    uint8_t data[CAN_DATA_SIZE];
+    uint32_t id; //!< Идентификатор.
+    uint8_t ide; //!< Флаг расширенного идентификатора.
+    bool rtr; //!< Флаг RTR.
+    uint8_t dlc; //!< Число байт данных.
+    uint8_t data[CAN_DATA_SIZE]; //!< Данные.
 } can_msg_t;
 
 
 //! Тип CAN.
 typedef struct _S_Can {
-    CAN_GLOBAL_TypeDef* can_device; //!< Периферия CAN.
+    CAN_GLOBAL_TypeDef* const can_device; //!< Периферия CAN.
 } can_t;
 
 
@@ -162,9 +174,10 @@ typedef void (*can_node_event_callback_t)(struct _S_Can_Node* can_node, can_node
 //! Тип ноды CAN.
 typedef struct _S_Can_Node {
     can_t* can; //!< CAN.
-    CAN_NODE_TypeDef* node_device; //!< CAN Node.
+    CAN_NODE_TypeDef* const node_device; //!< CAN Node.
     size_t node_n; //!< Номер ноды.
     can_node_event_callback_t callback; //!< Коллбэк событий.
+    uint32_t frames_counter_hi; //!< Верхняя часть счётчика фреймов.
 } can_node_t;
 
 
@@ -191,35 +204,155 @@ typedef struct _S_Can_Node_Init {
 typedef uint32_t can_mo_index_t;
 
 
-//! Инициализирует CAN.
+/**
+ * Инициализирует CAN.
+ * @param is Структура инициализации.
+ * @return Указатель на CAN, либо NULL в случае ошибки.
+ */
 EXTERN can_t* can_init(can_init_t* is);
 
-//! Запрещает модуль CAN.
+/**
+ * Запрещает модуль CAN.
+ * @param can CAN.
+ */
 EXTERN void can_disable(can_t* can);
 
-//! Инициализирует CAN.
+/**
+ * Инициализирует ноду CAN.
+ * @param is Структура инициализации.
+ * @return Указатель на CAN, либо NULL в случае ошибки.
+ */
 EXTERN can_node_t* can_node_init(can_node_init_t* is);
 
-//! Устанавливает режим конфигурации.
+/**
+ * Устанавливает режим конфигурации.
+ * @param can_node Нода CAN.
+ */
 EXTERN void can_node_set_configuration_mode(can_node_t* can_node);
 
-//! Устанавливает битрейт.
+/**
+ * Устанавливает битрейт.
+ * @param can_node Нода CAN.
+ * @param bit_rate Битрейт.
+ * @return Код ошибки.
+ */
 EXTERN err_t can_node_set_bitrate(can_node_t* can_node, can_bit_rate_t bit_rate);
 
-//! Устанавливает нормальный режим.
+/**
+ * Устанавливает нормальный режим.
+ * @param can_node Нода CAN.
+ */
 EXTERN void can_node_set_normal_mode(can_node_t* can_node);
 
-//! Инициализирует буфер приёма с заданным индексом.
-EXTERN can_mo_index_t can_init_rx_buffer(can_node_t* can_node, size_t fifo_len, uint16_t ident, uint16_t mask, bool rtr);
+/**
+ * Получает статус отключения шины.
+ * @param can_node Нода CAN.
+ * @return Статус отключения шины.
+ */
+EXTERN bool can_node_status_bus_off(can_node_t* can_node);
 
-//! Инициализирует буфер передачи с заданным индексом.
-EXTERN can_mo_index_t can_init_tx_buffer(can_node_t* can_node, size_t fifo_len, uint16_t ident, bool rtr, uint8_t noOfBytes);
+/**
+ * Получает статус превышения уровня предупреждений.
+ * @param can_node Нода CAN.
+ * @return Статус превышения уровня предупреждений.
+ */
+EXTERN bool can_node_status_warning_limit_reached(can_node_t* can_node);
 
-//! Отправляет сообщение через буфер с указанным индексом.
-EXTERN err_t can_send_msg(can_node_t* can_node, can_mo_index_t mo_index, const can_msg_t* msg);
+/**
+ * Получает статус установки режима инициализации аппаратурой.
+ * @param can_node Нода CAN.
+ * @return Статус установки режима инициализации аппаратурой.
+ */
+EXTERN bool can_node_status_init_set_by_hw(can_node_t* can_node);
 
-//! Принимает сообщение из буфера с указанным индексом.
-EXTERN err_t can_recv_msg(can_node_t* can_node, can_mo_index_t mo_index, can_msg_t* msg);
+/**
+ * Получает статус внутренней ошибки.
+ * @param can_node Нода CAN.
+ * @return Статус внутренней ошибки.
+ */
+EXTERN bool can_node_status_internal(can_node_t* can_node);
+
+/**
+ * Получает последнюю ошибку.
+ * @param can_node Нода CAN.
+ * @return Последняя ошибка.
+ */
+EXTERN can_error_t can_node_last_error(can_node_t* can_node);
+
+/**
+ * Получает уровень предупреждений.
+ * @param can_node Нода CAN.
+ * @return Уровень предупреждений.
+ */
+EXTERN uint8_t can_node_warning_level(can_node_t* can_node);
+
+/**
+ * Устанавливает уровень предупреждений.
+ * @param can_node Нода CAN.
+ * @param level Уровень предупреждений.
+ */
+EXTERN void can_node_set_warning_level(can_node_t* can_node, uint8_t level);
+
+/**
+ * Получает счётчик ошибок передачи.
+ * @param can_node Нода CAN.
+ * @return Счётчик ошибок передачи.
+ */
+EXTERN uint8_t can_node_transmit_error_counter(can_node_t* can_node);
+
+/**
+ * Получает счётчик ошибок приёма.
+ * @param can_node Нода CAN.
+ * @return Счётчик ошибок приёма.
+ */
+EXTERN uint8_t can_node_receive_error_counter(can_node_t* can_node);
+
+/**
+ * Получает счётчик принятых и переданных сообщений.
+ * @param can_node Нода CAN.
+ * @return Счётчик принятых и переданных сообщений.
+ */
+EXTERN uint64_t can_node_rxtx_count(can_node_t* can_node);
+
+/**
+ * Инициализирует буфер приёма с заданным индексом.
+ * @param can_node Нода CAN.
+ * @param fifo_len Длина FIFO.
+ * @param ident Идентификатор.
+ * @param mask Маска.
+ * @param rtr Флаг RTR.
+ * @return Код ошибки.
+ */
+EXTERN can_mo_index_t can_node_init_rx_buffer(can_node_t* can_node, size_t fifo_len, uint16_t ident, uint16_t mask, bool rtr);
+
+/**
+ * Инициализирует буфер передачи с заданным индексом.
+ * @param can_node Нода CAN.
+ * @param fifo_len Длина FIFO.
+ * @param ident Идентификатор.
+ * @param rtr Флаг RTR.
+ * @param noOfBytes Количество байт данных.
+ * @return Код ошибки.
+ */
+EXTERN can_mo_index_t can_node_init_tx_buffer(can_node_t* can_node, size_t fifo_len, uint16_t ident, bool rtr, uint8_t noOfBytes);
+
+/**
+ * Отправляет сообщение через буфер с указанным индексом.
+ * @param can_node Нода CAN.
+ * @param mo_index Номер объекта сообщений.
+ * @param msg Сообщение.
+ * @return Код ошибки.
+ */
+EXTERN err_t can_node_send_msg(can_node_t* can_node, can_mo_index_t mo_index, const can_msg_t* msg);
+
+/**
+ * Принимает сообщение из буфера с указанным индексом.
+ * @param can_node Нода CAN.
+ * @param mo_index Номер объекта сообщений.
+ * @param msg Сообщение.
+ * @return Код ошибки.
+ */
+EXTERN err_t can_node_recv_msg(can_node_t* can_node, can_mo_index_t mo_index, can_msg_t* msg);
 
 #endif /* CAN_CAN_XMC4XXX_H_ */
 

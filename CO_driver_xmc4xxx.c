@@ -167,9 +167,9 @@ CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, ui
 
         /* Set CAN hardware module filter and mask. */
         if(CANmodule->useCANrxFilters){
-            can_init_rx_buffer(can, index, ident, mask, rtr);
+            can_node_init_rx_buffer(can, index, ident, mask, rtr);
         }else{
-            can_init_rx_buffer(can, index, ident, 0, rtr);
+            can_node_init_rx_buffer(can, index, ident, 0, rtr);
         }
     } else {
         ret = CO_ERROR_ILLEGAL_ARGUMENT;
@@ -197,7 +197,7 @@ CO_CANtxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bo
         buffer->bufferFull = false;
         buffer->syncFlag = syncFlag;
 
-        can_init_tx_buffer(can, index, ident, rtr, noOfBytes);
+        can_node_init_tx_buffer(can, index, ident, rtr, noOfBytes);
     }
 
     return buffer;
@@ -226,7 +226,7 @@ static bool CO_driver_can_send_msg(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer
 
     ptrdiff_t buf_index = ((ptrdiff_t)buffer - (ptrdiff_t)CANmodule->txArray) / sizeof(CANmodule->txArray[0]);
 
-    err_t err = can_send_msg(can, buf_index, &can_msg);
+    err_t err = can_node_send_msg(can, buf_index, &can_msg);
     if(err != E_NO_ERROR) return false;
 
     return true;
@@ -242,7 +242,7 @@ static bool CO_driver_can_recv_msg(CO_CANmodule_t* CANmodule, CO_CANrxMsg_t* rxM
 
     ptrdiff_t buf_index = ((ptrdiff_t)rxMsg - (ptrdiff_t)CANmodule->rxArray) / sizeof(CANmodule->rxArray[0]);
 
-    if(can_recv_msg(can, buf_index, &can_msg) != E_NO_ERROR) return false;
+    if(can_node_recv_msg(can, buf_index, &can_msg) != E_NO_ERROR) return false;
 
     rxMsg->ident = (can_msg.id & CAN_ID_MASK) | ((can_msg.rtr == 0) ? 0x0 : CAN_ID_FLAG_RTR);
     rxMsg->DLC = can_msg.dlc;

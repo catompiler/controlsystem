@@ -33,9 +33,6 @@
 //! Уарт для stdio.
 #define STDIO_UART_IRQ_PRIORITY IRQ_PRIORITY(7, 0)
 
-//! CAN.
-#define CAN_IRQ_PRIORITY IRQ_PRIORITY(10, 0)
-
 
 //! Таймер АЦП.
 #define ADC_TIM_IRQ_PRIORITY IRQ_PRIORITY(8, 0)
@@ -45,6 +42,9 @@
 #define MS_TIM_IRQ_PRIORITY IRQ_PRIORITY(9, 0)
 //! Таймер сети.
 #define NET_TIM_IRQ_PRIORITY IRQ_PRIORITY(10, 3)
+
+//! CAN.
+#define CAN_IRQ_PRIORITY IRQ_PRIORITY(10, 0)
 
 ////! .
 //#define _IRQ_PRIORITY PRIORITY(,)

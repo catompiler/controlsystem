@@ -469,11 +469,11 @@ void on_node_event(can_node_t* can_node, can_node_event_t* event)
         can_mo_index_t mo_rx_index = event->msg_recv.buf_index;
         can_mo_index_t mo_tx_index = (mo_rx_index == mo_0_rx) ? mo_0_tx : mo_1_tx;
 
-        can_recv_msg(can_node, mo_rx_index, &msg);
+        can_node_recv_msg(can_node, mo_rx_index, &msg);
         for(int i = 0; i < 8; i ++){
             msg.data[i] ++;
         }
-        can_send_msg(can_node, mo_tx_index, &msg);
+        can_node_send_msg(can_node, mo_tx_index, &msg);
     }
 }
 
@@ -529,11 +529,11 @@ static void init_can()
         }
     }
 
-    mo_0_tx = can_init_tx_buffer(can_node[0], 4, 0x400, false, 8);
-    mo_0_rx = can_init_rx_buffer(can_node[0], 4, 0x400, 0x0, false);
+    mo_0_tx = can_node_init_tx_buffer(can_node[0], 1, 0x400, false, 8);
+    mo_0_rx = can_node_init_rx_buffer(can_node[0], 1, 0x400, 0x0, false);
 
-    mo_1_tx = can_init_tx_buffer(can_node[1], 4, 0x400, false, 8);
-    mo_1_rx = can_init_rx_buffer(can_node[1], 4, 0x400, 0x0, false);
+    mo_1_tx = can_node_init_tx_buffer(can_node[1], 1, 0x400, false, 8);
+    mo_1_rx = can_node_init_rx_buffer(can_node[1], 1, 0x400, 0x0, false);
 
     can_node_set_normal_mode(can_node[0]);
     can_node_set_normal_mode(can_node[1]);
@@ -550,7 +550,7 @@ static void init_can()
     }
 
     //can_msg.id ++;
-    can_send_msg(can_node[0], 0, &can_msg);
+    can_node_send_msg(can_node[0], 0, &can_msg);
 
 #endif
 }
