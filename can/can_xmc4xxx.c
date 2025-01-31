@@ -580,6 +580,11 @@ can_node_t* can_node_init(can_node_init_t* is)
     return can_node;
 }
 
+can_node_t* can_node_get(can_t* can, size_t node_n)
+{
+    return can_get_node(can, node_n);
+}
+
 void can_node_set_configuration_mode(can_node_t* can_node)
 {
     assert(can_node != NULL);

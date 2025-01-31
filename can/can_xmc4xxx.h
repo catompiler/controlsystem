@@ -234,6 +234,14 @@ EXTERN can_t* can_get(size_t can_n);
 EXTERN can_node_t* can_node_init(can_node_init_t* is);
 
 /**
+ * Получает ноду CAN модуля с заданным номером.
+ * @param can Модуль CAN.
+ * @param node_n Номер ноды.
+ * @return Нода CAN.
+ */
+EXTERN can_node_t* can_node_get(can_t* can, size_t node_n);
+
+/**
  * Устанавливает режим конфигурации.
  * @param can_node Нода CAN.
  */
