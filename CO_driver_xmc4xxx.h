@@ -129,5 +129,41 @@ typedef struct {
 /** @} */
 
 
+/**
+ * Complete CAN module object.
+ *
+ * Must be defined in the **CO_driver_target.h** file.
+ *
+ * Usually it has the following data fields, but they may differ for different microcontrollers.
+ */
+typedef struct {
+    void* CANptr;                    /**< From CO_CANmodule_init() */
+    CO_CANrx_xmc4xxx_t* rxArray;             /**< From CO_CANmodule_init() */
+    uint16_t rxSize;                 /**< From CO_CANmodule_init() */
+    CO_CANtx_xmc4xxx_t* txArray;             /**< From CO_CANmodule_init() */
+    uint16_t txSize;                 /**< From CO_CANmodule_init() */
+    uint16_t CANerrorStatus;         /**< CAN error status bitfield, see @ref CO_CAN_ERR_status_t */
+    volatile bool_t CANnormal;       /**< CAN module is in normal mode */
+    volatile bool_t useCANrxFilters; /**< Value different than zero indicates, that CAN module hardware filters are used
+                                        for CAN reception. If there is not enough hardware filters, they won't be used.
+                                        In this case will be *all* received CAN messages processed by software. */
+    volatile bool_t bufferInhibitFlag; /**< If flag is true, then message in transmit buffer is synchronous PDO message,
+                                          which will be aborted, if CO_clearPendingSyncPDOs() function will be called by
+                                          application. This may be necessary if Synchronous window time was expired. */
+    volatile bool_t
+        firstCANtxMessage; /**< Equal to 1, when the first transmitted message (bootup message) is in CAN TX buffers */
+    volatile uint16_t
+        CANtxCount;  /**< Number of messages in transmit buffer, which are waiting to be copied to the CAN module */
+    uint32_t errOld; /**< Previous state of CAN errors */
+} CO_CANmodule_xmc4xxx_t;
+
+
+/*
+ * Main events handler.
+ */
+void
+CO_CANinterrupt_xmc4xxx(CO_CANmodule_xmc4xxx_t* CANmodule);
+
+
 #endif /* CO_DRIVER_XMC4XXX_H_ */
 

@@ -130,6 +130,12 @@ void* CO_driver_init(void* arg);
 void CO_driver_deinit(void* drv);
 
 /**
+ * Получает объект драйвера.
+ * @return Объект драйвера.
+ */
+void* CO_driver();
+
+/**
  * Добавляет порт драйвера.
  * @param drv Драйвер.
  * @param port Порт драйвера.
@@ -267,17 +273,17 @@ typedef struct _S_CO_driver_port_api {
 
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
-    #if CAN_DRIVER & CAN_DRIVER_HW
+    #if (CAN_DRIVER & CAN_DRIVER_HW)
         #include "CO_driver_xmc4xxx.h"
     #endif
-    #if CAN_DRIVER & CAN_DRIVER_SLCAN
+    #if (CAN_DRIVER & CAN_DRIVER_SLCAN)
         #include "CO_driver_slcan_slave.h"
     #endif
     #if !CAN_DRIVER
         #error Invalid XMC4 CAN driver!
     #endif
 #elif defined(PORT_POSIX)
-    #if CAN_DRIVER & CAN_DRIVER_SLCAN
+    #if (CAN_DRIVER & CAN_DRIVER_SLCAN)
         #include "CO_driver_slcan_slave.h"
     #endif
     #if !CAN_DRIVER
@@ -289,12 +295,33 @@ typedef struct _S_CO_driver_port_api {
 
 
 /**
+ * Структура CAN драйвера.
+ * Указатель на эту структуру должен передаваться
+ * в CO_CANinit в параметр CANptr.
+ * В порты драйверов передаётся
+ * непосредственно CANptr.
+ */
+typedef struct _S_CO_Driver_CAN {
+    CO_driver_id_t driver_id; //!< Идентификатор драйвера.
+    void* CANptr; //!< Указатель на CAN драйвера.
+} CO_driver_CAN_t;
+
+
+/**
  * CAN rx message structure.
  */
 typedef struct {
-    uint32_t ident;
-    uint8_t DLC;
-    uint8_t data[8];
+    CO_driver_id_t driver_id; //!< Идентификатор драйвера.
+    union {
+#if (CAN_DRIVER & CAN_DRIVER_HW)
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+        CO_CANrxMsg_xmc4xxx_t xmc4xxx;
+#endif
+#endif
+#if (CAN_DRIVER & CAN_DRIVER_SLCAN)
+        CO_CANrxMsg_slcan_slave_t slcan_slave;
+#endif
+    } data;
 } CO_CANrxMsg_t;
 
 /**
@@ -309,10 +336,8 @@ typedef struct {
  * @param rxMsg Pointer to received message
  * @return 11-bit CAN standard identifier.
  */
-static inline __attribute__((always_inline)) uint16_t
-CO_CANrxMsg_readIdent(void* rxMsg) {
-    return ((CO_CANrxMsg_t*)rxMsg)->ident;
-}
+uint16_t
+CO_CANrxMsg_readIdent(void* rxMsg);
 
 /**
  * CANrx_callback() can read Data Length Code from received CAN message
@@ -322,10 +347,8 @@ CO_CANrxMsg_readIdent(void* rxMsg) {
  * @param rxMsg Pointer to received message
  * @return data length in bytes (0 to 8)
  */
-static inline __attribute__((always_inline)) uint8_t
-CO_CANrxMsg_readDLC(void* rxMsg) {
-    return ((CO_CANrxMsg_t*)rxMsg)->DLC;
-}
+uint8_t
+CO_CANrxMsg_readDLC(void* rxMsg);
 
 /**
  * CANrx_callback() can read pointer to data from received CAN message
@@ -335,10 +358,8 @@ CO_CANrxMsg_readDLC(void* rxMsg) {
  * @param rxMsg Pointer to received message
  * @return pointer to data buffer
  */
-static inline __attribute__((always_inline)) const uint8_t*
-CO_CANrxMsg_readData(void* rxMsg) {
-    return ((CO_CANrxMsg_t*)rxMsg)->data;
-}
+const uint8_t*
+CO_CANrxMsg_readData(void* rxMsg);
 /**
  * Configuration object for CAN received message for specific \ref CO_obj "CANopenNode Object".
  *
@@ -348,11 +369,17 @@ CO_CANrxMsg_readData(void* rxMsg) {
  * may differ for different microcontrollers. Array of multiple CO_CANrx_t objects is included inside CO_CANmodule_t.
  */
 typedef struct {
-    uint16_t ident; /**< Standard CAN Identifier (bits 0..10) + RTR (bit 11) */
-    uint16_t mask;  /**< Standard CAN Identifier mask with the same alignment as ident */
-    void* object;   /**< \ref CO_obj "CANopenNode Object" initialized in from CO_CANrxBufferInit() */
-    void (*pCANrx_callback)(void* object,
-                            void* message); /**< Pointer to CANrx_callback() initialized in CO_CANrxBufferInit() */
+    CO_driver_id_t driver_id; //!< Идентификатор драйвера.
+    union {
+#if (CAN_DRIVER & CAN_DRIVER_HW)
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+        CO_CANrx_xmc4xxx_t xmc4xxx;
+#endif
+#endif
+#if (CAN_DRIVER & CAN_DRIVER_SLCAN)
+        CO_CANrx_slcan_slave_t slcan_slave;
+#endif
+    } data;
 } CO_CANrx_t;
 
 /** @} */
@@ -381,12 +408,17 @@ typedef struct {
  * may differ for different microcontrollers. Array of multiple CO_CANtx_t objects is included inside CO_CANmodule_t.
  */
 typedef struct {
-    uint32_t ident;             /**< CAN identifier as aligned in CAN module */
-    uint8_t DLC;                /**< Length of CAN message */
-    uint8_t data[8];            /**< 8 data bytes */
-    volatile bool_t bufferFull; /**< True if previous message is still in the buffer */
-    volatile bool_t syncFlag;   /**< Synchronous PDO messages has this flag set. It prevents them to be sent outside the
-                                     synchronous window */
+    CO_driver_id_t driver_id; //!< Идентификатор драйвера.
+    union {
+#if (CAN_DRIVER & CAN_DRIVER_HW)
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+        CO_CANtx_xmc4xxx_t xmc4xxx;
+#endif
+#endif
+#if (CAN_DRIVER & CAN_DRIVER_SLCAN)
+        CO_CANtx_slcan_slave_t slcan_slave;
+#endif
+    } data;
 } CO_CANtx_t;
 
 /** @} */
@@ -400,24 +432,17 @@ typedef struct {
  * Usually it has the following data fields, but they may differ for different microcontrollers.
  */
 typedef struct {
-    void* CANptr;                    /**< From CO_CANmodule_init() */
-    CO_CANrx_t* rxArray;             /**< From CO_CANmodule_init() */
-    uint16_t rxSize;                 /**< From CO_CANmodule_init() */
-    CO_CANtx_t* txArray;             /**< From CO_CANmodule_init() */
-    uint16_t txSize;                 /**< From CO_CANmodule_init() */
-    uint16_t CANerrorStatus;         /**< CAN error status bitfield, see @ref CO_CAN_ERR_status_t */
-    volatile bool_t CANnormal;       /**< CAN module is in normal mode */
-    volatile bool_t useCANrxFilters; /**< Value different than zero indicates, that CAN module hardware filters are used
-                                        for CAN reception. If there is not enough hardware filters, they won't be used.
-                                        In this case will be *all* received CAN messages processed by software. */
-    volatile bool_t bufferInhibitFlag; /**< If flag is true, then message in transmit buffer is synchronous PDO message,
-                                          which will be aborted, if CO_clearPendingSyncPDOs() function will be called by
-                                          application. This may be necessary if Synchronous window time was expired. */
-    volatile bool_t
-        firstCANtxMessage; /**< Equal to 1, when the first transmitted message (bootup message) is in CAN TX buffers */
-    volatile uint16_t
-        CANtxCount;  /**< Number of messages in transmit buffer, which are waiting to be copied to the CAN module */
-    uint32_t errOld; /**< Previous state of CAN errors */
+    CO_driver_id_t driver_id; //!< Идентификатор драйвера.
+    union {
+#if (CAN_DRIVER & CAN_DRIVER_HW)
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+        CO_CANmodule_xmc4xxx_t xmc4xxx;
+#endif
+#endif
+#if (CAN_DRIVER & CAN_DRIVER_SLCAN)
+        CO_CANmodule_slcan_slave_t slcan_slave;
+#endif
+    } data;
 } CO_CANmodule_t;
 
 

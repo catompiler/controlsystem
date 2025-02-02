@@ -62,6 +62,11 @@ void CO_driver_deinit(void* drv)
     (void) drv;
 }
 
+void* CO_driver()
+{
+    return &CO_drv;
+}
+
 CO_driver_id_t CO_driver_add_port(void* drv, CO_driver_port_api_t* port)
 {
     assert(drv != NULL);
@@ -112,17 +117,57 @@ void CO_driver_free(void* ptr)
 }
 
 
+uint16_t
+CO_CANrxMsg_readIdent(void* rxMsg) {
+    assert(rxMsg != NULL);
+
+    CO_driver_t* codrv = (CO_driver_t*)CO_driver();
+    CO_CANrxMsg_t* msg = (CO_CANrxMsg_t*)rxMsg;
+
+    return codrv->port[msg->driver_id]->CO_CANrxMsg_readIdent((void*)&msg->data);
+}
+
+uint8_t
+CO_CANrxMsg_readDLC(void* rxMsg) {
+    assert(rxMsg != NULL);
+
+    CO_driver_t* codrv = (CO_driver_t*)CO_driver();
+    CO_CANrxMsg_t* msg = (CO_CANrxMsg_t*)rxMsg;
+
+    return codrv->port[msg->driver_id]->CO_CANrxMsg_readDLC((void*)&msg->data);
+}
+
+const uint8_t*
+CO_CANrxMsg_readData(void* rxMsg) {
+    assert(rxMsg != NULL);
+
+    CO_driver_t* codrv = (CO_driver_t*)CO_driver();
+    CO_CANrxMsg_t* msg = (CO_CANrxMsg_t*)rxMsg;
+
+    return codrv->port[msg->driver_id]->CO_CANrxMsg_readData((void*)&msg->data);
+}
+
+
 void
 CO_CANsetConfigurationMode(void* CANptr) {
     /* Put CAN module in configuration mode */
     if(CANptr == NULL) return;
+
+    CO_driver_t* codrv = (CO_driver_t*)CO_driver();
+    CO_driver_CAN_t* drvcan = (CO_driver_CAN_t*)CANptr;
+
+    return codrv->port[drvcan->driver_id]->CO_CANsetConfigurationMode(drvcan->CANptr);
 }
 
 void
 CO_CANsetNormalMode(CO_CANmodule_t* CANmodule) {
     /* Put CAN module in normal mode */
     if(CANmodule == NULL) return;
-    if(CANmodule->CANptr == NULL) return;
+
+    CO_driver_t* codrv = (CO_driver_t*)CO_driver();
+    CO_driver_CAN_t* drvcan = (CO_driver_CAN_t*)CANptr;
+
+    codrv->port[drvcan->driver_id]->CO_CANsetNormalMode(drvcan->CANptr);
 
     CANmodule->CANnormal = true;
 }
@@ -136,6 +181,11 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
     if (CANmodule == NULL || CANptr == NULL || rxArray == NULL || txArray == NULL) {
         return CO_ERROR_ILLEGAL_ARGUMENT;
     }
+
+    CO_driver_t* codrv = (CO_driver_t*)CO_driver();
+    CO_driver_CAN_t* drvcan = (CO_driver_CAN_t*)CANptr;
+
+    codrv->port[drvcan->driver_id]->CO_CANsetNormalMode(drvcan->CANptr);
 
 
     return CO_ERROR_NO;
