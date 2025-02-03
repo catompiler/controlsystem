@@ -24,6 +24,7 @@
 
 #if CAN_DRIVER & CAN_DRIVER_HW
 
+#include "cpu.h"
 #include "CO_driver_xmc4xxx.h"
 #include "can/can_xmc4xxx.h"
 #include "hardware/config.h"
@@ -33,9 +34,6 @@
 #include <stdbool.h>
 
 
-#define CAN_ID_MASK 0x7ff
-
-#define CAN_ID_FLAG_RTR 0x8000
 
 
 void
@@ -212,9 +210,9 @@ static bool CO_driver_can_send_msg(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer
 
     can_msg_t can_msg;
 
-    can_msg.rtr = ((buffer->ident & CAN_ID_FLAG_RTR) == 0) ? 0 : 1;
+    can_msg.rtr = ((buffer->ident & CO_CAN_ID_FLAG_RTR) == 0) ? 0 : 1;
     can_msg.ide = 0;
-    can_msg.id = buffer->ident & CAN_ID_MASK;
+    can_msg.id = buffer->ident & CO_CAN_ID_MASK;
     can_msg.dlc = buffer->DLC;
 
     if(can_msg.rtr == 0){
@@ -244,7 +242,7 @@ static bool CO_driver_can_recv_msg(CO_CANmodule_t* CANmodule, CO_CANrxMsg_t* rxM
 
     if(can_node_recv_msg(can_node, buf_index, &can_msg) != E_NO_ERROR) return false;
 
-    rxMsg->ident = (can_msg.id & CAN_ID_MASK) | ((can_msg.rtr == 0) ? 0x0 : CAN_ID_FLAG_RTR);
+    rxMsg->ident = (can_msg.id & CO_CAN_ID_MASK) | ((can_msg.rtr == 0) ? 0x0 : CO_CAN_ID_FLAG_RTR);
     rxMsg->DLC = can_msg.dlc;
 
     if(can_msg.rtr == 0){

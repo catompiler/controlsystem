@@ -1,168 +1,39 @@
 #ifndef CO_DRIVER_XMC4XXX_H_
 #define CO_DRIVER_XMC4XXX_H_
 
-#include "cpu.h"
+
+#include "CO_driver_target.h"
 
 
-/*
- * CO_driver_target.h definitions.
- */
+// Необходимость данных порта в структуре CANrx.
+#ifndef CO_DRIVER_CANRX_PORT_DATA_NEEDED
+//#define CO_DRIVER_CANRX_PORT_DATA_NEEDED
+#endif
 
-/**
- * @defgroup CO_CAN_Message_reception Reception of CAN messages
- * @{
- *
- * Target specific definitions and description of CAN message reception
- *
- * CAN messages in CANopenNode are usually received by its own thread or higher priority interrupt. Received CAN
- * messages are first filtered by hardware or by software. Thread then examines its 11-bit CAN-id and mask and
- * determines, to which \ref CO_obj "CANopenNode Object" it belongs to. After that it calls predefined CANrx_callback()
- * function, which quickly pre-processes the message and fetches the relevant data. CANrx_callback() function is defined
- * by each \ref CO_obj "CANopenNode Object" separately. Pre-processed fetched data are later processed in another
- * thread.
- *
- * If \ref CO_obj "CANopenNode Object" reception of specific CAN message, it must first configure its own CO_CANrx_t
- * object with the CO_CANrxBufferInit() function.
- */
+// Необходимость указателя порта в структуре CANrx.
+#ifndef CO_DRIVER_CANRX_PORT_PTR_NEEDED
+//#define CO_DRIVER_CANRX_PORT_PTR_NEEDED
+#endif
 
-/**
- * CAN rx message structure.
- */
-typedef struct {
-    uint32_t ident;
-    uint8_t DLC;
-    uint8_t data[8];
-} CO_CANrxMsg_xmc4xxx_t;
+// Необходимость данных порта в структуре CANtx.
+#ifndef CO_DRIVER_CANTX_PORT_DATA_NEEDED
+//#define CO_DRIVER_CANTX_PORT_DATA_NEEDED
+#endif
 
-/**
- * CANrx_callback() can read CAN identifier from received CAN message
- *
- * Must be defined in the **CO_driver_target.h** file.
- *
- * This is target specific function and is specific for specific microcontroller. It is best to implement it by using
- * inline function or macro. `rxMsg` parameter should cast to a pointer to structure. For best efficiency structure may
- * have the same alignment as CAN registers inside CAN module.
- *
- * @param rxMsg Pointer to received message
- * @return 11-bit CAN standard identifier.
- */
-static uint16_t
-CO_CANrxMsg_readIdent_xmc4xxx(void* rxMsg) {
-    return ((CO_CANrxMsg_xmc4xxx_t*)rxMsg)->ident;
-}
+// Необходимость указателя порта в структуре CANtx.
+#ifndef CO_DRIVER_CANTX_PORT_PTR_NEEDED
+//#define CO_DRIVER_CANTX_PORT_PTR_NEEDED
+#endif
 
-/**
- * CANrx_callback() can read Data Length Code from received CAN message
- *
- * See also CO_CANrxMsg_readIdent():
- *
- * @param rxMsg Pointer to received message
- * @return data length in bytes (0 to 8)
- */
-static uint8_t
-CO_CANrxMsg_readDLC_xmc4xxx(void* rxMsg) {
-    return ((CO_CANrxMsg_xmc4xxx_t*)rxMsg)->DLC;
-}
+// Необходимость данных порта в структуре CANmodule.
+#ifndef CO_DRIVER_CANMODULE_PORT_DATA_NEEDED
+//#define CO_DRIVER_CANMODULE_PORT_DATA_NEEDED
+#endif
 
-/**
- * CANrx_callback() can read pointer to data from received CAN message
- *
- * See also CO_CANrxMsg_readIdent():
- *
- * @param rxMsg Pointer to received message
- * @return pointer to data buffer
- */
-static const uint8_t*
-CO_CANrxMsg_readData_xmc4xxx(void* rxMsg) {
-    return ((CO_CANrxMsg_xmc4xxx_t*)rxMsg)->data;
-}
-/**
- * Configuration object for CAN received message for specific \ref CO_obj "CANopenNode Object".
- *
- * Must be defined in the **CO_driver_target.h** file.
- *
- * Data fields of this structure are used exclusively by the driver. Usually it has the following data fields, but they
- * may differ for different microcontrollers. Array of multiple CO_CANrx_t objects is included inside CO_CANmodule_t.
- */
-typedef struct {
-    uint16_t ident; /**< Standard CAN Identifier (bits 0..10) + RTR (bit 11) */
-    uint16_t mask;  /**< Standard CAN Identifier mask with the same alignment as ident */
-    void* object;   /**< \ref CO_obj "CANopenNode Object" initialized in from CO_CANrxBufferInit() */
-    void (*pCANrx_callback)(void* object,
-                            void* message); /**< Pointer to CANrx_callback() initialized in CO_CANrxBufferInit() */
-} CO_CANrx_xmc4xxx_t;
-
-/** @} */
-
-
-/**
- * @defgroup CO_CAN_Message_transmission Transmission of CAN messages
- * @{
- *
- * Target specific definitions and description of CAN message transmission
- *
- * If \ref CO_obj "CANopenNode Object" needs transmitting CAN message, it must first configure its own CO_CANtx_t object
- * with the CO_CANtxBufferInit() function. CAN message can then be sent with CO_CANsend() function. If at that moment
- * CAN transmit buffer inside microcontroller's CAN module is free, message is copied directly to the CAN module.
- * Otherwise CO_CANsend() function sets _bufferFull_ flag to true. Message will be then sent by CAN TX interrupt as soon
- * as CAN module is freed. Until message is not copied to CAN module, its contents must not change. If there are
- * multiple CO_CANtx_t objects with _bufferFull_ flag set to true, then CO_CANtx_t with lower index will be sent first.
- */
-
-/**
- * Configuration object for CAN transmit message for specific \ref CO_obj "CANopenNode Object".
- *
- * Must be defined in the **CO_driver_target.h** file.
- *
- * Data fields of this structure are used exclusively by the driver. Usually it has the following data fields, but they
- * may differ for different microcontrollers. Array of multiple CO_CANtx_t objects is included inside CO_CANmodule_t.
- */
-typedef struct {
-    uint32_t ident;             /**< CAN identifier as aligned in CAN module */
-    uint8_t DLC;                /**< Length of CAN message */
-    uint8_t data[8];            /**< 8 data bytes */
-    volatile bool_t bufferFull; /**< True if previous message is still in the buffer */
-    volatile bool_t syncFlag;   /**< Synchronous PDO messages has this flag set. It prevents them to be sent outside the
-                                     synchronous window */
-} CO_CANtx_xmc4xxx_t;
-
-/** @} */
-
-
-/**
- * Complete CAN module object.
- *
- * Must be defined in the **CO_driver_target.h** file.
- *
- * Usually it has the following data fields, but they may differ for different microcontrollers.
- */
-typedef struct {
-    void* CANptr;                    /**< From CO_CANmodule_init() */
-    CO_CANrx_xmc4xxx_t* rxArray;             /**< From CO_CANmodule_init() */
-    uint16_t rxSize;                 /**< From CO_CANmodule_init() */
-    CO_CANtx_xmc4xxx_t* txArray;             /**< From CO_CANmodule_init() */
-    uint16_t txSize;                 /**< From CO_CANmodule_init() */
-    uint16_t CANerrorStatus;         /**< CAN error status bitfield, see @ref CO_CAN_ERR_status_t */
-    volatile bool_t CANnormal;       /**< CAN module is in normal mode */
-    volatile bool_t useCANrxFilters; /**< Value different than zero indicates, that CAN module hardware filters are used
-                                        for CAN reception. If there is not enough hardware filters, they won't be used.
-                                        In this case will be *all* received CAN messages processed by software. */
-    volatile bool_t bufferInhibitFlag; /**< If flag is true, then message in transmit buffer is synchronous PDO message,
-                                          which will be aborted, if CO_clearPendingSyncPDOs() function will be called by
-                                          application. This may be necessary if Synchronous window time was expired. */
-    volatile bool_t
-        firstCANtxMessage; /**< Equal to 1, when the first transmitted message (bootup message) is in CAN TX buffers */
-    volatile uint16_t
-        CANtxCount;  /**< Number of messages in transmit buffer, which are waiting to be copied to the CAN module */
-    uint32_t errOld; /**< Previous state of CAN errors */
-} CO_CANmodule_xmc4xxx_t;
-
-
-/*
- * Main events handler.
- */
-void
-CO_CANinterrupt_xmc4xxx(CO_CANmodule_xmc4xxx_t* CANmodule);
+// Необходимость указателя порта в структуре CANmodule.
+#ifndef CO_DRIVER_CANMODULE_PORT_PTR_NEEDED
+//#define CO_DRIVER_CANMODULE_PORT_PTR_NEEDED
+#endif
 
 
 #endif /* CO_DRIVER_XMC4XXX_H_ */

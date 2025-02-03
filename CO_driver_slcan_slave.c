@@ -30,11 +30,8 @@
 //#include <stdint.h>
 //#include <stddef.h>
 #include <stdbool.h>
+#include <assert.h>
 
-
-#define CAN_ID_MASK 0x7ff
-
-#define CAN_ID_FLAG_RTR 0x8000
 
 
 
@@ -191,9 +188,9 @@ static bool can_send_msg(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer)
 
     slcan_can_msg_t can_msg;
 
-    can_msg.frame_type = ((buffer->ident & CAN_ID_FLAG_RTR) == 0) ? SLCAN_CAN_FRAME_NORMAL : SLCAN_CAN_FRAME_RTR;
+    can_msg.frame_type = ((buffer->ident & CO_CAN_ID_FLAG_RTR) == 0) ? SLCAN_CAN_FRAME_NORMAL : SLCAN_CAN_FRAME_RTR;
     can_msg.id_type = SLCAN_CAN_ID_NORMAL;
-    can_msg.id = buffer->ident & CAN_ID_MASK;
+    can_msg.id = buffer->ident & CO_CAN_ID_MASK;
     can_msg.dlc = buffer->DLC;
 
     if(can_msg.frame_type == SLCAN_CAN_FRAME_NORMAL){
@@ -219,7 +216,7 @@ static bool can_recv_msg(CO_CANmodule_t* CANmodule, CO_CANrxMsg_t* rxMsg)
 
     if(slcan_slave_recv_can_msg(slave, &can_msg) != E_SLCAN_NO_ERROR) return false;
 
-    rxMsg->ident = (can_msg.id & CAN_ID_MASK) | ((can_msg.frame_type == SLCAN_CAN_FRAME_NORMAL) ? 0x0 : CAN_ID_FLAG_RTR);
+    rxMsg->ident = (can_msg.id & CO_CAN_ID_MASK) | ((can_msg.frame_type == SLCAN_CAN_FRAME_NORMAL) ? 0x0 : CO_CAN_ID_FLAG_RTR);
     rxMsg->DLC = can_msg.dlc;
 
     if(can_msg.frame_type == SLCAN_CAN_FRAME_NORMAL){
@@ -444,6 +441,33 @@ CO_CANinterrupt_slcan_slave(CO_CANmodule_t* CANmodule) {
     } else {
         /* some other interrupt reason */
     }
+}
+
+
+static CO_driver_port_api_t port = {
+        CO_CANsetConfigurationMode_slcan_slave,
+        CO_CANsetNormalMode_slcan_slave,
+        (CO_CANmodule_init_proc_t)CO_CANmodule_init_slcan_slave,
+        CO_CANmodule_disable_slcan_slave,
+        (CO_CANrxBufferInit_proc_t)CO_CANrxBufferInit_slcan_slave,
+        CO_CANtxBufferInit_slcan_slave,
+        (CO_CANsend_proc_t)CO_CANsend_slcan_slave,
+        CO_CANclearPendingSyncPDOs_slcan_slave,
+        CO_CANmodule_process_slcan_slave,
+        CO_CANinterrupt_slcan_slave,
+};
+
+static CO_driver_id_t reg_drv_id = CO_DRIVER_ID_INVALID;
+
+CO_driver_id_t CO_driver_init_slcan_slave(CO_driver_t* drv)
+{
+    assert(drv != NULL);
+
+    if(reg_drv_id != CO_DRIVER_ID_INVALID) return reg_drv_id;
+
+    reg_drv_id = CO_driver_add_port(drv, "slcan", &port);
+
+    return reg_drv_id;
 }
 
 #endif
