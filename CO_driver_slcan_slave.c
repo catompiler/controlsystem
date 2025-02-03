@@ -30,8 +30,6 @@
 //#include <stdint.h>
 //#include <stddef.h>
 #include <stdbool.h>
-#include <assert.h>
-
 
 
 
@@ -444,7 +442,7 @@ CO_CANinterrupt_slcan_slave(CO_CANmodule_t* CANmodule) {
 }
 
 
-static CO_driver_port_api_t port = {
+static const CO_driver_port_api_t port = {
         CO_CANsetConfigurationMode_slcan_slave,
         CO_CANsetNormalMode_slcan_slave,
         (CO_CANmodule_init_proc_t)CO_CANmodule_init_slcan_slave,
@@ -461,11 +459,11 @@ static CO_driver_id_t reg_drv_id = CO_DRIVER_ID_INVALID;
 
 CO_driver_id_t CO_driver_init_slcan_slave(CO_driver_t* drv)
 {
-    assert(drv != NULL);
+    if(drv == NULL) return CO_DRIVER_ID_INVALID;
 
     if(reg_drv_id != CO_DRIVER_ID_INVALID) return reg_drv_id;
 
-    reg_drv_id = CO_driver_add_port(drv, "slcan", &port);
+    reg_drv_id = CO_driver_add_port(drv, CO_DRIVER_SLCAN_SLAVE_NAME, &port);
 
     return reg_drv_id;
 }

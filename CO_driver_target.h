@@ -132,7 +132,7 @@ typedef struct _S_CO_Driver_Pool {
 //! Структура порта драйвера.
 typedef struct _S_CO_Driver_Port {
     const char* driver_name; //!< Имя драйвера для поиска при инициализации.
-    CO_driver_port_api_t* port_api; //!< Порт драйвера.
+    const CO_driver_port_api_t* port_api; //!< Порт драйвера.
     //void* CANptr; //!< Интерфейс CAN, которым владеет порт.
 } CO_driver_port_t;
 
@@ -169,7 +169,7 @@ CO_driver_t* CO_driver();
  * @param port_api Порт драйвера.
  * @return Идентификатор порта драйвера, либо CO_DRIVER_ID_INVALID.
  */
-CO_driver_id_t CO_driver_add_port(CO_driver_t* drv, const char* driver_name, CO_driver_port_api_t* port_api);
+CO_driver_id_t CO_driver_add_port(CO_driver_t* drv, const char* driver_name, const CO_driver_port_api_t* port_api);
 
 /**
  * Удаляет порт драйвера.

@@ -32,7 +32,7 @@
 //#include <stdint.h>
 //#include <stddef.h>
 #include <stdbool.h>
-
+#include <assert.h>
 
 
 
@@ -467,6 +467,33 @@ CO_CANinterrupt_xmc4xxx(CO_CANmodule_t* CANmodule) {
     } else {
         /* some other interrupt reason */
     }
+}
+
+
+static const CO_driver_port_api_t port = {
+        CO_CANsetConfigurationMode_xmc4xxx,
+        CO_CANsetNormalMode_xmc4xxx,
+        (CO_CANmodule_init_proc_t)CO_CANmodule_init_xmc4xxx,
+        CO_CANmodule_disable_xmc4xxx,
+        (CO_CANrxBufferInit_proc_t)CO_CANrxBufferInit_xmc4xxx,
+        CO_CANtxBufferInit_xmc4xxx,
+        (CO_CANsend_proc_t)CO_CANsend_xmc4xxx,
+        CO_CANclearPendingSyncPDOs_xmc4xxx,
+        CO_CANmodule_process_xmc4xxx,
+        CO_CANinterrupt_xmc4xxx,
+};
+
+static CO_driver_id_t reg_drv_id = CO_DRIVER_ID_INVALID;
+
+CO_driver_id_t CO_driver_init_xmc4xxx(CO_driver_t* drv)
+{
+    if(drv == NULL) return CO_DRIVER_ID_INVALID;
+
+    if(reg_drv_id != CO_DRIVER_ID_INVALID) return reg_drv_id;
+
+    reg_drv_id = CO_driver_add_port(drv, CO_DRIVER_XMC4XXX_NAME, &port);
+
+    return reg_drv_id;
 }
 
 #endif

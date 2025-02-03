@@ -36,5 +36,17 @@
 #endif
 
 
+//! Имя порта драйвера.
+#define CO_DRIVER_XMC4XXX_NAME "XMCmultican"
+
+
+/**
+ * Инициализирует порт драйвера и регистрирует его.
+ * @param drv Драйвер.
+ * @return Идентификатор драйвера.
+ */
+CO_driver_id_t CO_driver_init_xmc4xxx(CO_driver_t* drv);
+
+
 #endif /* CO_DRIVER_XMC4XXX_H_ */
 

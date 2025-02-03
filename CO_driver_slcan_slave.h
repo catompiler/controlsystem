@@ -36,6 +36,15 @@
 #endif
 
 
+//! Имя порта драйвера.
+#define CO_DRIVER_SLCAN_SLAVE_NAME "slcans"
+
+
+/**
+ * Инициализирует порт драйвера и регистрирует его.
+ * @param drv Драйвер.
+ * @return Идентификатор драйвера.
+ */
 CO_driver_id_t CO_driver_init_slcan_slave(CO_driver_t* drv);
 
 
