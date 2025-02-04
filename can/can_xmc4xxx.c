@@ -72,8 +72,6 @@ static const uint32_t NBTR_values[] = {
 const size_t NBTR_values_count = (sizeof(NBTR_values)/sizeof(NBTR_values[0]));
 
 
-#define CAN_MO_INVALID_INDEX (0xffffffff)
-
 //#define CAN_MO_FIFO_LIST ((CAN_NODES) + 1)
 
 #define CAN_NODE_LIST_NUMBER(N) ((N) + 1)
@@ -338,10 +336,10 @@ static void can_mo_irq_handler_impl(size_t can_n)
 
             if(can_mo_event_is_tx(MO)){
                 node_event.type = CAN_NODE_EVENT_MSG_SEND;
-                node_event.msg_send.buf_index = mo_fifo_base;
+                node_event.msg_send.mo_index = mo_fifo_base;
             }else if(can_mo_event_is_rx(MO)){
                 node_event.type = CAN_NODE_EVENT_MSG_RECV;
-                node_event.msg_recv.buf_index = mo_fifo_base;
+                node_event.msg_recv.mo_index = mo_fifo_base;
             }else{
                 node_event.type = CAN_NODE_EVENT_UNKNOWN;
             }
@@ -482,12 +480,10 @@ void CAN0_8_IRQHandler(void)
 
 
 
-can_t* can_init(can_init_t* is)
+err_t can_init(can_t* can, can_init_t* is)
 {
-    if(is == NULL) return NULL;
-    if(is->can_n != 0) return NULL;
-
-    can_t* can = can_get_can(is->can_n);
+    (void) is;
+    //if(is == NULL) return E_NULL_POINTER;
 
     // Enable clock.
     can->can_device->CLC = can->can_device->CLC & ~(CAN_CLC_SBWE_Msk | CAN_CLC_DISR_Msk);
@@ -507,7 +503,7 @@ can_t* can_init(can_init_t* is)
     // Wait list 0 init.
     while(can->can_device->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }
 
-    return can;
+    return E_NO_ERROR;
 }
 
 void can_disable(can_t* can)
@@ -525,17 +521,13 @@ can_t* can_get(size_t can_n)
     return can_get_can(can_n);
 }
 
-can_node_t* can_node_init(can_node_init_t* is)
+err_t can_node_init(can_node_t* can_node, can_node_init_t* is)
 {
-    if(is == NULL) return NULL;
-    if(is->can == NULL) return NULL;
-    if(is->can_node_n >= CAN_NODES_COUNT) return NULL;
+    if(is == NULL) return E_NULL_POINTER;
+    if(can_node == NULL) return E_NULL_POINTER;
 
-    size_t sr_number = is->can_node_n + 1;
-    if(sr_number >= CAN_SR_COUNT) return NULL;
-
-    can_node_t* can_node = can_get_node(is->can, is->can_node_n);
-    if(can_node->can != is->can) return NULL;
+    size_t sr_number = can_node->node_n + 1;
+    if(sr_number >= CAN_SR_COUNT) return E_OUT_OF_RANGE;
 
     can_node->callback = is->callback;
     can_node->user_data = is->user_data;
@@ -545,7 +537,7 @@ can_node_t* can_node_init(can_node_init_t* is)
                                  ((is->analyzer) << CAN_NODE_NCR_CALM_Pos);
 
     err_t err = can_node_set_bitrate(can_node, is->bit_rate);
-    if(err != E_NO_ERROR) return NULL;
+    if(err != E_NO_ERROR) return err;
 
     // Count of recv & send frames.
 
@@ -577,7 +569,7 @@ can_node_t* can_node_init(can_node_init_t* is)
         gpio_init(is->gpio_rx, is->pin_rx_msk, is->conf_rx);
     }
 
-    return can_node;
+    return E_NO_ERROR;
 }
 
 can_node_t* can_node_get(can_t* can, size_t node_n)

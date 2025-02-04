@@ -468,7 +468,7 @@ void on_node_event(can_node_t* can_node, can_node_event_t* event)
 
     if(event->type == CAN_NODE_EVENT_MSG_RECV){
 
-        can_mo_index_t mo_rx_index = event->msg_recv.buf_index;
+        can_mo_index_t mo_rx_index = event->msg_recv.mo_index;
         can_mo_index_t mo_tx_index = (mo_rx_index == mo_0_rx) ? mo_0_tx : mo_1_tx;
 
         can_node_recv_msg(can_node, mo_rx_index, &msg);
@@ -485,11 +485,14 @@ static void init_can()
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     interrupts_enable_can();
 
-    can_init_t cis;
-    cis.can_n = 0;
-    can = can_init(&cis);
+    err_t err = E_NO_ERROR;
+    can = can_get(CAN_N);
 
-    if(can){
+    if(can != NULL){
+        err = can_init(can, NULL);
+    }
+
+    if(can != NULL && err == E_NO_ERROR){
         SYSLOG(SYSLOG_INFO, "CAN module initialized!");
     }else{
         SYSLOG(SYSLOG_ERROR, "CAN module initialization error!");
@@ -499,8 +502,6 @@ static void init_can()
 static void init_can_node()
 {
     can_node_init_t cnis;
-    cnis.can = can;
-    cnis.can_node_n = CAN_NODE_N;
     cnis.loopback = false;
     cnis.analyzer = false;
     cnis.bit_rate = CAN_BIT_RATE_125kbit;
@@ -523,17 +524,20 @@ static void init_can_node()
     cnis.pin_rx_msk = 0;
     cnis.conf_rx = 0;
 
-    cnis.can_node_n = 1;
-    can_node[0] = can_node_init(&cnis);
-    if(can_node[0] == NULL){
+    can_node[0] = can_node_get(can, 1);
+    can_node[1] = can_node_get(can, 2);
+
+    err_t err = E_NO_ERROR;
+
+    err = can_node_init(can_node[0], &cnis);
+    if(err != E_NO_ERROR){
         for(;;){
             __NOP();
         }
     }
 
-    cnis.can_node_n = 2;
-    can_node[1] = can_node_init(&cnis);
-    if(can_node[1] == NULL){
+    err = can_node_init(can_node[1], &cnis);
+    if(err != E_NO_ERROR){
         for(;;){
             __NOP();
         }
@@ -801,6 +805,7 @@ int main(void)
     init_syslog();
 
     init_can();
+    //init_can_node();
     test_can();
     for(;;){
         //test_can();

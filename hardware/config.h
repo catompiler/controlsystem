@@ -314,7 +314,10 @@
         while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_MCAN0RS_Msk) != 0){ __NOP(); }\
     }while(0)
 // can.
+#define CAN_N 0
 #define CAN_NODE_N 1
+#define CAN_FIFO_TX_SIZE 4
+#define CAN_FIFO_RX_SIZE 4
 // gpio.
 // tx.
 #define CAN_NODE_PORT_TX PORT1

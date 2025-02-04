@@ -7,7 +7,7 @@
 
 // Необходимость данных порта в структуре CANrx.
 #ifndef CO_DRIVER_CANRX_PORT_DATA_NEEDED
-//#define CO_DRIVER_CANRX_PORT_DATA_NEEDED
+#define CO_DRIVER_CANRX_PORT_DATA_NEEDED
 #endif
 
 // Необходимость указателя порта в структуре CANrx.
@@ -17,7 +17,7 @@
 
 // Необходимость данных порта в структуре CANtx.
 #ifndef CO_DRIVER_CANTX_PORT_DATA_NEEDED
-//#define CO_DRIVER_CANTX_PORT_DATA_NEEDED
+#define CO_DRIVER_CANTX_PORT_DATA_NEEDED
 #endif
 
 // Необходимость указателя порта в структуре CANtx.

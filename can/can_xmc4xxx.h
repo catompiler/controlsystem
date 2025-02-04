@@ -102,7 +102,6 @@ typedef struct _S_Can {
 
 //! Структура инициализации CAN.
 typedef struct _S_Can_Init {
-    size_t can_n; //!< Номер CAN. На будущее. Должно быть 0.
 } can_init_t;
 
 
@@ -131,12 +130,12 @@ typedef enum _E_Can_Node_Event_Type {
 
 //! Событие приёма сообщения.
 typedef struct _S_Can_Node_Event_Msg_Recv {
-    size_t buf_index; //!< Индекс буфера.
+    size_t mo_index; //!< Индекс буфера.
 } can_node_event_msg_recv_t;
 
 //! Событие отправки сообщения.
 typedef struct _S_Can_Node_Event_Msg_Send {
-    size_t buf_index; //!< Индекс буфера.
+    size_t mo_index; //!< Индекс объекта сообщений.
 } can_node_event_msg_send_t;
 
 //! Событие ошибки.
@@ -184,8 +183,6 @@ typedef struct _S_Can_Node {
 
 //! Структура инициализации ноды CAN.
 typedef struct _S_Can_Node_Init {
-    can_t* can; //!< CAN.
-    size_t can_node_n; //!< Номер ноды.
     can_bit_rate_t bit_rate; //!< Битрейт.
     bool loopback; //!< Замыкание на себя.
     bool analyzer; //!< Анализ трафика.
@@ -205,19 +202,10 @@ typedef struct _S_Can_Node_Init {
 //! Тип индекса(номера) буфера.
 typedef uint32_t can_mo_index_t;
 
+//! Невалидный индекс.
+#define CAN_MO_INVALID_INDEX (0xffffffff)
 
-/**
- * Инициализирует CAN.
- * @param is Структура инициализации.
- * @return Указатель на CAN, либо NULL в случае ошибки.
- */
-EXTERN can_t* can_init(can_init_t* is);
 
-/**
- * Запрещает модуль CAN.
- * @param can CAN.
- */
-EXTERN void can_disable(can_t* can);
 
 /**
  * Получает модуль CAN с заданным номером.
@@ -227,11 +215,18 @@ EXTERN void can_disable(can_t* can);
 EXTERN can_t* can_get(size_t can_n);
 
 /**
- * Инициализирует ноду CAN.
- * @param is Структура инициализации.
- * @return Указатель на CAN, либо NULL в случае ошибки.
+ * Инициализирует CAN.
+ * @param can Модуль CAN.
+ * @param is Структура инициализации. Может быть NULL.
+ * @return Код ошибки.
  */
-EXTERN can_node_t* can_node_init(can_node_init_t* is);
+EXTERN err_t can_init(can_t* can_node, can_init_t* is);
+
+/**
+ * Запрещает модуль CAN.
+ * @param can Модуль CAN.
+ */
+EXTERN void can_disable(can_t* can);
 
 /**
  * Получает ноду CAN модуля с заданным номером.
@@ -240,6 +235,14 @@ EXTERN can_node_t* can_node_init(can_node_init_t* is);
  * @return Нода CAN.
  */
 EXTERN can_node_t* can_node_get(can_t* can, size_t node_n);
+
+/**
+ * Инициализирует ноду CAN.
+ * @param can_node Нода CAN.
+ * @param is Структура инициализации.
+ * @return Код ошибки.
+ */
+EXTERN err_t can_node_init(can_node_t* node, can_node_init_t* is);
 
 /**
  * Устанавливает режим конфигурации.
