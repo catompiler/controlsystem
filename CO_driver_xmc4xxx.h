@@ -36,6 +36,10 @@
 #endif
 
 
+//! Макрос драйвера.
+#define CO_DRIVER_XMC4XXX
+
+
 //! Имя порта драйвера.
 #define CO_DRIVER_XMC4XXX_NAME "XMCmultican"
 

@@ -9,6 +9,8 @@
 #include "slcan/slcan_utils.h"
 // CANopen.
 #include "CANopenNode/CANopen.h"
+// Драйвера CAN.
+#include "CO_driver_target.h"
 
 
 //! Перечисление возможных бит управления.
@@ -45,6 +47,9 @@ struct _S_Canopen {
     slcan_slave_t m_scs; //!< SLCAN slave.
     slcan_slave_callbacks_t m_scb; //!< SLCAN slave callbacks.
     CO_t* m_co; //!< CANopen.
+#ifdef CO_DRIVER_SLCAN_SLAVE
+    CO_t* m_co_ss; //!< CANopen SLCAN slave.
+#endif
 };
 
 EXTERN METHOD_INIT_PROTO(M_canopen);
@@ -66,7 +71,6 @@ EXTERN METHOD_CALC_PROTO(M_canopen);
         {{0}}, /* m_sc */\
         {0}, /* m_scs */\
         {0}, /* m_scb */\
-        NULL, /* m_co */\
     }
 
 #endif /* CANOPEN_H */

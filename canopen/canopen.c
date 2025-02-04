@@ -159,9 +159,108 @@ static void deinit_CO(M_canopen* co)
 }
 
 
+static status_t init_CO_drivers(M_canopen* co)
+{
+    CO_driver_t* drv = CO_driver_init();
+
+    if(drv == NULL) return STATUS_ERROR;
+
+    status_t status = STATUS_READY;
+
+    CO_driver_id_t drvid = CO_DRIVER_ID_INVALID;
+    size_t drv_init_succ_cnt = 0;
+
+#ifdef CO_DRIVER_SLCAN_SLAVE
+    drvid = CO_driver_init_slcan_slave(drv);
+    if(drvid == CO_DRIVER_ID_INVALID) status |= STATUS_WARNING;
+    else drv_init_succ_cnt ++;
+#endif
+
+#ifdef CO_DRIVER_XMC4XXX
+    drvid = CO_driver_init_xmc4xxx(drv);
+    if(drvid == CO_DRIVER_ID_INVALID) status |= STATUS_WARNING;
+    else drv_init_succ_cnt ++;
+#endif
+
+    if(drv_init_succ_cnt == 0) status = STATUS_ERROR;
+
+    return status;
+}
+
+
+#ifdef CO_DRIVER_SLCAN_SLAVE
+static CO_ReturnError_t init_CO_slcan_slave(M_canopen* co)
+{
+    assert(co != NULL);
+
+    CO_driver_CAN_t drv_can;
+    drv_can.driver_name = CO_DRIVER_SLCAN_SLAVE_NAME;
+    //drv_can.CANptr =
+
+    CO_ReturnError_t coerr = CO_ERROR_NO;
+
+    coerr = CO_CANinit(co->m_co_ss, &co->m_scs, CANOPEN_BITRATE);
+    if(coerr != CO_ERROR_NO) return coerr;
+
+    uint32_t errInfo = 0;
+
+    coerr = CO_CANopenInit(co->m_co_ss,
+            NULL, NULL, OD, NULL, CO_CONFIG_NMT, FIRST_HB_TIME_MS, SDO_SERVER_TIMEOUT_MS, SDO_CLIENT_TIMEOUT_MS, SDO_CLIENT_BLOCK_TRANSFER, NODE_ID, &errInfo);
+
+    if(coerr != CO_ERROR_NO){
+        //printf("CANopen init fail! (err: %d err_info: %d)\n", (int)coerr, (int)errInfo);
+        return coerr;
+    }
+
+    coerr = CO_CANopenInitPDO(co->m_co_ss, co->m_co_ss->em, OD, NODE_ID, &errInfo);
+
+    if(coerr != CO_ERROR_NO){
+        //printf("CANopen init PDO fail! (err: %d err_info: %d)\n", (int)coerr, (int)errInfo);
+        return coerr;
+    }
+
+    /* Разрешение работы */
+    CO_CANsetNormalMode(co->m_co_ss->CANmodule);
+
+    return CO_ERROR_NO;
+}
+#endif
+
+
+#ifdef CO_DRIVER_XMC4XXX
+static CO_ReturnError_t init_CO_xmc4xxx(M_canopen* co)
+{
+    return CO_ERROR_NO;
+}
+#endif
+
+
 METHOD_INIT_IMPL(M_canopen, co)
 {
     assert(co != NULL);
+
+    status_t status = init_CO_drivers(co);
+
+    if(status & STATUS_ERROR){
+        co->status = STATUS_ERROR;
+        return;
+    }else if(status & STATUS_WARNING){
+        co->status = STATUS_WARNING;
+    }
+
+    size_t co_init_succ_cnt = 0;
+
+#ifdef CO_DRIVER_SLCAN_SLAVE
+    status = init_CO_slcan_slave(co);
+    if(status != STATUS_READY) co->status |= STATUS_WARNING;
+    else co_init_succ_cnt ++;
+#endif
+
+#ifdef CO_DRIVER_XMC4XXX
+    status = init_CO_xmc4xxx(co);
+    if(status != STATUS_READY) co->status |= STATUS_WARNING;
+    else co_init_succ_cnt ++;
+#endif
 
     int res;
     CO_ReturnError_t coerr;

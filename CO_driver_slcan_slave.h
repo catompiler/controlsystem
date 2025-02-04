@@ -36,6 +36,10 @@
 #endif
 
 
+//! Макрос драйвера.
+#define CO_DRIVER_SLCAN_SLAVE
+
+
 //! Имя порта драйвера.
 #define CO_DRIVER_SLCAN_SLAVE_NAME "slcans"
 
