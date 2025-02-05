@@ -14,18 +14,18 @@
 // CAN hw
 #define CAN_DRIVER_HW (0b10)
 
-#define CAN_DRIVER (CAN_DRIVER_SLCAN | CAN_DRIVER_HW)
+//#define CAN_DRIVER (CAN_DRIVER_SLCAN | CAN_DRIVER_HW)
 
 // Выбор драйвера.
 #ifndef CAN_DRIVER
 
 #if defined(PORT_POSIX)
 
-#define CAN_DRIVER CAN_DRIVER_SLCAN
+#define CAN_DRIVER (CAN_DRIVER_SLCAN)
 
 #elif defined(PORT_XMC4500) || defined(PORT_XMC4700)
 
-#define CAN_DRIVER CAN_DRIVER_HW
+#define CAN_DRIVER (CAN_DRIVER_HW)// | CAN_DRIVER_SLCAN)
 
 #else
 
@@ -121,7 +121,7 @@ typedef struct _S_CO_Driver_CAN CO_driver_CAN_t;
 
 
 //! Размер пула драйвера.
-#define CO_DRIVER_POOL_SIZE 1024
+#define CO_DRIVER_POOL_SIZE 4096
 
 //! Тип пула драйвера.
 typedef struct _S_CO_Driver_Pool {

@@ -448,7 +448,7 @@ static void load_settings()
     }
 }
 
-
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 //static can_node_t* can_node;
 static can_node_t* can_node[2];
 static can_msg_t msg;
@@ -478,6 +478,7 @@ void on_node_event(can_node_t* can_node, can_node_event_t* event)
         can_node_send_msg(can_node, mo_tx_index, &msg);
     }
 }
+#endif
 
 
 static void init_can()
@@ -497,8 +498,18 @@ static void init_can()
     }else{
         SYSLOG(SYSLOG_ERROR, "CAN module initialization error!");
     }
+#endif
+
+    CO_driver_t* codrv = CO_driver_init();
+
+    if(codrv != NULL){
+        SYSLOG(SYSLOG_INFO, "CAN CO driver initialized!");
+    }else{
+        SYSLOG(SYSLOG_ERROR, "CAN CO driver initialization error!");
+    }
 }
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 static void init_can_node()
 {
     can_node_init_t cnis;
@@ -565,10 +576,10 @@ static void init_can_node()
 
     //can_msg.id ++;
     can_node_send_msg(can_node[0], 0, &can_msg);
-
-#endif
 }
+#endif
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 static void test_can()
 {
     /*can_msg_t can_msg;
@@ -597,6 +608,7 @@ static void test_can()
     can_msg.id ++;
     can_send_msg(can_node, 0, &can_msg);*/
 }
+#endif
 
 static void setup()
 {
@@ -805,12 +817,15 @@ int main(void)
     init_syslog();
 
     init_can();
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     //init_can_node();
     test_can();
     for(;;){
         //test_can();
         __NOP();
     }
+#endif
 
     init_eeprom();
     init_storage();

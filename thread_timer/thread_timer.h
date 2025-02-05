@@ -68,9 +68,9 @@ typedef struct _S_Thread_Timer {
     pthread_attr_t thread_attr;
     pthread_t thread;
     //! Команда.
-    thread_timer_cmd_t cmd;
+    volatile thread_timer_cmd_t cmd;
     //! Состояние.
-    thread_timer_state_t state;
+    volatile thread_timer_state_t state;
     //! Заданный период.
     struct timespec ts_period;
     //! Флаги.

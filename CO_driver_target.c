@@ -79,6 +79,7 @@ void CO_driver_del_port(CO_driver_t* drv, CO_driver_id_t drvid)
 
     CO_driver_t* codrv = (CO_driver_t*)drv;
 
+    codrv->ports[drvid].driver_name = NULL;
     codrv->ports[drvid].port_api = NULL;
 //    codrv->ports[drvid].CANptr = NULL;
 }
@@ -87,13 +88,21 @@ CO_driver_id_t CO_driver_find_port(CO_driver_t* drv, const char* driver_name)
 {
     assert(drv != NULL);
 
-    if(driver_name == NULL) return CO_DRIVER_ID_INVALID;
-
     size_t i;
     for(i = 0; i < CO_DRIVERS_COUNT; i ++){
         CO_driver_port_t* port = &drv->ports[i];
 
-        if(strcmp(port->driver_name, driver_name) == 0) return i;
+        if(port->port_api == NULL) continue;
+
+        if(port->driver_name == driver_name){
+            return i;
+        }
+
+        if(port->driver_name != NULL && driver_name != NULL){
+            if(strcmp(port->driver_name, driver_name) == 0){
+                return i;
+            }
+        }
     }
 
     return CO_DRIVER_ID_INVALID;
@@ -137,7 +146,7 @@ CO_CANsetConfigurationMode(void* CANptr) {
 
     const CO_driver_port_api_t* port_api = codrv->ports[drvid].port_api;
 
-    if(port_api == NULL || port_api->CO_CANsetConfigurationMode) return;
+    if(port_api == NULL || port_api->CO_CANsetConfigurationMode == NULL) return;
 
     port_api->CO_CANsetConfigurationMode(drvcan->CANptr);
 }
@@ -154,7 +163,7 @@ CO_CANsetNormalMode(CO_CANmodule_t* CANmodule) {
 
     const CO_driver_port_api_t* port_api = codrv->ports[drvid].port_api;
 
-    if(port_api == NULL || port_api->CO_CANsetNormalMode) return;
+    if(port_api == NULL || port_api->CO_CANsetNormalMode == NULL) return;
 
     port_api->CO_CANsetNormalMode(CANmodule);
 
@@ -178,7 +187,7 @@ CO_CANmodule_init(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rxArray[],
 
     const CO_driver_port_api_t* port_api = codrv->ports[drvid].port_api;
 
-    if(port_api == NULL || port_api->CO_CANmodule_init) return CO_ERROR_INVALID_STATE;
+    if(port_api == NULL || port_api->CO_CANmodule_init == NULL) return CO_ERROR_INVALID_STATE;
 
     CO_ReturnError_t ret = port_api->CO_CANmodule_init(CANmodule, drvcan->CANptr, rxArray, rxSize, txArray, txSize, CANbitRate);
 
@@ -198,7 +207,7 @@ CO_CANmodule_disable(CO_CANmodule_t* CANmodule) {
 
     const CO_driver_port_api_t* port_api = codrv->ports[drvid].port_api;
 
-    if(port_api == NULL || port_api->CO_CANmodule_disable) return;
+    if(port_api == NULL || port_api->CO_CANmodule_disable == NULL) return;
 
     port_api->CO_CANmodule_disable(CANmodule);
 }
@@ -217,7 +226,7 @@ CO_CANrxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, ui
 
         const CO_driver_port_api_t* port_api = codrv->ports[drvid].port_api;
 
-        if(port_api == NULL || port_api->CO_CANrxBufferInit) return CO_ERROR_INVALID_STATE;
+        if(port_api == NULL || port_api->CO_CANrxBufferInit == NULL) return CO_ERROR_INVALID_STATE;
 
         ret = port_api->CO_CANrxBufferInit(CANmodule, index, ident, mask, rtr, object, CANrx_callback);
 
@@ -242,7 +251,7 @@ CO_CANtxBufferInit(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t ident, bo
 
         const CO_driver_port_api_t* port_api = codrv->ports[drvid].port_api;
 
-        if(port_api == NULL || port_api->CO_CANtxBufferInit) return NULL;
+        if(port_api == NULL || port_api->CO_CANtxBufferInit == NULL) return NULL;
 
         buffer = port_api->CO_CANtxBufferInit(CANmodule, index, ident, rtr, noOfBytes, syncFlag);
     }
@@ -266,7 +275,7 @@ CO_CANsend(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer) {
 
     const CO_driver_port_api_t* port_api = codrv->ports[drvid].port_api;
 
-    if(port_api == NULL || port_api->CO_CANsend) return CO_ERROR_INVALID_STATE;
+    if(port_api == NULL || port_api->CO_CANsend == NULL) return CO_ERROR_INVALID_STATE;
 
     port_api->CO_CANsend(CANmodule, buffer);
 
@@ -287,7 +296,7 @@ CO_CANclearPendingSyncPDOs(CO_CANmodule_t* CANmodule) {
 
     const CO_driver_port_api_t* port_api = codrv->ports[drvid].port_api;
 
-    if(port_api == NULL || port_api->CO_CANclearPendingSyncPDOs) return;
+    if(port_api == NULL || port_api->CO_CANclearPendingSyncPDOs == NULL) return;
 
     port_api->CO_CANclearPendingSyncPDOs(CANmodule);
 }
@@ -304,7 +313,7 @@ CO_CANmodule_process(CO_CANmodule_t* CANmodule) {
 
     const CO_driver_port_api_t* port_api = codrv->ports[drvid].port_api;
 
-    if(port_api == NULL || port_api->CO_CANmodule_process) return;
+    if(port_api == NULL || port_api->CO_CANmodule_process == NULL) return;
 
     port_api->CO_CANmodule_process(CANmodule);
 }
@@ -321,7 +330,7 @@ CO_CANinterrupt(CO_CANmodule_t* CANmodule) {
 
     const CO_driver_port_api_t* port_api = codrv->ports[drvid].port_api;
 
-    if(port_api == NULL || port_api->CO_CANinterrupt) return;
+    if(port_api == NULL || port_api->CO_CANinterrupt == NULL) return;
 
     port_api->CO_CANinterrupt(CANmodule);
 }
