@@ -131,6 +131,7 @@ typedef enum _E_Can_Node_Event_Type {
 //! Событие приёма сообщения.
 typedef struct _S_Can_Node_Event_Msg_Recv {
     size_t mo_index; //!< Индекс буфера.
+    bool overflow; //!< Флаг переполнения.
 } can_node_event_msg_recv_t;
 
 //! Событие отправки сообщения.
@@ -243,6 +244,32 @@ EXTERN can_node_t* can_node_get(can_t* can, size_t node_n);
  * @return Код ошибки.
  */
 EXTERN err_t can_node_init(can_node_t* node, can_node_init_t* is);
+
+/**
+ * Получает флаг режима инициализации.
+ * @param can_node Нода CAN.
+ * @return Флаг режима инициализации.
+ */
+EXTERN bool can_node_init_mode(can_node_t* can_node);
+
+/**
+ * Устанавливает режим инициализации.
+ * @param can_node Нода CAN.
+ */
+EXTERN void can_node_set_init_mode(can_node_t* can_node);
+
+/**
+ * Устанавливает режим работы.
+ * @param can_node Нода CAN.
+ */
+EXTERN void can_node_set_run_mode(can_node_t* can_node);
+
+/**
+ * Получает флаг режима конфигурации.
+ * @param can_node Нода CAN.
+ * @return Флаг режима конфигурации.
+ */
+EXTERN bool can_node_configuration_mode(can_node_t* can_node);
 
 /**
  * Устанавливает режим конфигурации.

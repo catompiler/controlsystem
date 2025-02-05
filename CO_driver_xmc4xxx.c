@@ -35,6 +35,10 @@
 #include <assert.h>
 
 
+#define CAN_PASSIVE_LEVEL 128
+#define CAN_WARNING_LEVEL 96
+
+
 
 //! Обработчик события от ноды CAN.
 static void on_can_node_event_xmc4xxx(can_node_t* can_node, can_node_event_t* event);
@@ -143,6 +147,8 @@ CO_CANmodule_init_xmc4xxx(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rx
     err_t err = can_node_init(can_node, &cnis);
     if(err != E_NO_ERROR) return CO_ERROR_INVALID_STATE;
 
+    can_node_set_warning_level(can_node, CAN_WARNING_LEVEL);
+
     /* Configure CAN module hardware filters */
     if (CANmodule->useCANrxFilters) {
         /* CAN module filters are used, they will be configured with */
@@ -157,6 +163,8 @@ CO_CANmodule_init_xmc4xxx(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rx
 
     /* configure CAN interrupt registers */
 
+    can_node_set_run_mode(can_node);
+
     return CO_ERROR_NO;
 }
 
@@ -165,7 +173,7 @@ CO_CANmodule_disable_xmc4xxx(CO_CANmodule_t* CANmodule) {
     if (CANmodule != NULL && CANmodule->CANptr != NULL) {
         can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
         /* turn off the module */
-        can_disable(can_node->can);
+        can_node_set_init_mode(can_node);
     }
 }
 
@@ -362,11 +370,20 @@ CO_CANclearPendingSyncPDOs_xmc4xxx(CO_CANmodule_t* CANmodule) {
     }
 }
 
-/* Get error counters from the module. If necessary, function may use different way to determine errors. */
-static uint16_t rxErrors = 0, txErrors = 0, overflow = 0;
 
 void
 CO_CANmodule_process_xmc4xxx(CO_CANmodule_t* CANmodule) {
+
+    if(CANmodule == NULL || CANmodule->CANptr == NULL) return;
+
+    uint16_t rxErrors = 0, txErrors = 0, overflow = 0;
+
+    can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
+
+    rxErrors = can_node_receive_error_counter(can_node);
+    txErrors = can_node_transmit_error_counter(can_node);
+    overflow = (CANmodule->CANerrorStatus & CO_CAN_ERRRX_OVERFLOW) != 0;
+
     uint32_t err;
 
     err = ((uint32_t)txErrors << 16) | ((uint32_t)rxErrors << 8) | overflow;
@@ -376,7 +393,8 @@ CO_CANmodule_process_xmc4xxx(CO_CANmodule_t* CANmodule) {
 
         CANmodule->errOld = err;
 
-        if (txErrors >= 256U) {
+        if (can_node_status_bus_off(can_node)) {
+        //if (txErrors >= 256U) {
             /* bus off */
             status |= CO_CAN_ERRTX_BUS_OFF;
         } else {
@@ -385,17 +403,21 @@ CO_CANmodule_process_xmc4xxx(CO_CANmodule_t* CANmodule) {
                       ^ (CO_CAN_ERRTX_BUS_OFF | CO_CAN_ERRRX_WARNING | CO_CAN_ERRRX_PASSIVE | CO_CAN_ERRTX_WARNING
                          | CO_CAN_ERRTX_PASSIVE);
 
+            if(can_node_init_mode(can_node)){
+                can_node_set_run_mode(can_node);
+            }
+
             /* rx bus warning or passive */
-            if (rxErrors >= 128) {
+            if (rxErrors >= CAN_PASSIVE_LEVEL) {
                 status |= CO_CAN_ERRRX_WARNING | CO_CAN_ERRRX_PASSIVE;
-            } else if (rxErrors >= 96) {
+            } else if (rxErrors >= CAN_WARNING_LEVEL) {
                 status |= CO_CAN_ERRRX_WARNING;
             }
 
             /* tx bus warning or passive */
-            if (txErrors >= 128) {
+            if (txErrors >= CAN_PASSIVE_LEVEL) {
                 status |= CO_CAN_ERRTX_WARNING | CO_CAN_ERRTX_PASSIVE;
-            } else if (txErrors >= 96) {
+            } else if (txErrors >= CAN_WARNING_LEVEL) {
                 status |= CO_CAN_ERRTX_WARNING;
             }
 
@@ -411,6 +433,11 @@ CO_CANmodule_process_xmc4xxx(CO_CANmodule_t* CANmodule) {
         }
 
         CANmodule->CANerrorStatus = status;
+    } else {
+        if(overflow){
+            // clear overflow status.
+            CANmodule->CANerrorStatus &= ~CO_CAN_ERRRX_OVERFLOW;
+        }
     }
 }
 
@@ -500,12 +527,13 @@ static void on_can_node_msg_send(CO_CANmodule_t* CANmodule, can_node_t* can_node
     }
 }
 
-static void on_can_node_error(CO_CANmodule_t* CANmodule, can_node_t* can_node)
+static void on_can_node_error(CO_CANmodule_t* CANmodule, can_node_t* can_node, can_node_event_t* event)
 {
 }
 
-static void on_can_node_alert(CO_CANmodule_t* CANmodule, can_node_t* can_node)
+static void on_can_node_alert(CO_CANmodule_t* CANmodule, can_node_t* can_node, can_node_event_t* event)
 {
+    if(event->alert.bus_off) CANmodule->CANerrorStatus |= CO_CAN_ERRTX_BUS_OFF;
 }
 
 
@@ -523,13 +551,14 @@ static void on_can_node_event_xmc4xxx(can_node_t* can_node, can_node_event_t* ev
     case CAN_NODE_EVENT_NONE:
         break;
     case CAN_NODE_EVENT_ALERT:
-        on_can_node_alert(CANmodule, can_node);
+        on_can_node_alert(CANmodule, can_node, event);
         break;
     case CAN_NODE_EVENT_ERROR:
-        on_can_node_error(CANmodule, can_node);
+        on_can_node_error(CANmodule, can_node, event);
         break;
     case CAN_NODE_EVENT_MSG_RECV:
         on_can_node_msg_recv(CANmodule, can_node, event->msg_recv.mo_index);
+        if(event->msg_recv.overflow) CANmodule->CANerrorStatus |= CO_CAN_ERRRX_OVERFLOW;
         break;
     case CAN_NODE_EVENT_MSG_SEND:
         on_can_node_msg_send(CANmodule, can_node, event->msg_send.mo_index);
@@ -543,7 +572,7 @@ CO_CANinterrupt_xmc4xxx(CO_CANmodule_t* CANmodule) {
 
     (void) CANmodule;
 
-    // do nothing.
+    // do nothing, because all events handled in event handlers.
 }
 
 

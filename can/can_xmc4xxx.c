@@ -340,6 +340,7 @@ static void can_mo_irq_handler_impl(size_t can_n)
             }else if(can_mo_event_is_rx(MO)){
                 node_event.type = CAN_NODE_EVENT_MSG_RECV;
                 node_event.msg_recv.mo_index = mo_fifo_base;
+                node_event.msg_recv.overflow = (MO->MOSTAT & CAN_MO_MOSTAT_MSGLST_Msk) != 0;
             }else{
                 node_event.type = CAN_NODE_EVENT_UNKNOWN;
             }
@@ -572,16 +573,44 @@ err_t can_node_init(can_node_t* can_node, can_node_init_t* is)
     return E_NO_ERROR;
 }
 
+bool can_node_init_mode(can_node_t* can_node)
+{
+    assert(can_node != NULL);
+
+    return (can_node->node_device->NCR & CAN_NODE_NCR_INIT_Msk) != 0;
+}
+
+void can_node_set_init_mode(can_node_t* can_node)
+{
+    assert(can_node != NULL);
+
+    can_node->node_device->NCR |= CAN_NODE_NCR_INIT_Msk;
+}
+
+void can_node_set_run_mode(can_node_t* can_node)
+{
+    assert(can_node != NULL);
+
+    can_node->node_device->NCR &= ~CAN_NODE_NCR_INIT_Msk;
+}
+
 can_node_t* can_node_get(can_t* can, size_t node_n)
 {
     return can_get_node(can, node_n);
+}
+
+bool can_node_configuration_mode(can_node_t* can_node)
+{
+    assert(can_node != NULL);
+
+    return (can_node->node_device->NCR & CAN_NODE_NCR_CCE_Msk) != 0;
 }
 
 void can_node_set_configuration_mode(can_node_t* can_node)
 {
     assert(can_node != NULL);
 
-    can_node->node_device->NCR |= CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk;
+    can_node->node_device->NCR |= CAN_NODE_NCR_CCE_Msk;
 }
 
 err_t can_node_set_bitrate(can_node_t* can_node, can_bit_rate_t bit_rate)
@@ -599,7 +628,7 @@ void can_node_set_normal_mode(can_node_t* can_node)
 {
     assert(can_node != NULL);
 
-    can_node->node_device->NCR &= ~(CAN_NODE_NCR_CCE_Msk | CAN_NODE_NCR_INIT_Msk);
+    can_node->node_device->NCR &= ~CAN_NODE_NCR_CCE_Msk;
 }
 
 void* can_node_user_data(can_node_t* can_node)
@@ -1085,7 +1114,7 @@ static err_t can_mo_recv_msg(CAN_MO_TypeDef* MO, can_msg_t* msg)
 
     }while(MO->MOSTAT & (CAN_MO_MOSTAT_NEWDAT_Msk | CAN_MO_MOSTAT_RXUPD_Msk));
 
-    //MO->MOCTR = CAN_MO_MOCTR_SETMSGVAL_Msk;
+    MO->MOCTR = CAN_MO_MOCTR_RESMSGLST_Msk;
 
     return E_NO_ERROR;
 }
