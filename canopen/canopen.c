@@ -35,6 +35,9 @@
 #endif
 
 
+static CO_driver_CAN_t driver_CAN_ss = {NULL, NULL};
+
+
 // CO driver.
 static int init_CO_driver_slcan_slave(M_canopen* co)
 {
@@ -110,7 +113,7 @@ static void deinit_CO_slcan_slave(M_canopen* co)
     assert(co != NULL);
 
     if(co->m_co_ss == NULL || co->m_co_ss->CANmodule == NULL || co->m_co_ss->CANmodule->CANptr == NULL) return;
-    CO_CANsetConfigurationMode(co->m_co_ss->CANmodule->CANptr);
+    CO_CANsetConfigurationMode(&driver_CAN_ss);
 }
 
 static void destroy_CO_slcan_slave(M_canopen* co)
@@ -151,7 +154,6 @@ static CO_ReturnError_t init_CO_slcan_slave(M_canopen* co)
 
     CO_ReturnError_t coerr = CO_ERROR_NO;
 
-    CO_driver_CAN_t driver_CAN_ss;
     driver_CAN_ss.driver_name = CO_DRIVER_SLCAN_SLAVE_NAME;
     driver_CAN_ss.CANptr = &co->m_scs;
 
@@ -238,6 +240,10 @@ static void canopen_process_nmt_reset_cmd_slcan_slave(M_canopen* co, CO_NMT_rese
 #endif
 
 
+
+static CO_driver_CAN_t driver_CAN_xmc4 = {NULL, NULL};
+
+
 static int init_CO_driver_xmc4xxx(M_canopen* co)
 {
     CO_driver_t* drv = CO_driver();
@@ -268,7 +274,7 @@ static void deinit_CO_xmc4xxx(M_canopen* co)
     assert(co != NULL);
 
     if(co->m_co_xmc4 == NULL || co->m_co_xmc4->CANmodule == NULL || co->m_co_xmc4->CANmodule->CANptr == NULL) return;
-    CO_CANsetConfigurationMode(co->m_co_xmc4->CANmodule->CANptr);
+    CO_CANsetConfigurationMode(&driver_CAN_xmc4);
 }
 
 static void destroy_CO_xmc4xxx(M_canopen* co)
@@ -305,7 +311,6 @@ static CO_ReturnError_t init_CO_xmc4xxx(M_canopen* co)
 
     CO_ReturnError_t coerr = CO_ERROR_NO;
 
-    CO_driver_CAN_t driver_CAN_xmc4;
     driver_CAN_xmc4.driver_name = CO_DRIVER_XMC4XXX_NAME;
     driver_CAN_xmc4.CANptr = co->m_can_node_xmc4;
 

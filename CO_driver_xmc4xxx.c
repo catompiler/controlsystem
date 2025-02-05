@@ -73,7 +73,7 @@ CO_CANmodule_init_xmc4xxx(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rx
         return CO_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    can_node_t* can_node = (can_node_t*)CANmodule->CANptr;
+    can_node_t* can_node = (can_node_t*)CANptr;
 
     /* Configure object variables */
     CANmodule->CANptr = CANptr;
@@ -205,6 +205,8 @@ CO_CANrxBufferInit_xmc4xxx(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t i
             ret = CO_ERROR_INVALID_STATE;
         }
 
+        buffer->port_data = buf_mo;
+
     } else {
         ret = CO_ERROR_ILLEGAL_ARGUMENT;
     }
@@ -238,6 +240,8 @@ CO_CANtxBufferInit_xmc4xxx(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t i
         if(buf_mo == CAN_MO_INVALID_INDEX){
             buffer = NULL;
         }
+
+        buffer->port_data = buf_mo;
     }
 
     return buffer;

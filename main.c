@@ -818,14 +818,14 @@ int main(void)
 
     init_can();
 
-#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
-    //init_can_node();
-    test_can();
-    for(;;){
-        //test_can();
-        __NOP();
-    }
-#endif
+//#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+//    //init_can_node();
+//    test_can();
+//    for(;;){
+//        //test_can();
+//        __NOP();
+//    }
+//#endif
 
     init_eeprom();
     init_storage();
@@ -878,9 +878,10 @@ int main(void)
 //            }
 //        }
 
+#if defined(PORT_POSIX)
         //if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
         if(sys.status & SYS_MAIN_STATUS_QUIT) break;
-#ifndef __arm__
+
         struct timespec ts_sleep = {0, 1000000};
         nanosleep(&ts_sleep, NULL);
 #endif
