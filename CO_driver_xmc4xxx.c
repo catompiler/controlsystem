@@ -505,17 +505,21 @@ static void on_can_node_msg_send(CO_CANmodule_t* CANmodule, can_node_t* can_node
         CO_CANtx_t* buffer = &CANmodule->txArray[0];
         /* search through whole array of pointers to transmit message buffers. */
         for (i = CANmodule->txSize; i > 0U; i--) {
-            /* if message buffer is full, send it. */
-            if (buffer->bufferFull) {
-                if(CO_driver_can_send_msg(CANmodule, buffer)){
-                    buffer->bufferFull = false;
-                    CANmodule->CANtxCount--;
+            // if message from this buffer.
+            if (buffer->port_data == mo_index){
+                /* if message buffer is full, send it. */
+                if (buffer->bufferFull) {
+                    if(CO_driver_can_send_msg(CANmodule, buffer)){
+                        buffer->bufferFull = false;
+                        CANmodule->CANtxCount--;
 
-                    /* Copy message to CAN buffer */
-                    CANmodule->bufferInhibitFlag = buffer->syncFlag;
-                    /* canSend... */
-                    //break; /* exit for loop */
+                        /* Copy message to CAN buffer */
+                        CANmodule->bufferInhibitFlag = buffer->syncFlag;
+                        /* canSend... */
+                        //break; /* exit for loop */
+                    }
                 }
+                break;
             }
             buffer++;
         } /* end of for loop */
