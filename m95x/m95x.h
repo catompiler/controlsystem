@@ -1,3 +1,5 @@
+#if !defined(PORT_POSIX)
+
 /**
  * @file m95x.h Библиотека работы с памятью EEPROM M95x.
  */
@@ -204,3 +206,4 @@ err_t m95x_write(m95x_t* eeprom, m95x_address_t address, const void* data, size_
 
 #endif	// M95X_H
 
+#endif

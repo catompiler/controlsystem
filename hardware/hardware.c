@@ -57,4 +57,11 @@ void hardware_init_dma(void)
     DMA_CLOCK_ENABLE();
 }
 
+void hardware_init_can(void)
+{
+    // reset.
+    CAN_RESET_ENABLE();
+    CAN_RESET_DISABLE();
+}
+
 #endif

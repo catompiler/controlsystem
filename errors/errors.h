@@ -39,6 +39,8 @@ typedef uint8_t err_t;
 #define E_IN_PROGRESS 12
 //! Операция отменена.
 #define E_CANCELED 13
+//! Сейчас невозможно, необходимо повторить позже.
+#define E_AGAIN 14
 
 //! Начальный код для пользовательских ошибок.
 #define E_USER 100

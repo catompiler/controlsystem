@@ -1,3 +1,5 @@
+#if !defined(PORT_POSIX)
+
 #include "m95x.h"
 #include <string.h>
 #include "utils/utils.h"
@@ -534,3 +536,5 @@ err_t m95x_write(m95x_t* eeprom, m95x_address_t address, const void* data, size_
     
     return err;
 }
+
+#endif

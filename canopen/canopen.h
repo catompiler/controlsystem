@@ -3,12 +3,22 @@
 
 #include "module/base.h"
 #include <stddef.h>
+// CANopen.
+#include "CANopenNode/CANopen.h"
+// Драйвера CAN.
+#include "CO_driver_target.h"
+
+#ifdef CO_DRIVER_SLCAN_SLAVE
 // slcan.
 #include "slcan/slcan.h"
 #include "slcan/slcan_slave.h"
 #include "slcan/slcan_utils.h"
-// CANopen.
-#include "CANopenNode/CANopen.h"
+#endif
+
+#ifdef CO_DRIVER_XMC4XXX
+// CAN xmc4xxx.
+#include "can/can_xmc4xxx.h"
+#endif
 
 
 //! Перечисление возможных бит управления.
@@ -41,15 +51,34 @@ struct _S_Canopen {
     METHOD_CALC(M_canopen);
     // Коллбэки.
     // Внутренние данные.
+#ifdef CO_DRIVER_SLCAN_SLAVE
     slcan_t m_sc; //!< Serial-Line CAN.
     slcan_slave_t m_scs; //!< SLCAN slave.
     slcan_slave_callbacks_t m_scb; //!< SLCAN slave callbacks.
-    CO_t* m_co; //!< CANopen.
+    CO_t* m_co_ss; //!< CANopen SLCAN slave.
+#endif
+#ifdef CO_DRIVER_XMC4XXX
+    CO_t* m_co_xmc4; //!< CANopen XMC4XXX.
+    can_t* m_can_xmc4; //!< Интерфейс CAN XMC4XXX.
+    can_node_t* m_can_node_xmc4; //!< Нода CAN XMC4XXX.
+#endif
 };
 
 EXTERN METHOD_INIT_PROTO(M_canopen);
 EXTERN METHOD_DEINIT_PROTO(M_canopen);
 EXTERN METHOD_CALC_PROTO(M_canopen);
+
+#ifdef CO_DRIVER_SLCAN_SLAVE
+#define CANOPEN_CO_DRIVER_SLCAN_SLAVE_DEFAULTS {{0}}, {0}, {0}, NULL,
+#else
+#define CANOPEN_CO_DRIVER_SLCAN_SLAVE_DEFAULTS
+#endif
+
+#ifdef CO_DRIVER_XMC4XXX
+#define CANOPEN_CO_DRIVER_XMC4XXX_DEFAULTS NULL, NULL, NULL,
+#else
+#define CANOPEN_CO_DRIVER_XMC4XXX_DEFAULTS
+#endif
 
 #define CANOPEN_DEFAULTS {\
         /* Базовые поля */\
@@ -63,10 +92,8 @@ EXTERN METHOD_CALC_PROTO(M_canopen);
         METHOD_CALC_PTR(M_canopen),\
         /* Коллбэки */\
         /* Внутренние данные */\
-        {{0}}, /* m_sc */\
-        {0}, /* m_scs */\
-        {0}, /* m_scb */\
-        NULL, /* m_co */\
+        CANOPEN_CO_DRIVER_SLCAN_SLAVE_DEFAULTS\
+        CANOPEN_CO_DRIVER_XMC4XXX_DEFAULTS\
     }
 
 #endif /* CANOPEN_H */

@@ -11,6 +11,9 @@ EXTERN void interrupts_init(void);
 //! Разрешает прерывания от ПДП.
 EXTERN void interrupts_enable_dma(void);
 
+//! Разрешает прерывания от CAN.
+EXTERN void interrupts_enable_can(void);
+
 //! Разрешает прерывания от EEP spi.
 EXTERN void interrupts_enable_eep_spi(void);
 

@@ -5,7 +5,13 @@
 #include "OD.h"
 // net timer.
 #include "modules/modules.h"
+// hardware config.
+#include "hardware/config.h"
 
+
+
+
+#ifdef CO_DRIVER_SLCAN_SLAVE
 
 // slcan.
 #ifndef SLCAN_SLAVE_TTY
@@ -25,16 +31,33 @@
 #endif
 
 #ifndef CANOPEN_BITRATE
-#define CANOPEN_BITRATE 125
+#define SLCAN_SLAVE_BITRATE 125
 #endif
 
 
+static CO_driver_CAN_t driver_CAN_ss = {NULL, NULL};
+
+
+// CO driver.
+static int init_CO_driver_slcan_slave(M_canopen* co)
+{
+    CO_driver_t* drv = CO_driver();
+
+    if(drv == NULL) return -1;
+
+    CO_driver_id_t drvid = CO_driver_init_slcan_slave(drv);
+    if(drvid == CO_DRIVER_ID_INVALID) return -2;
+
+    return 0;
+}
+
+
+// slcan.
 static slcan_err_t slcan_callback_default()
 {
     return E_SLCAN_NO_ERROR;
 }
 
-// slcan.
 static int init_slcan_slave(M_canopen* co)
 {
     assert(co != NULL);
@@ -85,8 +108,22 @@ static int init_slcan_slave(M_canopen* co)
     return 0;
 }
 
+static void deinit_CO_slcan_slave(M_canopen* co)
+{
+    assert(co != NULL);
 
-// slcan.
+    if(co->m_co_ss == NULL || co->m_co_ss->CANmodule == NULL || co->m_co_ss->CANmodule->CANptr == NULL) return;
+    CO_CANsetConfigurationMode(&driver_CAN_ss);
+}
+
+static void destroy_CO_slcan_slave(M_canopen* co)
+{
+    assert(co != NULL);
+
+    CO_delete(co->m_co_ss);
+    co->m_co_ss = NULL;
+}
+
 static void deinit_slcan_slave(M_canopen* co)
 {
     assert(co != NULL);
@@ -98,7 +135,7 @@ static void deinit_slcan_slave(M_canopen* co)
 
 
 // CANopen.
-static int create_CO(M_canopen* co)
+static int create_CO_slcan_slave(M_canopen* co)
 {
     assert(co != NULL);
 
@@ -106,29 +143,26 @@ static int create_CO(M_canopen* co)
 
     if(co_res == NULL) return -1;
 
-    co->m_co = co_res;
+    co->m_co_ss = co_res;
 
     return 0;
 }
-static void destroy_CO(M_canopen* co)
-{
-    assert(co != NULL);
 
-    co->m_co = NULL;
-}
-
-static CO_ReturnError_t init_CO(M_canopen* co)
+static CO_ReturnError_t init_CO_slcan_slave(M_canopen* co)
 {
     assert(co != NULL);
 
     CO_ReturnError_t coerr = CO_ERROR_NO;
 
-    coerr = CO_CANinit(co->m_co, &co->m_scs, CANOPEN_BITRATE);
+    driver_CAN_ss.driver_name = CO_DRIVER_SLCAN_SLAVE_NAME;
+    driver_CAN_ss.CANptr = &co->m_scs;
+
+    coerr = CO_CANinit(co->m_co_ss, &driver_CAN_ss, SLCAN_SLAVE_BITRATE);
     if(coerr != CO_ERROR_NO) return coerr;
 
     uint32_t errInfo = 0;
 
-    coerr = CO_CANopenInit(co->m_co,
+    coerr = CO_CANopenInit(co->m_co_ss,
             NULL, NULL, OD, NULL, CO_CONFIG_NMT, FIRST_HB_TIME_MS, SDO_SERVER_TIMEOUT_MS, SDO_CLIENT_TIMEOUT_MS, SDO_CLIENT_BLOCK_TRANSFER, NODE_ID, &errInfo);
 
     if(coerr != CO_ERROR_NO){
@@ -136,7 +170,7 @@ static CO_ReturnError_t init_CO(M_canopen* co)
         return coerr;
     }
 
-    coerr = CO_CANopenInitPDO(co->m_co, co->m_co->em, OD, NODE_ID, &errInfo);
+    coerr = CO_CANopenInitPDO(co->m_co_ss, co->m_co_ss->em, OD, NODE_ID, &errInfo);
 
     if(coerr != CO_ERROR_NO){
         //printf("CANopen init PDO fail! (err: %d err_info: %d)\n", (int)coerr, (int)errInfo);
@@ -144,45 +178,240 @@ static CO_ReturnError_t init_CO(M_canopen* co)
     }
 
     /* Разрешение работы */
-    CO_CANsetNormalMode(co->m_co->CANmodule);
+    CO_CANsetNormalMode(co->m_co_ss->CANmodule);
 
     return CO_ERROR_NO;
 }
 
-static void deinit_CO(M_canopen* co)
+static int init_CAN_slcan_slave(M_canopen* co)
+{
+    int res;
+    CO_ReturnError_t coerr;
+
+    res = init_CO_driver_slcan_slave(co);
+    if(res < 0){
+        return -1;
+    }
+
+    res = init_slcan_slave(co);
+    if(res < 0){
+        return -2;
+    }
+
+    res = create_CO_slcan_slave(co);
+    if(res < 0){
+        deinit_slcan_slave(co);
+        return -3;
+    }
+
+    coerr = init_CO_slcan_slave(co);
+    if(coerr != CO_ERROR_NO){
+        destroy_CO_slcan_slave(co);
+        deinit_slcan_slave(co);
+        return -4;
+    }
+
+    return 0;
+}
+
+static void canopen_process_nmt_reset_cmd_slcan_slave(M_canopen* co, CO_NMT_reset_cmd_t reset_cmd)
+{
+    if(reset_cmd == CO_RESET_NOT){
+        //printf("CO_NMT_NO_COMMAND");
+    }else if(reset_cmd == CO_RESET_COMM){
+        //printf("CO_RESET_COMM");
+    }else if(reset_cmd == CO_RESET_APP){
+        //printf("CO_RESET_APP");
+    }else if(reset_cmd == CO_RESET_QUIT){
+        //printf("CO_RESET_QUIT");
+    }
+}
+
+#endif
+
+
+
+#ifdef CO_DRIVER_XMC4XXX
+
+
+
+#ifndef XMC4XXX_CAN_BITRATE
+#define XMC4XXX_CAN_BITRATE 125
+#endif
+
+
+
+static CO_driver_CAN_t driver_CAN_xmc4 = {NULL, NULL};
+
+
+static int init_CO_driver_xmc4xxx(M_canopen* co)
+{
+    CO_driver_t* drv = CO_driver();
+
+    if(drv == NULL) return -1;
+
+    CO_driver_id_t drvid = CO_driver_init_xmc4xxx(drv);
+    if(drvid == CO_DRIVER_ID_INVALID) return -2;
+
+    return 0;
+}
+
+static int init_xmc4xxx(M_canopen* co)
 {
     assert(co != NULL);
 
-    if(co->m_co == NULL || co->m_co->CANmodule == NULL || co->m_co->CANmodule->CANptr == NULL) return;
-    CO_CANsetConfigurationMode(co->m_co->CANmodule->CANptr);
-    CO_delete(co->m_co);
+    co->m_can_xmc4 = can_get(CAN_N);
+    if(co->m_can_xmc4 == NULL) return -1;
+
+    co->m_can_node_xmc4 = can_node_get(co->m_can_xmc4, CAN_NODE_N);
+    if(co->m_can_node_xmc4 == NULL) return -2;
+
+    return 0;
 }
+
+static void deinit_CO_xmc4xxx(M_canopen* co)
+{
+    assert(co != NULL);
+
+    if(co->m_co_xmc4 == NULL || co->m_co_xmc4->CANmodule == NULL || co->m_co_xmc4->CANmodule->CANptr == NULL) return;
+    CO_CANsetConfigurationMode(&driver_CAN_xmc4);
+}
+
+static void destroy_CO_xmc4xxx(M_canopen* co)
+{
+    assert(co != NULL);
+
+    CO_delete(co->m_co_xmc4);
+    co->m_co_xmc4 = NULL;
+}
+
+static void deinit_xmc4xxx(M_canopen* co)
+{
+    assert(co != NULL);
+}
+
+
+// CANopen.
+static int create_CO_xmc4xxx(M_canopen* co)
+{
+    assert(co != NULL);
+
+    CO_t* co_res = CO_new(NULL, NULL);
+
+    if(co_res == NULL) return -1;
+
+    co->m_co_xmc4 = co_res;
+
+    return 0;
+}
+
+static CO_ReturnError_t init_CO_xmc4xxx(M_canopen* co)
+{
+    assert(co != NULL);
+
+    CO_ReturnError_t coerr = CO_ERROR_NO;
+
+    driver_CAN_xmc4.driver_name = CO_DRIVER_XMC4XXX_NAME;
+    driver_CAN_xmc4.CANptr = co->m_can_node_xmc4;
+
+    coerr = CO_CANinit(co->m_co_xmc4, &driver_CAN_xmc4, XMC4XXX_CAN_BITRATE);
+    if(coerr != CO_ERROR_NO) return coerr;
+
+    uint32_t errInfo = 0;
+
+    coerr = CO_CANopenInit(co->m_co_xmc4,
+            NULL, NULL, OD, NULL, CO_CONFIG_NMT, FIRST_HB_TIME_MS, SDO_SERVER_TIMEOUT_MS, SDO_CLIENT_TIMEOUT_MS, SDO_CLIENT_BLOCK_TRANSFER, NODE_ID, &errInfo);
+
+    if(coerr != CO_ERROR_NO){
+        //printf("CANopen init fail! (err: %d err_info: %d)\n", (int)coerr, (int)errInfo);
+        return coerr;
+    }
+
+    coerr = CO_CANopenInitPDO(co->m_co_xmc4, co->m_co_xmc4->em, OD, NODE_ID, &errInfo);
+
+    if(coerr != CO_ERROR_NO){
+        //printf("CANopen init PDO fail! (err: %d err_info: %d)\n", (int)coerr, (int)errInfo);
+        return coerr;
+    }
+
+    /* Разрешение работы */
+    CO_CANsetNormalMode(co->m_co_xmc4->CANmodule);
+
+    return CO_ERROR_NO;
+}
+
+static status_t init_CAN_xmc4xxx(M_canopen* co)
+{
+    int res;
+    CO_ReturnError_t coerr;
+
+    res = init_CO_driver_xmc4xxx(co);
+    if(res < 0){
+        return -1;
+    }
+
+    res = init_xmc4xxx(co);
+    if(res < 0){
+        return -2;
+    }
+
+    res = create_CO_xmc4xxx(co);
+    if(res < 0){
+        deinit_xmc4xxx(co);
+        return -3;
+    }
+
+    coerr = init_CO_xmc4xxx(co);
+    if(coerr != CO_ERROR_NO){
+        destroy_CO_xmc4xxx(co);
+        deinit_xmc4xxx(co);
+        return -4;
+    }
+
+    return 0;
+}
+
+
+static void canopen_process_nmt_reset_cmd_xmc4xxx(M_canopen* co, CO_NMT_reset_cmd_t reset_cmd)
+{
+    if(reset_cmd == CO_RESET_NOT){
+        //printf("CO_NMT_NO_COMMAND");
+    }else if(reset_cmd == CO_RESET_COMM){
+        //printf("CO_RESET_COMM");
+    }else if(reset_cmd == CO_RESET_APP){
+        //printf("CO_RESET_APP");
+    }else if(reset_cmd == CO_RESET_QUIT){
+        //printf("CO_RESET_QUIT");
+    }
+}
+
+#endif
+
 
 
 METHOD_INIT_IMPL(M_canopen, co)
 {
     assert(co != NULL);
 
-    int res;
-    CO_ReturnError_t coerr;
-
-    res = init_slcan_slave(co);
-    if(res < 0){
+    CO_driver_t* drv = CO_driver_init();
+    if(drv == NULL){
         co->status = STATUS_ERROR;
         return;
     }
 
-    res = create_CO(co);
-    if(res < 0){
-        deinit_slcan_slave(co);
-        co->status = STATUS_ERROR;
-        return;
-    }
+    size_t co_init_succ_cnt = 0;
 
-    coerr = init_CO(co);
-    if(coerr != CO_ERROR_NO){
-        destroy_CO(co);
-        deinit_slcan_slave(co);
+#ifdef CO_DRIVER_SLCAN_SLAVE
+    if(init_CAN_slcan_slave(co) < 0) co->status |= STATUS_WARNING;
+    else co_init_succ_cnt ++;
+#endif
+
+#ifdef CO_DRIVER_XMC4XXX
+    if(init_CAN_xmc4xxx(co) < 0) co->status |= STATUS_WARNING;
+    else co_init_succ_cnt ++;
+#endif
+
+    if(co_init_succ_cnt == 0){
         co->status = STATUS_ERROR;
         return;
     }
@@ -195,11 +424,17 @@ METHOD_DEINIT_IMPL(M_canopen, co)
     assert(co != NULL);
 
     if(co->status & STATUS_RUN){
-        deinit_CO(co);
-        destroy_CO(co);
+#ifdef CO_DRIVER_SLCAN_SLAVE
+        deinit_CO_slcan_slave(co);
+        destroy_CO_slcan_slave(co);
         deinit_slcan_slave(co);
+#endif
+#ifdef CO_DRIVER_XMC4XXX
+        deinit_CO_xmc4xxx(co);
+        destroy_CO_xmc4xxx(co);
+        deinit_xmc4xxx(co);
+#endif
     }
-
 }
 
 METHOD_CALC_IMPL(M_canopen, co)
@@ -208,18 +443,17 @@ METHOD_CALC_IMPL(M_canopen, co)
 
     if(!(co->status & STATUS_RUN)) return;
 
+    CO_NMT_reset_cmd_t reset_cmd = CO_RESET_NOT;
+
+#ifdef CO_DRIVER_SLCAN_SLAVE
     slcan_slave_poll(&co->m_scs);
-    CO_CANinterrupt(co->m_co->CANmodule);
+    CO_CANinterrupt(co->m_co_ss->CANmodule);
+    reset_cmd = CO_process(co->m_co_ss, false, NET_TIMER_TICKS_PERIOD_US, NULL);
+    canopen_process_nmt_reset_cmd_slcan_slave(co, reset_cmd);
+#endif
 
-    CO_NMT_reset_cmd_t reset_cmd = CO_process(co->m_co, false, NET_TIMER_TICKS_PERIOD_US, NULL);
-
-    if(reset_cmd == CO_RESET_NOT){
-        //printf("CO_NMT_NO_COMMAND");
-    }else if(reset_cmd == CO_RESET_COMM){
-        //printf("CO_RESET_COMM");
-    }else if(reset_cmd == CO_RESET_APP){
-        //printf("CO_RESET_APP");
-    }else if(reset_cmd == CO_RESET_QUIT){
-        //printf("CO_RESET_QUIT");
-    }
+#ifdef CO_DRIVER_XMC4XXX
+    reset_cmd = CO_process(co->m_co_xmc4, false, NET_TIMER_TICKS_PERIOD_US, NULL);
+    canopen_process_nmt_reset_cmd_xmc4xxx(co, reset_cmd);
+#endif
 }
