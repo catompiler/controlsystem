@@ -13,8 +13,8 @@ enum _E_Base_Status {
     STATUS_VALID = 0x02, //!< Правильность выходных данных.
     STATUS_RUN = 0x04, //!< Работа.
     STATUS_ERROR = 0x08, //!< Ошибка.
-    STATUS_WARNING = 0x08, //!< Предупреждение.
-    STATUS_USER = 0x10 //!< Статусы модулей.
+    STATUS_WARNING = 0x10, //!< Предупреждение.
+    STATUS_USER = 0x20 //!< Статусы модулей.
 };
 
 
