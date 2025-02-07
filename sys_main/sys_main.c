@@ -267,6 +267,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(vr_rms_Ucell);
 
     // Основные модули.
+    // Тиристоры.
+    INIT(triacs);
     // СИФУ.
     INIT(ph3c);
     // Модель 3х фазного выпрямителя.
@@ -468,6 +470,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Основные модули.
     DEINIT(lrm);
     DEINIT(ph3c);
+    DEINIT(triacs);
     // Форсировка при запуске.
     DEINIT(tmr_start_min_forcing);
     DEINIT(tmr_start_max_forcing);
@@ -808,6 +811,23 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     ph3c.in_Ub_angle = phase_ampl_Ub.out_phase;
     ph3c.in_Uc_angle = phase_ampl_Uc.out_phase;
     CALC(ph3c);
+
+    // Отпирание тиристоров.
+    // Копирование управления.
+//    for(i = 0; i < TRIACS_MAINS_KEYS_COUNT; i ++)
+//    { triacs.in_control[i] = ph3c.out_control[i]; }
+//    triacs.in_control_delay_angle = ph3c.out_control_delay_angle;
+//    triacs.in_control_max_duration_angle = ph3c.out_control_max_duration_angle;
+//    CALC(triacs);
+    if(ph3c.phc[PHASE3_CONTROL_AB].out_period){
+        for(i = 0; i < TRIACS_MAINS_KEYS_COUNT; i ++)
+        { triacs.in_control[i] = 0; }
+        triacs.in_control[PHASE3_CONTROL_AB] = 1;
+        triacs.in_control[PHASE3_CONTROL_AC] = 1;
+        triacs.in_control_delay_angle = IQ24(0);
+        triacs.in_control_max_duration_angle = IQ24(0.155);
+        CALC(triacs);
+    }
 
     // Вычисление измерений напряжения ячейки
     // (для модели нужно вычислить это до вычисления модели).

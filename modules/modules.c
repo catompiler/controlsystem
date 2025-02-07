@@ -164,6 +164,8 @@ M_pid_coefs pid_coefs_i = PID_COEFS_DEFCFG(IQ24(0.5), IQ24(0.025), IQ24(0.0), IQ
 
 M_phase3_control ph3c = PHASE3_CONTROL_DEFAULTS;
 
+M_triacs triacs = TRIACS_DEFAULTS;
+
 //M_larionov_model lrm = LARIONOV_MODEL_DEFAULTS;
 M_smotor_larionov lrm = SMOTOR_LARIONOV_DEFAULTS;
 

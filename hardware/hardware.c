@@ -12,6 +12,17 @@ void hardware_init_ports(void)
 }
 
 
+void hardware_init_triacs_timers(void)
+{
+    // reset.
+    TRIACS_TIMS_RESET_ENABLE();
+    TRIACS_TIMS_RESET_DISABLE();
+
+    // enable clock.
+    TRIACS_TIMS_CLOCK_ENABLE();
+}
+
+
 void hardware_init_periodic_timers(void)
 {
     // reset.

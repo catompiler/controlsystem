@@ -2,7 +2,7 @@
 #define MODULES_H
 
 
-#include <phase_line/star_phase_to_line.h>
+#include "phase_line/star_phase_to_line.h"
 #include "conf/conf.h"
 #include "adc/adc.h"
 #include "adc_model/adc_model.h"
@@ -55,6 +55,7 @@
 #include "sum/sum3.h"
 #include "cell_cb/cell_cb.h"
 #include "phase3_control/phase3_control.h"
+#include "triacs/triacs.h"
 #include "larionov_model/smotor_larionov.h"
 #include "motor/motor.h"
 #include "prot/prot.h"
@@ -338,6 +339,9 @@ extern M_pid_coefs pid_coefs_i;
 
 //! СИФУ.
 extern M_phase3_control ph3c;
+
+//! Тиристоры.
+extern M_triacs triacs;
 
 //! Модель ларионова.
 //extern M_larionov_model lrm;

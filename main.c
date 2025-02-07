@@ -254,14 +254,17 @@ static void init_hardware()
     // Counting timers.
     hardware_init_counting_timers();
 
+    // Periodic timers.
+    hardware_init_periodic_timers();
+
+    // Triacs timers.
+    hardware_init_triacs_timers();
+
     // Usarts.
     hardware_init_usarts();
 
     // SPIs.
     hardware_init_spis();
-
-    // Periodic timers.
-    hardware_init_periodic_timers();
 
     // CAN.
     hardware_init_can();
