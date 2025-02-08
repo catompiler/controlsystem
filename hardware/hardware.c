@@ -75,4 +75,11 @@ void hardware_init_can(void)
     CAN_RESET_DISABLE();
 }
 
+void hardware_init_dac(void)
+{
+    // reset.
+    DAC_RESET_ENABLE();
+    DAC_RESET_DISABLE();
+}
+
 #endif

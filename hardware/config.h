@@ -390,6 +390,31 @@
 #define CAN_NODE_RX_SEL 0b0 //0b10
 
 
+// DAC.
+#define DAC_RESET_ENABLE() do{\
+        SCU_RESET->PRSET1 = SCU_RESET_PRSET1_DACRS_Msk;\
+        __DMB();\
+        while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_DACRS_Msk) == 0){ __NOP(); }\
+    }while(0)
+#define DAC_RESET_DISABLE() do{\
+        SCU_RESET->PRCLR1 = SCU_RESET_PRCLR1_DACRS_Msk;\
+        __DMB();\
+        while((SCU_RESET->PRSTAT1 & SCU_RESET_PRSTAT1_DACRS_Msk) != 0){ __NOP(); }\
+    }while(0)
+#define DAC_CLOCK_ENABLE() do{\
+    }while(0)
+#define DAC_CLOCK_DISABLE() do{\
+    }while(0)
+// dac gpio.
+// ch0.
+#define DAC_CH0_PORT PORT14
+#define DAC_CH0_PIN_Pos 8
+#define DAC_CH0_PIN_Msk (1<<(DAC_CH0_PIN_Pos))
+// ch1
+#define DAC_CH1_PORT PORT14
+#define DAC_CH1_PIN_Pos 9
+#define DAC_CH1_PIN_Msk (1<<(DAC_CH1_PIN_Pos))
+
 #endif /* HARDWARE_CONFIG_H_ */
 
 #endif

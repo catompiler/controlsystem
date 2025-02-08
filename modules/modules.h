@@ -5,6 +5,7 @@
 #include "phase_line/star_phase_to_line.h"
 #include "conf/conf.h"
 #include "adc/adc.h"
+#include "dac/dac.h"
 #include "adc_model/adc_model.h"
 #include "sys_main/sys_main.h"
 #include "sys_command/sys_command.h"
@@ -81,6 +82,8 @@ extern M_sys_status sys_stat;
 extern M_conf conf;
 //! АЦП.
 extern M_adc adc;
+//! ЦАП.
+extern M_dac dac;
 //! АЦП модель.
 extern M_adc_model adc_model;
 

@@ -268,6 +268,9 @@ static void init_hardware()
 
     // CAN.
     hardware_init_can();
+
+    // DAC.
+    hardware_init_dac();
 #endif
 }
 

@@ -175,6 +175,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     CALLBACK_PROC(adc.on_conversion) = adc_handler;
     CALLBACK_ARG(adc.on_conversion) = (void*)sys;
 
+    // ЦАП.
+    INIT(dac);
+
     // АЦП модель.
     INIT(adc_model);
 
@@ -628,6 +631,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(ms_tim);
     DEINIT(net_tim);
     DEINIT(adc_model);
+    DEINIT(dac);
     DEINIT(adc);
     DEINIT(tmr_sys_fsm);
     DEINIT(sys_stat);
@@ -828,6 +832,8 @@ METHOD_CALC_IMPL(M_sys_main, sys)
         triacs.in_control_max_duration_angle = IQ24(0.155);
         CALC(triacs);
     }
+    dac.in_value[0] = iq24_mul(mux_Umains.out_A, IQ24(0.9));
+    dac.in_value[1] = iq24_mul(mux_Umains.out_B, IQ24(0.9));
 
     // Вычисление измерений напряжения ячейки
     // (для модели нужно вычислить это до вычисления модели).
@@ -915,6 +921,9 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
     // Конечный автомат.
     FSM_state(sys);
+
+    // Запись выхода ЦАП.
+    CALC(dac);
 
     // Последний модуль - запись лога.
     CALC(dlog);

@@ -11,6 +11,8 @@ M_conf conf = CONF_DEFAULTS;
 
 M_adc adc = ADC_DEFAULTS;
 
+M_dac dac = DAC_DEFAULTS;
+
 M_adc_model adc_model = ADC_MODEL_DEFAULTS;
 
 M_adc_timer adc_tim = ADC_TIMER_DEFAULTS;
