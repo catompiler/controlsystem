@@ -2,6 +2,7 @@
 
 #include "eeprom/eeprom_xmc4xxx.h"
 #include "gpio/gpio_xmc4xxx.h"
+#include "sys_counter/sys_counter.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -9,6 +10,8 @@
 
 
 #define EEPROM_NEED_ERASING 0
+
+#define EEPROM_INIT_IC_TIMEOUT_US 10000
 
 
 
@@ -114,9 +117,23 @@ static err_t eeprom_init_ic(eeprom_t* eeprom)
 
     m95x_status_t status;
 
+    struct timeval tv_end;
+    tv_end.tv_usec = EEPROM_INIT_IC_TIMEOUT_US;
+    tv_end.tv_sec = 0;
+
+    struct timeval tv_cur;
+    sys_counter_value(&tv_cur);
+
+    timeradd(&tv_cur, &tv_end, &tv_end);
+
     do{
         err = m95x_read_status(eeprom->m95x, &status);
         if(err != E_NO_ERROR) return err;
+
+        sys_counter_value(&tv_cur);
+        if(timercmp(&tv_cur, &tv_end, >)){
+            return E_TIME_OUT;
+        }
     }while(status.write_in_progress);
 
     if(status.block_protect != M95X_PROTECT_NONE || status.status_reg_write_protect){
