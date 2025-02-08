@@ -839,19 +839,6 @@ int main(void)
 
     load_settings();
 
-
-//#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
-//    // Temporary stub.
-//
-//    for(;;){
-//        //STDIO_UART_USIC_CH->TBUF[0] = 'h';
-//        struct timeval tv = {1, 0};
-//        sys_counter_delay(&tv);
-//        SYSLOG_MSG(SYSLOG_DEBUG, "IDLE");
-//        //STDIO_UART_USIC_CH->TBUF[0] = '.';
-//    }
-//#endif
-
     setup();
 
     init_sysmain();

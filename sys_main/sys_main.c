@@ -826,14 +826,15 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     if(ph3c.phc[PHASE3_CONTROL_AB].out_period){
         for(i = 0; i < TRIACS_MAINS_KEYS_COUNT; i ++)
         { triacs.in_control[i] = 0; }
-        triacs.in_control[PHASE3_CONTROL_AB] = 1;
-        triacs.in_control[PHASE3_CONTROL_AC] = 1;
+        triacs.in_control[PHASE3_CONTROL_A_HI] = 1;
+        triacs.in_control[PHASE3_CONTROL_C_HI] = 1;
         triacs.in_control_delay_angle = IQ24(0);
         triacs.in_control_max_duration_angle = IQ24(0.155);
         CALC(triacs);
     }
-    dac.in_value[0] = iq24_mul(mux_Umains.out_A, IQ24(0.9));
-    dac.in_value[1] = iq24_mul(mux_Umains.out_B, IQ24(0.9));
+    dac.in_value[0] = IQ24(ph3c.phc[PHASE3_CONTROL_AB].out_period);
+//    dac.in_value[0] = iq24_mul(mux_Umains.out_A, IQ24(0.9));
+//    dac.in_value[1] = iq24_mul(mux_Umains.out_B, IQ24(0.9));
 
     // Вычисление измерений напряжения ячейки
     // (для модели нужно вычислить это до вычисления модели).
@@ -921,6 +922,12 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
     // Конечный автомат.
     FSM_state(sys);
+
+#warning TEST
+    // test.
+//    triacs.control |= TRIACS_CONTROL_CLOSE;
+//    CONTROL(triacs);
+//    triacs.control &= ~TRIACS_CONTROL_CLOSE;
 
     // Запись выхода ЦАП.
     CALC(dac);
