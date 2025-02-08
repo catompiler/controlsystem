@@ -16,12 +16,17 @@
 METHOD_INIT_IMPL(M_dac, dac)
 {
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+#if (defined(DAC_CHANNEL0_ENABLED) && DAC_CHANNEL0_ENABLED == 1) ||\
+    (defined(DAC_CHANNEL1_ENABLED) && DAC_CHANNEL1_ENABLED == 1)
+    DAC->DAC01DATA = 0;
+#endif
 #if defined(DAC_CHANNEL0_ENABLED) && DAC_CHANNEL0_ENABLED == 1
     DAC->DAC0CFG0 = ((0b001) << DAC_DAC0CFG0_MODE_Pos) | // Single value.
                     ((0) << DAC_DAC0CFG0_SIGN_Pos); // Unsigned, 1 - signed input data.
 
     DAC->DAC0CFG1 = ((0b00) << DAC_DAC0CFG1_TRIGMOD_Pos) | // Internal.
                     ((1) << DAC_DAC0CFG1_ANAEN_Pos); // Enable.
+    DAC->DAC0DATA = 0;
 #endif
 #if defined(DAC_CHANNEL1_ENABLED) && DAC_CHANNEL1_ENABLED == 1
     DAC->DAC1CFG0 = ((0b001) << DAC_DAC1CFG0_MODE_Pos) | // Single value.
@@ -29,6 +34,7 @@ METHOD_INIT_IMPL(M_dac, dac)
 
     DAC->DAC1CFG1 = ((0b00) << DAC_DAC1CFG1_TRIGMOD_Pos) | // Internal.
                     ((1) << DAC_DAC1CFG1_ANAEN_Pos); // Enable.
+    DAC->DAC1DATA = 0;
 #endif
 #endif
 }
