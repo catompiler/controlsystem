@@ -645,7 +645,8 @@ static void setup()
     /*dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_M;
     dlog.p_ch[dlog_i++].enabled = 1;
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_W;
-    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i++].enabled = 1;*/
+#if defined(PORT_POSIX)
     // Rectifier Uabc
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_UA;
     dlog.p_ch[dlog_i++].enabled = 1;
@@ -660,8 +661,29 @@ static void setup()
     dlog.p_ch[dlog_i++].enabled = 1;
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_IC;
     dlog.p_ch[dlog_i++].enabled = 1;
+    // Phases
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_PHASE_AMPL_UA_OUT_PHASE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_PHASE_AMPL_UB_OUT_PHASE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_PHASE_AMPL_UC_OUT_PHASE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    // LRM control
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL0;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL1;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL2;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL3;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL4;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL5;
+    dlog.p_ch[dlog_i++].enabled = 1;
+#endif
     // Cell RMS.
-    dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UA_OUT_VALUE;
+    /*dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UA_OUT_VALUE;
     dlog.p_ch[dlog_i++].enabled = 1;
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UB_OUT_VALUE;
     dlog.p_ch[dlog_i++].enabled = 1;
