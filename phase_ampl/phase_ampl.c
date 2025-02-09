@@ -156,12 +156,20 @@ static void calc_phase_ampl(M_phase_ampl* pa)
     // Коррекция на фазу между двумя точками.
     angle -= IQ24_2PI_PU / PHASE_AMPL_SAMPLES_COUNT;
 
+    // Если старая фаза в первой четверти (даже 1/8),
+    // а новая - больше нуля,
+    // то "склампим" новую фазу до старой.
+    if(pa->m_phase_z1 >= 0 && pa->m_phase_z1 < IQ24_PI4_PU && angle < 0){
+        angle = pa->m_phase_z1;
+    }
+
     // Приведение к интервалу [0; 2*pi).
     if(angle > IQ24_2PI_PU) angle -= IQ24_2PI_PU;
     if(angle < 0) angle += IQ24_2PI_PU;
 
     pa->out_phase = angle;
     pa->out_ampl = hyp;
+    pa->m_phase_z1 = angle;
 }
 
 METHOD_CALC_IMPL(M_phase_ampl, pa)
