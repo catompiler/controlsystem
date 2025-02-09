@@ -42,6 +42,77 @@
 //}
 
 
+static void triacs_ctrl_gpio_init(M_triacs* tr)
+{
+    (void) tr;
+
+    // en.
+#ifdef TRIACS_CTRL_EN_PORT
+    gpio_reset(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk);
+    gpio_set_pad_driver(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk, TRIACS_CTRL_EN_PIN_DRIVER);
+    gpio_init(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk, TRIACS_CTRL_EN_PIN_CONF);
+#endif
+    // sel.
+#ifdef TRIACS_CTRL_SEL_PORT
+    gpio_reset(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk);
+    gpio_set_pad_driver(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk, TRIACS_CTRL_SEL_PIN_DRIVER);
+    gpio_init(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk, TRIACS_CTRL_SEL_PIN_CONF);
+#endif
+}
+
+static void triacs_ctrl_gpio_deinit(M_triacs* tr)
+{
+    (void) tr;
+
+    // en.
+#ifdef TRIACS_CTRL_EN_PORT
+    gpio_reset(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk);
+    gpio_init(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk, GPIO_CONF_INPUT);
+#endif
+    // sel.
+#ifdef TRIACS_CTRL_SEL_PORT
+    gpio_reset(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk);
+    gpio_init(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk, GPIO_CONF_INPUT);
+#endif
+}
+
+static void triacs_ctrl_gpio_triacs_enable(M_triacs* tr)
+{
+    (void) tr;
+
+#ifdef TRIACS_CTRL_EN_PORT
+    gpio_set(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk);
+#endif
+}
+
+static void triacs_ctrl_gpio_triacs_disable(M_triacs* tr)
+{
+    (void) tr;
+
+#ifdef TRIACS_CTRL_EN_PORT
+    gpio_reset(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk);
+#endif
+}
+
+static void triacs_ctrl_gpio_triacs_select_fwd(M_triacs* tr)
+{
+    (void) tr;
+
+#ifdef TRIACS_CTRL_SEL_PORT
+    gpio_reset(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk);
+#endif
+}
+
+static void triacs_ctrl_gpio_triacs_select_bwd(M_triacs* tr)
+{
+    (void) tr;
+
+#ifdef TRIACS_CTRL_SEL_PORT
+    gpio_set(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk);
+#endif
+}
+
+
 static void triacs_mains_mod_tim_init(M_triacs* tr)
 {
     (void) tr;
@@ -477,6 +548,10 @@ static void triacs_mains_fire(M_triacs* tr)
 
 METHOD_INIT_IMPL(M_triacs, tr)
 {
+    triacs_ctrl_gpio_init(tr);
+    triacs_ctrl_gpio_triacs_select_fwd(tr);
+    triacs_ctrl_gpio_triacs_enable(tr);
+
     triacs_mains_mod_tim_init(tr);
     triacs_mains_out_a_tim_init(tr);
     triacs_mains_out_b_tim_init(tr);
@@ -486,6 +561,9 @@ METHOD_INIT_IMPL(M_triacs, tr)
 METHOD_DEINIT_IMPL(M_triacs, tr)
 {
     triacs_mains_close(tr);
+
+    triacs_ctrl_gpio_deinit(tr);
+
     triacs_mains_out_a_tim_deinit(tr);
     triacs_mains_out_b_tim_deinit(tr);
     triacs_mains_out_c_tim_deinit(tr);
