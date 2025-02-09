@@ -44,7 +44,8 @@ static_assert((360.0 / TRIACS_MAINS_SINGLE_PULSE_ANGLE_F) < 127.0, "IQ24 overflo
 //! Минимальное число импульсов отпирания основных тиристоров.
 #define TRIACS_MAINS_PULSES_MIN 1
 //! Максимальное число импульсов отпирания основных тиристоров.
-#define TRIACS_MAINS_PULSES_MAX ( (uint32_t)((TRIACS_MAINS_PULSE_TRAIN_ANGLE_MAX_F) / (TRIACS_MAINS_SINGLE_PULSE_ANGLE_F)) )
+//#define TRIACS_MAINS_PULSES_MAX ( (uint32_t)((TRIACS_MAINS_PULSE_TRAIN_ANGLE_MAX_F) / (TRIACS_MAINS_SINGLE_PULSE_ANGLE_F)) )
+#define TRIACS_MAINS_PULSES_MAX 1
 
 //! Общая длительность отпирания основных тиристоров, эл. град.
 #define TRIACS_MAINS_ALL_PULSES_ANGLE_F ( (TRIACS_MAINS_PULSE_ANGLE_F) / (TRIACS_MAINS_PULSE_DUTY_CYCLE_F) * (TRIACS_MAINS_PULSES) )

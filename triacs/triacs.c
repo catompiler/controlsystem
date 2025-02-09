@@ -17,7 +17,7 @@
  * !!!
  */
 
-
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 #define CCU_MOD_DEGREES_F 120.0
 #define CCU_MOD_DEGREES_PU IQ24((CCU_MOD_DEGREES_F) / 360.0)
 #define CCU_MOD_FREQ_F ( (360.0 / (CCU_MOD_DEGREES_F)) * (CONF_MAINS_FREQ) )
@@ -34,7 +34,7 @@
 #define CCU_OUT_PRESCALER_N 16
 #define CCU_OUT_PRESCALER 0b0100
 #define CCU_OUT_PERIOD ((uint32_t)((CPU_FREQ) / (CCU_OUT_PRESCALER_N) / (CCU_OUT_FREQ_F)))
-
+#endif // PORT
 
 //void TRIACS_MAINS_MOD_TIM_IRQ_Handler(void)
 //{
@@ -46,6 +46,7 @@ static void triacs_ctrl_gpio_init(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // en.
 #ifdef TRIACS_CTRL_EN_PORT
     gpio_reset(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk);
@@ -58,12 +59,14 @@ static void triacs_ctrl_gpio_init(M_triacs* tr)
     gpio_set_pad_driver(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk, TRIACS_CTRL_SEL_PIN_DRIVER);
     gpio_init(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk, TRIACS_CTRL_SEL_PIN_CONF);
 #endif
+#endif // PORT
 }
 
 static void triacs_ctrl_gpio_deinit(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // en.
 #ifdef TRIACS_CTRL_EN_PORT
     gpio_reset(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk);
@@ -74,42 +77,51 @@ static void triacs_ctrl_gpio_deinit(M_triacs* tr)
     gpio_reset(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk);
     gpio_init(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk, GPIO_CONF_INPUT);
 #endif
+#endif // PORT
 }
 
 static void triacs_ctrl_gpio_triacs_enable(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 #ifdef TRIACS_CTRL_EN_PORT
     gpio_set(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk);
 #endif
+#endif // PORT
 }
 
 static void triacs_ctrl_gpio_triacs_disable(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 #ifdef TRIACS_CTRL_EN_PORT
     gpio_reset(TRIACS_CTRL_EN_PORT, TRIACS_CTRL_EN_PIN_Msk);
 #endif
+#endif // PORT
 }
 
 static void triacs_ctrl_gpio_triacs_select_fwd(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 #ifdef TRIACS_CTRL_SEL_PORT
     gpio_reset(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk);
 #endif
+#endif // PORT
 }
 
 static void triacs_ctrl_gpio_triacs_select_bwd(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 #ifdef TRIACS_CTRL_SEL_PORT
     gpio_set(TRIACS_CTRL_SEL_PORT, TRIACS_CTRL_SEL_PIN_Msk);
 #endif
+#endif // PORT
 }
 
 
@@ -117,6 +129,7 @@ static void triacs_mains_mod_tim_init(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // configure.
     TRIACS_MAINS_MOD_TIM_CCU8_CC8->PSC = CCU_MOD_PRESCALER;
     TRIACS_MAINS_MOD_TIM_CCU8_CC8->PRS = CCU_MOD_PERIOD - 1;
@@ -135,40 +148,57 @@ static void triacs_mains_mod_tim_init(M_triacs* tr)
 
     // idle.
     TRIACS_MAINS_MOD_TIM_CCU8->GIDLC = TRIACS_MAINS_MOD_TIM_IDLE_CLR_Msk;
+#endif // PORT
 }
 
 static void triacs_mains_mod_tim_deinit(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_MOD_TIM_CCU8->GIDLS = TRIACS_MAINS_MOD_TIM_IDLE_SET_Msk;
+#endif // PORT
 }
 
-static int triacs_mains_mod_tim_start(M_triacs* tr)
+static void triacs_mains_mod_tim_start(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // start.
     TRIACS_MAINS_MOD_TIM_CCU8_CC8->TCSET = CCU8_CC8_TCSET_TRBS_Msk;
-
-    return 0;
+#endif // PORT
 }
 
-static int triacs_mains_mod_tim_stop(M_triacs* tr)
+static void triacs_mains_mod_tim_stop(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // stop.
     TRIACS_MAINS_MOD_TIM_CCU8_CC8->TCCLR = CCU8_CC8_TCCLR_TRBC_Msk | CCU8_CC8_TCCLR_TCC_Msk;
+#endif // PORT
+}
 
-    return 0;
+static void triacs_mains_mod_tim_setup_pulse(M_triacs* tr, uint32_t start_ticks, uint32_t end_ticks)
+{
+    (void) tr;
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    TRIACS_MAINS_MOD_TIM_CCU8_CC8->CR1S = start_ticks;
+    TRIACS_MAINS_MOD_TIM_CCU8_CC8->CR2S = end_ticks;
+    // shadow transfer.
+    TRIACS_MAINS_MOD_TIM_CCU8->GCSS = TRIACS_MAINS_MOD_TIM_SHADOW_TRANSFER_Msk;
+#endif // PORT
 }
 
 //static int triacs_mains_mod_tim_isrunning(M_triacs* tr)
 //{
 //    (void) tr;
 //
-//    return (TRIACS_MAINS_A_MOD_TIM_CCU8_CC8->TCST & CCU8_CC8_TCST_TRB_Msk) != 0;
+//#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+//    return (TRIACS_MAINS_MOD_TIM_CCU8_CC8->TCST & CCU8_CC8_TCST_TRB_Msk) != 0;
+//#endif // PORT
 //}
 
 
@@ -176,6 +206,7 @@ static void triacs_mains_out_a_tim_init(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // configure.
     TRIACS_MAINS_A_OUT_TIM_CCU8_CC8->PSC = CCU_OUT_PRESCALER;
     TRIACS_MAINS_A_OUT_TIM_CCU8_CC8->PRS = CCU_OUT_PERIOD - 1;
@@ -226,43 +257,54 @@ static void triacs_mains_out_a_tim_init(M_triacs* tr)
     gpio_set_pad_driver(TRIACS_MAINS_AN_PORT, TRIACS_MAINS_AN_PIN_Msk, TRIACS_MAINS_AN_PIN_DRIVER);
     gpio_init(TRIACS_MAINS_AN_PORT, TRIACS_MAINS_AN_PIN_Msk, TRIACS_MAINS_AN_PIN_CONF);
 #endif
+#endif // PORT
 }
 
 static void triacs_mains_out_a_tim_deinit(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_A_OUT_TIM_CCU8->GIDLS = TRIACS_MAINS_A_OUT_TIM_IDLE_SET_Msk;
+#endif // PORT
 }
 
-static int triacs_mains_out_a_tim_stop(M_triacs* tr)
+static void triacs_mains_out_a_tim_stop(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // stop.
     TRIACS_MAINS_A_OUT_TIM_CCU8_CC8->TCCLR = CCU8_CC8_TCCLR_TRBC_Msk | CCU8_CC8_TCCLR_TCC_Msk;
-
-    return 0;
+#endif // PORT
 }
 
 static void triacs_mains_out_ap_tim_out_enable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_A_OUT_TIM_CCU8_CC8->TC &= ~CCU8_CC8_TC_MCME1_Msk;
+#endif // PORT
 }
 
 static void triacs_mains_out_ap_tim_out_disable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_A_OUT_TIM_CCU8_CC8->TC |= CCU8_CC8_TC_MCME1_Msk;
+#endif // PORT
 }
 
 static void triacs_mains_out_an_tim_out_enable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_A_OUT_TIM_CCU8_CC8->TC &= ~CCU8_CC8_TC_MCME2_Msk;
+#endif // PORT
 }
 
 static void triacs_mains_out_an_tim_out_disable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_A_OUT_TIM_CCU8_CC8->TC |= CCU8_CC8_TC_MCME2_Msk;
+#endif // PORT
 }
 
 
@@ -270,6 +312,7 @@ static void triacs_mains_out_b_tim_init(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // configure.
     TRIACS_MAINS_B_OUT_TIM_CCU8_CC8->PSC = CCU_OUT_PRESCALER;
     TRIACS_MAINS_B_OUT_TIM_CCU8_CC8->PRS = CCU_OUT_PERIOD - 1;
@@ -320,48 +363,60 @@ static void triacs_mains_out_b_tim_init(M_triacs* tr)
     gpio_set_pad_driver(TRIACS_MAINS_BN_PORT, TRIACS_MAINS_BN_PIN_Msk, TRIACS_MAINS_BN_PIN_DRIVER);
     gpio_init(TRIACS_MAINS_BN_PORT, TRIACS_MAINS_BN_PIN_Msk, TRIACS_MAINS_BN_PIN_CONF);
 #endif
+#endif // PORT
 }
 
 static void triacs_mains_out_b_tim_deinit(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_B_OUT_TIM_CCU8->GIDLS = TRIACS_MAINS_B_OUT_TIM_IDLE_SET_Msk;
+#endif // PORT
 }
 
-static int triacs_mains_out_b_tim_stop(M_triacs* tr)
+static void triacs_mains_out_b_tim_stop(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // stop.
     TRIACS_MAINS_B_OUT_TIM_CCU8_CC8->TCCLR = CCU8_CC8_TCCLR_TRBC_Msk | CCU8_CC8_TCCLR_TCC_Msk;
-
-    return 0;
+#endif // PORT
 }
 
 static void triacs_mains_out_bp_tim_out_enable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_B_OUT_TIM_CCU8_CC8->TC &= ~CCU8_CC8_TC_MCME1_Msk;
+#endif // PORT
 }
 
 static void triacs_mains_out_bp_tim_out_disable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_B_OUT_TIM_CCU8_CC8->TC |= CCU8_CC8_TC_MCME1_Msk;
+#endif // PORT
 }
 
 static void triacs_mains_out_bn_tim_out_enable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_B_OUT_TIM_CCU8_CC8->TC &= ~CCU8_CC8_TC_MCME2_Msk;
+#endif // PORT
 }
 
 static void triacs_mains_out_bn_tim_out_disable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_B_OUT_TIM_CCU8_CC8->TC |= CCU8_CC8_TC_MCME2_Msk;
+#endif // PORT
 }
 
 
 static void triacs_mains_out_c_tim_eru_init(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_C_ERU->EXISEL |= ((TRIACS_MAINS_C_ERU_EXISEL_VALUE) << TRIACS_MAINS_C_ERU_EXISEL_Pos);
     TRIACS_MAINS_C_ERU->EXICON[TRIACS_MAINS_C_ERU_EXICON_N] = ((0) << ERU_EXICON_NB_Pos) | // not inverted.
                                     ((TRIACS_MAINS_C_ERU_EXICON_SS) << ERU_EXICON_SS_Pos) | // only B
@@ -374,12 +429,14 @@ static void triacs_mains_out_c_tim_eru_init(M_triacs* tr)
 //    gpio_reset(PORT1, GPIO_PIN_2);
 //    gpio_set_pad_driver(PORT1, GPIO_PIN_2, GPIO_PAD_A2_DRIVER_STRONG_EDGE_SOFT);
 //    gpio_init(PORT1, GPIO_PIN_2, GPIO_CONF_OUTPUT_PP_ALT4);
+#endif // PORT
 }
 
 static void triacs_mains_out_c_tim_init(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // Interconnect CCU80.ST0 -> CCU81.INyI
     triacs_mains_out_c_tim_eru_init(tr);
 
@@ -433,43 +490,54 @@ static void triacs_mains_out_c_tim_init(M_triacs* tr)
     gpio_set_pad_driver(TRIACS_MAINS_CN_PORT, TRIACS_MAINS_CN_PIN_Msk, TRIACS_MAINS_CN_PIN_DRIVER);
     gpio_init(TRIACS_MAINS_CN_PORT, TRIACS_MAINS_CN_PIN_Msk, TRIACS_MAINS_CN_PIN_CONF);
 #endif
+#endif // PORT
 }
 
 static void triacs_mains_out_c_tim_deinit(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_C_OUT_TIM_CCU8->GIDLS = TRIACS_MAINS_C_OUT_TIM_IDLE_SET_Msk;
+#endif // PORT
 }
 
-static int triacs_mains_out_c_tim_stop(M_triacs* tr)
+static void triacs_mains_out_c_tim_stop(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     // stop.
     TRIACS_MAINS_C_OUT_TIM_CCU8_CC8->TCCLR = CCU8_CC8_TCCLR_TRBC_Msk | CCU8_CC8_TCCLR_TCC_Msk;
-
-    return 0;
+#endif // PORT
 }
 
 static void triacs_mains_out_cp_tim_out_enable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_C_OUT_TIM_CCU8_CC8->TC &= ~CCU8_CC8_TC_MCME1_Msk;
+#endif // PORT
 }
 
 static void triacs_mains_out_cp_tim_out_disable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_C_OUT_TIM_CCU8_CC8->TC |= CCU8_CC8_TC_MCME1_Msk;
+#endif // PORT
 }
 
 static void triacs_mains_out_cn_tim_out_enable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_C_OUT_TIM_CCU8_CC8->TC &= ~CCU8_CC8_TC_MCME2_Msk;
+#endif // PORT
 }
 
 static void triacs_mains_out_cn_tim_out_disable(M_triacs* tr)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     TRIACS_MAINS_C_OUT_TIM_CCU8_CC8->TC |= CCU8_CC8_TC_MCME2_Msk;
+#endif // PORT
 }
 
 
@@ -489,18 +557,27 @@ static void triacs_mains_close(M_triacs* tr)
 
 static iq24_t triacs_mains_calc_duration_angle(M_triacs* tr, iq24_t max_dur)
 {
+    (void) tr;
+
+#if TRIACS_MAINS_PULSES_MIN != TRIACS_MAINS_PULSES_MAX
     iq24_t pulses_count_iq = iq24_mul(max_dur, TRIACS_MAINS_SINGLE_PULSE_ANGLE_INV_PU);
     uint32_t pulses_count = iq24_int(pulses_count_iq);
 
     pulses_count = CLAMP(pulses_count, TRIACS_MAINS_PULSES_MIN, TRIACS_MAINS_PULSES_MAX);
 
     return pulses_count * TRIACS_MAINS_SINGLE_PULSE_ANGLE_PU;
+#else
+    (void) max_dur;
+
+    return TRIACS_MAINS_PULSES_MIN * TRIACS_MAINS_SINGLE_PULSE_ANGLE_PU;
+#endif
 }
 
 static void triacs_mains_setup_fire(M_triacs* tr)
 {
     (void) tr;
 
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
     iq24_t delay_angle = tr->in_control_delay_angle;
     iq24_t max_duration_angle = tr->in_control_max_duration_angle;
 
@@ -511,10 +588,8 @@ static void triacs_mains_setup_fire(M_triacs* tr)
 
     uint32_t end_ticks = start_ticks + duration_ticks;
 
-    TRIACS_MAINS_MOD_TIM_CCU8_CC8->CR1S = start_ticks;
-    TRIACS_MAINS_MOD_TIM_CCU8_CC8->CR2S = end_ticks;
-    // shadow transfer.
-    TRIACS_MAINS_MOD_TIM_CCU8->GCSS = TRIACS_MAINS_MOD_TIM_SHADOW_TRANSFER_Msk;
+    triacs_mains_mod_tim_setup_pulse(tr, start_ticks, end_ticks);
+#endif // PORT
 }
 
 

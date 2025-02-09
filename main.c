@@ -149,6 +149,7 @@ static void write_dlog_to_file_csv(void)
         DATA_LOG_NEXT_INDEX(get_index);
     }
 
+    fflush(f);
     fclose(f);
 }
 #endif
@@ -713,9 +714,9 @@ static void setup()
     dlog.p_ch[dlog_i++].enabled = 1;
 
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_POWER_FACTOR_OUT_TAN_PHI;
-    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i++].enabled = 1;*/
 
-    dlog.control = CONTROL_ENABLE;*/
+    dlog.control = CONTROL_ENABLE;
 
     // ADC model set to zero scales.
     adc_model.in_U_scale = IQ24(0.0);
@@ -846,14 +847,14 @@ int main(void)
     for(;;){
         IDLE(sys);
 
-//        if(adc_tim.out_counter >= 256){
-//            if(lrm.in_stator_on == 0){
-//                // Main contactor is on.
-//                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
-//                lrm.in_stator_on = 1;
-////                lrm.in_start_r_on = 1;
-//            }
-//        }
+        if(adc_tim.out_counter >= 256){
+            if(lrm.in_stator_on == 0){
+                // Main contactor is on.
+                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
+                lrm.in_stator_on = 1;
+//                lrm.in_start_r_on = 1;
+            }
+        }
 
         if(sys_cmd.out_command == SYS_COMMAND_COMMAND_CELL_CB_NO){
             lrm.in_stator_on = 1;
@@ -863,16 +864,18 @@ int main(void)
             lrm.in_stator_on = 0;
         }
 
-//        if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
-//            if(lrm.in_stator_on == 1){
-//                // Stop.
-//                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
-//                lrm.in_stator_on = 0;
-//            }
-//        }
+#if defined(PORT_POSIX)
+        if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
+            if(lrm.in_stator_on == 1){
+                // Stop.
+                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
+                lrm.in_stator_on = 0;
+            }
+        }
+#endif
 
 #if defined(PORT_POSIX)
-        //if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
+        if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
         if(sys.status & SYS_MAIN_STATUS_QUIT) break;
 
         struct timespec ts_sleep = {0, 1000000};
