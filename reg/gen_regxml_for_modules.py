@@ -15,10 +15,12 @@ PROJECT_PATH = ".."
 REGXML2_FILENAME = "reglist.regxml2"
 
 ENCODING = 'utf-8'
-EXCLUDE_DIRS = ["CANopenNode", "slcan", "tmp", "Debug", "Release", "OD.h", "reg", "iqmath", "utils", "bits"]
+EXCLUDE_DIRS = ["CANopenNode", "slcan", "tmp", "Debug", "Release", "MCU", "Desktop", "OD.h", "reg", "iqmath", "utils", "bits", "CMSIS_5", "mtb-xmclib-cat3"]
 
-CPP_INCS = [PROJECT_PATH, os.path.join(PROJECT_PATH, "CANopenNode")]
-CPP_DEFS = []
+CPP_INCS = [PROJECT_PATH, os.path.join(PROJECT_PATH, "CANopenNode"),
+            os.path.join(PROJECT_PATH, "CMSIS_5/CMSIS/Core/Include"),
+            os.path.join(PROJECT_PATH, "mtb-xmclib-cat3/CMSIS/Infineon/COMPONENT_XMC4500/Include")]
+CPP_DEFS = ["PORT_XMC4500", "SYSLOG_GLOBAL"]
 
 IGNORE_FIELDS_PREFIXES = ["m_"]
 REMOVE_PREFIXES = ["p_", "r_"]

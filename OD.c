@@ -49,130 +49,132 @@ typedef struct {
     OD_obj_record_t o_1A01_TPDOMappingParameter[9];
     OD_obj_record_t o_1A02_TPDOMappingParameter[9];
     OD_obj_record_t o_1A03_TPDOMappingParameter[9];
-    OD_obj_record_t o_2000_sys[7];
+    OD_obj_record_t o_2000_sys[12];
     OD_obj_record_t o_2010_sys_cmd[4];
     OD_obj_record_t o_2020_sys_ctrl[12];
     OD_obj_record_t o_2030_sys_stat[4];
     OD_obj_record_t o_2040_conf[15];
     OD_obj_record_t o_2050_adc[63];
-    OD_obj_record_t o_2060_adc_model[31];
-    OD_obj_record_t o_2070_adc_tim[4];
-    OD_obj_record_t o_2080_sys_tim[4];
-    OD_obj_record_t o_2090_ms_tim[4];
-    OD_obj_record_t o_20A0_net_tim[4];
-    OD_obj_record_t o_20B0_sys_time[6];
-    OD_obj_record_t o_20C0_tmr_sys_fsm[6];
-    OD_obj_record_t o_20D0_dlog[150];
-    OD_obj_record_t o_20E0_sys_calc[3];
-    OD_obj_record_t o_20F0_rect_curr[7];
-    OD_obj_record_t o_2100_mux_umains[16];
-    OD_obj_record_t o_2110_mux_imains[16];
-    OD_obj_record_t o_2120_mux_uarm[7];
-    OD_obj_record_t o_2130_mux_iarm[8];
-    OD_obj_record_t o_2140_mux_irstart[7];
-    OD_obj_record_t o_2150_mux_ucell[16];
-    OD_obj_record_t o_2160_mux_icell[16];
-    OD_obj_record_t o_2170_mux_slip[7];
-    OD_obj_record_t o_2180_phase_ampl_ua[6];
-    OD_obj_record_t o_2190_phase_ampl_ub[6];
-    OD_obj_record_t o_21A0_phase_ampl_uc[6];
-    OD_obj_record_t o_21B0_zcd_ua[8];
-    OD_obj_record_t o_21C0_zcd_ub[8];
-    OD_obj_record_t o_21D0_zcd_uc[8];
-    OD_obj_record_t o_21E0_zcd_slip[8];
-    OD_obj_record_t o_21F0_slip[5];
-    OD_obj_record_t o_2200_phase_lrm_i_stator[9];
-    OD_obj_record_t o_2210_phase_ucell[9];
-    OD_obj_record_t o_2220_calc_ucell[10];
-    OD_obj_record_t o_2230_calc_icell[10];
-    OD_obj_record_t o_2240_rms_ua[5];
-    OD_obj_record_t o_2250_rms_ub[5];
-    OD_obj_record_t o_2260_rms_uc[5];
-    OD_obj_record_t o_2270_rms_ia[5];
-    OD_obj_record_t o_2280_rms_ib[5];
-    OD_obj_record_t o_2290_rms_ic[5];
-    OD_obj_record_t o_22A0_rms_cell_ua[5];
-    OD_obj_record_t o_22B0_rms_cell_ub[5];
-    OD_obj_record_t o_22C0_rms_cell_uc[5];
-    OD_obj_record_t o_22D0_rms_cell_ua_phase[5];
-    OD_obj_record_t o_22E0_rms_cell_ub_phase[5];
-    OD_obj_record_t o_22F0_rms_cell_uc_phase[5];
-    OD_obj_record_t o_2300_rms_cell_ia[5];
-    OD_obj_record_t o_2310_rms_cell_ib[5];
-    OD_obj_record_t o_2320_rms_cell_ic[5];
-    OD_obj_record_t o_2330_mean_iarm[5];
-    OD_obj_record_t o_2340_mean_uarm[5];
-    OD_obj_record_t o_2350_mean_irstart[5];
-    OD_obj_record_t o_2360_mean_rms_icell[7];
-    OD_obj_record_t o_2370_sum_s[7];
-    OD_obj_record_t o_2380_sum_p[7];
-    OD_obj_record_t o_2390_sum_q[7];
-    OD_obj_record_t o_23A0_power_a[10];
-    OD_obj_record_t o_23B0_power_b[10];
-    OD_obj_record_t o_23C0_power_c[10];
-    OD_obj_record_t o_23D0_power_factor[9];
-    OD_obj_record_t o_23E0_vr_rms_umains[12];
-    OD_obj_record_t o_23F0_vr_filter_freq_umains[12];
-    OD_obj_record_t o_2400_vr_rms_ucell[12];
-    OD_obj_record_t o_2410_cell_cb[6];
-    OD_obj_record_t o_2420_thr_run_trig_i_s[6];
-    OD_obj_record_t o_2430_am_run_trig_i_s[6];
-    OD_obj_record_t o_2440_mux_run_trig[7];
-    OD_obj_record_t o_2450_tmr_run_trig[10];
-    OD_obj_record_t o_2460_thr_prim_slip[6];
-    OD_obj_record_t o_2470_thr_prim_i_s[6];
-    OD_obj_record_t o_2480_thr_prim_t[6];
-    OD_obj_record_t o_2490_am_prim_field_on[10];
-    OD_obj_record_t o_24A0_thr_sec_slip[6];
-    OD_obj_record_t o_24B0_thr_sec_i_s[6];
-    OD_obj_record_t o_24C0_thr_sec_t[6];
-    OD_obj_record_t o_24D0_am_sec_field_on[10];
-    OD_obj_record_t o_24E0_or_field_on[6];
-    OD_obj_record_t o_24F0_tmr_field_on[10];
-    OD_obj_record_t o_2500_thr_value_for_slip_lt_zero[6];
-    OD_obj_record_t o_2510_or_value_slip_lt_zero_i_r_sync[6];
-    OD_obj_record_t o_2520_and_ready_to_exc[6];
-    OD_obj_record_t o_2530_tmr_field_on_rstart_off[10];
-    OD_obj_record_t o_2540_not_ready_to_exc[5];
-    OD_obj_record_t o_2550_cmp_ctrl_state_is_start[6];
-    OD_obj_record_t o_2560_and_rstart_on[6];
-    OD_obj_record_t o_2570_thr_field_on_i_r_sync[6];
-    OD_obj_record_t o_2580_tmr_field_on_i_r_sync[10];
-    OD_obj_record_t o_2590_thr_field_supp_i_r[6];
-    OD_obj_record_t o_25A0_tmr_field_supp[6];
-    OD_obj_record_t o_25B0_cnt_start[4];
-    OD_obj_record_t o_25C0_filter_zcd_ua[7];
-    OD_obj_record_t o_25D0_filter_zcd_ub[7];
-    OD_obj_record_t o_25E0_filter_zcd_uc[7];
-    OD_obj_record_t o_25F0_filter_zcd_slip[7];
-    OD_obj_record_t o_2600_filter_freq_ua[7];
-    OD_obj_record_t o_2610_filter_freq_ub[7];
-    OD_obj_record_t o_2620_filter_freq_uc[7];
-    OD_obj_record_t o_2630_filter_freq_slip[7];
-    OD_obj_record_t o_2640_filter_mean_iarm[7];
-    OD_obj_record_t o_2650_filter_mean_uarm[7];
-    OD_obj_record_t o_2660_filter_mean_irstart[7];
-    OD_obj_record_t o_2670_tmr_start_min_forcing[6];
-    OD_obj_record_t o_2680_tmr_start_max_forcing[6];
-    OD_obj_record_t o_2690_tmr_start_stab_forcing[10];
-    OD_obj_record_t o_26A0_thr_start_q_le_zero[6];
-    OD_obj_record_t o_26B0_and_start_min_forcing_end[6];
-    OD_obj_record_t o_26C0_or_start_forcing_end[6];
-    OD_obj_record_t o_26D0_mux_field_regs[9];
-    OD_obj_record_t o_26E0_lim_field_regs_curr_ref[7];
-    OD_obj_record_t o_26F0_mux_field_force_ref[7];
-    OD_obj_record_t o_2700_mot_pot_field_test[10];
-    OD_obj_record_t o_2710_mot_pot_manual_curr_ref[10];
-    OD_obj_record_t o_2720_mux_curr_ref[9];
-    OD_obj_record_t o_2730_pid_i[12];
-    OD_obj_record_t o_2740_pid_coefs_i[12];
-    OD_obj_record_t o_2750_ph3c[97];
-    OD_obj_record_t o_2760_lrm[53];
-    OD_obj_record_t o_2770_motor[43];
-    OD_obj_record_t o_2780_prot[7];
-    OD_obj_record_t o_2790_canopen[3];
-    OD_obj_record_t o_27A0_storage[3];
-    OD_obj_record_t o_27B0_settings[4];
+    OD_obj_record_t o_2060_dac[5];
+    OD_obj_record_t o_2070_adc_model[31];
+    OD_obj_record_t o_2080_adc_tim[4];
+    OD_obj_record_t o_2090_sys_tim[4];
+    OD_obj_record_t o_20A0_ms_tim[4];
+    OD_obj_record_t o_20B0_net_tim[4];
+    OD_obj_record_t o_20C0_sys_time[6];
+    OD_obj_record_t o_20D0_tmr_sys_fsm[6];
+    OD_obj_record_t o_20E0_dlog[54];
+    OD_obj_record_t o_20F0_sys_calc[3];
+    OD_obj_record_t o_2100_rect_curr[7];
+    OD_obj_record_t o_2110_mux_umains[16];
+    OD_obj_record_t o_2120_mux_imains[16];
+    OD_obj_record_t o_2130_mux_uarm[7];
+    OD_obj_record_t o_2140_mux_iarm[8];
+    OD_obj_record_t o_2150_mux_irstart[7];
+    OD_obj_record_t o_2160_mux_ucell[16];
+    OD_obj_record_t o_2170_mux_icell[16];
+    OD_obj_record_t o_2180_mux_slip[7];
+    OD_obj_record_t o_2190_phase_ampl_ua[6];
+    OD_obj_record_t o_21A0_phase_ampl_ub[6];
+    OD_obj_record_t o_21B0_phase_ampl_uc[6];
+    OD_obj_record_t o_21C0_zcd_ua[8];
+    OD_obj_record_t o_21D0_zcd_ub[8];
+    OD_obj_record_t o_21E0_zcd_uc[8];
+    OD_obj_record_t o_21F0_zcd_slip[8];
+    OD_obj_record_t o_2200_slip[5];
+    OD_obj_record_t o_2210_phase_lrm_i_stator[9];
+    OD_obj_record_t o_2220_phase_ucell[9];
+    OD_obj_record_t o_2230_calc_ucell[10];
+    OD_obj_record_t o_2240_calc_icell[10];
+    OD_obj_record_t o_2250_rms_ua[5];
+    OD_obj_record_t o_2260_rms_ub[5];
+    OD_obj_record_t o_2270_rms_uc[5];
+    OD_obj_record_t o_2280_rms_ia[5];
+    OD_obj_record_t o_2290_rms_ib[5];
+    OD_obj_record_t o_22A0_rms_ic[5];
+    OD_obj_record_t o_22B0_rms_cell_ua[5];
+    OD_obj_record_t o_22C0_rms_cell_ub[5];
+    OD_obj_record_t o_22D0_rms_cell_uc[5];
+    OD_obj_record_t o_22E0_rms_cell_ua_phase[5];
+    OD_obj_record_t o_22F0_rms_cell_ub_phase[5];
+    OD_obj_record_t o_2300_rms_cell_uc_phase[5];
+    OD_obj_record_t o_2310_rms_cell_ia[5];
+    OD_obj_record_t o_2320_rms_cell_ib[5];
+    OD_obj_record_t o_2330_rms_cell_ic[5];
+    OD_obj_record_t o_2340_mean_iarm[5];
+    OD_obj_record_t o_2350_mean_uarm[5];
+    OD_obj_record_t o_2360_mean_irstart[5];
+    OD_obj_record_t o_2370_mean_rms_icell[7];
+    OD_obj_record_t o_2380_sum_s[7];
+    OD_obj_record_t o_2390_sum_p[7];
+    OD_obj_record_t o_23A0_sum_q[7];
+    OD_obj_record_t o_23B0_power_a[10];
+    OD_obj_record_t o_23C0_power_b[10];
+    OD_obj_record_t o_23D0_power_c[10];
+    OD_obj_record_t o_23E0_power_factor[9];
+    OD_obj_record_t o_23F0_vr_rms_umains[12];
+    OD_obj_record_t o_2400_vr_filter_freq_umains[12];
+    OD_obj_record_t o_2410_vr_rms_ucell[12];
+    OD_obj_record_t o_2420_cell_cb[6];
+    OD_obj_record_t o_2430_thr_run_trig_i_s[6];
+    OD_obj_record_t o_2440_am_run_trig_i_s[6];
+    OD_obj_record_t o_2450_mux_run_trig[7];
+    OD_obj_record_t o_2460_tmr_run_trig[10];
+    OD_obj_record_t o_2470_thr_prim_slip[6];
+    OD_obj_record_t o_2480_thr_prim_i_s[6];
+    OD_obj_record_t o_2490_thr_prim_t[6];
+    OD_obj_record_t o_24A0_am_prim_field_on[10];
+    OD_obj_record_t o_24B0_thr_sec_slip[6];
+    OD_obj_record_t o_24C0_thr_sec_i_s[6];
+    OD_obj_record_t o_24D0_thr_sec_t[6];
+    OD_obj_record_t o_24E0_am_sec_field_on[10];
+    OD_obj_record_t o_24F0_or_field_on[6];
+    OD_obj_record_t o_2500_tmr_field_on[10];
+    OD_obj_record_t o_2510_thr_value_for_slip_lt_zero[6];
+    OD_obj_record_t o_2520_or_value_slip_lt_zero_i_r_sync[6];
+    OD_obj_record_t o_2530_and_ready_to_exc[6];
+    OD_obj_record_t o_2540_tmr_field_on_rstart_off[10];
+    OD_obj_record_t o_2550_not_ready_to_exc[5];
+    OD_obj_record_t o_2560_cmp_ctrl_state_is_start[6];
+    OD_obj_record_t o_2570_and_rstart_on[6];
+    OD_obj_record_t o_2580_thr_field_on_i_r_sync[6];
+    OD_obj_record_t o_2590_tmr_field_on_i_r_sync[10];
+    OD_obj_record_t o_25A0_thr_field_supp_i_r[6];
+    OD_obj_record_t o_25B0_tmr_field_supp[6];
+    OD_obj_record_t o_25C0_cnt_start[4];
+    OD_obj_record_t o_25D0_filter_zcd_ua[7];
+    OD_obj_record_t o_25E0_filter_zcd_ub[7];
+    OD_obj_record_t o_25F0_filter_zcd_uc[7];
+    OD_obj_record_t o_2600_filter_zcd_slip[7];
+    OD_obj_record_t o_2610_filter_freq_ua[7];
+    OD_obj_record_t o_2620_filter_freq_ub[7];
+    OD_obj_record_t o_2630_filter_freq_uc[7];
+    OD_obj_record_t o_2640_filter_freq_slip[7];
+    OD_obj_record_t o_2650_filter_mean_iarm[7];
+    OD_obj_record_t o_2660_filter_mean_uarm[7];
+    OD_obj_record_t o_2670_filter_mean_irstart[7];
+    OD_obj_record_t o_2680_tmr_start_min_forcing[6];
+    OD_obj_record_t o_2690_tmr_start_max_forcing[6];
+    OD_obj_record_t o_26A0_tmr_start_stab_forcing[10];
+    OD_obj_record_t o_26B0_thr_start_q_le_zero[6];
+    OD_obj_record_t o_26C0_and_start_min_forcing_end[6];
+    OD_obj_record_t o_26D0_or_start_forcing_end[6];
+    OD_obj_record_t o_26E0_mux_field_regs[9];
+    OD_obj_record_t o_26F0_lim_field_regs_curr_ref[7];
+    OD_obj_record_t o_2700_mux_field_force_ref[7];
+    OD_obj_record_t o_2710_mot_pot_field_test[10];
+    OD_obj_record_t o_2720_mot_pot_manual_curr_ref[10];
+    OD_obj_record_t o_2730_mux_curr_ref[9];
+    OD_obj_record_t o_2740_pid_i[12];
+    OD_obj_record_t o_2750_pid_coefs_i[12];
+    OD_obj_record_t o_2760_ph3c[97];
+    OD_obj_record_t o_2770_triacs[11];
+    OD_obj_record_t o_2780_lrm[53];
+    OD_obj_record_t o_2790_motor[43];
+    OD_obj_record_t o_27A0_prot[7];
+    OD_obj_record_t o_27B0_canopen[3];
+    OD_obj_record_t o_27C0_storage[3];
+    OD_obj_record_t o_27D0_settings[4];
 } ODObjs_t;
 
 static CO_PROGMEM ODObjs_t ODObjs = {
@@ -1082,6 +1084,36 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .subIndex = 6,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
+    },
+    {
+    .dataOrig = &sys.r_adc_tim_run_time_us,
+    .subIndex = 7,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &sys.r_sys_tim_run_time_us,
+    .subIndex = 8,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &sys.r_ms_tim_run_time_us,
+    .subIndex = 9,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &sys.r_net_run_time_us,
+    .subIndex = 10,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &sys.r_idle_run_time_us,
+    .subIndex = 11,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
     }
 },
 .o_2010_sys_cmd = {
@@ -1682,7 +1714,39 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2060_adc_model = {
+.o_2060_dac = {
+    {
+    .dataOrig = &regs_data.dac.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &dac.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &dac.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &dac.in_value[0],
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &dac.in_value[1],
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_2070_adc_model = {
     {
     .dataOrig = &regs_data.adc_model.count,
     .subIndex = 0,
@@ -1870,7 +1934,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2070_adc_tim = {
+.o_2080_adc_tim = {
     {
     .dataOrig = &regs_data.adc_tim.count,
     .subIndex = 0,
@@ -1896,7 +1960,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2080_sys_tim = {
+.o_2090_sys_tim = {
     {
     .dataOrig = &regs_data.sys_tim.count,
     .subIndex = 0,
@@ -1922,7 +1986,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2090_ms_tim = {
+.o_20A0_ms_tim = {
     {
     .dataOrig = &regs_data.ms_tim.count,
     .subIndex = 0,
@@ -1948,7 +2012,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_20A0_net_tim = {
+.o_20B0_net_tim = {
     {
     .dataOrig = &regs_data.net_tim.count,
     .subIndex = 0,
@@ -1974,7 +2038,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_20B0_sys_time = {
+.o_20C0_sys_time = {
     {
     .dataOrig = &regs_data.sys_time.count,
     .subIndex = 0,
@@ -2012,7 +2076,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_20C0_tmr_sys_fsm = {
+.o_20D0_tmr_sys_fsm = {
     {
     .dataOrig = &regs_data.tmr_sys_fsm.count,
     .subIndex = 0,
@@ -2050,7 +2114,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_20D0_dlog = {
+.o_20E0_dlog = {
     {
     .dataOrig = &regs_data.dlog.count,
     .subIndex = 0,
@@ -2262,697 +2326,121 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &dlog.p_ch[16].enabled,
+    .dataOrig = &dlog.r_count,
     .subIndex = 35,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &dlog.p_ch[16].reg_id,
+    .dataOrig = &dlog.r_get_index,
     .subIndex = 36,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &dlog.p_ch[17].enabled,
+    .dataOrig = &dlog.r_put_index,
     .subIndex = 37,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &dlog.p_ch[17].reg_id,
+    .dataOrig = &dlog.r_ch[0].data[0],
     .subIndex = 38,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[18].enabled,
-    .subIndex = 39,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[18].reg_id,
-    .subIndex = 40,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[19].enabled,
-    .subIndex = 41,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[19].reg_id,
-    .subIndex = 42,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[20].enabled,
-    .subIndex = 43,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[20].reg_id,
-    .subIndex = 44,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[21].enabled,
-    .subIndex = 45,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[21].reg_id,
-    .subIndex = 46,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[22].enabled,
-    .subIndex = 47,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[22].reg_id,
-    .subIndex = 48,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[23].enabled,
-    .subIndex = 49,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[23].reg_id,
-    .subIndex = 50,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[24].enabled,
-    .subIndex = 51,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[24].reg_id,
-    .subIndex = 52,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[25].enabled,
-    .subIndex = 53,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[25].reg_id,
-    .subIndex = 54,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[26].enabled,
-    .subIndex = 55,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[26].reg_id,
-    .subIndex = 56,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[27].enabled,
-    .subIndex = 57,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[27].reg_id,
-    .subIndex = 58,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[28].enabled,
-    .subIndex = 59,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[28].reg_id,
-    .subIndex = 60,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[29].enabled,
-    .subIndex = 61,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[29].reg_id,
-    .subIndex = 62,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[30].enabled,
-    .subIndex = 63,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[30].reg_id,
-    .subIndex = 64,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[31].enabled,
-    .subIndex = 65,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[31].reg_id,
-    .subIndex = 66,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[32].enabled,
-    .subIndex = 67,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[32].reg_id,
-    .subIndex = 68,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[33].enabled,
-    .subIndex = 69,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[33].reg_id,
-    .subIndex = 70,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[34].enabled,
-    .subIndex = 71,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[34].reg_id,
-    .subIndex = 72,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[35].enabled,
-    .subIndex = 73,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[35].reg_id,
-    .subIndex = 74,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[36].enabled,
-    .subIndex = 75,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[36].reg_id,
-    .subIndex = 76,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[37].enabled,
-    .subIndex = 77,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[37].reg_id,
-    .subIndex = 78,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[38].enabled,
-    .subIndex = 79,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[38].reg_id,
-    .subIndex = 80,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[39].enabled,
-    .subIndex = 81,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[39].reg_id,
-    .subIndex = 82,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[40].enabled,
-    .subIndex = 83,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[40].reg_id,
-    .subIndex = 84,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[41].enabled,
-    .subIndex = 85,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[41].reg_id,
-    .subIndex = 86,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[42].enabled,
-    .subIndex = 87,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[42].reg_id,
-    .subIndex = 88,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[43].enabled,
-    .subIndex = 89,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[43].reg_id,
-    .subIndex = 90,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[44].enabled,
-    .subIndex = 91,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[44].reg_id,
-    .subIndex = 92,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[45].enabled,
-    .subIndex = 93,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[45].reg_id,
-    .subIndex = 94,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[46].enabled,
-    .subIndex = 95,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[46].reg_id,
-    .subIndex = 96,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[47].enabled,
-    .subIndex = 97,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.p_ch[47].reg_id,
-    .subIndex = 98,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.r_count,
-    .subIndex = 99,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.r_get_index,
-    .subIndex = 100,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.r_put_index,
-    .subIndex = 101,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &dlog.r_ch[0].data[0],
-    .subIndex = 102,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[1].data[0],
-    .subIndex = 103,
+    .subIndex = 39,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[2].data[0],
-    .subIndex = 104,
+    .subIndex = 40,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[3].data[0],
-    .subIndex = 105,
+    .subIndex = 41,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[4].data[0],
-    .subIndex = 106,
+    .subIndex = 42,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[5].data[0],
-    .subIndex = 107,
+    .subIndex = 43,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[6].data[0],
-    .subIndex = 108,
+    .subIndex = 44,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[7].data[0],
-    .subIndex = 109,
+    .subIndex = 45,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[8].data[0],
-    .subIndex = 110,
+    .subIndex = 46,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[9].data[0],
-    .subIndex = 111,
+    .subIndex = 47,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[10].data[0],
-    .subIndex = 112,
+    .subIndex = 48,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[11].data[0],
-    .subIndex = 113,
+    .subIndex = 49,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[12].data[0],
-    .subIndex = 114,
+    .subIndex = 50,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[13].data[0],
-    .subIndex = 115,
+    .subIndex = 51,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[14].data[0],
-    .subIndex = 116,
+    .subIndex = 52,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     },
     {
     .dataOrig = &dlog.r_ch[15].data[0],
-    .subIndex = 117,
+    .subIndex = 53,
     .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[16].data[0],
-    .subIndex = 118,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[17].data[0],
-    .subIndex = 119,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[18].data[0],
-    .subIndex = 120,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[19].data[0],
-    .subIndex = 121,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[20].data[0],
-    .subIndex = 122,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[21].data[0],
-    .subIndex = 123,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[22].data[0],
-    .subIndex = 124,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[23].data[0],
-    .subIndex = 125,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[24].data[0],
-    .subIndex = 126,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[25].data[0],
-    .subIndex = 127,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[26].data[0],
-    .subIndex = 128,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[27].data[0],
-    .subIndex = 129,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[28].data[0],
-    .subIndex = 130,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[29].data[0],
-    .subIndex = 131,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[30].data[0],
-    .subIndex = 132,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[31].data[0],
-    .subIndex = 133,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[32].data[0],
-    .subIndex = 134,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[33].data[0],
-    .subIndex = 135,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[34].data[0],
-    .subIndex = 136,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[35].data[0],
-    .subIndex = 137,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[36].data[0],
-    .subIndex = 138,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[37].data[0],
-    .subIndex = 139,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[38].data[0],
-    .subIndex = 140,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[39].data[0],
-    .subIndex = 141,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[40].data[0],
-    .subIndex = 142,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[41].data[0],
-    .subIndex = 143,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[42].data[0],
-    .subIndex = 144,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[43].data[0],
-    .subIndex = 145,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[44].data[0],
-    .subIndex = 146,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[45].data[0],
-    .subIndex = 147,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[46].data[0],
-    .subIndex = 148,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
-    },
-    {
-    .dataOrig = &dlog.r_ch[47].data[0],
-    .subIndex = 149,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 131072
+    .dataLength = 1024
     }
 },
-.o_20E0_sys_calc = {
+.o_20F0_sys_calc = {
     {
     .dataOrig = &regs_data.sys_calc.count,
     .subIndex = 0,
@@ -2972,7 +2460,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_20F0_rect_curr = {
+.o_2100_rect_curr = {
     {
     .dataOrig = &regs_data.rect_curr.count,
     .subIndex = 0,
@@ -3016,7 +2504,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2100_mux_umains = {
+.o_2110_mux_umains = {
     {
     .dataOrig = &regs_data.mux_umains.count,
     .subIndex = 0,
@@ -3114,7 +2602,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2110_mux_imains = {
+.o_2120_mux_imains = {
     {
     .dataOrig = &regs_data.mux_imains.count,
     .subIndex = 0,
@@ -3212,7 +2700,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2120_mux_uarm = {
+.o_2130_mux_uarm = {
     {
     .dataOrig = &regs_data.mux_uarm.count,
     .subIndex = 0,
@@ -3256,7 +2744,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2130_mux_iarm = {
+.o_2140_mux_iarm = {
     {
     .dataOrig = &regs_data.mux_iarm.count,
     .subIndex = 0,
@@ -3306,7 +2794,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2140_mux_irstart = {
+.o_2150_mux_irstart = {
     {
     .dataOrig = &regs_data.mux_irstart.count,
     .subIndex = 0,
@@ -3350,7 +2838,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2150_mux_ucell = {
+.o_2160_mux_ucell = {
     {
     .dataOrig = &regs_data.mux_ucell.count,
     .subIndex = 0,
@@ -3448,7 +2936,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2160_mux_icell = {
+.o_2170_mux_icell = {
     {
     .dataOrig = &regs_data.mux_icell.count,
     .subIndex = 0,
@@ -3546,7 +3034,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2170_mux_slip = {
+.o_2180_mux_slip = {
     {
     .dataOrig = &regs_data.mux_slip.count,
     .subIndex = 0,
@@ -3590,7 +3078,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2180_phase_ampl_ua = {
+.o_2190_phase_ampl_ua = {
     {
     .dataOrig = &regs_data.phase_ampl_ua.count,
     .subIndex = 0,
@@ -3628,7 +3116,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2190_phase_ampl_ub = {
+.o_21A0_phase_ampl_ub = {
     {
     .dataOrig = &regs_data.phase_ampl_ub.count,
     .subIndex = 0,
@@ -3666,7 +3154,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_21A0_phase_ampl_uc = {
+.o_21B0_phase_ampl_uc = {
     {
     .dataOrig = &regs_data.phase_ampl_uc.count,
     .subIndex = 0,
@@ -3704,7 +3192,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_21B0_zcd_ua = {
+.o_21C0_zcd_ua = {
     {
     .dataOrig = &regs_data.zcd_ua.count,
     .subIndex = 0,
@@ -3754,7 +3242,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_21C0_zcd_ub = {
+.o_21D0_zcd_ub = {
     {
     .dataOrig = &regs_data.zcd_ub.count,
     .subIndex = 0,
@@ -3804,7 +3292,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_21D0_zcd_uc = {
+.o_21E0_zcd_uc = {
     {
     .dataOrig = &regs_data.zcd_uc.count,
     .subIndex = 0,
@@ -3854,7 +3342,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_21E0_zcd_slip = {
+.o_21F0_zcd_slip = {
     {
     .dataOrig = &regs_data.zcd_slip.count,
     .subIndex = 0,
@@ -3904,7 +3392,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_21F0_slip = {
+.o_2200_slip = {
     {
     .dataOrig = &regs_data.slip.count,
     .subIndex = 0,
@@ -3936,7 +3424,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2200_phase_lrm_i_stator = {
+.o_2210_phase_lrm_i_stator = {
     {
     .dataOrig = &regs_data.phase_lrm_i_stator.count,
     .subIndex = 0,
@@ -3992,7 +3480,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2210_phase_ucell = {
+.o_2220_phase_ucell = {
     {
     .dataOrig = &regs_data.phase_ucell.count,
     .subIndex = 0,
@@ -4048,7 +3536,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2220_calc_ucell = {
+.o_2230_calc_ucell = {
     {
     .dataOrig = &regs_data.calc_ucell.count,
     .subIndex = 0,
@@ -4110,7 +3598,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2230_calc_icell = {
+.o_2240_calc_icell = {
     {
     .dataOrig = &regs_data.calc_icell.count,
     .subIndex = 0,
@@ -4172,7 +3660,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2240_rms_ua = {
+.o_2250_rms_ua = {
     {
     .dataOrig = &regs_data.rms_ua.count,
     .subIndex = 0,
@@ -4204,7 +3692,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2250_rms_ub = {
+.o_2260_rms_ub = {
     {
     .dataOrig = &regs_data.rms_ub.count,
     .subIndex = 0,
@@ -4236,7 +3724,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2260_rms_uc = {
+.o_2270_rms_uc = {
     {
     .dataOrig = &regs_data.rms_uc.count,
     .subIndex = 0,
@@ -4268,7 +3756,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2270_rms_ia = {
+.o_2280_rms_ia = {
     {
     .dataOrig = &regs_data.rms_ia.count,
     .subIndex = 0,
@@ -4300,7 +3788,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2280_rms_ib = {
+.o_2290_rms_ib = {
     {
     .dataOrig = &regs_data.rms_ib.count,
     .subIndex = 0,
@@ -4332,7 +3820,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2290_rms_ic = {
+.o_22A0_rms_ic = {
     {
     .dataOrig = &regs_data.rms_ic.count,
     .subIndex = 0,
@@ -4364,7 +3852,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_22A0_rms_cell_ua = {
+.o_22B0_rms_cell_ua = {
     {
     .dataOrig = &regs_data.rms_cell_ua.count,
     .subIndex = 0,
@@ -4396,7 +3884,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_22B0_rms_cell_ub = {
+.o_22C0_rms_cell_ub = {
     {
     .dataOrig = &regs_data.rms_cell_ub.count,
     .subIndex = 0,
@@ -4428,7 +3916,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_22C0_rms_cell_uc = {
+.o_22D0_rms_cell_uc = {
     {
     .dataOrig = &regs_data.rms_cell_uc.count,
     .subIndex = 0,
@@ -4460,7 +3948,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_22D0_rms_cell_ua_phase = {
+.o_22E0_rms_cell_ua_phase = {
     {
     .dataOrig = &regs_data.rms_cell_ua_phase.count,
     .subIndex = 0,
@@ -4492,7 +3980,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_22E0_rms_cell_ub_phase = {
+.o_22F0_rms_cell_ub_phase = {
     {
     .dataOrig = &regs_data.rms_cell_ub_phase.count,
     .subIndex = 0,
@@ -4524,7 +4012,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_22F0_rms_cell_uc_phase = {
+.o_2300_rms_cell_uc_phase = {
     {
     .dataOrig = &regs_data.rms_cell_uc_phase.count,
     .subIndex = 0,
@@ -4556,7 +4044,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2300_rms_cell_ia = {
+.o_2310_rms_cell_ia = {
     {
     .dataOrig = &regs_data.rms_cell_ia.count,
     .subIndex = 0,
@@ -4588,7 +4076,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2310_rms_cell_ib = {
+.o_2320_rms_cell_ib = {
     {
     .dataOrig = &regs_data.rms_cell_ib.count,
     .subIndex = 0,
@@ -4620,7 +4108,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2320_rms_cell_ic = {
+.o_2330_rms_cell_ic = {
     {
     .dataOrig = &regs_data.rms_cell_ic.count,
     .subIndex = 0,
@@ -4652,7 +4140,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2330_mean_iarm = {
+.o_2340_mean_iarm = {
     {
     .dataOrig = &regs_data.mean_iarm.count,
     .subIndex = 0,
@@ -4684,7 +4172,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2340_mean_uarm = {
+.o_2350_mean_uarm = {
     {
     .dataOrig = &regs_data.mean_uarm.count,
     .subIndex = 0,
@@ -4716,7 +4204,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2350_mean_irstart = {
+.o_2360_mean_irstart = {
     {
     .dataOrig = &regs_data.mean_irstart.count,
     .subIndex = 0,
@@ -4748,7 +4236,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2360_mean_rms_icell = {
+.o_2370_mean_rms_icell = {
     {
     .dataOrig = &regs_data.mean_rms_icell.count,
     .subIndex = 0,
@@ -4792,7 +4280,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2370_sum_s = {
+.o_2380_sum_s = {
     {
     .dataOrig = &regs_data.sum_s.count,
     .subIndex = 0,
@@ -4836,7 +4324,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2380_sum_p = {
+.o_2390_sum_p = {
     {
     .dataOrig = &regs_data.sum_p.count,
     .subIndex = 0,
@@ -4880,7 +4368,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2390_sum_q = {
+.o_23A0_sum_q = {
     {
     .dataOrig = &regs_data.sum_q.count,
     .subIndex = 0,
@@ -4924,7 +4412,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_23A0_power_a = {
+.o_23B0_power_a = {
     {
     .dataOrig = &regs_data.power_a.count,
     .subIndex = 0,
@@ -4986,7 +4474,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_23B0_power_b = {
+.o_23C0_power_b = {
     {
     .dataOrig = &regs_data.power_b.count,
     .subIndex = 0,
@@ -5048,7 +4536,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_23C0_power_c = {
+.o_23D0_power_c = {
     {
     .dataOrig = &regs_data.power_c.count,
     .subIndex = 0,
@@ -5110,7 +4598,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_23D0_power_factor = {
+.o_23E0_power_factor = {
     {
     .dataOrig = &regs_data.power_factor.count,
     .subIndex = 0,
@@ -5166,7 +4654,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_23E0_vr_rms_umains = {
+.o_23F0_vr_rms_umains = {
     {
     .dataOrig = &regs_data.vr_rms_umains.count,
     .subIndex = 0,
@@ -5240,7 +4728,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_23F0_vr_filter_freq_umains = {
+.o_2400_vr_filter_freq_umains = {
     {
     .dataOrig = &regs_data.vr_filter_freq_umains.count,
     .subIndex = 0,
@@ -5314,7 +4802,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2400_vr_rms_ucell = {
+.o_2410_vr_rms_ucell = {
     {
     .dataOrig = &regs_data.vr_rms_ucell.count,
     .subIndex = 0,
@@ -5388,7 +4876,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2410_cell_cb = {
+.o_2420_cell_cb = {
     {
     .dataOrig = &regs_data.cell_cb.count,
     .subIndex = 0,
@@ -5426,7 +4914,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2420_thr_run_trig_i_s = {
+.o_2430_thr_run_trig_i_s = {
     {
     .dataOrig = &regs_data.thr_run_trig_i_s.count,
     .subIndex = 0,
@@ -5464,7 +4952,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2430_am_run_trig_i_s = {
+.o_2440_am_run_trig_i_s = {
     {
     .dataOrig = &regs_data.am_run_trig_i_s.count,
     .subIndex = 0,
@@ -5502,7 +4990,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2440_mux_run_trig = {
+.o_2450_mux_run_trig = {
     {
     .dataOrig = &regs_data.mux_run_trig.count,
     .subIndex = 0,
@@ -5546,7 +5034,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2450_tmr_run_trig = {
+.o_2460_tmr_run_trig = {
     {
     .dataOrig = &regs_data.tmr_run_trig.count,
     .subIndex = 0,
@@ -5608,7 +5096,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2460_thr_prim_slip = {
+.o_2470_thr_prim_slip = {
     {
     .dataOrig = &regs_data.thr_prim_slip.count,
     .subIndex = 0,
@@ -5646,7 +5134,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2470_thr_prim_i_s = {
+.o_2480_thr_prim_i_s = {
     {
     .dataOrig = &regs_data.thr_prim_i_s.count,
     .subIndex = 0,
@@ -5684,7 +5172,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2480_thr_prim_t = {
+.o_2490_thr_prim_t = {
     {
     .dataOrig = &regs_data.thr_prim_t.count,
     .subIndex = 0,
@@ -5722,7 +5210,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2490_am_prim_field_on = {
+.o_24A0_am_prim_field_on = {
     {
     .dataOrig = &regs_data.am_prim_field_on.count,
     .subIndex = 0,
@@ -5784,7 +5272,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_24A0_thr_sec_slip = {
+.o_24B0_thr_sec_slip = {
     {
     .dataOrig = &regs_data.thr_sec_slip.count,
     .subIndex = 0,
@@ -5822,7 +5310,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_24B0_thr_sec_i_s = {
+.o_24C0_thr_sec_i_s = {
     {
     .dataOrig = &regs_data.thr_sec_i_s.count,
     .subIndex = 0,
@@ -5860,7 +5348,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_24C0_thr_sec_t = {
+.o_24D0_thr_sec_t = {
     {
     .dataOrig = &regs_data.thr_sec_t.count,
     .subIndex = 0,
@@ -5898,7 +5386,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_24D0_am_sec_field_on = {
+.o_24E0_am_sec_field_on = {
     {
     .dataOrig = &regs_data.am_sec_field_on.count,
     .subIndex = 0,
@@ -5960,7 +5448,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_24E0_or_field_on = {
+.o_24F0_or_field_on = {
     {
     .dataOrig = &regs_data.or_field_on.count,
     .subIndex = 0,
@@ -5998,7 +5486,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_24F0_tmr_field_on = {
+.o_2500_tmr_field_on = {
     {
     .dataOrig = &regs_data.tmr_field_on.count,
     .subIndex = 0,
@@ -6060,7 +5548,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2500_thr_value_for_slip_lt_zero = {
+.o_2510_thr_value_for_slip_lt_zero = {
     {
     .dataOrig = &regs_data.thr_value_for_slip_lt_zero.count,
     .subIndex = 0,
@@ -6098,7 +5586,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2510_or_value_slip_lt_zero_i_r_sync = {
+.o_2520_or_value_slip_lt_zero_i_r_sync = {
     {
     .dataOrig = &regs_data.or_value_slip_lt_zero_i_r_sync.count,
     .subIndex = 0,
@@ -6136,7 +5624,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2520_and_ready_to_exc = {
+.o_2530_and_ready_to_exc = {
     {
     .dataOrig = &regs_data.and_ready_to_exc.count,
     .subIndex = 0,
@@ -6174,7 +5662,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2530_tmr_field_on_rstart_off = {
+.o_2540_tmr_field_on_rstart_off = {
     {
     .dataOrig = &regs_data.tmr_field_on_rstart_off.count,
     .subIndex = 0,
@@ -6236,7 +5724,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2540_not_ready_to_exc = {
+.o_2550_not_ready_to_exc = {
     {
     .dataOrig = &regs_data.not_ready_to_exc.count,
     .subIndex = 0,
@@ -6268,7 +5756,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2550_cmp_ctrl_state_is_start = {
+.o_2560_cmp_ctrl_state_is_start = {
     {
     .dataOrig = &regs_data.cmp_ctrl_state_is_start.count,
     .subIndex = 0,
@@ -6306,7 +5794,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2560_and_rstart_on = {
+.o_2570_and_rstart_on = {
     {
     .dataOrig = &regs_data.and_rstart_on.count,
     .subIndex = 0,
@@ -6344,7 +5832,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2570_thr_field_on_i_r_sync = {
+.o_2580_thr_field_on_i_r_sync = {
     {
     .dataOrig = &regs_data.thr_field_on_i_r_sync.count,
     .subIndex = 0,
@@ -6382,7 +5870,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2580_tmr_field_on_i_r_sync = {
+.o_2590_tmr_field_on_i_r_sync = {
     {
     .dataOrig = &regs_data.tmr_field_on_i_r_sync.count,
     .subIndex = 0,
@@ -6444,7 +5932,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2590_thr_field_supp_i_r = {
+.o_25A0_thr_field_supp_i_r = {
     {
     .dataOrig = &regs_data.thr_field_supp_i_r.count,
     .subIndex = 0,
@@ -6482,7 +5970,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_25A0_tmr_field_supp = {
+.o_25B0_tmr_field_supp = {
     {
     .dataOrig = &regs_data.tmr_field_supp.count,
     .subIndex = 0,
@@ -6520,7 +6008,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_25B0_cnt_start = {
+.o_25C0_cnt_start = {
     {
     .dataOrig = &regs_data.cnt_start.count,
     .subIndex = 0,
@@ -6546,7 +6034,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_25C0_filter_zcd_ua = {
+.o_25D0_filter_zcd_ua = {
     {
     .dataOrig = &regs_data.filter_zcd_ua.count,
     .subIndex = 0,
@@ -6590,7 +6078,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_25D0_filter_zcd_ub = {
+.o_25E0_filter_zcd_ub = {
     {
     .dataOrig = &regs_data.filter_zcd_ub.count,
     .subIndex = 0,
@@ -6634,7 +6122,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_25E0_filter_zcd_uc = {
+.o_25F0_filter_zcd_uc = {
     {
     .dataOrig = &regs_data.filter_zcd_uc.count,
     .subIndex = 0,
@@ -6678,7 +6166,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_25F0_filter_zcd_slip = {
+.o_2600_filter_zcd_slip = {
     {
     .dataOrig = &regs_data.filter_zcd_slip.count,
     .subIndex = 0,
@@ -6722,7 +6210,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2600_filter_freq_ua = {
+.o_2610_filter_freq_ua = {
     {
     .dataOrig = &regs_data.filter_freq_ua.count,
     .subIndex = 0,
@@ -6766,7 +6254,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2610_filter_freq_ub = {
+.o_2620_filter_freq_ub = {
     {
     .dataOrig = &regs_data.filter_freq_ub.count,
     .subIndex = 0,
@@ -6810,7 +6298,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2620_filter_freq_uc = {
+.o_2630_filter_freq_uc = {
     {
     .dataOrig = &regs_data.filter_freq_uc.count,
     .subIndex = 0,
@@ -6854,7 +6342,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2630_filter_freq_slip = {
+.o_2640_filter_freq_slip = {
     {
     .dataOrig = &regs_data.filter_freq_slip.count,
     .subIndex = 0,
@@ -6898,7 +6386,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2640_filter_mean_iarm = {
+.o_2650_filter_mean_iarm = {
     {
     .dataOrig = &regs_data.filter_mean_iarm.count,
     .subIndex = 0,
@@ -6942,7 +6430,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2650_filter_mean_uarm = {
+.o_2660_filter_mean_uarm = {
     {
     .dataOrig = &regs_data.filter_mean_uarm.count,
     .subIndex = 0,
@@ -6986,7 +6474,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2660_filter_mean_irstart = {
+.o_2670_filter_mean_irstart = {
     {
     .dataOrig = &regs_data.filter_mean_irstart.count,
     .subIndex = 0,
@@ -7030,7 +6518,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2670_tmr_start_min_forcing = {
+.o_2680_tmr_start_min_forcing = {
     {
     .dataOrig = &regs_data.tmr_start_min_forcing.count,
     .subIndex = 0,
@@ -7068,7 +6556,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2680_tmr_start_max_forcing = {
+.o_2690_tmr_start_max_forcing = {
     {
     .dataOrig = &regs_data.tmr_start_max_forcing.count,
     .subIndex = 0,
@@ -7106,7 +6594,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2690_tmr_start_stab_forcing = {
+.o_26A0_tmr_start_stab_forcing = {
     {
     .dataOrig = &regs_data.tmr_start_stab_forcing.count,
     .subIndex = 0,
@@ -7168,7 +6656,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_26A0_thr_start_q_le_zero = {
+.o_26B0_thr_start_q_le_zero = {
     {
     .dataOrig = &regs_data.thr_start_q_le_zero.count,
     .subIndex = 0,
@@ -7206,7 +6694,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_26B0_and_start_min_forcing_end = {
+.o_26C0_and_start_min_forcing_end = {
     {
     .dataOrig = &regs_data.and_start_min_forcing_end.count,
     .subIndex = 0,
@@ -7244,7 +6732,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_26C0_or_start_forcing_end = {
+.o_26D0_or_start_forcing_end = {
     {
     .dataOrig = &regs_data.or_start_forcing_end.count,
     .subIndex = 0,
@@ -7282,7 +6770,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_26D0_mux_field_regs = {
+.o_26E0_mux_field_regs = {
     {
     .dataOrig = &regs_data.mux_field_regs.count,
     .subIndex = 0,
@@ -7338,7 +6826,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_26E0_lim_field_regs_curr_ref = {
+.o_26F0_lim_field_regs_curr_ref = {
     {
     .dataOrig = &regs_data.lim_field_regs_curr_ref.count,
     .subIndex = 0,
@@ -7382,7 +6870,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_26F0_mux_field_force_ref = {
+.o_2700_mux_field_force_ref = {
     {
     .dataOrig = &regs_data.mux_field_force_ref.count,
     .subIndex = 0,
@@ -7426,7 +6914,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2700_mot_pot_field_test = {
+.o_2710_mot_pot_field_test = {
     {
     .dataOrig = &regs_data.mot_pot_field_test.count,
     .subIndex = 0,
@@ -7488,7 +6976,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2710_mot_pot_manual_curr_ref = {
+.o_2720_mot_pot_manual_curr_ref = {
     {
     .dataOrig = &regs_data.mot_pot_manual_curr_ref.count,
     .subIndex = 0,
@@ -7550,7 +7038,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2720_mux_curr_ref = {
+.o_2730_mux_curr_ref = {
     {
     .dataOrig = &regs_data.mux_curr_ref.count,
     .subIndex = 0,
@@ -7606,7 +7094,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2730_pid_i = {
+.o_2740_pid_i = {
     {
     .dataOrig = &regs_data.pid_i.count,
     .subIndex = 0,
@@ -7680,7 +7168,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2740_pid_coefs_i = {
+.o_2750_pid_coefs_i = {
     {
     .dataOrig = &regs_data.pid_coefs_i.count,
     .subIndex = 0,
@@ -7754,7 +7242,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2750_ph3c = {
+.o_2760_ph3c = {
     {
     .dataOrig = &regs_data.ph3c.count,
     .subIndex = 0,
@@ -8338,7 +7826,75 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2760_lrm = {
+.o_2770_triacs = {
+    {
+    .dataOrig = &regs_data.triacs.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &triacs.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &triacs.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &triacs.in_control[0],
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &triacs.in_control[1],
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &triacs.in_control[2],
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &triacs.in_control[3],
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &triacs.in_control[4],
+    .subIndex = 7,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &triacs.in_control[5],
+    .subIndex = 8,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &triacs.in_control_delay_angle,
+    .subIndex = 9,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &triacs.in_control_max_duration_angle,
+    .subIndex = 10,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_2780_lrm = {
     {
     .dataOrig = &regs_data.lrm.count,
     .subIndex = 0,
@@ -8658,7 +8214,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2770_motor = {
+.o_2790_motor = {
     {
     .dataOrig = &regs_data.motor.count,
     .subIndex = 0,
@@ -8918,7 +8474,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2780_prot = {
+.o_27A0_prot = {
     {
     .dataOrig = &regs_data.prot.count,
     .subIndex = 0,
@@ -8962,7 +8518,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2790_canopen = {
+.o_27B0_canopen = {
     {
     .dataOrig = &regs_data.canopen.count,
     .subIndex = 0,
@@ -8982,7 +8538,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_27A0_storage = {
+.o_27C0_storage = {
     {
     .dataOrig = &regs_data.storage.count,
     .subIndex = 0,
@@ -9002,7 +8558,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_27B0_settings = {
+.o_27D0_settings = {
     {
     .dataOrig = &regs_data.settings.count,
     .subIndex = 0,
@@ -9064,130 +8620,132 @@ static OD_ATTR_OD OD_entry_t ODList[] = {
     {0x1a01, 0x09, ODT_REC, &ODObjs.o_1A01_TPDOMappingParameter, NULL},
     {0x1a02, 0x09, ODT_REC, &ODObjs.o_1A02_TPDOMappingParameter, NULL},
     {0x1a03, 0x09, ODT_REC, &ODObjs.o_1A03_TPDOMappingParameter, NULL},
-    {0x2000, 0x07, ODT_REC, &ODObjs.o_2000_sys, NULL},
+    {0x2000, 0x0c, ODT_REC, &ODObjs.o_2000_sys, NULL},
     {0x2010, 0x04, ODT_REC, &ODObjs.o_2010_sys_cmd, NULL},
     {0x2020, 0x0c, ODT_REC, &ODObjs.o_2020_sys_ctrl, NULL},
     {0x2030, 0x04, ODT_REC, &ODObjs.o_2030_sys_stat, NULL},
     {0x2040, 0x0f, ODT_REC, &ODObjs.o_2040_conf, NULL},
     {0x2050, 0x3f, ODT_REC, &ODObjs.o_2050_adc, NULL},
-    {0x2060, 0x1f, ODT_REC, &ODObjs.o_2060_adc_model, NULL},
-    {0x2070, 0x04, ODT_REC, &ODObjs.o_2070_adc_tim, NULL},
-    {0x2080, 0x04, ODT_REC, &ODObjs.o_2080_sys_tim, NULL},
-    {0x2090, 0x04, ODT_REC, &ODObjs.o_2090_ms_tim, NULL},
-    {0x20a0, 0x04, ODT_REC, &ODObjs.o_20A0_net_tim, NULL},
-    {0x20b0, 0x06, ODT_REC, &ODObjs.o_20B0_sys_time, NULL},
-    {0x20c0, 0x06, ODT_REC, &ODObjs.o_20C0_tmr_sys_fsm, NULL},
-    {0x20d0, 0x96, ODT_REC, &ODObjs.o_20D0_dlog, NULL},
-    {0x20e0, 0x03, ODT_REC, &ODObjs.o_20E0_sys_calc, NULL},
-    {0x20f0, 0x07, ODT_REC, &ODObjs.o_20F0_rect_curr, NULL},
-    {0x2100, 0x10, ODT_REC, &ODObjs.o_2100_mux_umains, NULL},
-    {0x2110, 0x10, ODT_REC, &ODObjs.o_2110_mux_imains, NULL},
-    {0x2120, 0x07, ODT_REC, &ODObjs.o_2120_mux_uarm, NULL},
-    {0x2130, 0x08, ODT_REC, &ODObjs.o_2130_mux_iarm, NULL},
-    {0x2140, 0x07, ODT_REC, &ODObjs.o_2140_mux_irstart, NULL},
-    {0x2150, 0x10, ODT_REC, &ODObjs.o_2150_mux_ucell, NULL},
-    {0x2160, 0x10, ODT_REC, &ODObjs.o_2160_mux_icell, NULL},
-    {0x2170, 0x07, ODT_REC, &ODObjs.o_2170_mux_slip, NULL},
-    {0x2180, 0x06, ODT_REC, &ODObjs.o_2180_phase_ampl_ua, NULL},
-    {0x2190, 0x06, ODT_REC, &ODObjs.o_2190_phase_ampl_ub, NULL},
-    {0x21a0, 0x06, ODT_REC, &ODObjs.o_21A0_phase_ampl_uc, NULL},
-    {0x21b0, 0x08, ODT_REC, &ODObjs.o_21B0_zcd_ua, NULL},
-    {0x21c0, 0x08, ODT_REC, &ODObjs.o_21C0_zcd_ub, NULL},
-    {0x21d0, 0x08, ODT_REC, &ODObjs.o_21D0_zcd_uc, NULL},
-    {0x21e0, 0x08, ODT_REC, &ODObjs.o_21E0_zcd_slip, NULL},
-    {0x21f0, 0x05, ODT_REC, &ODObjs.o_21F0_slip, NULL},
-    {0x2200, 0x09, ODT_REC, &ODObjs.o_2200_phase_lrm_i_stator, NULL},
-    {0x2210, 0x09, ODT_REC, &ODObjs.o_2210_phase_ucell, NULL},
-    {0x2220, 0x0a, ODT_REC, &ODObjs.o_2220_calc_ucell, NULL},
-    {0x2230, 0x0a, ODT_REC, &ODObjs.o_2230_calc_icell, NULL},
-    {0x2240, 0x05, ODT_REC, &ODObjs.o_2240_rms_ua, NULL},
-    {0x2250, 0x05, ODT_REC, &ODObjs.o_2250_rms_ub, NULL},
-    {0x2260, 0x05, ODT_REC, &ODObjs.o_2260_rms_uc, NULL},
-    {0x2270, 0x05, ODT_REC, &ODObjs.o_2270_rms_ia, NULL},
-    {0x2280, 0x05, ODT_REC, &ODObjs.o_2280_rms_ib, NULL},
-    {0x2290, 0x05, ODT_REC, &ODObjs.o_2290_rms_ic, NULL},
-    {0x22a0, 0x05, ODT_REC, &ODObjs.o_22A0_rms_cell_ua, NULL},
-    {0x22b0, 0x05, ODT_REC, &ODObjs.o_22B0_rms_cell_ub, NULL},
-    {0x22c0, 0x05, ODT_REC, &ODObjs.o_22C0_rms_cell_uc, NULL},
-    {0x22d0, 0x05, ODT_REC, &ODObjs.o_22D0_rms_cell_ua_phase, NULL},
-    {0x22e0, 0x05, ODT_REC, &ODObjs.o_22E0_rms_cell_ub_phase, NULL},
-    {0x22f0, 0x05, ODT_REC, &ODObjs.o_22F0_rms_cell_uc_phase, NULL},
-    {0x2300, 0x05, ODT_REC, &ODObjs.o_2300_rms_cell_ia, NULL},
-    {0x2310, 0x05, ODT_REC, &ODObjs.o_2310_rms_cell_ib, NULL},
-    {0x2320, 0x05, ODT_REC, &ODObjs.o_2320_rms_cell_ic, NULL},
-    {0x2330, 0x05, ODT_REC, &ODObjs.o_2330_mean_iarm, NULL},
-    {0x2340, 0x05, ODT_REC, &ODObjs.o_2340_mean_uarm, NULL},
-    {0x2350, 0x05, ODT_REC, &ODObjs.o_2350_mean_irstart, NULL},
-    {0x2360, 0x07, ODT_REC, &ODObjs.o_2360_mean_rms_icell, NULL},
-    {0x2370, 0x07, ODT_REC, &ODObjs.o_2370_sum_s, NULL},
-    {0x2380, 0x07, ODT_REC, &ODObjs.o_2380_sum_p, NULL},
-    {0x2390, 0x07, ODT_REC, &ODObjs.o_2390_sum_q, NULL},
-    {0x23a0, 0x0a, ODT_REC, &ODObjs.o_23A0_power_a, NULL},
-    {0x23b0, 0x0a, ODT_REC, &ODObjs.o_23B0_power_b, NULL},
-    {0x23c0, 0x0a, ODT_REC, &ODObjs.o_23C0_power_c, NULL},
-    {0x23d0, 0x09, ODT_REC, &ODObjs.o_23D0_power_factor, NULL},
-    {0x23e0, 0x0c, ODT_REC, &ODObjs.o_23E0_vr_rms_umains, NULL},
-    {0x23f0, 0x0c, ODT_REC, &ODObjs.o_23F0_vr_filter_freq_umains, NULL},
-    {0x2400, 0x0c, ODT_REC, &ODObjs.o_2400_vr_rms_ucell, NULL},
-    {0x2410, 0x06, ODT_REC, &ODObjs.o_2410_cell_cb, NULL},
-    {0x2420, 0x06, ODT_REC, &ODObjs.o_2420_thr_run_trig_i_s, NULL},
-    {0x2430, 0x06, ODT_REC, &ODObjs.o_2430_am_run_trig_i_s, NULL},
-    {0x2440, 0x07, ODT_REC, &ODObjs.o_2440_mux_run_trig, NULL},
-    {0x2450, 0x0a, ODT_REC, &ODObjs.o_2450_tmr_run_trig, NULL},
-    {0x2460, 0x06, ODT_REC, &ODObjs.o_2460_thr_prim_slip, NULL},
-    {0x2470, 0x06, ODT_REC, &ODObjs.o_2470_thr_prim_i_s, NULL},
-    {0x2480, 0x06, ODT_REC, &ODObjs.o_2480_thr_prim_t, NULL},
-    {0x2490, 0x0a, ODT_REC, &ODObjs.o_2490_am_prim_field_on, NULL},
-    {0x24a0, 0x06, ODT_REC, &ODObjs.o_24A0_thr_sec_slip, NULL},
-    {0x24b0, 0x06, ODT_REC, &ODObjs.o_24B0_thr_sec_i_s, NULL},
-    {0x24c0, 0x06, ODT_REC, &ODObjs.o_24C0_thr_sec_t, NULL},
-    {0x24d0, 0x0a, ODT_REC, &ODObjs.o_24D0_am_sec_field_on, NULL},
-    {0x24e0, 0x06, ODT_REC, &ODObjs.o_24E0_or_field_on, NULL},
-    {0x24f0, 0x0a, ODT_REC, &ODObjs.o_24F0_tmr_field_on, NULL},
-    {0x2500, 0x06, ODT_REC, &ODObjs.o_2500_thr_value_for_slip_lt_zero, NULL},
-    {0x2510, 0x06, ODT_REC, &ODObjs.o_2510_or_value_slip_lt_zero_i_r_sync, NULL},
-    {0x2520, 0x06, ODT_REC, &ODObjs.o_2520_and_ready_to_exc, NULL},
-    {0x2530, 0x0a, ODT_REC, &ODObjs.o_2530_tmr_field_on_rstart_off, NULL},
-    {0x2540, 0x05, ODT_REC, &ODObjs.o_2540_not_ready_to_exc, NULL},
-    {0x2550, 0x06, ODT_REC, &ODObjs.o_2550_cmp_ctrl_state_is_start, NULL},
-    {0x2560, 0x06, ODT_REC, &ODObjs.o_2560_and_rstart_on, NULL},
-    {0x2570, 0x06, ODT_REC, &ODObjs.o_2570_thr_field_on_i_r_sync, NULL},
-    {0x2580, 0x0a, ODT_REC, &ODObjs.o_2580_tmr_field_on_i_r_sync, NULL},
-    {0x2590, 0x06, ODT_REC, &ODObjs.o_2590_thr_field_supp_i_r, NULL},
-    {0x25a0, 0x06, ODT_REC, &ODObjs.o_25A0_tmr_field_supp, NULL},
-    {0x25b0, 0x04, ODT_REC, &ODObjs.o_25B0_cnt_start, NULL},
-    {0x25c0, 0x07, ODT_REC, &ODObjs.o_25C0_filter_zcd_ua, NULL},
-    {0x25d0, 0x07, ODT_REC, &ODObjs.o_25D0_filter_zcd_ub, NULL},
-    {0x25e0, 0x07, ODT_REC, &ODObjs.o_25E0_filter_zcd_uc, NULL},
-    {0x25f0, 0x07, ODT_REC, &ODObjs.o_25F0_filter_zcd_slip, NULL},
-    {0x2600, 0x07, ODT_REC, &ODObjs.o_2600_filter_freq_ua, NULL},
-    {0x2610, 0x07, ODT_REC, &ODObjs.o_2610_filter_freq_ub, NULL},
-    {0x2620, 0x07, ODT_REC, &ODObjs.o_2620_filter_freq_uc, NULL},
-    {0x2630, 0x07, ODT_REC, &ODObjs.o_2630_filter_freq_slip, NULL},
-    {0x2640, 0x07, ODT_REC, &ODObjs.o_2640_filter_mean_iarm, NULL},
-    {0x2650, 0x07, ODT_REC, &ODObjs.o_2650_filter_mean_uarm, NULL},
-    {0x2660, 0x07, ODT_REC, &ODObjs.o_2660_filter_mean_irstart, NULL},
-    {0x2670, 0x06, ODT_REC, &ODObjs.o_2670_tmr_start_min_forcing, NULL},
-    {0x2680, 0x06, ODT_REC, &ODObjs.o_2680_tmr_start_max_forcing, NULL},
-    {0x2690, 0x0a, ODT_REC, &ODObjs.o_2690_tmr_start_stab_forcing, NULL},
-    {0x26a0, 0x06, ODT_REC, &ODObjs.o_26A0_thr_start_q_le_zero, NULL},
-    {0x26b0, 0x06, ODT_REC, &ODObjs.o_26B0_and_start_min_forcing_end, NULL},
-    {0x26c0, 0x06, ODT_REC, &ODObjs.o_26C0_or_start_forcing_end, NULL},
-    {0x26d0, 0x09, ODT_REC, &ODObjs.o_26D0_mux_field_regs, NULL},
-    {0x26e0, 0x07, ODT_REC, &ODObjs.o_26E0_lim_field_regs_curr_ref, NULL},
-    {0x26f0, 0x07, ODT_REC, &ODObjs.o_26F0_mux_field_force_ref, NULL},
-    {0x2700, 0x0a, ODT_REC, &ODObjs.o_2700_mot_pot_field_test, NULL},
-    {0x2710, 0x0a, ODT_REC, &ODObjs.o_2710_mot_pot_manual_curr_ref, NULL},
-    {0x2720, 0x09, ODT_REC, &ODObjs.o_2720_mux_curr_ref, NULL},
-    {0x2730, 0x0c, ODT_REC, &ODObjs.o_2730_pid_i, NULL},
-    {0x2740, 0x0c, ODT_REC, &ODObjs.o_2740_pid_coefs_i, NULL},
-    {0x2750, 0x61, ODT_REC, &ODObjs.o_2750_ph3c, NULL},
-    {0x2760, 0x35, ODT_REC, &ODObjs.o_2760_lrm, NULL},
-    {0x2770, 0x2b, ODT_REC, &ODObjs.o_2770_motor, NULL},
-    {0x2780, 0x07, ODT_REC, &ODObjs.o_2780_prot, NULL},
-    {0x2790, 0x03, ODT_REC, &ODObjs.o_2790_canopen, NULL},
-    {0x27a0, 0x03, ODT_REC, &ODObjs.o_27A0_storage, NULL},
-    {0x27b0, 0x04, ODT_REC, &ODObjs.o_27B0_settings, NULL},
+    {0x2060, 0x05, ODT_REC, &ODObjs.o_2060_dac, NULL},
+    {0x2070, 0x1f, ODT_REC, &ODObjs.o_2070_adc_model, NULL},
+    {0x2080, 0x04, ODT_REC, &ODObjs.o_2080_adc_tim, NULL},
+    {0x2090, 0x04, ODT_REC, &ODObjs.o_2090_sys_tim, NULL},
+    {0x20a0, 0x04, ODT_REC, &ODObjs.o_20A0_ms_tim, NULL},
+    {0x20b0, 0x04, ODT_REC, &ODObjs.o_20B0_net_tim, NULL},
+    {0x20c0, 0x06, ODT_REC, &ODObjs.o_20C0_sys_time, NULL},
+    {0x20d0, 0x06, ODT_REC, &ODObjs.o_20D0_tmr_sys_fsm, NULL},
+    {0x20e0, 0x36, ODT_REC, &ODObjs.o_20E0_dlog, NULL},
+    {0x20f0, 0x03, ODT_REC, &ODObjs.o_20F0_sys_calc, NULL},
+    {0x2100, 0x07, ODT_REC, &ODObjs.o_2100_rect_curr, NULL},
+    {0x2110, 0x10, ODT_REC, &ODObjs.o_2110_mux_umains, NULL},
+    {0x2120, 0x10, ODT_REC, &ODObjs.o_2120_mux_imains, NULL},
+    {0x2130, 0x07, ODT_REC, &ODObjs.o_2130_mux_uarm, NULL},
+    {0x2140, 0x08, ODT_REC, &ODObjs.o_2140_mux_iarm, NULL},
+    {0x2150, 0x07, ODT_REC, &ODObjs.o_2150_mux_irstart, NULL},
+    {0x2160, 0x10, ODT_REC, &ODObjs.o_2160_mux_ucell, NULL},
+    {0x2170, 0x10, ODT_REC, &ODObjs.o_2170_mux_icell, NULL},
+    {0x2180, 0x07, ODT_REC, &ODObjs.o_2180_mux_slip, NULL},
+    {0x2190, 0x06, ODT_REC, &ODObjs.o_2190_phase_ampl_ua, NULL},
+    {0x21a0, 0x06, ODT_REC, &ODObjs.o_21A0_phase_ampl_ub, NULL},
+    {0x21b0, 0x06, ODT_REC, &ODObjs.o_21B0_phase_ampl_uc, NULL},
+    {0x21c0, 0x08, ODT_REC, &ODObjs.o_21C0_zcd_ua, NULL},
+    {0x21d0, 0x08, ODT_REC, &ODObjs.o_21D0_zcd_ub, NULL},
+    {0x21e0, 0x08, ODT_REC, &ODObjs.o_21E0_zcd_uc, NULL},
+    {0x21f0, 0x08, ODT_REC, &ODObjs.o_21F0_zcd_slip, NULL},
+    {0x2200, 0x05, ODT_REC, &ODObjs.o_2200_slip, NULL},
+    {0x2210, 0x09, ODT_REC, &ODObjs.o_2210_phase_lrm_i_stator, NULL},
+    {0x2220, 0x09, ODT_REC, &ODObjs.o_2220_phase_ucell, NULL},
+    {0x2230, 0x0a, ODT_REC, &ODObjs.o_2230_calc_ucell, NULL},
+    {0x2240, 0x0a, ODT_REC, &ODObjs.o_2240_calc_icell, NULL},
+    {0x2250, 0x05, ODT_REC, &ODObjs.o_2250_rms_ua, NULL},
+    {0x2260, 0x05, ODT_REC, &ODObjs.o_2260_rms_ub, NULL},
+    {0x2270, 0x05, ODT_REC, &ODObjs.o_2270_rms_uc, NULL},
+    {0x2280, 0x05, ODT_REC, &ODObjs.o_2280_rms_ia, NULL},
+    {0x2290, 0x05, ODT_REC, &ODObjs.o_2290_rms_ib, NULL},
+    {0x22a0, 0x05, ODT_REC, &ODObjs.o_22A0_rms_ic, NULL},
+    {0x22b0, 0x05, ODT_REC, &ODObjs.o_22B0_rms_cell_ua, NULL},
+    {0x22c0, 0x05, ODT_REC, &ODObjs.o_22C0_rms_cell_ub, NULL},
+    {0x22d0, 0x05, ODT_REC, &ODObjs.o_22D0_rms_cell_uc, NULL},
+    {0x22e0, 0x05, ODT_REC, &ODObjs.o_22E0_rms_cell_ua_phase, NULL},
+    {0x22f0, 0x05, ODT_REC, &ODObjs.o_22F0_rms_cell_ub_phase, NULL},
+    {0x2300, 0x05, ODT_REC, &ODObjs.o_2300_rms_cell_uc_phase, NULL},
+    {0x2310, 0x05, ODT_REC, &ODObjs.o_2310_rms_cell_ia, NULL},
+    {0x2320, 0x05, ODT_REC, &ODObjs.o_2320_rms_cell_ib, NULL},
+    {0x2330, 0x05, ODT_REC, &ODObjs.o_2330_rms_cell_ic, NULL},
+    {0x2340, 0x05, ODT_REC, &ODObjs.o_2340_mean_iarm, NULL},
+    {0x2350, 0x05, ODT_REC, &ODObjs.o_2350_mean_uarm, NULL},
+    {0x2360, 0x05, ODT_REC, &ODObjs.o_2360_mean_irstart, NULL},
+    {0x2370, 0x07, ODT_REC, &ODObjs.o_2370_mean_rms_icell, NULL},
+    {0x2380, 0x07, ODT_REC, &ODObjs.o_2380_sum_s, NULL},
+    {0x2390, 0x07, ODT_REC, &ODObjs.o_2390_sum_p, NULL},
+    {0x23a0, 0x07, ODT_REC, &ODObjs.o_23A0_sum_q, NULL},
+    {0x23b0, 0x0a, ODT_REC, &ODObjs.o_23B0_power_a, NULL},
+    {0x23c0, 0x0a, ODT_REC, &ODObjs.o_23C0_power_b, NULL},
+    {0x23d0, 0x0a, ODT_REC, &ODObjs.o_23D0_power_c, NULL},
+    {0x23e0, 0x09, ODT_REC, &ODObjs.o_23E0_power_factor, NULL},
+    {0x23f0, 0x0c, ODT_REC, &ODObjs.o_23F0_vr_rms_umains, NULL},
+    {0x2400, 0x0c, ODT_REC, &ODObjs.o_2400_vr_filter_freq_umains, NULL},
+    {0x2410, 0x0c, ODT_REC, &ODObjs.o_2410_vr_rms_ucell, NULL},
+    {0x2420, 0x06, ODT_REC, &ODObjs.o_2420_cell_cb, NULL},
+    {0x2430, 0x06, ODT_REC, &ODObjs.o_2430_thr_run_trig_i_s, NULL},
+    {0x2440, 0x06, ODT_REC, &ODObjs.o_2440_am_run_trig_i_s, NULL},
+    {0x2450, 0x07, ODT_REC, &ODObjs.o_2450_mux_run_trig, NULL},
+    {0x2460, 0x0a, ODT_REC, &ODObjs.o_2460_tmr_run_trig, NULL},
+    {0x2470, 0x06, ODT_REC, &ODObjs.o_2470_thr_prim_slip, NULL},
+    {0x2480, 0x06, ODT_REC, &ODObjs.o_2480_thr_prim_i_s, NULL},
+    {0x2490, 0x06, ODT_REC, &ODObjs.o_2490_thr_prim_t, NULL},
+    {0x24a0, 0x0a, ODT_REC, &ODObjs.o_24A0_am_prim_field_on, NULL},
+    {0x24b0, 0x06, ODT_REC, &ODObjs.o_24B0_thr_sec_slip, NULL},
+    {0x24c0, 0x06, ODT_REC, &ODObjs.o_24C0_thr_sec_i_s, NULL},
+    {0x24d0, 0x06, ODT_REC, &ODObjs.o_24D0_thr_sec_t, NULL},
+    {0x24e0, 0x0a, ODT_REC, &ODObjs.o_24E0_am_sec_field_on, NULL},
+    {0x24f0, 0x06, ODT_REC, &ODObjs.o_24F0_or_field_on, NULL},
+    {0x2500, 0x0a, ODT_REC, &ODObjs.o_2500_tmr_field_on, NULL},
+    {0x2510, 0x06, ODT_REC, &ODObjs.o_2510_thr_value_for_slip_lt_zero, NULL},
+    {0x2520, 0x06, ODT_REC, &ODObjs.o_2520_or_value_slip_lt_zero_i_r_sync, NULL},
+    {0x2530, 0x06, ODT_REC, &ODObjs.o_2530_and_ready_to_exc, NULL},
+    {0x2540, 0x0a, ODT_REC, &ODObjs.o_2540_tmr_field_on_rstart_off, NULL},
+    {0x2550, 0x05, ODT_REC, &ODObjs.o_2550_not_ready_to_exc, NULL},
+    {0x2560, 0x06, ODT_REC, &ODObjs.o_2560_cmp_ctrl_state_is_start, NULL},
+    {0x2570, 0x06, ODT_REC, &ODObjs.o_2570_and_rstart_on, NULL},
+    {0x2580, 0x06, ODT_REC, &ODObjs.o_2580_thr_field_on_i_r_sync, NULL},
+    {0x2590, 0x0a, ODT_REC, &ODObjs.o_2590_tmr_field_on_i_r_sync, NULL},
+    {0x25a0, 0x06, ODT_REC, &ODObjs.o_25A0_thr_field_supp_i_r, NULL},
+    {0x25b0, 0x06, ODT_REC, &ODObjs.o_25B0_tmr_field_supp, NULL},
+    {0x25c0, 0x04, ODT_REC, &ODObjs.o_25C0_cnt_start, NULL},
+    {0x25d0, 0x07, ODT_REC, &ODObjs.o_25D0_filter_zcd_ua, NULL},
+    {0x25e0, 0x07, ODT_REC, &ODObjs.o_25E0_filter_zcd_ub, NULL},
+    {0x25f0, 0x07, ODT_REC, &ODObjs.o_25F0_filter_zcd_uc, NULL},
+    {0x2600, 0x07, ODT_REC, &ODObjs.o_2600_filter_zcd_slip, NULL},
+    {0x2610, 0x07, ODT_REC, &ODObjs.o_2610_filter_freq_ua, NULL},
+    {0x2620, 0x07, ODT_REC, &ODObjs.o_2620_filter_freq_ub, NULL},
+    {0x2630, 0x07, ODT_REC, &ODObjs.o_2630_filter_freq_uc, NULL},
+    {0x2640, 0x07, ODT_REC, &ODObjs.o_2640_filter_freq_slip, NULL},
+    {0x2650, 0x07, ODT_REC, &ODObjs.o_2650_filter_mean_iarm, NULL},
+    {0x2660, 0x07, ODT_REC, &ODObjs.o_2660_filter_mean_uarm, NULL},
+    {0x2670, 0x07, ODT_REC, &ODObjs.o_2670_filter_mean_irstart, NULL},
+    {0x2680, 0x06, ODT_REC, &ODObjs.o_2680_tmr_start_min_forcing, NULL},
+    {0x2690, 0x06, ODT_REC, &ODObjs.o_2690_tmr_start_max_forcing, NULL},
+    {0x26a0, 0x0a, ODT_REC, &ODObjs.o_26A0_tmr_start_stab_forcing, NULL},
+    {0x26b0, 0x06, ODT_REC, &ODObjs.o_26B0_thr_start_q_le_zero, NULL},
+    {0x26c0, 0x06, ODT_REC, &ODObjs.o_26C0_and_start_min_forcing_end, NULL},
+    {0x26d0, 0x06, ODT_REC, &ODObjs.o_26D0_or_start_forcing_end, NULL},
+    {0x26e0, 0x09, ODT_REC, &ODObjs.o_26E0_mux_field_regs, NULL},
+    {0x26f0, 0x07, ODT_REC, &ODObjs.o_26F0_lim_field_regs_curr_ref, NULL},
+    {0x2700, 0x07, ODT_REC, &ODObjs.o_2700_mux_field_force_ref, NULL},
+    {0x2710, 0x0a, ODT_REC, &ODObjs.o_2710_mot_pot_field_test, NULL},
+    {0x2720, 0x0a, ODT_REC, &ODObjs.o_2720_mot_pot_manual_curr_ref, NULL},
+    {0x2730, 0x09, ODT_REC, &ODObjs.o_2730_mux_curr_ref, NULL},
+    {0x2740, 0x0c, ODT_REC, &ODObjs.o_2740_pid_i, NULL},
+    {0x2750, 0x0c, ODT_REC, &ODObjs.o_2750_pid_coefs_i, NULL},
+    {0x2760, 0x61, ODT_REC, &ODObjs.o_2760_ph3c, NULL},
+    {0x2770, 0x0b, ODT_REC, &ODObjs.o_2770_triacs, NULL},
+    {0x2780, 0x35, ODT_REC, &ODObjs.o_2780_lrm, NULL},
+    {0x2790, 0x2b, ODT_REC, &ODObjs.o_2790_motor, NULL},
+    {0x27a0, 0x07, ODT_REC, &ODObjs.o_27A0_prot, NULL},
+    {0x27b0, 0x03, ODT_REC, &ODObjs.o_27B0_canopen, NULL},
+    {0x27c0, 0x03, ODT_REC, &ODObjs.o_27C0_storage, NULL},
+    {0x27d0, 0x04, ODT_REC, &ODObjs.o_27D0_settings, NULL},
     {0x0000, 0x00, 0, NULL, NULL}
 };
 

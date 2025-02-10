@@ -279,6 +279,10 @@ struct _S_adc {
     uint8_t count; /* Number of sub entries count */
 } adc;
 
+struct _S_dac {
+    uint8_t count; /* Number of sub entries count */
+} dac;
+
 struct _S_adc_model {
     uint8_t count; /* Number of sub entries count */
 } adc_model;
@@ -726,6 +730,10 @@ struct _S_pid_coefs_i {
 struct _S_ph3c {
     uint8_t count; /* Number of sub entries count */
 } ph3c;
+
+struct _S_triacs {
+    uint8_t count; /* Number of sub entries count */
+} triacs;
 
 struct _S_lrm {
     uint8_t count; /* Number of sub entries count */
