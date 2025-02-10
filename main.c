@@ -869,14 +869,14 @@ int main(void)
     for(;;){
         IDLE(sys);
 
-        if(adc_tim.out_counter >= 256){
-            if(lrm.in_stator_on == 0){
-                // Main contactor is on.
-                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
-                lrm.in_stator_on = 1;
-//                lrm.in_start_r_on = 1;
-            }
-        }
+//        if(adc_tim.out_counter >= 256){
+//            if(lrm.in_stator_on == 0){
+//                // Main contactor is on.
+//                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
+//                lrm.in_stator_on = 1;
+////                lrm.in_start_r_on = 1;
+//            }
+//        }
 
         if(sys_cmd.out_command == SYS_COMMAND_COMMAND_CELL_CB_NO){
             lrm.in_stator_on = 1;

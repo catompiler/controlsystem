@@ -220,10 +220,10 @@ static void FSM_state_start_field_force(M_sys_control* sys_ctrl)
 static void FSM_state_run(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
-        mot_pot_manual_curr_ref.r_value = 0;
+        mot_pot_manual_curr_ref.r_value = IQ24(1.0);
     }
 
-    mot_pot_manual_curr_ref.in_inc = FLAG_ACTIVE;
+    //mot_pot_manual_curr_ref.in_inc = FLAG_ACTIVE;
     //mux_field_regs.in_value[0] = mux_field_regs.in_value[0] + IQ24(0.000025);//0.35
 
     // Если отменена команда "Работа".
