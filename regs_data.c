@@ -219,7 +219,7 @@ struct _S_regs_data regs_data = {
     .applicationObject8 = 0 /*  */
 },
 .sys = {
-    .count = 6 /* Number of sub entries count */
+    .count = 11 /* Number of sub entries count */
 },
 .sys_cmd = {
     .count = 3 /* Number of sub entries count */
@@ -235,6 +235,9 @@ struct _S_regs_data regs_data = {
 },
 .adc = {
     .count = 62 /* Number of sub entries count */
+},
+.dac = {
+    .count = 4 /* Number of sub entries count */
 },
 .adc_model = {
     .count = 30 /* Number of sub entries count */
@@ -258,7 +261,7 @@ struct _S_regs_data regs_data = {
     .count = 5 /* Number of sub entries count */
 },
 .dlog = {
-    .count = 149 /* Number of sub entries count */
+    .count = 53 /* Number of sub entries count */
 },
 .sys_calc = {
     .count = 2 /* Number of sub entries count */
@@ -571,6 +574,9 @@ struct _S_regs_data regs_data = {
 },
 .ph3c = {
     .count = 96 /* Number of sub entries count */
+},
+.triacs = {
+    .count = 10 /* Number of sub entries count */
 },
 .lrm = {
     .count = 52 /* Number of sub entries count */

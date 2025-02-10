@@ -10,6 +10,9 @@
 //! Сбрасывает и разрешает тактирование портов.
 EXTERN void hardware_init_ports(void);
 
+//! Сбрасывает и разрешает тактирование тиристорных таймеров.
+EXTERN void hardware_init_triacs_timers(void);
+
 //! Сбрасывает и разрешает тактирование периодических таймеров.
 EXTERN void hardware_init_periodic_timers(void);
 
@@ -27,6 +30,9 @@ EXTERN void hardware_init_dma(void);
 
 //! Сбрасывает и разрешает тактирование CAN.
 EXTERN void hardware_init_can(void);
+
+//! Сбрасывает и разрешает тактирование ЦАП.
+EXTERN void hardware_init_dac(void);
 
 
 #endif /* HARDWARE_H */

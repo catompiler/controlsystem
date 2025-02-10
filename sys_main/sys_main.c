@@ -175,6 +175,9 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     CALLBACK_PROC(adc.on_conversion) = adc_handler;
     CALLBACK_ARG(adc.on_conversion) = (void*)sys;
 
+    // ЦАП.
+    INIT(dac);
+
     // АЦП модель.
     INIT(adc_model);
 
@@ -267,6 +270,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(vr_rms_Ucell);
 
     // Основные модули.
+    // Тиристоры.
+    INIT(triacs);
     // СИФУ.
     INIT(ph3c);
     // Модель 3х фазного выпрямителя.
@@ -468,6 +473,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Основные модули.
     DEINIT(lrm);
     DEINIT(ph3c);
+    DEINIT(triacs);
     // Форсировка при запуске.
     DEINIT(tmr_start_min_forcing);
     DEINIT(tmr_start_max_forcing);
@@ -625,6 +631,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(ms_tim);
     DEINIT(net_tim);
     DEINIT(adc_model);
+    DEINIT(dac);
     DEINIT(adc);
     DEINIT(tmr_sys_fsm);
     DEINIT(sys_stat);
@@ -809,6 +816,18 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     ph3c.in_Uc_angle = phase_ampl_Uc.out_phase;
     CALC(ph3c);
 
+    // Отпирание тиристоров.
+    // Копирование управления.
+    for(i = 0; i < TRIACS_MAINS_KEYS_COUNT; i ++)
+    { triacs.in_control[i] = ph3c.out_control[i]; }
+    triacs.in_control_delay_angle = ph3c.out_control_delay_angle;
+    triacs.in_control_max_duration_angle = ph3c.out_control_max_duration_angle;
+    CALC(triacs);
+
+#warning DEBUG // begin {
+    dac.in_value[0] = iq24_mul(lrm.out_Ufld, IQ24(0.5));
+    // } end
+
     // Вычисление измерений напряжения ячейки
     // (для модели нужно вычислить это до вычисления модели).
     SYS_CALC_CALC_FOR_MODEL(sys_calc);
@@ -895,6 +914,9 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
     // Конечный автомат.
     FSM_state(sys);
+
+    // Запись выхода ЦАП.
+    CALC(dac);
 
     // Последний модуль - запись лога.
     CALC(dlog);

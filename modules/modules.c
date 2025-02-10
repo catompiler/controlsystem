@@ -11,6 +11,8 @@ M_conf conf = CONF_DEFAULTS;
 
 M_adc adc = ADC_DEFAULTS;
 
+M_dac dac = DAC_DEFAULTS;
+
 M_adc_model adc_model = ADC_MODEL_DEFAULTS;
 
 M_adc_timer adc_tim = ADC_TIMER_DEFAULTS;
@@ -163,6 +165,8 @@ M_pid_coefs pid_coefs_i = PID_COEFS_DEFCFG(IQ24(0.5), IQ24(0.025), IQ24(0.0), IQ
 
 
 M_phase3_control ph3c = PHASE3_CONTROL_DEFAULTS;
+
+M_triacs triacs = TRIACS_DEFAULTS;
 
 //M_larionov_model lrm = LARIONOV_MODEL_DEFAULTS;
 M_smotor_larionov lrm = SMOTOR_LARIONOV_DEFAULTS;

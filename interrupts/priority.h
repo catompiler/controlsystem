@@ -18,6 +18,10 @@
 #define IRQ_PRIORITY(GRP, SUB) (((GRP) << (SUBPRIORITY_BITS)) | ((SUB) & (GROUP_PRIORITY_MASK)))
 
 
+// //! Тиристоры.
+// #define TRIACS_IRQ_PRIORITY PRIORITY(2,0)
+
+
 //! Таймер-счётчик высокого разрешения.
 #define SYS_CNT_TIM_IRQ_PRIORITY IRQ_PRIORITY(4, 0)
 

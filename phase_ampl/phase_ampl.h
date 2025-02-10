@@ -27,7 +27,7 @@ typedef iq14s_t phase_ampl_data_t;
 //! Число семплов за период.
 #define PHASE_AMPL_SAMPLES_COUNT (CONF_PERIOD_SAMPLES)
 //! Размер блока в байтах (для оптимизации сдвига буфера).
-#define PHASE_AMPL_BLOCK_SIZE 4//8
+#define PHASE_AMPL_BLOCK_SIZE 8
 //! Размер блока в семплах.
 #define PHASE_AMPL_BLOCK_LEN ((PHASE_AMPL_BLOCK_SIZE)/(PHASE_AMPL_SAMPLE_SIZE))
 //! Размер буфера.
@@ -75,6 +75,7 @@ struct _S_Phase_Ampl {
     METHOD_CALC(M_phase_ampl);
     // Коллбэки.
     // Внутренние данные.
+    iq24_t m_phase_z1; //!< Предыдущее значение фазы.
     uint32_t m_count; //!< Число записанных данных.
     uint32_t m_get_index; //!< Индекс чтения данных.
     uint32_t m_put_index; //!< Индекс записи данных.
@@ -101,6 +102,7 @@ EXTERN METHOD_CALC_PROTO(M_phase_ampl);
         METHOD_CALC_PTR(M_phase_ampl),\
         /* Коллбэки */\
         /* Внутренние данные */\
+        0, /* m_phase_z1 */\
         0, /* m_count */\
         0, /* m_get_index */\
         0, /* m_put_index */\

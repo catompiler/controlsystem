@@ -17,10 +17,18 @@ enum _E_Data_Log_Status {
     DATA_LOG_STATUS_NONE = STATUS_NONE,
 };
 
+#if defined(PORT_POSIX)
+//! Число каналов.
+#define DATA_LOG_CH_COUNT 32
+//! Длина записи данных каждого канала.
+#define DATA_LOG_CH_LEN 32768
+#endif
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 //! Число каналов.
 #define DATA_LOG_CH_COUNT 16
 //! Длина записи данных каждого канала.
-#define DATA_LOG_CH_LEN 256//32768
+#define DATA_LOG_CH_LEN 256
+#endif
 
 
 // Получение осциллограммы.

@@ -12,6 +12,17 @@ void hardware_init_ports(void)
 }
 
 
+void hardware_init_triacs_timers(void)
+{
+    // reset.
+    TRIACS_TIMS_RESET_ENABLE();
+    TRIACS_TIMS_RESET_DISABLE();
+
+    // enable clock.
+    TRIACS_TIMS_CLOCK_ENABLE();
+}
+
+
 void hardware_init_periodic_timers(void)
 {
     // reset.
@@ -62,6 +73,13 @@ void hardware_init_can(void)
     // reset.
     CAN_RESET_ENABLE();
     CAN_RESET_DISABLE();
+}
+
+void hardware_init_dac(void)
+{
+    // reset.
+    DAC_RESET_ENABLE();
+    DAC_RESET_DISABLE();
 }
 
 #endif

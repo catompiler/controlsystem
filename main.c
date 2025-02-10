@@ -149,6 +149,7 @@ static void write_dlog_to_file_csv(void)
         DATA_LOG_NEXT_INDEX(get_index);
     }
 
+    fflush(f);
     fclose(f);
 }
 #endif
@@ -254,17 +255,23 @@ static void init_hardware()
     // Counting timers.
     hardware_init_counting_timers();
 
+    // Periodic timers.
+    hardware_init_periodic_timers();
+
+    // Triacs timers.
+    hardware_init_triacs_timers();
+
     // Usarts.
     hardware_init_usarts();
 
     // SPIs.
     hardware_init_spis();
 
-    // Periodic timers.
-    hardware_init_periodic_timers();
-
     // CAN.
     hardware_init_can();
+
+    // DAC.
+    hardware_init_dac();
 #endif
 }
 
@@ -638,7 +645,8 @@ static void setup()
     /*dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_M;
     dlog.p_ch[dlog_i++].enabled = 1;
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_W;
-    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i++].enabled = 1;*/
+#if defined(PORT_POSIX)
     // Rectifier Uabc
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_ADC_MODEL_OUT_UA;
     dlog.p_ch[dlog_i++].enabled = 1;
@@ -653,8 +661,29 @@ static void setup()
     dlog.p_ch[dlog_i++].enabled = 1;
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_OUT_IC;
     dlog.p_ch[dlog_i++].enabled = 1;
+    // Phases
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_PHASE_AMPL_UA_OUT_PHASE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_PHASE_AMPL_UB_OUT_PHASE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_PHASE_AMPL_UC_OUT_PHASE;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    // LRM control
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL0;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL1;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL2;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL3;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL4;
+    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL5;
+    dlog.p_ch[dlog_i++].enabled = 1;
+#endif
     // Cell RMS.
-    dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UA_OUT_VALUE;
+    /*dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UA_OUT_VALUE;
     dlog.p_ch[dlog_i++].enabled = 1;
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UB_OUT_VALUE;
     dlog.p_ch[dlog_i++].enabled = 1;
@@ -707,9 +736,9 @@ static void setup()
     dlog.p_ch[dlog_i++].enabled = 1;
 
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_POWER_FACTOR_OUT_TAN_PHI;
-    dlog.p_ch[dlog_i++].enabled = 1;
+    dlog.p_ch[dlog_i++].enabled = 1;*/
 
-    dlog.control = CONTROL_ENABLE;*/
+    dlog.control = CONTROL_ENABLE;
 
     // ADC model set to zero scales.
     adc_model.in_U_scale = IQ24(0.0);
@@ -833,19 +862,6 @@ int main(void)
 
     load_settings();
 
-
-//#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
-//    // Temporary stub.
-//
-//    for(;;){
-//        //STDIO_UART_USIC_CH->TBUF[0] = 'h';
-//        struct timeval tv = {1, 0};
-//        sys_counter_delay(&tv);
-//        SYSLOG_MSG(SYSLOG_DEBUG, "IDLE");
-//        //STDIO_UART_USIC_CH->TBUF[0] = '.';
-//    }
-//#endif
-
     setup();
 
     init_sysmain();
@@ -853,14 +869,14 @@ int main(void)
     for(;;){
         IDLE(sys);
 
-//        if(adc_tim.out_counter >= 256){
-//            if(lrm.in_stator_on == 0){
-//                // Main contactor is on.
-//                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
-//                lrm.in_stator_on = 1;
-////                lrm.in_start_r_on = 1;
-//            }
-//        }
+        if(adc_tim.out_counter >= 256){
+            if(lrm.in_stator_on == 0){
+                // Main contactor is on.
+                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
+                lrm.in_stator_on = 1;
+//                lrm.in_start_r_on = 1;
+            }
+        }
 
         if(sys_cmd.out_command == SYS_COMMAND_COMMAND_CELL_CB_NO){
             lrm.in_stator_on = 1;
@@ -870,16 +886,18 @@ int main(void)
             lrm.in_stator_on = 0;
         }
 
-//        if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
-//            if(lrm.in_stator_on == 1){
-//                // Stop.
-//                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
-//                lrm.in_stator_on = 0;
-//            }
-//        }
+#if defined(PORT_POSIX)
+        if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
+            if(lrm.in_stator_on == 1){
+                // Stop.
+                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
+                lrm.in_stator_on = 0;
+            }
+        }
+#endif
 
 #if defined(PORT_POSIX)
-        //if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
+        if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
         if(sys.status & SYS_MAIN_STATUS_QUIT) break;
 
         struct timespec ts_sleep = {0, 1000000};

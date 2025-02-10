@@ -192,6 +192,11 @@ REG(REG_ID_SYS_ERRORS, &sys.errors, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* О
 REG(REG_ID_SYS_WARNINGS, &sys.warnings, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Предупреждения. */
 REG(REG_ID_SYS_FSM_STATE_STATE, &sys.fsm_state.state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние. */
 REG(REG_ID_SYS_FSM_STATE_PREV_STATE, &sys.fsm_state.prev_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Предыдущее состояние. */
+REG(REG_ID_SYS_ADC_TIM_RUN_TIME_US, &sys.r_adc_tim_run_time_us, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Время выполнения прерывания таймера ADC. */
+REG(REG_ID_SYS_SYS_TIM_RUN_TIME_US, &sys.r_sys_tim_run_time_us, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Время выполнения прерывания таймера SYS. */
+REG(REG_ID_SYS_MS_TIM_RUN_TIME_US, &sys.r_ms_tim_run_time_us, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Время выполнения прерывания таймера MS. */
+REG(REG_ID_SYS_NET_RUN_TIME_US, &sys.r_net_run_time_us, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Время выполнения прерывания таймера NET. */
+REG(REG_ID_SYS_IDLE_RUN_TIME_US, &sys.r_idle_run_time_us, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Время выполнения IDLE. */
 REG(REG_ID_SYS_CMD_COUNT, &regs_data.sys_cmd.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SYS_CMD_CONTROL, &sys_cmd.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SYS_CMD_STATUS, &sys_cmd.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -290,6 +295,11 @@ REG(REG_ID_ADC_S_IB_GAIN, &adc.p_s_Ib_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x0000
 REG(REG_ID_ADC_S_IB_OFFSET, &adc.p_s_Ib_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП тока фазы B статора. */
 REG(REG_ID_ADC_S_IC_GAIN, &adc.p_s_Ic_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления тока фазы C статора. */
 REG(REG_ID_ADC_S_IC_OFFSET, &adc.p_s_Ic_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП тока фазы C статора. */
+REG(REG_ID_DAC_COUNT, &regs_data.dac.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
+REG(REG_ID_DAC_CONTROL, &dac.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_DAC_STATUS, &dac.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_DAC_IN_VALUE0, &dac.in_value[0], REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_DAC_IN_VALUE1, &dac.in_value[1], REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_ADC_MODEL_COUNT, &regs_data.adc_model.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_ADC_MODEL_CONTROL, &adc_model.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_ADC_MODEL_STATUS, &adc_model.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -384,71 +394,7 @@ REG(REG_ID_DLOG_CH14_ENABLED, &dlog.p_ch[14].enabled, REG_TYPE_U32, REG_FLAG_NON
 REG(REG_ID_DLOG_CH14_REG_ID, &dlog.p_ch[14].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
 REG(REG_ID_DLOG_CH15_ENABLED, &dlog.p_ch[15].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
 REG(REG_ID_DLOG_CH15_REG_ID, &dlog.p_ch[15].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH16_ENABLED, &dlog.p_ch[16].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH16_REG_ID, &dlog.p_ch[16].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH17_ENABLED, &dlog.p_ch[17].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH17_REG_ID, &dlog.p_ch[17].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH18_ENABLED, &dlog.p_ch[18].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH18_REG_ID, &dlog.p_ch[18].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH19_ENABLED, &dlog.p_ch[19].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH19_REG_ID, &dlog.p_ch[19].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH20_ENABLED, &dlog.p_ch[20].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH20_REG_ID, &dlog.p_ch[20].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH21_ENABLED, &dlog.p_ch[21].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH21_REG_ID, &dlog.p_ch[21].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH22_ENABLED, &dlog.p_ch[22].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH22_REG_ID, &dlog.p_ch[22].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH23_ENABLED, &dlog.p_ch[23].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH23_REG_ID, &dlog.p_ch[23].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH24_ENABLED, &dlog.p_ch[24].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH24_REG_ID, &dlog.p_ch[24].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH25_ENABLED, &dlog.p_ch[25].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH25_REG_ID, &dlog.p_ch[25].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH26_ENABLED, &dlog.p_ch[26].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH26_REG_ID, &dlog.p_ch[26].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH27_ENABLED, &dlog.p_ch[27].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH27_REG_ID, &dlog.p_ch[27].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH28_ENABLED, &dlog.p_ch[28].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH28_REG_ID, &dlog.p_ch[28].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH29_ENABLED, &dlog.p_ch[29].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH29_REG_ID, &dlog.p_ch[29].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH30_ENABLED, &dlog.p_ch[30].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH30_REG_ID, &dlog.p_ch[30].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH31_ENABLED, &dlog.p_ch[31].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH31_REG_ID, &dlog.p_ch[31].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH32_ENABLED, &dlog.p_ch[32].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH32_REG_ID, &dlog.p_ch[32].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH33_ENABLED, &dlog.p_ch[33].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH33_REG_ID, &dlog.p_ch[33].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH34_ENABLED, &dlog.p_ch[34].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH34_REG_ID, &dlog.p_ch[34].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH35_ENABLED, &dlog.p_ch[35].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH35_REG_ID, &dlog.p_ch[35].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH36_ENABLED, &dlog.p_ch[36].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH36_REG_ID, &dlog.p_ch[36].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH37_ENABLED, &dlog.p_ch[37].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH37_REG_ID, &dlog.p_ch[37].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH38_ENABLED, &dlog.p_ch[38].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH38_REG_ID, &dlog.p_ch[38].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH39_ENABLED, &dlog.p_ch[39].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH39_REG_ID, &dlog.p_ch[39].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH40_ENABLED, &dlog.p_ch[40].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH40_REG_ID, &dlog.p_ch[40].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH41_ENABLED, &dlog.p_ch[41].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH41_REG_ID, &dlog.p_ch[41].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH42_ENABLED, &dlog.p_ch[42].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH42_REG_ID, &dlog.p_ch[42].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH43_ENABLED, &dlog.p_ch[43].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH43_REG_ID, &dlog.p_ch[43].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH44_ENABLED, &dlog.p_ch[44].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH44_REG_ID, &dlog.p_ch[44].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH45_ENABLED, &dlog.p_ch[45].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH45_REG_ID, &dlog.p_ch[45].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH46_ENABLED, &dlog.p_ch[46].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH46_REG_ID, &dlog.p_ch[46].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_CH47_ENABLED, &dlog.p_ch[47].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
-REG(REG_ID_DLOG_CH47_REG_ID, &dlog.p_ch[47].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_COUNT_99, &dlog.r_count, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Число записанных данных. */
+REG(REG_ID_DLOG_COUNT_35, &dlog.r_count, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Число записанных данных. */
 REG(REG_ID_DLOG_GET_INDEX, &dlog.r_get_index, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Индекс чтения данных. */
 REG(REG_ID_DLOG_PUT_INDEX, &dlog.r_put_index, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Индекс записи данных. */
 REG(REG_ID_DLOG_CH0_DATA, &dlog.r_ch[0].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
@@ -467,38 +413,6 @@ REG(REG_ID_DLOG_CH12_DATA, &dlog.r_ch[12].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 
 REG(REG_ID_DLOG_CH13_DATA, &dlog.r_ch[13].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
 REG(REG_ID_DLOG_CH14_DATA, &dlog.r_ch[14].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
 REG(REG_ID_DLOG_CH15_DATA, &dlog.r_ch[15].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH16_DATA, &dlog.r_ch[16].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH17_DATA, &dlog.r_ch[17].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH18_DATA, &dlog.r_ch[18].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH19_DATA, &dlog.r_ch[19].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH20_DATA, &dlog.r_ch[20].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH21_DATA, &dlog.r_ch[21].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH22_DATA, &dlog.r_ch[22].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH23_DATA, &dlog.r_ch[23].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH24_DATA, &dlog.r_ch[24].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH25_DATA, &dlog.r_ch[25].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH26_DATA, &dlog.r_ch[26].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH27_DATA, &dlog.r_ch[27].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH28_DATA, &dlog.r_ch[28].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH29_DATA, &dlog.r_ch[29].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH30_DATA, &dlog.r_ch[30].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH31_DATA, &dlog.r_ch[31].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH32_DATA, &dlog.r_ch[32].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH33_DATA, &dlog.r_ch[33].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH34_DATA, &dlog.r_ch[34].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH35_DATA, &dlog.r_ch[35].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH36_DATA, &dlog.r_ch[36].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH37_DATA, &dlog.r_ch[37].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH38_DATA, &dlog.r_ch[38].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH39_DATA, &dlog.r_ch[39].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH40_DATA, &dlog.r_ch[40].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH41_DATA, &dlog.r_ch[41].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH42_DATA, &dlog.r_ch[42].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH43_DATA, &dlog.r_ch[43].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH44_DATA, &dlog.r_ch[44].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH45_DATA, &dlog.r_ch[45].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH46_DATA, &dlog.r_ch[46].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
-REG(REG_ID_DLOG_CH47_DATA, &dlog.r_ch[47].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
 REG(REG_ID_SYS_CALC_COUNT, &regs_data.sys_calc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_SYS_CALC_CONTROL, &sys_calc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SYS_CALC_STATUS, &sys_calc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -1362,6 +1276,17 @@ REG(REG_ID_PH3C_PHC5_OUT_CONTROL_BETWEEN, &ph3c.phc[5].out_control_between, REG_
 REG(REG_ID_PH3C_PHC5_R_ANGLE_WIN_PU, &ph3c.phc[5].r_angle_win_pu, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Угол, в периодических единицах, окно для управления от текущего угла. */
 REG(REG_ID_PH3C_PHC5_R_MIN_ANGLE_TO_CONTROL_PU, &ph3c.phc[5].r_min_angle_to_control_pu, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Минимальный угол для управления, в периодических единицах. */
 REG(REG_ID_PH3C_PHC5_R_MAX_ANGLE_TO_CONTROL_PU, &ph3c.phc[5].r_max_angle_to_control_pu, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Максимальный угол для управления, в периодических единицах. */
+REG(REG_ID_TRIACS_COUNT, &regs_data.triacs.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
+REG(REG_ID_TRIACS_CONTROL, &triacs.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_TRIACS_STATUS, &triacs.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_TRIACS_IN_CONTROL0, &triacs.in_control[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слова управления тиристорами. */
+REG(REG_ID_TRIACS_IN_CONTROL1, &triacs.in_control[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слова управления тиристорами. */
+REG(REG_ID_TRIACS_IN_CONTROL2, &triacs.in_control[2], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слова управления тиристорами. */
+REG(REG_ID_TRIACS_IN_CONTROL3, &triacs.in_control[3], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слова управления тиристорами. */
+REG(REG_ID_TRIACS_IN_CONTROL4, &triacs.in_control[4], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слова управления тиристорами. */
+REG(REG_ID_TRIACS_IN_CONTROL5, &triacs.in_control[5], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слова управления тиристорами. */
+REG(REG_ID_TRIACS_IN_CONTROL_DELAY_ANGLE, &triacs.in_control_delay_angle, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Угол до импульса управления, в периодических единицах. */
+REG(REG_ID_TRIACS_IN_CONTROL_MAX_DURATION_ANGLE, &triacs.in_control_max_duration_angle, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Максимальная продолжительность (угол) управления, в периодических единицах. */
 REG(REG_ID_LRM_COUNT, &regs_data.lrm.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_LRM_CONTROL, &lrm.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_LRM_STATUS, &lrm.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
