@@ -27,7 +27,7 @@ typedef iq14s_t phase_ampl_data_t;
 //! Число семплов за период.
 #define PHASE_AMPL_SAMPLES_COUNT (CONF_PERIOD_SAMPLES)
 //! Размер блока в байтах (для оптимизации сдвига буфера).
-#define PHASE_AMPL_BLOCK_SIZE 4//8
+#define PHASE_AMPL_BLOCK_SIZE 8
 //! Размер блока в семплах.
 #define PHASE_AMPL_BLOCK_LEN ((PHASE_AMPL_BLOCK_SIZE)/(PHASE_AMPL_SAMPLE_SIZE))
 //! Размер буфера.

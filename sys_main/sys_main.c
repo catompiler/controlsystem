@@ -810,9 +810,6 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     // Вычисление измерений для СИФУ.
     SYS_CALC_CALC_FOR_PHC(sys_calc);
 
-#warning DEBUG
-    ph3c.in_control_value = IQ24(0.15);
-// end DEBUG
     // СИФУ.
     ph3c.in_Ua_angle = phase_ampl_Ua.out_phase;
     ph3c.in_Ub_angle = phase_ampl_Ub.out_phase;
@@ -826,30 +823,10 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     triacs.in_control_delay_angle = ph3c.out_control_delay_angle;
     triacs.in_control_max_duration_angle = ph3c.out_control_max_duration_angle;
     CALC(triacs);
-//    if(ph3c.phc[PHASE3_CONTROL_AB].out_period){
-//        for(i = 0; i < TRIACS_MAINS_KEYS_COUNT; i ++)
-//        { triacs.in_control[i] = 0; }
-//        triacs.in_control[PHASE3_CONTROL_A_HI] = 1;
-//        triacs.in_control[PHASE3_CONTROL_C_HI] = 1;
-//        triacs.in_control_delay_angle = IQ24(0);
-//        triacs.in_control_max_duration_angle = IQ24(0.155);
-//        CALC(triacs);
-//    }
-//    dac.in_value[0] = IQ24(ph3c.phc[PHASE3_CONTROL_AB].out_period);
-//    dac.in_value[0] = iq24_mul(mux_Umains.out_A, IQ24(0.9));
-//    dac.in_value[1] = iq24_mul(mux_Umains.out_B, IQ24(0.9));
-//    dac.in_value[0] = iq24_mul(pid_i.out_value, IQ24(0.9));
-    dac.in_value[0] = iq24_mul(lrm.out_Ufld, IQ24(0.5));
-//    dac.in_value[0] = iq24_mul(phase_ampl_Uc.out_phase, IQ24(1.0));
 
-//    int ctl_cnt = 0;
-//    for(i = 0; i < TRIACS_MAINS_KEYS_COUNT; i ++)
-//    { ctl_cnt += ph3c.out_control[i]; }
-//    if(ctl_cnt != 0 && ctl_cnt != 2){
-//        __BKPT(0);
-//        __NOP();
-//    }
-//    dac.in_value[0] = IQ24F(ctl_cnt, 6);
+#warning DEBUG // begin {
+    dac.in_value[0] = iq24_mul(lrm.out_Ufld, IQ24(0.5));
+    // } end
 
     // Вычисление измерений напряжения ячейки
     // (для модели нужно вычислить это до вычисления модели).
