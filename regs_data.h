@@ -88,6 +88,12 @@ struct _S_SDOServerParameter {
     uint32_t COB_IDServerToClient_tx_; /*  */
 } SDOServerParameter;
 
+struct _S_SDOServerParameter_1201 {
+    uint8_t highestSub_indexSupported; /* Number of sub-entries */
+    uint32_t COB_IDClientToServer_rx_; /*  */
+    uint32_t COB_IDServerToClient_tx_; /*  */
+} SDOServerParameter_1201;
+
 struct _S_SDOClientParameter {
     uint8_t count; /* Number of sub-entries */
     uint32_t COB_IDClientToServer_tx_; /*  */
