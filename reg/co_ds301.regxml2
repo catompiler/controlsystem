@@ -600,7 +600,7 @@
                 <memory></memory>
                 <minimum>0</minimum>
                 <maximum>0</maximum>
-                <default>0x781</default>
+                <default>0x681</default>
                 <base_index>0</base_index>
                 <base_subindex>0</base_subindex>
                 <flags>0</flags>

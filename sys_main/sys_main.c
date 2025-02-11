@@ -824,10 +824,6 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     triacs.in_control_max_duration_angle = ph3c.out_control_max_duration_angle;
     CALC(triacs);
 
-#warning DEBUG // begin {
-    dac.in_value[0] = iq24_mul(lrm.out_Ufld, IQ24(0.5));
-    // } end
-
     // Вычисление измерений напряжения ячейки
     // (для модели нужно вычислить это до вычисления модели).
     SYS_CALC_CALC_FOR_MODEL(sys_calc);
@@ -914,6 +910,10 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
     // Конечный автомат.
     FSM_state(sys);
+
+#warning DEBUG // begin {
+    dac.in_value[0] = iq24_mul(lrm.out_Ufld, IQ24(0.5));
+    // } end
 
     // Запись выхода ЦАП.
     CALC(dac);

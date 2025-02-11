@@ -71,7 +71,7 @@ struct _S_regs_data regs_data = {
 .SDOServerParameter_1201 = {
     .highestSub_indexSupported = 2 /* Number of sub-entries */,
     .COB_IDClientToServer_rx_ = 0x701 /*  */,
-    .COB_IDServerToClient_tx_ = 0x781 /*  */
+    .COB_IDServerToClient_tx_ = 0x681 /*  */
 },
 .SDOClientParameter = {
     .count = 3 /* Number of sub-entries */,
