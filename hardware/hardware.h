@@ -34,6 +34,9 @@ EXTERN void hardware_init_can(void);
 //! Сбрасывает и разрешает тактирование ЦАП.
 EXTERN void hardware_init_dac(void);
 
+//! Сбрасывает и разрешает тактирование АЦП.
+EXTERN void hardware_init_adc(void);
+
 
 #endif /* HARDWARE_H */
 

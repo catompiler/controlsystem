@@ -76,42 +76,42 @@
         SCU_CLK->CLKCLR = SCU_CLK_CLKCLR_CCUCDI_Msk;\
         __DMB();\
     }while(0)
-// Adc timer.
-#define ADC_TIM_CCU4 CCU43
-#define ADC_TIM_CCU4_CC4 CCU43_CC40
-#define ADC_TIM_SHADOW_TRANSFER_Msk (CCU4_GCSS_S0SE_Msk | CCU4_GCSS_S0DSE_Msk | CCU4_GCSS_S0PSE_Msk)
-#define ADC_TIM_IDLE_CLR_Msk CCU4_GIDLC_CS0I_Msk
-#define ADC_TIM_IDLE_SET_Msk CCU4_GIDLS_SS0I_Msk
-#define ADC_TIM_SR 0
-#define ADC_TIM_IRQ_Handler CCU43_0_IRQHandler
-#define ADC_TIM_IRQn CCU43_0_IRQn
 // Sys timer.
 #define SYS_TIM_CCU4 CCU43
-#define SYS_TIM_CCU4_CC4 CCU43_CC41
-#define SYS_TIM_SHADOW_TRANSFER_Msk (CCU4_GCSS_S1SE_Msk | CCU4_GCSS_S1DSE_Msk | CCU4_GCSS_S1PSE_Msk)
-#define SYS_TIM_IDLE_CLR_Msk CCU4_GIDLC_CS1I_Msk
-#define SYS_TIM_IDLE_SET_Msk CCU4_GIDLS_SS1I_Msk
-#define SYS_TIM_SR 1
-#define SYS_TIM_IRQ_Handler CCU43_1_IRQHandler
-#define SYS_TIM_IRQn CCU43_1_IRQn
+#define SYS_TIM_CCU4_CC4 CCU43_CC40
+#define SYS_TIM_SHADOW_TRANSFER_Msk (CCU4_GCSS_S0SE_Msk | CCU4_GCSS_S0DSE_Msk | CCU4_GCSS_S0PSE_Msk)
+#define SYS_TIM_IDLE_CLR_Msk CCU4_GIDLC_CS0I_Msk
+#define SYS_TIM_IDLE_SET_Msk CCU4_GIDLS_SS0I_Msk
+#define SYS_TIM_SR 0
+#define SYS_TIM_IRQ_Handler CCU43_0_IRQHandler
+#define SYS_TIM_IRQn CCU43_0_IRQn
 // Ms timer.
 #define MS_TIM_CCU4 CCU43
-#define MS_TIM_CCU4_CC4 CCU43_CC42
-#define MS_TIM_SHADOW_TRANSFER_Msk (CCU4_GCSS_S2SE_Msk | CCU4_GCSS_S2DSE_Msk | CCU4_GCSS_S2PSE_Msk)
-#define MS_TIM_IDLE_CLR_Msk CCU4_GIDLC_CS2I_Msk
-#define MS_TIM_IDLE_SET_Msk CCU4_GIDLS_SS2I_Msk
-#define MS_TIM_SR 2
-#define MS_TIM_IRQ_Handler CCU43_2_IRQHandler
-#define MS_TIM_IRQn CCU43_2_IRQn
+#define MS_TIM_CCU4_CC4 CCU43_CC41
+#define MS_TIM_SHADOW_TRANSFER_Msk (CCU4_GCSS_S1SE_Msk | CCU4_GCSS_S1DSE_Msk | CCU4_GCSS_S1PSE_Msk)
+#define MS_TIM_IDLE_CLR_Msk CCU4_GIDLC_CS1I_Msk
+#define MS_TIM_IDLE_SET_Msk CCU4_GIDLS_SS1I_Msk
+#define MS_TIM_SR 1
+#define MS_TIM_IRQ_Handler CCU43_1_IRQHandler
+#define MS_TIM_IRQn CCU43_1_IRQn
 // Net timer.
 #define NET_TIM_CCU4 CCU43
-#define NET_TIM_CCU4_CC4 CCU43_CC43
-#define NET_TIM_SHADOW_TRANSFER_Msk (CCU4_GCSS_S3SE_Msk | CCU4_GCSS_S3DSE_Msk | CCU4_GCSS_S3PSE_Msk)
-#define NET_TIM_IDLE_CLR_Msk CCU4_GIDLC_CS3I_Msk
-#define NET_TIM_IDLE_SET_Msk CCU4_GIDLS_SS3I_Msk
-#define NET_TIM_SR 3
-#define NET_TIM_IRQ_Handler CCU43_3_IRQHandler
-#define NET_TIM_IRQn CCU43_3_IRQn
+#define NET_TIM_CCU4_CC4 CCU43_CC42
+#define NET_TIM_SHADOW_TRANSFER_Msk (CCU4_GCSS_S2SE_Msk | CCU4_GCSS_S2DSE_Msk | CCU4_GCSS_S2PSE_Msk)
+#define NET_TIM_IDLE_CLR_Msk CCU4_GIDLC_CS2I_Msk
+#define NET_TIM_IDLE_SET_Msk CCU4_GIDLS_SS2I_Msk
+#define NET_TIM_SR 2
+#define NET_TIM_IRQ_Handler CCU43_2_IRQHandler
+#define NET_TIM_IRQn CCU43_2_IRQn
+// Adc timer.
+#define ADC_TIM_CCU4 CCU43
+#define ADC_TIM_CCU4_CC4 CCU43_CC43
+#define ADC_TIM_SHADOW_TRANSFER_Msk (CCU4_GCSS_S3SE_Msk | CCU4_GCSS_S3DSE_Msk | CCU4_GCSS_S3PSE_Msk)
+#define ADC_TIM_IDLE_CLR_Msk CCU4_GIDLC_CS3I_Msk
+#define ADC_TIM_IDLE_SET_Msk CCU4_GIDLS_SS3I_Msk
+#define ADC_TIM_SR 3
+#define ADC_TIM_IRQ_Handler CCU43_3_IRQHandler
+#define ADC_TIM_IRQn CCU43_3_IRQn
 
 // Counting.
 #define COUNTING_TIMS_RESET_ENABLE() do{\
@@ -483,6 +483,30 @@
 #define DAC_CH1_PORT PORT14
 #define DAC_CH1_PIN_Pos 9
 #define DAC_CH1_PIN_Msk (1<<(DAC_CH1_PIN_Pos))
+
+
+// ADC.
+#define ADC_RESET_ENABLE() do{\
+        SCU_RESET->PRSET0 = SCU_RESET_PRSET0_VADCRS_Msk;\
+        __DMB();\
+        while((SCU_RESET->PRSTAT0 & SCU_RESET_PRSTAT0_VADCRS_Msk) == 0){ __NOP(); }\
+    }while(0)
+#define ADC_RESET_DISABLE() do{\
+        SCU_RESET->PRCLR0 = SCU_RESET_PRCLR0_VADCRS_Msk;\
+        __DMB();\
+        while((SCU_RESET->PRSTAT0 & SCU_RESET_PRSTAT0_VADCRS_Msk) != 0){ __NOP(); }\
+    }while(0)
+#define ADC_CLOCK_ENABLE() do{\
+        VADC->CLC = 0;\
+        while((VADC->CLC & VADC_CLC_DISS_Msk) != 0) __NOP();\
+    }while(0)
+#define ADC_CLOCK_DISABLE() do{\
+        VADC->CLC = VADC_CLC_DISR_Msk;\
+        while((VADC->CLC & VADC_CLC_DISS_Msk) == 0) __NOP();\
+    }while(0)
+#define ADC_IRQ_Handler VADC0_C0_0_IRQHandler
+#define ADC_IRQn VADC0_C0_0_IRQn
+
 
 #endif /* HARDWARE_CONFIG_H_ */
 

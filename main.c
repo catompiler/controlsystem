@@ -272,6 +272,9 @@ static void init_hardware()
 
     // DAC.
     hardware_init_dac();
+
+    // ADC.
+    hardware_init_adc();
 #endif
 }
 

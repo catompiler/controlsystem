@@ -13,6 +13,7 @@ void interrupts_init(void)
 
     // Priorities.
     NVIC_SetPriority(SYS_CNT_TIM_IRQn, SYS_CNT_TIM_IRQ_PRIORITY);
+    NVIC_SetPriority(ADC_IRQn, ADC_IRQ_PRIORITY);
     NVIC_SetPriority(ADC_TIM_IRQn, ADC_TIM_IRQ_PRIORITY);
     NVIC_SetPriority(SYS_TIM_IRQn, SYS_TIM_IRQ_PRIORITY);
     NVIC_SetPriority(MS_TIM_IRQn, MS_TIM_IRQ_PRIORITY);
@@ -31,6 +32,10 @@ void interrupts_init(void)
     NVIC_SetPriority(CAN0_7_IRQn, CAN_IRQ_PRIORITY);
 }
 
+void interrupts_enable_adc(void)
+{
+    NVIC_EnableIRQ(ADC_IRQn);
+}
 
 void interrupts_enable_dma(void)
 {
@@ -70,6 +75,7 @@ void interrupts_inited_enable(void)
 {
     // Enabling.
     NVIC_EnableIRQ(SYS_CNT_TIM_IRQn);
+    NVIC_EnableIRQ(ADC_IRQn);
     NVIC_EnableIRQ(ADC_TIM_IRQn);
     NVIC_EnableIRQ(SYS_TIM_IRQn);
     NVIC_EnableIRQ(MS_TIM_IRQn);

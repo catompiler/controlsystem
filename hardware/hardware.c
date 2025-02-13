@@ -82,4 +82,14 @@ void hardware_init_dac(void)
     DAC_RESET_DISABLE();
 }
 
+void hardware_init_adc(void)
+{
+    // reset.
+    ADC_RESET_ENABLE();
+    ADC_RESET_DISABLE();
+
+    // enable clock.
+    ADC_CLOCK_ENABLE();
+}
+
 #endif
