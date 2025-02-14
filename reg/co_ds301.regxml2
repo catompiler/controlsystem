@@ -560,6 +560,55 @@
             </RegVar>
         </RegVars>
     </RegEntry>
+    <RegEntry index="4609">
+        <name>SDO server parameter</name>
+        <type>2</type>
+        <description></description>
+        <RegVars>
+            <RegVar subindex="0">
+                <name>Highest sub-index supported</name>
+                <type>5</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>2</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>139268</eflags>
+                <description>Number of sub-entries</description>
+            </RegVar>
+            <RegVar subindex="1">
+                <name>COB-ID client to server (rx)</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x701</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>925696</eflags>
+                <description></description>
+            </RegVar>
+            <RegVar subindex="2">
+                <name>COB-ID server to client (tx)</name>
+                <type>3</type>
+                <count>1</count>
+                <memory></memory>
+                <minimum>0</minimum>
+                <maximum>0</maximum>
+                <default>0x681</default>
+                <base_index>0</base_index>
+                <base_subindex>0</base_subindex>
+                <flags>0</flags>
+                <eflags>925696</eflags>
+                <description></description>
+            </RegVar>
+        </RegVars>
+    </RegEntry>
     <RegEntry index="4736">
         <name>SDO client parameter</name>
         <type>2</type>

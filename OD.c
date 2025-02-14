@@ -32,6 +32,7 @@ typedef struct {
     OD_obj_record_t o_1018_identity[5];
     OD_obj_var_t o_1019_synchronousCounterOverflowValue;
     OD_obj_record_t o_1200_SDOServerParameter[3];
+    OD_obj_record_t o_1201_SDOServerParameter[3];
     OD_obj_record_t o_1280_SDOClientParameter[4];
     OD_obj_record_t o_1400_RPDOCommunicationParameter[4];
     OD_obj_record_t o_1401_RPDOCommunicationParameter[4];
@@ -309,6 +310,26 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataOrig = &regs_data.SDOServerParameter.COB_IDServerToClient_tx_,
     .subIndex = 2,
     .attribute = ODA_SDO_R | ODA_TPDO | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_1201_SDOServerParameter = {
+    {
+    .dataOrig = &regs_data.SDOServerParameter_1201.highestSub_indexSupported,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &regs_data.SDOServerParameter_1201.COB_IDClientToServer_rx_,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_TPDO | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &regs_data.SDOServerParameter_1201.COB_IDServerToClient_tx_,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_TPDO | ODA_MB,
     .dataLength = 4
     }
 },
@@ -8603,6 +8624,7 @@ static OD_ATTR_OD OD_entry_t ODList[] = {
     {0x1018, 0x05, ODT_REC, &ODObjs.o_1018_identity, NULL},
     {0x1019, 0x01, ODT_VAR, &ODObjs.o_1019_synchronousCounterOverflowValue, NULL},
     {0x1200, 0x03, ODT_REC, &ODObjs.o_1200_SDOServerParameter, NULL},
+    {0x1201, 0x03, ODT_REC, &ODObjs.o_1201_SDOServerParameter, NULL},
     {0x1280, 0x04, ODT_REC, &ODObjs.o_1280_SDOClientParameter, NULL},
     {0x1400, 0x04, ODT_REC, &ODObjs.o_1400_RPDOCommunicationParameter, NULL},
     {0x1401, 0x04, ODT_REC, &ODObjs.o_1401_RPDOCommunicationParameter, NULL},

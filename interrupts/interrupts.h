@@ -8,6 +8,9 @@
 //! Инициализирует приоритеты и разрешает соответствующие прерывания.
 EXTERN void interrupts_init(void);
 
+//! Разрешает прерывания от АЦП.
+EXTERN void interrupts_enable_adc(void);
+
 //! Разрешает прерывания от ПДП.
 EXTERN void interrupts_enable_dma(void);
 
