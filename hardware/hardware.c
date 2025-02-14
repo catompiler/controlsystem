@@ -84,12 +84,21 @@ void hardware_init_dac(void)
 
 void hardware_init_adc(void)
 {
+    // ADC.
     // reset.
     ADC_RESET_ENABLE();
     ADC_RESET_DISABLE();
 
     // enable clock.
     ADC_CLOCK_ENABLE();
+
+    // DSD.
+    // reset.
+    DSD_RESET_ENABLE();
+    DSD_RESET_DISABLE();
+
+    // enable clock.
+    DSD_CLOCK_ENABLE();
 }
 
 #endif

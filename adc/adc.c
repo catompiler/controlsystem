@@ -61,6 +61,17 @@
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 
+// Предделитель частоты модуляции.
+// DIVM = Fclk / (2 * Fmod) - 1
+#define DSD_CH_CLK_DIV 4
+
+// ch0.
+#define DSD_CH_Ir DSD_CH0
+
+#endif
+
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+
 // channel control base value (except number of res reg).
 #define CHCTR_base (((0b10) << VADC_G_CHCTR_ICLSEL_Pos) |\
                     ((1) << VADC_G_CHCTR_RESPOS_Pos))
@@ -220,10 +231,16 @@ void ADC_IRQ_Handler(void)
     CALLBACK_CALL(adc.on_conversion);
 }
 
+ALWAYS_INLINE static int32_t dsd_result(DSD_CH_TypeDef* DSD_CH)
+{
+    return DSD_CH->RESM;
+}
+
 #endif
 
 static void adc_init_hw(M_adc* adc)
 {
+    // ADC.
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 
     // clock div.
@@ -266,6 +283,36 @@ static void adc_init_hw(M_adc* adc)
 
     // interrupts.
     ADC_IRQ_G->SEVNP = ((ADC_IRQ_SR) << VADC_G_SEVNP_SEV1NP_Pos);
+
+#endif
+
+    // DSD.
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    DSD->GLOBCFG = ((0b001) << DSD_GLOBCFG_MCSEL_Pos);
+
+    DSD_CH0->MODCFG = ((DSD_CH_CLK_DIV) << DSD_CH_MODCFG_DIVM_Pos) |
+                      (DSD_CH_MODCFG_DWC_Msk);
+
+    DSD_CH0->DICFG = ((DSD_CH_DIN_SEL) << DSD_CH_DICFG_DSRC_Pos) |
+                     DSD_CH_DICFG_DSWC_Msk |
+                     DSD_CH_DICFG_TRWC_Msk |
+                     ((DSD_CH_CLK_SEL) << DSD_CH_DICFG_CSRC_Pos) |
+                     ((DSD_CH_STB_SEL) << DSD_CH_DICFG_STROBE_Pos) |
+                     DSD_CH_DICFG_SCWC_Msk;
+
+    DSD_CH0->FCFGC = ((DSD_CH_DECIM_N) << DSD_CH_FCFGC_CFMDF_Pos) |
+                     ((DSD_CH_CIC_SEL) << DSD_CH_FCFGC_CFMC_Pos) |
+                     DSD_CH_FCFGC_CFEN_Msk |
+                     ((DSD_CH_DECIM_N) << DSD_CH_FCFGC_CFMSV_Pos);
+
+    DSD_CH0->OFFM = 0;
+
+    gpio_init(DSD_CH_DIN_PORT, DSD_CH_DIN_PIN_Msk, DSD_CH_DIN_PIN_CONF);
+    gpio_reset(DSD_CH_CLK_PORT, DSD_CH_CLK_PIN_Msk);
+    gpio_set_pad_driver(DSD_CH_CLK_PORT, DSD_CH_CLK_PIN_Msk, DSD_CH_CLK_PIN_PAD_DRIVER);
+    gpio_init(DSD_CH_CLK_PORT, DSD_CH_CLK_PIN_Msk, DSD_CH_CLK_PIN_CONF);
+
+    DSD->GLOBRC = DSD_GLOBRC_CH0RUN_Msk;
 
 #endif
 }
@@ -421,7 +468,12 @@ static void calc_Iout(M_adc* adc)
  */
 static void calc_Ir(M_adc* adc)
 {
+#if defined(PORT_XMC4500) || defined(PORT_XMC4700)
+    int32_t Ir_raw = dsd_result(DSD_CH_Ir);
+#endif
+#if defined(PORT_POSIX)
     int32_t Ir_raw = 0;
+#endif
 
     adc->out_Ir_raw = Ir_raw;
 

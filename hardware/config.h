@@ -509,6 +509,43 @@
 #define ADC_IRQ_Handler VADC0_G3_0_IRQHandler
 #define ADC_IRQn VADC0_G3_0_IRQn
 
+// DSD.
+#define DSD_RESET_ENABLE() do{\
+        SCU_RESET->PRSET0 = SCU_RESET_PRSET0_DSDRS_Msk;\
+        __DMB();\
+        while((SCU_RESET->PRSTAT0 & SCU_RESET_PRSTAT0_DSDRS_Msk) == 0){ __NOP(); }\
+    }while(0)
+#define DSD_RESET_DISABLE() do{\
+        SCU_RESET->PRCLR0 = SCU_RESET_PRCLR0_DSDRS_Msk;\
+        __DMB();\
+        while((SCU_RESET->PRSTAT0 & SCU_RESET_PRSTAT0_DSDRS_Msk) != 0){ __NOP(); }\
+    }while(0)
+#define DSD_CLOCK_ENABLE() do{\
+        DSD->CLC = 0;\
+        while((DSD->CLC & DSD_CLC_DISS_Msk) != 0) __NOP();\
+    }while(0)
+#define DSD_CLOCK_DISABLE() do{\
+        DSD->CLC = DSD_CLC_DISR_Msk;\
+        while((DSD->CLC & DSD_CLC_DISS_Msk) == 0) __NOP();\
+    }while(0)
+#define DSD_CH_DIN_SEL 0b100
+#define DSD_CH_CLK_SEL 0b1111
+#define DSD_CH_STB_SEL 0b0001
+#define DSD_CH_DECIM_N 64
+#define DSD_CH_CIC_SEL 0b10
+#define DSD_CH_DIN_PORT PORT2
+#define DSD_CH_DIN_PIN_Pos 7
+#define DSD_CH_DIN_PIN_Msk (1<<(DSD_CH_DIN_PIN_Pos))
+#define DSD_CH_DIN_PIN_CONF GPIO_CONF_INPUT
+#define DSD_CH_CLK_PORT PORT4
+#define DSD_CH_CLK_PIN_Pos 1
+#define DSD_CH_CLK_PIN_Msk (1<<(DSD_CH_CLK_PIN_Pos))
+#define DSD_CH_CLK_PIN_PAD_DRIVER GPIO_PAD_A2_DRIVER_STRONG_EDGE_SOFT
+#define DSD_CH_CLK_PIN_CONF GPIO_CONF_OUTPUT_PP_ALT3
+#define DSD_IRQ_SR 0
+#define DSD_IRQ_Handler DSD0_0_IRQHandler
+#define DSD_IRQn DSD0_0_IRQn
+
 
 #endif /* HARDWARE_CONFIG_H_ */
 
