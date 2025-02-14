@@ -1,6 +1,8 @@
 #ifndef MS_TIMER_H
 #define MS_TIMER_H
 
+#include "port.h"
+
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 #include "ms_timer_xmc4xxx.h"
 #endif

@@ -1,3 +1,5 @@
+#include "port.h"
+
 #include "adc.h"
 #include "iqmath/iqmath.h"
 #include "modules/modules.h"

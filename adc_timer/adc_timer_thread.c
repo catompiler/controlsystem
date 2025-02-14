@@ -1,3 +1,5 @@
+#include "port.h"
+
 #if defined(PORT_POSIX)
 
 #include "adc_timer_thread.h"

@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "port.h"
+
 
 /*
  * Тип драйвера CAN.

@@ -1,3 +1,5 @@
+#include "port.h"
+
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 
 #ifndef CAN_CAN_XMC4XXX_H_

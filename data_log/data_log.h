@@ -5,6 +5,8 @@
 #include "reg/reg.h"
 #include "conf/conf.h"
 
+#include "port.h"
+
 
 //! Перечисление возможных бит управления.
 enum _E_Data_Log_Control {

@@ -1,3 +1,5 @@
+#include "port.h"
+
 #if !defined(PORT_POSIX)
 
 #include "m95x.h"
