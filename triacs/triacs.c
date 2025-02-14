@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "utils/utils.h"
+#include "defs/defs.h"
 
 
 /*
@@ -91,6 +92,7 @@ static void triacs_ctrl_gpio_triacs_enable(M_triacs* tr)
 #endif // PORT
 }
 
+MAYBE_UNUSED
 static void triacs_ctrl_gpio_triacs_disable(M_triacs* tr)
 {
     (void) tr;
@@ -113,6 +115,7 @@ static void triacs_ctrl_gpio_triacs_select_fwd(M_triacs* tr)
 #endif // PORT
 }
 
+MAYBE_UNUSED
 static void triacs_ctrl_gpio_triacs_select_bwd(M_triacs* tr)
 {
     (void) tr;
@@ -180,6 +183,7 @@ static void triacs_mains_mod_tim_stop(M_triacs* tr)
 #endif // PORT
 }
 
+MAYBE_UNUSED
 static void triacs_mains_mod_tim_setup_pulse(M_triacs* tr, uint32_t start_ticks, uint32_t end_ticks)
 {
     (void) tr;
@@ -414,6 +418,7 @@ static void triacs_mains_out_bn_tim_out_disable(M_triacs* tr)
 }
 
 
+MAYBE_UNUSED
 static void triacs_mains_out_c_tim_eru_init(M_triacs* tr)
 {
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
@@ -555,6 +560,7 @@ static void triacs_mains_close(M_triacs* tr)
     triacs_mains_out_cn_tim_out_disable(tr);
 }
 
+MAYBE_UNUSED
 static iq24_t triacs_mains_calc_duration_angle(M_triacs* tr, iq24_t max_dur)
 {
     (void) tr;

@@ -18,6 +18,8 @@
 
 #define PACKED __attribute__((packed))
 
+#define MAYBE_UNUSED __attribute__((unused))
+
 #define ALIGNED(N) __attribute__((aligned(N)))
 #define ALIGNED1 ALIGNED(1)
 #define NOALIGNED ALIGNED1

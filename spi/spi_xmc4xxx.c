@@ -87,6 +87,7 @@ ALWAYS_INLINE static void spi_bus_wait_can_rx(spi_bus_t* spi)
 }
 
 
+MAYBE_UNUSED
 ALWAYS_INLINE static bool spi_bus_tx_it_enabled(spi_bus_t* spi)
 {
     return (spi->spi_device->CCR & USIC_CH_CCR_TBIEN_Msk) != 0;
@@ -102,6 +103,7 @@ ALWAYS_INLINE static void spi_bus_tx_it_disable(spi_bus_t* spi)
     spi->spi_device->CCR &= ~USIC_CH_CCR_TBIEN_Msk;
 }
 
+MAYBE_UNUSED
 ALWAYS_INLINE static void spi_bus_tx_it_set_enabled(spi_bus_t* spi, bool enabled)
 {
     if(enabled) spi_bus_tx_it_enable(spi);
@@ -109,6 +111,7 @@ ALWAYS_INLINE static void spi_bus_tx_it_set_enabled(spi_bus_t* spi, bool enabled
 }
 
 
+MAYBE_UNUSED
 ALWAYS_INLINE static bool spi_bus_rx_it_enabled(spi_bus_t* spi)
 {
     return (spi->spi_device->CCR & (USIC_CH_CCR_RIEN_Msk | USIC_CH_CCR_AIEN_Msk)) != 0;
@@ -124,6 +127,7 @@ ALWAYS_INLINE static void spi_bus_rx_it_disable(spi_bus_t* spi)
     spi->spi_device->CCR &= ~(USIC_CH_CCR_RIEN_Msk | USIC_CH_CCR_AIEN_Msk);
 }
 
+MAYBE_UNUSED
 ALWAYS_INLINE static void spi_bus_rx_it_set_enabled(spi_bus_t* spi, bool enabled)
 {
     if(enabled) spi_bus_rx_it_enable(spi);
@@ -131,6 +135,7 @@ ALWAYS_INLINE static void spi_bus_rx_it_set_enabled(spi_bus_t* spi, bool enabled
 }
 
 
+MAYBE_UNUSED
 ALWAYS_INLINE static bool spi_bus_er_it_enabled(spi_bus_t* spi)
 {
     return ((spi->spi_device->CCR & USIC_CH_CCR_DLIEN_Msk) != 0) || ((spi->spi_device->PCR_SSCMode & USIC_CH_PCR_SSCMode_DX2TIEN_Msk) != 0);
@@ -148,6 +153,7 @@ ALWAYS_INLINE static void spi_bus_er_it_disable(spi_bus_t* spi)
     spi->spi_device->PCR_SSCMode &= ~USIC_CH_PCR_SSCMode_DX2TIEN_Msk;
 }
 
+MAYBE_UNUSED
 ALWAYS_INLINE static void spi_bus_er_it_set_enabled(spi_bus_t* spi, bool enabled)
 {
     if(enabled) spi_bus_er_it_enable(spi);
@@ -181,6 +187,7 @@ ALWAYS_INLINE static void spi_bus_trigger_tx_req(spi_bus_t* spi)
     spi->spi_device->FMR = USIC_CH_FMR_SIO0_Msk << spi->dma_tx_sr_n;
 }
 
+MAYBE_UNUSED
 ALWAYS_INLINE static void spi_bus_trigger_rx_req(spi_bus_t* spi)
 {
     spi->spi_device->FMR = USIC_CH_FMR_SIO0_Msk << spi->dma_rx_sr_n;
