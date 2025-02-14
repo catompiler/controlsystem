@@ -24,22 +24,12 @@
 //static void sys_tim_handler(void* arg);
 
 
+#if defined(PORT_POSIX)
 static void adc_tim_handler(void* arg)
 {
-    // Измерение времени выполнения.
-    struct timeval tv_run_start, tv_run_end, tv_run_time;
-    sys_counter_value(&tv_run_start);
-
-    M_sys_main* sys = (M_sys_main*)arg;
-    assert(sys != NULL);
-
-    CALC(adc);
-
-    // Измерение времени выаполнения.
-    sys_counter_value(&tv_run_end);
-    timersub(&tv_run_end, &tv_run_start, &tv_run_time);
-    sys->r_adc_tim_run_time_us = tv_run_time.tv_sec * 1000000 + tv_run_time.tv_usec;
+    CALLBACK_CALL(adc.on_conversion);
 }
+#endif
 
 static void sys_tim_handler(void* arg)
 {
@@ -361,8 +351,13 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Таймеры.
     // Таймер АЦП.
     INIT(adc_tim);
+#if defined(PORT_POSIX)
     CALLBACK_PROC(adc_tim.on_timeout) = adc_tim_handler;
     CALLBACK_ARG(adc_tim.on_timeout) = (void*)sys;
+#else
+    CALLBACK_PROC(adc_tim.on_timeout) = NULL;
+    CALLBACK_ARG(adc_tim.on_timeout) = NULL;
+#endif
     if(adc_tim.status & ADC_TIMER_STATUS_ERROR){
         init_errors |= SYS_MAIN_ERROR_HARDWARE;
     }
@@ -801,7 +796,7 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     int i;
 
     //CALC(conf); // conf не требует вычисления.
-    //CALC(adc); // АЦП вычисляется в коллбэке таймера АЦП.
+    CALC(adc); // АЦП.
     CALC(adc_model); // АЦП модель.
 
 

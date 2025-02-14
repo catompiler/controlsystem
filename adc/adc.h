@@ -145,7 +145,7 @@ struct _S_Adc {
     METHOD_CALC(M_adc);
     METHOD_IDLE(M_adc);
     // Коллбэки.
-    CALLBACK(on_conversion);
+    CALLBACK(on_conversion); //!< Вызывается из прерывания, модуль НЕ вычислен.
     // Внутренние данные.
     // Напряжения сети.
     iq24_t m_Ua_gain; //!< Суммарное усиление напряжения фазы A.

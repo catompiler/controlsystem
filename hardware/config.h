@@ -504,8 +504,10 @@
         VADC->CLC = VADC_CLC_DISR_Msk;\
         while((VADC->CLC & VADC_CLC_DISS_Msk) == 0) __NOP();\
     }while(0)
-#define ADC_IRQ_Handler VADC0_C0_0_IRQHandler
-#define ADC_IRQn VADC0_C0_0_IRQn
+#define ADC_IRQ_G VADC_G3
+#define ADC_IRQ_SR 0
+#define ADC_IRQ_Handler VADC0_G3_0_IRQHandler
+#define ADC_IRQn VADC0_G3_0_IRQn
 
 
 #endif /* HARDWARE_CONFIG_H_ */

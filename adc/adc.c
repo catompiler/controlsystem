@@ -2,6 +2,7 @@
 #include "iqmath/iqmath.h"
 #include "modules/modules.h"
 #include "sys_counter/sys_counter.h"
+#include "hardware/config.h"
 #include "cpu.h"
 #include "bits/bits.h"
 #include "defs/defs.h"
@@ -47,7 +48,7 @@
 #define ADC_CH_Uext_N 6
 
 #define ADC_G0_PRIOR_CHANNELS_MASK (BIT(ADC_CH_UcellA_N) | BIT(ADC_CH_UcellB_N) | BIT(ADC_CH_UcellC_N) | BIT(ADC_CH_Vref_cell_N))
-#define ADC_G1_PRIOR_CHANNELS_MASK (BIT(ADC_CH_UphA_N)  | BIT(ADC_CH_UphB_N)  | BIT(ADC_CH_UphC_N)  | BIT(ADC_CH_Udc_N))
+#define ADC_G1_PRIOR_CHANNELS_MASK (BIT(ADC_CH_UphA_N)   | BIT(ADC_CH_UphB_N)   | BIT(ADC_CH_UphC_N)   | BIT(ADC_CH_Udc_N))
 #define ADC_G2_PRIOR_CHANNELS_MASK (BIT(ADC_CH_IphA_N)   | BIT(ADC_CH_IphB_N)   | BIT(ADC_CH_IphC_N)   | BIT(ADC_CH_Vref_main_N))
 #define ADC_G3_PRIOR_CHANNELS_MASK (BIT(ADC_CH_IcellA_N) | BIT(ADC_CH_IcellB_N) | BIT(ADC_CH_IcellC_N) | BIT(ADC_CH_Uext_N))
 
@@ -80,7 +81,7 @@ static void adc_group0_init(M_adc* adc)
     VADC_G0->ASMR = ((0b01) << VADC_G_ASMR_ENGT_Pos) |
                     ((1) << VADC_G_ASMR_ENTR_Pos) |
                     ((1) << VADC_G_ASMR_ENSI_Pos) |
-                    ((1) << VADC_G_ASMR_SCAN_Pos) |
+                    ((0) << VADC_G_ASMR_SCAN_Pos) |
                     ((0) << VADC_G_ASMR_LDM_Pos);
     VADC_G0->ARBPR = ((0b10) << VADC_G_ARBPR_PRIO1_Pos) |
                      ((1) << VADC_G_ARBPR_CSM1_Pos) |
@@ -115,7 +116,7 @@ static void adc_group1_init(M_adc* adc)
     VADC_G1->ASMR = ((0b01) << VADC_G_ASMR_ENGT_Pos) |
                     ((1) << VADC_G_ASMR_ENTR_Pos) |
                     ((1) << VADC_G_ASMR_ENSI_Pos) |
-                    ((1) << VADC_G_ASMR_SCAN_Pos) |
+                    ((0) << VADC_G_ASMR_SCAN_Pos) |
                     ((0) << VADC_G_ASMR_LDM_Pos);
     VADC_G1->ARBPR = ((0b10) << VADC_G_ARBPR_PRIO1_Pos) |
                      ((1) << VADC_G_ARBPR_CSM1_Pos) |
@@ -150,7 +151,7 @@ static void adc_group2_init(M_adc* adc)
     VADC_G2->ASMR = ((0b01) << VADC_G_ASMR_ENGT_Pos) |
                     ((1) << VADC_G_ASMR_ENTR_Pos) |
                     ((1) << VADC_G_ASMR_ENSI_Pos) |
-                    ((1) << VADC_G_ASMR_SCAN_Pos) |
+                    ((0) << VADC_G_ASMR_SCAN_Pos) |
                     ((0) << VADC_G_ASMR_LDM_Pos);
     VADC_G2->ARBPR = ((0b10) << VADC_G_ARBPR_PRIO1_Pos) |
                      ((1) << VADC_G_ARBPR_CSM1_Pos) |
@@ -185,7 +186,7 @@ static void adc_group3_init(M_adc* adc)
     VADC_G3->ASMR = ((0b01) << VADC_G_ASMR_ENGT_Pos) |
                     ((1) << VADC_G_ASMR_ENTR_Pos) |
                     ((1) << VADC_G_ASMR_ENSI_Pos) |
-                    ((1) << VADC_G_ASMR_SCAN_Pos) |
+                    ((0) << VADC_G_ASMR_SCAN_Pos) |
                     ((0) << VADC_G_ASMR_LDM_Pos);
     VADC_G3->ARBPR = ((0b10) << VADC_G_ARBPR_PRIO1_Pos) |
                      ((1) << VADC_G_ARBPR_CSM1_Pos) |
@@ -209,9 +210,19 @@ ALWAYS_INLINE static int32_t adc_result(VADC_G_TypeDef* VADC_G, size_t N)
     return (VADC_G->RES[N] & VADC_G_RES_RESULT_Msk) >> VADC_G_RES_RESULT_Pos;
 }
 
+void ADC_IRQ_Handler(void)
+{
+    ADC_IRQ_G->SEFCLR = VADC_G_SEFCLR_SEV1_Msk;
+
+//    CALC(adc);
+
+    // Вызвать коллбэк.
+    CALLBACK_CALL(adc.on_conversion);
+}
+
 #endif
 
-static void adc_init(M_adc* adc)
+static void adc_init_hw(M_adc* adc)
 {
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 
@@ -252,6 +263,9 @@ static void adc_init(M_adc* adc)
           ((VADC_G1->ARBCFG & VADC_G_ARBCFG_CAL_Msk) != 0) ||
           ((VADC_G2->ARBCFG & VADC_G_ARBCFG_CAL_Msk) != 0) ||
           ((VADC_G3->ARBCFG & VADC_G_ARBCFG_CAL_Msk) != 0)) __NOP();
+
+    // interrupts.
+    ADC_IRQ_G->SEVNP = ((ADC_IRQ_SR) << VADC_G_SEVNP_SEV1NP_Pos);
 
 #endif
 }
@@ -297,7 +311,7 @@ static status_t recalc_values(M_adc* adc)
 
 METHOD_INIT_IMPL(M_adc, adc)
 {
-    adc_init(adc);
+    adc_init_hw(adc);
 
     IDLE((*adc));
 }
@@ -493,7 +507,7 @@ METHOD_CALC_IMPL(M_adc, adc)
     adc->status = STATUS_VALID;
 
     // Вызвать коллбэк.
-    CALLBACK_CALL(adc->on_conversion);
+//    CALLBACK_CALL(adc->on_conversion);
 }
 
 METHOD_IDLE_IMPL(M_adc, adc)

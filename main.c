@@ -869,17 +869,13 @@ int main(void)
 
     init_sysmain();
 
+#if defined(PORT_POSIX)
+    // Main contactor is on.
+    sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
+#endif
+
     for(;;){
         IDLE(sys);
-
-//        if(adc_tim.out_counter >= 256){
-//            if(lrm.in_stator_on == 0){
-//                // Main contactor is on.
-//                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
-//                lrm.in_stator_on = 1;
-////                lrm.in_start_r_on = 1;
-//            }
-//        }
 
         if(sys_cmd.out_command == SYS_COMMAND_COMMAND_CELL_CB_NO){
             lrm.in_stator_on = 1;
@@ -891,11 +887,8 @@ int main(void)
 
 #if defined(PORT_POSIX)
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
-            if(lrm.in_stator_on == 1){
-                // Stop.
-                sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
-                lrm.in_stator_on = 0;
-            }
+            // Stop.
+            sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
         }
 #endif
 
