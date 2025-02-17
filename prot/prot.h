@@ -11,6 +11,11 @@ enum _E_Prot_Errors0 {
     PROT_ERR0_INTERNAL_SW = 0x01, //!< Ошибка ПО.
     PROT_ERR0_INTERNAL_HW = 0x02, //!< Ошибка аппаратной части.
 
+    PROT_ERR0_INTERNAL_PWR,
+
+    PROT_ERR0_INTERNAL_CAN_FAULT,
+    PROT_ERR0_INTERNAL_COMM_TIMEOUT,
+
     //PROT_ERR0_ = 0x00, //!< .
 };
 
@@ -18,18 +23,26 @@ enum _E_Prot_Errors0 {
 enum _E_Prot_Errors1 {
     PROT_ERR1_NONE = ERROR_NONE, //!< Нет ошибок.
 
-    PROT_ERR1_PWR_UA_OVF = 0x01, //!< Повышение напряжения фазы A.
-    PROT_ERR1_PWR_UA_UDF = 0x02, //!< Понижение напряжения фазы A.
-    PROT_ERR1_PWR_UB_OVF = 0x04, //!< Повышение напряжения фазы B.
-    PROT_ERR1_PWR_UB_UDF = 0x08, //!< Понижение напряжения фазы B.
-    PROT_ERR1_PWR_UC_OVF = 0x10, //!< Повышение напряжения фазы C.
-    PROT_ERR1_PWR_UC_UDF = 0x20, //!< Понижение напряжения фазы C.
-
-    PROT_ERR1_PWR_IA_OVF = 0x40, //!< Повышение тока фазы A.
-    PROT_ERR1_PWR_IB_OVF = 0x80, //!< Повышение тока фазы B.
-    PROT_ERR1_PWR_IC_OVF = 0x100, //!< Повышение тока фазы C.
+    PROT_ERR1_MAINS_LOST,
+    PROT_ERR1_MAINS_INVALID,
+    PROT_ERR1_MAINS_UNDERVOLTAGE,
+    PROT_ERR1_MAINS_OVERVOLTAGE,
+    PROT_ERR1_OVERCURRENT,
+    PROT_ERR1_OVERVOLTAGE,
 
     //PROT_ERR1_ = 0x00, //!< .
+};
+
+//! Перечисление возможных бит ошибок слова 2.
+enum _E_Prot_Errors2 {
+    PROT_ERR2_NONE = ERROR_NONE, //!< Нет ошибок.
+
+    PROT_ERR2_EXTERNAL_FAULT,
+    PROT_ERR2_OVERLOAD,
+    PROT_ERR2_CELL_FAULT,
+    PROT_ERR2_ASYNC_RUN,
+
+    //PROT_ERR2_ = 0x00, //!< .
 };
 
 
