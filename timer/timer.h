@@ -37,7 +37,7 @@ struct _S_Timer {
     strobe_t out_timeout; //!< Строб тайм-аута.
     // Параметры.
     // Регистры.
-    reg_u32_t r_interval; //!< Интервал таймера, мс.
+    reg_u32_t p_interval; //!< Интервал таймера, мс.
     // Методы.
     METHOD_INIT(M_timer);
     METHOD_DEINIT(M_timer);

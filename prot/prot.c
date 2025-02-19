@@ -1,4 +1,6 @@
 #include "prot.h"
+#include "modules/modules.h"
+#include "iqmath/iqmath.h"
 
 
 static status_t recalc_values(M_prot* prot)
@@ -11,15 +13,139 @@ static status_t recalc_values(M_prot* prot)
 
 METHOD_INIT_IMPL(M_prot, prot)
 {
+    INIT(prot->r_mains_lost_timer);
+    INIT(prot->r_mains_invalid_timer);
+    INIT(prot->r_mains_undervoltage_timer);
+    INIT(prot->r_mains_overvoltage_timer);
+    INIT(prot->r_overcurrent_timer);
+    INIT(prot->r_overvoltage_timer);
+    //INIT(prot->r_);
+
     IDLE((*prot));
 }
 
 METHOD_DEINIT_IMPL(M_prot, prot)
 {
+    DEINIT(prot->r_mains_lost_timer);
+    DEINIT(prot->r_mains_invalid_timer);
+    DEINIT(prot->r_mains_undervoltage_timer);
+    DEINIT(prot->r_mains_overvoltage_timer);
+    DEINIT(prot->r_overcurrent_timer);
+    DEINIT(prot->r_overvoltage_timer);
 }
+
+static error_t prot_calc_error(M_timer_on* tmr, flag_t trig_value, error_t error_mask, error_t errors)
+{
+    tmr->in_value = trig_value;
+    CALC((*tmr));
+
+    error_t error_state = (tmr->out_value != FLAG_NONE) ? error_mask : 0;
+
+    return (errors & ~error_mask) | error_state;
+}
+
+static void prot_calc_mains_lost(M_prot* prot)
+{
+    flag_t value = FLAG_NONE;
+
+    value |= rms_Ua.out_value < prot->p_mains_lost_U_low;
+    value |= rms_Ub.out_value < prot->p_mains_lost_U_low;
+    value |= rms_Uc.out_value < prot->p_mains_lost_U_low;
+
+    prot->raw_errors1 = prot_calc_error(&prot->r_mains_lost_timer, value, PROT_ERR1_MAINS_LOST, prot->raw_errors1);
+}
+
+static void prot_calc_mains_invalid(M_prot* prot)
+{
+    flag_t value = FLAG_NONE;
+
+    iq24_t Aa = iq24_abs(phase_ampl_Ua.out_phase - IQ24_2PI_PU / 3);
+    iq24_t Ab = iq24_abs(phase_ampl_Ub.out_phase - IQ24_2PI_PU / 3);
+    iq24_t Ac = iq24_abs(phase_ampl_Uc.out_phase - IQ24_2PI_PU / 3);
+
+    iq24_t dFa = iq24_abs(filter_freq_Ua.out_value - conf.r_f_base);
+    iq24_t dFb = iq24_abs(filter_freq_Ub.out_value - conf.r_f_base);
+    iq24_t dFc = iq24_abs(filter_freq_Uc.out_value - conf.r_f_base);
+
+    value |= Aa > prot->p_mains_invalid_A_delta;
+    value |= Ab > prot->p_mains_invalid_A_delta;
+    value |= Ac > prot->p_mains_invalid_A_delta;
+
+    value |= dFa > prot->p_mains_invalid_F_delta;
+    value |= dFb > prot->p_mains_invalid_F_delta;
+    value |= dFc > prot->p_mains_invalid_F_delta;
+
+    prot->raw_errors1 = prot_calc_error(&prot->r_mains_invalid_timer, value, PROT_ERR1_MAINS_INVALID, prot->raw_errors1);
+}
+
+static void prot_calc_mains_undervoltage(M_prot* prot)
+{
+    flag_t value = FLAG_NONE;
+
+    value |= rms_Ua.out_value < prot->p_mains_undervoltage_U_low;
+    value |= rms_Ub.out_value < prot->p_mains_undervoltage_U_low;
+    value |= rms_Uc.out_value < prot->p_mains_undervoltage_U_low;
+
+    prot->raw_errors1 = prot_calc_error(&prot->r_mains_undervoltage_timer, value, PROT_ERR1_MAINS_UNDERVOLTAGE, prot->raw_errors1);
+}
+
+static void prot_calc_mains_overvoltage(M_prot* prot)
+{
+    flag_t value = FLAG_NONE;
+
+    value |= rms_Ua.out_value > prot->p_mains_overvoltage_U_hi;
+    value |= rms_Ub.out_value > prot->p_mains_overvoltage_U_hi;
+    value |= rms_Uc.out_value > prot->p_mains_overvoltage_U_hi;
+
+    prot->raw_errors1 = prot_calc_error(&prot->r_mains_overvoltage_timer, value, PROT_ERR1_MAINS_OVERVOLTAGE, prot->raw_errors1);
+}
+
+static void prot_calc_mains_overcurrent(M_prot* prot)
+{
+    flag_t value = FLAG_NONE;
+
+    value |= rms_Ia.out_value > prot->p_mains_overcurrent_I_hi;
+    value |= rms_Ib.out_value > prot->p_mains_overcurrent_I_hi;
+    value |= rms_Ic.out_value > prot->p_mains_overcurrent_I_hi;
+
+    prot->raw_errors1 = prot_calc_error(&prot->r_mains_overcurrent_timer, value, PROT_ERR1_MAINS_OVERCURRENT, prot->raw_errors1);
+}
+
+static void prot_calc_overvoltage(M_prot* prot)
+{
+    flag_t value = FLAG_NONE;
+
+    value |= mean_Uarm.out_value > prot->p_overvoltage_U_hi;
+
+    prot->raw_errors1 = prot_calc_error(&prot->r_overvoltage_timer, value, PROT_ERR1_OVERVOLTAGE, prot->raw_errors1);
+}
+
+static void prot_calc_overcurrent(M_prot* prot)
+{
+    flag_t value = FLAG_NONE;
+
+    value |= mean_Iarm.out_value > prot->p_overcurrent_I_hi;
+
+    prot->raw_errors1 = prot_calc_error(&prot->r_overcurrent_timer, value, PROT_ERR1_OVERCURRENT, prot->raw_errors1);
+}
+
+//static void prot_calc_(M_prot* prot)
+//{
+//}
 
 METHOD_CALC_IMPL(M_prot, prot)
 {
+    prot_calc_mains_lost(prot);
+    prot_calc_mains_invalid(prot);
+    prot_calc_mains_undervoltage(prot);
+    prot_calc_mains_overvoltage(prot);
+    prot_calc_mains_overcurrent(prot);
+    prot_calc_overvoltage(prot);
+    prot_calc_overcurrent(prot);
+
+    prot->errors0 |= prot->raw_errors0 & prot->mask_errors0;
+    prot->errors1 |= prot->raw_errors1 & prot->mask_errors1;
+    prot->errors2 |= prot->raw_errors2 & prot->mask_errors2;
 }
 
 METHOD_IDLE_IMPL(M_prot, prot)

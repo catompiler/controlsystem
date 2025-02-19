@@ -2129,7 +2129,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &tmr_sys_fsm.r_interval,
+    .dataOrig = &tmr_sys_fsm.p_interval,
     .subIndex = 5,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -5111,7 +5111,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &tmr_run_trig.r_tmr.r_interval,
+    .dataOrig = &tmr_run_trig.r_tmr.p_interval,
     .subIndex = 9,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -5563,7 +5563,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &tmr_field_on.r_tmr.r_interval,
+    .dataOrig = &tmr_field_on.r_tmr.p_interval,
     .subIndex = 9,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -5739,7 +5739,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &tmr_field_on_rstart_off.r_tmr.r_interval,
+    .dataOrig = &tmr_field_on_rstart_off.r_tmr.p_interval,
     .subIndex = 9,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -5947,7 +5947,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &tmr_field_on_I_r_sync.r_tmr.r_interval,
+    .dataOrig = &tmr_field_on_I_r_sync.r_tmr.p_interval,
     .subIndex = 9,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -6023,7 +6023,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &tmr_field_supp.r_interval,
+    .dataOrig = &tmr_field_supp.p_interval,
     .subIndex = 5,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -6571,7 +6571,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &tmr_start_min_forcing.r_interval,
+    .dataOrig = &tmr_start_min_forcing.p_interval,
     .subIndex = 5,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -6609,7 +6609,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &tmr_start_max_forcing.r_interval,
+    .dataOrig = &tmr_start_max_forcing.p_interval,
     .subIndex = 5,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
@@ -6671,7 +6671,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &tmr_start_stab_forcing.r_tmr.r_interval,
+    .dataOrig = &tmr_start_stab_forcing.r_tmr.p_interval,
     .subIndex = 9,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4

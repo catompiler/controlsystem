@@ -43,7 +43,7 @@ METHOD_CALC_IMPL(M_timer, tim)
         // Пройденное время с начала счёта.
         uint32_t elapsed_time = counter_calc_diff(sys_time.r_counter_ms, tim->m_ref_counter);
         // Если времени прошло больше чем интервал таймера.
-        if(elapsed_time >= tim->r_interval){
+        if(elapsed_time >= tim->p_interval){
             tim->status = STATUS_NONE;
 
             tim->out_expired = FLAG_ACTIVE;
