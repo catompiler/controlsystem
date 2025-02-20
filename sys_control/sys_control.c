@@ -169,9 +169,6 @@ static void FSM_state_ready(M_sys_control* sys_ctrl)
 static void FSM_state_test(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
-        ph3c.control |= CONTROL_ENABLE;
-        //ph3c.in_control_value = IQ24(0.37667); //0.376658 //0.252
-        ph3c.in_control_value = IQ24(0.5); //0.376658 //0.252
     }
 
     // Если отменена команда "Опробование".
@@ -293,50 +290,74 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
     // Включение / выключение модулей в зависимости от состояния.
     switch(cur_state){
     case SYS_CONTROL_STATE_NONE:
+        ph3c.control = CONTROL_NONE;
+        triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_INIT:
+        ph3c.control = CONTROL_NONE;
+        triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_CHECK:
+        ph3c.control = CONTROL_NONE;
+        triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_IDLE:
+        ph3c.control = CONTROL_NONE;
+        triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_READY:
+        ph3c.control = CONTROL_NONE;
+        triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_TEST:
+        ph3c.control = CONTROL_ENABLE;
+        triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_TEST;
         pid_i.control = CONTROL_ENABLE;
         break;
     case SYS_CONTROL_STATE_START:
+        ph3c.control = CONTROL_NONE;
+        triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
         break;
     case SYS_CONTROL_STATE_START_FIELD_FORCE:
+        ph3c.control = CONTROL_ENABLE;
+        triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_FORCE;
         pid_i.control = CONTROL_ENABLE;
         break;
     case SYS_CONTROL_STATE_RUN:
+        ph3c.control = CONTROL_ENABLE;
+        triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_RUN;
         pid_i.control = CONTROL_ENABLE;
         break;
     case SYS_CONTROL_STATE_FIELD_FORCE:
+        ph3c.control = CONTROL_ENABLE;
+        triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_FORCE;
         pid_i.control = CONTROL_ENABLE;
         break;
     case SYS_CONTROL_STATE_FIELD_SUPP:
+        ph3c.control = CONTROL_ENABLE;
+        triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_SUPP;
         pid_i.control = CONTROL_ENABLE;
         break;
     case SYS_CONTROL_STATE_ERROR:
+        ph3c.control = CONTROL_NONE;
+        triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
         break;

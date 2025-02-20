@@ -748,23 +748,6 @@ static void FSM_state_run(M_sys_main* sys)
 {
     FSM_STATE_ENTRY(&sys->fsm_state){
     }
-
-    fsm_state_t ctrl_state = fsm_state(&sys_ctrl.fsm_state);
-
-    bool ctrl_need_triacs =
-            (ctrl_state == SYS_CONTROL_STATE_TEST) ||
-            (ctrl_state == SYS_CONTROL_STATE_RUN) ||
-            (ctrl_state == SYS_CONTROL_STATE_START_FIELD_FORCE) ||
-            (ctrl_state == SYS_CONTROL_STATE_FIELD_FORCE) ||
-            (ctrl_state == SYS_CONTROL_STATE_FIELD_SUPP);
-
-    if(ctrl_need_triacs){
-        ph3c.control = CONTROL_ENABLE;
-        triacs.control = CONTROL_ENABLE;
-    }else{
-        ph3c.control = CONTROL_NONE;
-        triacs.control = CONTROL_NONE;
-    }
 }
 
 static void FSM_state(M_sys_main* sys)
@@ -851,10 +834,6 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     CALC(tmr_sys_fsm);
 
 
-    // Защиты.
-    CALC(prot);
-
-
     // Основные модули.
     // Командный модуль.
     CALC(sys_cmd);
@@ -865,6 +844,24 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     cell_cb.in_no_state = (sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_CB_NO) ? FLAG_ACTIVE : FLAG_NONE;
     cell_cb.in_nc_state = (sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_CB_NC) ? FLAG_ACTIVE : FLAG_NONE;
     CALC(cell_cb);
+
+    // Команда сброса ошибок.
+    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_RESET_ERR){
+        prot.control |= CONTROL_RESET;
+    }
+
+    // Защиты.
+    CALC(prot);
+
+    if(prot.out_has_errors){
+        sys_stat.in_command |= SYS_STATUS_COMMAND_ERROR;
+    }else{
+        sys_stat.in_command &= ~SYS_STATUS_COMMAND_ERROR;
+    }
+
+    if(prot.out_error_occured){
+        //sys_ctrl.control
+    }
 
     // if(prot.errors == 0){
 

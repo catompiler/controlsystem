@@ -150,8 +150,21 @@ static void prot_calc_overcurrent(M_prot* prot)
 //{
 //}
 
+METHOD_CONTROL_IMPL(M_prot, prot)
+{
+    if(prot->control & CONTROL_RESET){
+        prot->errors0 = ERROR_NONE;
+        prot->errors1 = ERROR_NONE;
+        prot->errors2 = ERROR_NONE;
+
+        prot->control &= ~CONTROL_RESET;
+    }
+}
+
 METHOD_CALC_IMPL(M_prot, prot)
 {
+    CONTROL((*prot));
+
     prot_calc_mains_lost(prot);
     prot_calc_mains_invalid(prot);
     prot_calc_mains_undervoltage(prot);
@@ -160,9 +173,24 @@ METHOD_CALC_IMPL(M_prot, prot)
     prot_calc_overvoltage(prot);
     prot_calc_overcurrent(prot);
 
-    prot->errors0 |= prot->raw_errors0 & prot->mask_errors0;
-    prot->errors1 |= prot->raw_errors1 & prot->mask_errors1;
-    prot->errors2 |= prot->raw_errors2 & prot->mask_errors2;
+    error_t errors0 = prot->errors0 | (prot->raw_errors0 & prot->mask_errors0);
+    error_t errors1 = prot->errors1 | (prot->raw_errors1 & prot->mask_errors1);
+    error_t errors2 = prot->errors2 | (prot->raw_errors2 & prot->mask_errors2);
+
+    error_t any_errors = errors0 | errors1 | errors2;
+
+    error_t new_errors0 = errors0 ^ prot->errors0;
+    error_t new_errors1 = errors1 ^ prot->errors1;
+    error_t new_errors2 = errors2 ^ prot->errors2;
+
+    error_t any_new_errors = new_errors0 | new_errors1 | new_errors2;
+
+    prot->out_has_errors = (any_errors == 0) ? FLAG_NONE : FLAG_ACTIVE;
+    prot->out_error_occured = (any_new_errors == 0) ? FLAG_NONE : FLAG_ACTIVE;
+
+    prot->errors0 = errors0;
+    prot->errors1 = errors1;
+    prot->errors2 = errors2;
 }
 
 METHOD_IDLE_IMPL(M_prot, prot)

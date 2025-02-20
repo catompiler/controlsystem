@@ -61,6 +61,7 @@ enum _E_Prot_Warnings0 {
 //! Перечисление возможных бит управления.
 enum _E_Prot_Control {
     PROT_CONTROL_NONE = CONTROL_NONE,
+    PROT_CONTROL_RESET = CONTROL_RESET,
 };
 
 //! Перечисление возможных бит статуса.
@@ -83,6 +84,8 @@ struct _S_Prot {
     warning_t warnings1; //!< Слово предупреждений 1.
     // Входные данные.
     // Выходные данные.
+    flag_t out_has_errors; //!< Флаг наличия ошибок.
+    strobe_t out_error_occured; //!< Флаг возникновения новой ошибки.
     // Параметры.
     // Потеря фаз(ы).
     reg_iq24_t p_mains_lost_U_low;
@@ -125,6 +128,7 @@ struct _S_Prot {
     // Методы.
     METHOD_INIT(M_prot);
     METHOD_DEINIT(M_prot);
+    METHOD_CONTROL(M_prot);
     METHOD_CALC(M_prot);
     METHOD_IDLE(M_prot);
     // Коллбэки.
@@ -133,6 +137,7 @@ struct _S_Prot {
 
 EXTERN METHOD_INIT_PROTO(M_prot);
 EXTERN METHOD_DEINIT_PROTO(M_prot);
+EXTERN METHOD_CONTROL_PROTO(M_prot);
 EXTERN METHOD_CALC_PROTO(M_prot);
 EXTERN METHOD_IDLE_PROTO(M_prot);
 
@@ -143,6 +148,8 @@ EXTERN METHOD_IDLE_PROTO(M_prot);
         0, 0, /* warnings0, warnings1 */\
         /* Входные данные */\
         /* Выходные данные */\
+        0, /* out_has_errors */\
+        0, /* out_error_occured */\
         /* Параметры */\
         IQ24(0.3), /* p_mains_lost_U_low */\
         IQ24(0.05), /* p_mains_invalid_A_delta */\
@@ -164,7 +171,8 @@ EXTERN METHOD_IDLE_PROTO(M_prot);
         TIMER_ON_DEFCFG(100), /* r_overvoltage_timer */\
         /* Методы */\
         METHOD_INIT_PTR(M_prot), METHOD_DEINIT_PTR(M_prot),\
-        METHOD_CALC_PTR(M_prot), METHOD_IDLE_PTR(M_prot),\
+        METHOD_CONTROL_PTR(M_prot), METHOD_CALC_PTR(M_prot),\
+        METHOD_IDLE_PTR(M_prot),\
         /* Коллбэки */\
         /* Внутренние данные */\
     }
