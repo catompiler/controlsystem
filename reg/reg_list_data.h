@@ -361,7 +361,7 @@ REG(REG_ID_TMR_SYS_FSM_CONTROL, &tmr_sys_fsm.control, REG_TYPE_U32, REG_FLAG_NON
 REG(REG_ID_TMR_SYS_FSM_STATUS, &tmr_sys_fsm.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_SYS_FSM_OUT_EXPIRED, &tmr_sys_fsm.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_SYS_FSM_OUT_TIMEOUT, &tmr_sys_fsm.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
-REG(REG_ID_TMR_SYS_FSM_INTERVAL, &tmr_sys_fsm.p_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_TMR_SYS_FSM_INTERVAL, &tmr_sys_fsm.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_DLOG_COUNT, &regs_data.dlog.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_DLOG_CONTROL, &dlog.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_DLOG_STATUS, &dlog.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -839,7 +839,7 @@ REG(REG_ID_TMR_RUN_TRIG_TMR_CONTROL, &tmr_run_trig.r_tmr.control, REG_TYPE_U32, 
 REG(REG_ID_TMR_RUN_TRIG_TMR_STATUS, &tmr_run_trig.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_RUN_TRIG_TMR_OUT_EXPIRED, &tmr_run_trig.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_RUN_TRIG_TMR_OUT_TIMEOUT, &tmr_run_trig.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
-REG(REG_ID_TMR_RUN_TRIG_TMR_R_INTERVAL, &tmr_run_trig.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_TMR_RUN_TRIG_TMR_P_INTERVAL, &tmr_run_trig.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_THR_PRIM_SLIP_COUNT, &regs_data.thr_prim_slip.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_PRIM_SLIP_CONTROL, &thr_prim_Slip.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_PRIM_SLIP_STATUS, &thr_prim_Slip.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -911,7 +911,7 @@ REG(REG_ID_TMR_FIELD_ON_TMR_CONTROL, &tmr_field_on.r_tmr.control, REG_TYPE_U32, 
 REG(REG_ID_TMR_FIELD_ON_TMR_STATUS, &tmr_field_on.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_FIELD_ON_TMR_OUT_EXPIRED, &tmr_field_on.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_FIELD_ON_TMR_OUT_TIMEOUT, &tmr_field_on.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
-REG(REG_ID_TMR_FIELD_ON_TMR_R_INTERVAL, &tmr_field_on.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_TMR_FIELD_ON_TMR_P_INTERVAL, &tmr_field_on.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_COUNT, &regs_data.thr_value_for_slip_lt_zero.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_CONTROL, &thr_value_for_slip_lt_zero.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_STATUS, &thr_value_for_slip_lt_zero.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -939,7 +939,7 @@ REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_CONTROL, &tmr_field_on_rstart_off.r_tmr.c
 REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_STATUS, &tmr_field_on_rstart_off.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_OUT_EXPIRED, &tmr_field_on_rstart_off.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_OUT_TIMEOUT, &tmr_field_on_rstart_off.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
-REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_R_INTERVAL, &tmr_field_on_rstart_off.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_P_INTERVAL, &tmr_field_on_rstart_off.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_NOT_READY_TO_EXC_COUNT, &regs_data.not_ready_to_exc.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_NOT_READY_TO_EXC_CONTROL, &not_ready_to_exc.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_NOT_READY_TO_EXC_STATUS, &not_ready_to_exc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -972,7 +972,7 @@ REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_CONTROL, &tmr_field_on_I_r_sync.r_tmr.contr
 REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_STATUS, &tmr_field_on_I_r_sync.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_EXPIRED, &tmr_field_on_I_r_sync.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_TIMEOUT, &tmr_field_on_I_r_sync.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_R_INTERVAL, &tmr_field_on_I_r_sync.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_P_INTERVAL, &tmr_field_on_I_r_sync.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_THR_FIELD_SUPP_I_R_COUNT, &regs_data.thr_field_supp_i_r.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_FIELD_SUPP_I_R_CONTROL, &thr_field_supp_I_r.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_FIELD_SUPP_I_R_STATUS, &thr_field_supp_I_r.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -984,7 +984,7 @@ REG(REG_ID_TMR_FIELD_SUPP_CONTROL, &tmr_field_supp.control, REG_TYPE_U32, REG_FL
 REG(REG_ID_TMR_FIELD_SUPP_STATUS, &tmr_field_supp.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_FIELD_SUPP_OUT_EXPIRED, &tmr_field_supp.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_FIELD_SUPP_OUT_TIMEOUT, &tmr_field_supp.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
-REG(REG_ID_TMR_FIELD_SUPP_INTERVAL, &tmr_field_supp.p_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_TMR_FIELD_SUPP_INTERVAL, &tmr_field_supp.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_CNT_START_COUNT, &regs_data.cnt_start.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_CNT_START_CONTROL, &cnt_start.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_CNT_START_STATUS, &cnt_start.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -1071,13 +1071,13 @@ REG(REG_ID_TMR_START_MIN_FORCING_CONTROL, &tmr_start_min_forcing.control, REG_TY
 REG(REG_ID_TMR_START_MIN_FORCING_STATUS, &tmr_start_min_forcing.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_START_MIN_FORCING_OUT_EXPIRED, &tmr_start_min_forcing.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_START_MIN_FORCING_OUT_TIMEOUT, &tmr_start_min_forcing.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
-REG(REG_ID_TMR_START_MIN_FORCING_INTERVAL, &tmr_start_min_forcing.p_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_TMR_START_MIN_FORCING_INTERVAL, &tmr_start_min_forcing.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_TMR_START_MAX_FORCING_COUNT, &regs_data.tmr_start_max_forcing.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_START_MAX_FORCING_CONTROL, &tmr_start_max_forcing.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_START_MAX_FORCING_STATUS, &tmr_start_max_forcing.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_START_MAX_FORCING_OUT_EXPIRED, &tmr_start_max_forcing.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_START_MAX_FORCING_OUT_TIMEOUT, &tmr_start_max_forcing.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
-REG(REG_ID_TMR_START_MAX_FORCING_INTERVAL, &tmr_start_max_forcing.p_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_TMR_START_MAX_FORCING_INTERVAL, &tmr_start_max_forcing.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_TMR_START_STAB_FORCING_COUNT, &regs_data.tmr_start_stab_forcing.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_START_STAB_FORCING_CONTROL, &tmr_start_stab_forcing.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_START_STAB_FORCING_STATUS, &tmr_start_stab_forcing.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -1087,7 +1087,7 @@ REG(REG_ID_TMR_START_STAB_FORCING_TMR_CONTROL, &tmr_start_stab_forcing.r_tmr.con
 REG(REG_ID_TMR_START_STAB_FORCING_TMR_STATUS, &tmr_start_stab_forcing.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_TMR_START_STAB_FORCING_TMR_OUT_EXPIRED, &tmr_start_stab_forcing.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_START_STAB_FORCING_TMR_OUT_TIMEOUT, &tmr_start_stab_forcing.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
-REG(REG_ID_TMR_START_STAB_FORCING_TMR_R_INTERVAL, &tmr_start_stab_forcing.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_TMR_START_STAB_FORCING_TMR_P_INTERVAL, &tmr_start_stab_forcing.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_THR_START_Q_LE_ZERO_COUNT, &regs_data.thr_start_q_le_zero.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_START_Q_LE_ZERO_CONTROL, &thr_start_Q_le_zero.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_START_Q_LE_ZERO_STATUS, &thr_start_Q_le_zero.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -1391,8 +1391,86 @@ REG(REG_ID_PROT_CONTROL, &prot.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /
 REG(REG_ID_PROT_STATUS, &prot.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_PROT_ERRORS0, &prot.errors0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово ошибок 0. */
 REG(REG_ID_PROT_ERRORS1, &prot.errors1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово ошибок 1. */
+REG(REG_ID_PROT_ERRORS2, &prot.errors2, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово ошибок 1. */
 REG(REG_ID_PROT_WARNINGS0, &prot.warnings0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений 0. */
 REG(REG_ID_PROT_WARNINGS1, &prot.warnings1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений 1. */
+REG(REG_ID_PROT_MAINS_LOST_U_LOW, &prot.p_mains_lost_U_low, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_MAINS_INVALID_A_DELTA, &prot.p_mains_invalid_A_delta, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_MAINS_INVALID_F_DELTA, &prot.p_mains_invalid_F_delta, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_U_LOW, &prot.p_mains_undervoltage_U_low, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_U_HI, &prot.p_mains_overvoltage_U_hi, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_I_HI, &prot.p_mains_overcurrent_I_hi, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_OVERCURRENT_I_HI, &prot.p_overcurrent_I_hi, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_OVERVOLTAGE_U_HI, &prot.p_overvoltage_U_hi, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_RAW_ERRORS0, &prot.raw_errors0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_PROT_RAW_ERRORS1, &prot.raw_errors1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_PROT_RAW_ERRORS2, &prot.raw_errors2, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_PROT_MASK_ERRORS0, &prot.mask_errors0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_PROT_MASK_ERRORS1, &prot.mask_errors1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_PROT_MASK_ERRORS2, &prot.mask_errors2, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_PROT_MAINS_LOST_TIMER_CONTROL, &prot.r_mains_lost_timer.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_MAINS_LOST_TIMER_STATUS, &prot.r_mains_lost_timer.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_MAINS_LOST_TIMER_IN_VALUE, &prot.r_mains_lost_timer.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
+REG(REG_ID_PROT_MAINS_LOST_TIMER_OUT_VALUE, &prot.r_mains_lost_timer.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное значение сигнала. */
+REG(REG_ID_PROT_MAINS_LOST_TIMER_R_TMR_CONTROL, &prot.r_mains_lost_timer.r_tmr.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_MAINS_LOST_TIMER_R_TMR_STATUS, &prot.r_mains_lost_timer.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_MAINS_LOST_TIMER_R_TMR_OUT_EXPIRED, &prot.r_mains_lost_timer.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
+REG(REG_ID_PROT_MAINS_LOST_TIMER_R_TMR_OUT_TIMEOUT, &prot.r_mains_lost_timer.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
+REG(REG_ID_PROT_MAINS_LOST_TIMER_R_TMR_P_INTERVAL, &prot.r_mains_lost_timer.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_PROT_MAINS_INVALID_TIMER_CONTROL, &prot.r_mains_invalid_timer.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_MAINS_INVALID_TIMER_STATUS, &prot.r_mains_invalid_timer.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_MAINS_INVALID_TIMER_IN_VALUE, &prot.r_mains_invalid_timer.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
+REG(REG_ID_PROT_MAINS_INVALID_TIMER_OUT_VALUE, &prot.r_mains_invalid_timer.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное значение сигнала. */
+REG(REG_ID_PROT_MAINS_INVALID_TIMER_R_TMR_CONTROL, &prot.r_mains_invalid_timer.r_tmr.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_MAINS_INVALID_TIMER_R_TMR_STATUS, &prot.r_mains_invalid_timer.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_MAINS_INVALID_TIMER_R_TMR_OUT_EXPIRED, &prot.r_mains_invalid_timer.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
+REG(REG_ID_PROT_MAINS_INVALID_TIMER_R_TMR_OUT_TIMEOUT, &prot.r_mains_invalid_timer.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
+REG(REG_ID_PROT_MAINS_INVALID_TIMER_R_TMR_P_INTERVAL, &prot.r_mains_invalid_timer.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_CONTROL, &prot.r_mains_undervoltage_timer.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_STATUS, &prot.r_mains_undervoltage_timer.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_IN_VALUE, &prot.r_mains_undervoltage_timer.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_OUT_VALUE, &prot.r_mains_undervoltage_timer.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное значение сигнала. */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_R_TMR_CONTROL, &prot.r_mains_undervoltage_timer.r_tmr.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_R_TMR_STATUS, &prot.r_mains_undervoltage_timer.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_R_TMR_OUT_EXPIRED, &prot.r_mains_undervoltage_timer.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_R_TMR_OUT_TIMEOUT, &prot.r_mains_undervoltage_timer.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_R_TMR_P_INTERVAL, &prot.r_mains_undervoltage_timer.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_CONTROL, &prot.r_mains_overvoltage_timer.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_STATUS, &prot.r_mains_overvoltage_timer.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_IN_VALUE, &prot.r_mains_overvoltage_timer.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_OUT_VALUE, &prot.r_mains_overvoltage_timer.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное значение сигнала. */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_R_TMR_CONTROL, &prot.r_mains_overvoltage_timer.r_tmr.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_R_TMR_STATUS, &prot.r_mains_overvoltage_timer.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_R_TMR_OUT_EXPIRED, &prot.r_mains_overvoltage_timer.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_R_TMR_OUT_TIMEOUT, &prot.r_mains_overvoltage_timer.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_R_TMR_P_INTERVAL, &prot.r_mains_overvoltage_timer.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_TIMER_CONTROL, &prot.r_mains_overcurrent_timer.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_TIMER_STATUS, &prot.r_mains_overcurrent_timer.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_TIMER_IN_VALUE, &prot.r_mains_overcurrent_timer.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_TIMER_OUT_VALUE, &prot.r_mains_overcurrent_timer.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное значение сигнала. */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_TIMER_R_TMR_CONTROL, &prot.r_mains_overcurrent_timer.r_tmr.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_TIMER_R_TMR_STATUS, &prot.r_mains_overcurrent_timer.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_TIMER_R_TMR_OUT_EXPIRED, &prot.r_mains_overcurrent_timer.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_TIMER_R_TMR_OUT_TIMEOUT, &prot.r_mains_overcurrent_timer.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_TIMER_R_TMR_P_INTERVAL, &prot.r_mains_overcurrent_timer.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_PROT_OVERCURRENT_TIMER_CONTROL, &prot.r_overcurrent_timer.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_OVERCURRENT_TIMER_STATUS, &prot.r_overcurrent_timer.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_OVERCURRENT_TIMER_IN_VALUE, &prot.r_overcurrent_timer.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
+REG(REG_ID_PROT_OVERCURRENT_TIMER_OUT_VALUE, &prot.r_overcurrent_timer.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное значение сигнала. */
+REG(REG_ID_PROT_OVERCURRENT_TIMER_R_TMR_CONTROL, &prot.r_overcurrent_timer.r_tmr.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_OVERCURRENT_TIMER_R_TMR_STATUS, &prot.r_overcurrent_timer.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_OVERCURRENT_TIMER_R_TMR_OUT_EXPIRED, &prot.r_overcurrent_timer.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
+REG(REG_ID_PROT_OVERCURRENT_TIMER_R_TMR_OUT_TIMEOUT, &prot.r_overcurrent_timer.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
+REG(REG_ID_PROT_OVERCURRENT_TIMER_R_TMR_P_INTERVAL, &prot.r_overcurrent_timer.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_PROT_OVERVOLTAGE_TIMER_CONTROL, &prot.r_overvoltage_timer.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_OVERVOLTAGE_TIMER_STATUS, &prot.r_overvoltage_timer.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_OVERVOLTAGE_TIMER_IN_VALUE, &prot.r_overvoltage_timer.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
+REG(REG_ID_PROT_OVERVOLTAGE_TIMER_OUT_VALUE, &prot.r_overvoltage_timer.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное значение сигнала. */
+REG(REG_ID_PROT_OVERVOLTAGE_TIMER_R_TMR_CONTROL, &prot.r_overvoltage_timer.r_tmr.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_PROT_OVERVOLTAGE_TIMER_R_TMR_STATUS, &prot.r_overvoltage_timer.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_PROT_OVERVOLTAGE_TIMER_R_TMR_OUT_EXPIRED, &prot.r_overvoltage_timer.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
+REG(REG_ID_PROT_OVERVOLTAGE_TIMER_R_TMR_OUT_TIMEOUT, &prot.r_overvoltage_timer.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
+REG(REG_ID_PROT_OVERVOLTAGE_TIMER_R_TMR_P_INTERVAL, &prot.r_overvoltage_timer.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_CANOPEN_COUNT, &regs_data.canopen.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_CANOPEN_CONTROL, &canopen.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_CANOPEN_STATUS, &canopen.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */

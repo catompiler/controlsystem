@@ -115,9 +115,15 @@ static void calc_s_Uabc(M_adc_model* adc)
     adc->m_s_clarke_inv.in_B = Ubeta;
     CALC(adc->m_s_clarke_inv);
 
+#if defined(ADC_MODEL_MAINS_U_ABC) && ADC_MODEL_MAINS_U_ABC == 0
     iq24_t Ua_inst_k = adc->m_s_clarke_inv.out_A;
     iq24_t Ub_inst_k = adc->m_s_clarke_inv.out_B;
     iq24_t Uc_inst_k = adc->m_s_clarke_inv.out_C;
+#else
+    iq24_t Ua_inst_k = adc->m_s_clarke_inv.out_A;
+    iq24_t Ub_inst_k = adc->m_s_clarke_inv.out_C;
+    iq24_t Uc_inst_k = adc->m_s_clarke_inv.out_B;
+#endif
 
 //    iq24_t Ua_inst_k = iq24_mul(adc->in_s_U_scale, iq24_sin_pu(angle)); // 0
 //    iq24_t Ub_inst_k = iq24_mul(adc->in_s_U_scale, iq24_sin_pu(angle + 2 * IQ24_2PI_PU/3)); // 120

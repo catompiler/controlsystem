@@ -834,7 +834,7 @@
 #define REG_ID_TMR_RUN_TRIG_TMR_STATUS 0x246006 /* Слово состояния. */
 #define REG_ID_TMR_RUN_TRIG_TMR_OUT_EXPIRED 0x246007 /* Флаг истечения времени. */
 #define REG_ID_TMR_RUN_TRIG_TMR_OUT_TIMEOUT 0x246008 /* Строб тайм-аута. */
-#define REG_ID_TMR_RUN_TRIG_TMR_R_INTERVAL 0x246009 /* Интервал таймера, мс. */
+#define REG_ID_TMR_RUN_TRIG_TMR_P_INTERVAL 0x246009 /* Интервал таймера, мс. */
 #define REG_ID_THR_PRIM_SLIP_COUNT 0x247000 /* Number of sub entries count */
 #define REG_ID_THR_PRIM_SLIP_CONTROL 0x247001 /* Слово управления. */
 #define REG_ID_THR_PRIM_SLIP_STATUS 0x247002 /* Слово состояния. */
@@ -906,7 +906,7 @@
 #define REG_ID_TMR_FIELD_ON_TMR_STATUS 0x250006 /* Слово состояния. */
 #define REG_ID_TMR_FIELD_ON_TMR_OUT_EXPIRED 0x250007 /* Флаг истечения времени. */
 #define REG_ID_TMR_FIELD_ON_TMR_OUT_TIMEOUT 0x250008 /* Строб тайм-аута. */
-#define REG_ID_TMR_FIELD_ON_TMR_R_INTERVAL 0x250009 /* Интервал таймера, мс. */
+#define REG_ID_TMR_FIELD_ON_TMR_P_INTERVAL 0x250009 /* Интервал таймера, мс. */
 #define REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_COUNT 0x251000 /* Number of sub entries count */
 #define REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_CONTROL 0x251001 /* Слово управления. */
 #define REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_STATUS 0x251002 /* Слово состояния. */
@@ -934,7 +934,7 @@
 #define REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_STATUS 0x254006 /* Слово состояния. */
 #define REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_OUT_EXPIRED 0x254007 /* Флаг истечения времени. */
 #define REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_OUT_TIMEOUT 0x254008 /* Строб тайм-аута. */
-#define REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_R_INTERVAL 0x254009 /* Интервал таймера, мс. */
+#define REG_ID_TMR_FIELD_ON_RSTART_OFF_TMR_P_INTERVAL 0x254009 /* Интервал таймера, мс. */
 #define REG_ID_NOT_READY_TO_EXC_COUNT 0x255000 /* Number of sub entries count */
 #define REG_ID_NOT_READY_TO_EXC_CONTROL 0x255001 /* Слово управления. */
 #define REG_ID_NOT_READY_TO_EXC_STATUS 0x255002 /* Слово состояния. */
@@ -967,7 +967,7 @@
 #define REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_STATUS 0x259006 /* Слово состояния. */
 #define REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_EXPIRED 0x259007 /* Флаг истечения времени. */
 #define REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_TIMEOUT 0x259008 /* Строб тайм-аута. */
-#define REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_R_INTERVAL 0x259009 /* Интервал таймера, мс. */
+#define REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_P_INTERVAL 0x259009 /* Интервал таймера, мс. */
 #define REG_ID_THR_FIELD_SUPP_I_R_COUNT 0x25a000 /* Number of sub entries count */
 #define REG_ID_THR_FIELD_SUPP_I_R_CONTROL 0x25a001 /* Слово управления. */
 #define REG_ID_THR_FIELD_SUPP_I_R_STATUS 0x25a002 /* Слово состояния. */
@@ -1082,7 +1082,7 @@
 #define REG_ID_TMR_START_STAB_FORCING_TMR_STATUS 0x26a006 /* Слово состояния. */
 #define REG_ID_TMR_START_STAB_FORCING_TMR_OUT_EXPIRED 0x26a007 /* Флаг истечения времени. */
 #define REG_ID_TMR_START_STAB_FORCING_TMR_OUT_TIMEOUT 0x26a008 /* Строб тайм-аута. */
-#define REG_ID_TMR_START_STAB_FORCING_TMR_R_INTERVAL 0x26a009 /* Интервал таймера, мс. */
+#define REG_ID_TMR_START_STAB_FORCING_TMR_P_INTERVAL 0x26a009 /* Интервал таймера, мс. */
 #define REG_ID_THR_START_Q_LE_ZERO_COUNT 0x26b000 /* Number of sub entries count */
 #define REG_ID_THR_START_Q_LE_ZERO_CONTROL 0x26b001 /* Слово управления. */
 #define REG_ID_THR_START_Q_LE_ZERO_STATUS 0x26b002 /* Слово состояния. */
@@ -1386,8 +1386,86 @@
 #define REG_ID_PROT_STATUS 0x27a002 /* Слово состояния. */
 #define REG_ID_PROT_ERRORS0 0x27a003 /* Слово ошибок 0. */
 #define REG_ID_PROT_ERRORS1 0x27a004 /* Слово ошибок 1. */
-#define REG_ID_PROT_WARNINGS0 0x27a005 /* Слово предупреждений 0. */
-#define REG_ID_PROT_WARNINGS1 0x27a006 /* Слово предупреждений 1. */
+#define REG_ID_PROT_ERRORS2 0x27a005 /* Слово ошибок 1. */
+#define REG_ID_PROT_WARNINGS0 0x27a006 /* Слово предупреждений 0. */
+#define REG_ID_PROT_WARNINGS1 0x27a007 /* Слово предупреждений 1. */
+#define REG_ID_PROT_MAINS_LOST_U_LOW 0x27a008 /*  */
+#define REG_ID_PROT_MAINS_INVALID_A_DELTA 0x27a009 /*  */
+#define REG_ID_PROT_MAINS_INVALID_F_DELTA 0x27a00a /*  */
+#define REG_ID_PROT_MAINS_UNDERVOLTAGE_U_LOW 0x27a00b /*  */
+#define REG_ID_PROT_MAINS_OVERVOLTAGE_U_HI 0x27a00c /*  */
+#define REG_ID_PROT_MAINS_OVERCURRENT_I_HI 0x27a00d /*  */
+#define REG_ID_PROT_OVERCURRENT_I_HI 0x27a00e /*  */
+#define REG_ID_PROT_OVERVOLTAGE_U_HI 0x27a00f /*  */
+#define REG_ID_PROT_RAW_ERRORS0 0x27a010 /*  */
+#define REG_ID_PROT_RAW_ERRORS1 0x27a011 /*  */
+#define REG_ID_PROT_RAW_ERRORS2 0x27a012 /*  */
+#define REG_ID_PROT_MASK_ERRORS0 0x27a013 /*  */
+#define REG_ID_PROT_MASK_ERRORS1 0x27a014 /*  */
+#define REG_ID_PROT_MASK_ERRORS2 0x27a015 /*  */
+#define REG_ID_PROT_MAINS_LOST_TIMER_CONTROL 0x27a016 /* Слово управления. */
+#define REG_ID_PROT_MAINS_LOST_TIMER_STATUS 0x27a017 /* Слово состояния. */
+#define REG_ID_PROT_MAINS_LOST_TIMER_IN_VALUE 0x27a018 /* Входное значение сигнала. */
+#define REG_ID_PROT_MAINS_LOST_TIMER_OUT_VALUE 0x27a019 /* Выходное значение сигнала. */
+#define REG_ID_PROT_MAINS_LOST_TIMER_R_TMR_CONTROL 0x27a01a /* Слово управления. */
+#define REG_ID_PROT_MAINS_LOST_TIMER_R_TMR_STATUS 0x27a01b /* Слово состояния. */
+#define REG_ID_PROT_MAINS_LOST_TIMER_R_TMR_OUT_EXPIRED 0x27a01c /* Флаг истечения времени. */
+#define REG_ID_PROT_MAINS_LOST_TIMER_R_TMR_OUT_TIMEOUT 0x27a01d /* Строб тайм-аута. */
+#define REG_ID_PROT_MAINS_LOST_TIMER_R_TMR_P_INTERVAL 0x27a01e /* Интервал таймера, мс. */
+#define REG_ID_PROT_MAINS_INVALID_TIMER_CONTROL 0x27a01f /* Слово управления. */
+#define REG_ID_PROT_MAINS_INVALID_TIMER_STATUS 0x27a020 /* Слово состояния. */
+#define REG_ID_PROT_MAINS_INVALID_TIMER_IN_VALUE 0x27a021 /* Входное значение сигнала. */
+#define REG_ID_PROT_MAINS_INVALID_TIMER_OUT_VALUE 0x27a022 /* Выходное значение сигнала. */
+#define REG_ID_PROT_MAINS_INVALID_TIMER_R_TMR_CONTROL 0x27a023 /* Слово управления. */
+#define REG_ID_PROT_MAINS_INVALID_TIMER_R_TMR_STATUS 0x27a024 /* Слово состояния. */
+#define REG_ID_PROT_MAINS_INVALID_TIMER_R_TMR_OUT_EXPIRED 0x27a025 /* Флаг истечения времени. */
+#define REG_ID_PROT_MAINS_INVALID_TIMER_R_TMR_OUT_TIMEOUT 0x27a026 /* Строб тайм-аута. */
+#define REG_ID_PROT_MAINS_INVALID_TIMER_R_TMR_P_INTERVAL 0x27a027 /* Интервал таймера, мс. */
+#define REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_CONTROL 0x27a028 /* Слово управления. */
+#define REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_STATUS 0x27a029 /* Слово состояния. */
+#define REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_IN_VALUE 0x27a02a /* Входное значение сигнала. */
+#define REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_OUT_VALUE 0x27a02b /* Выходное значение сигнала. */
+#define REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_R_TMR_CONTROL 0x27a02c /* Слово управления. */
+#define REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_R_TMR_STATUS 0x27a02d /* Слово состояния. */
+#define REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_R_TMR_OUT_EXPIRED 0x27a02e /* Флаг истечения времени. */
+#define REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_R_TMR_OUT_TIMEOUT 0x27a02f /* Строб тайм-аута. */
+#define REG_ID_PROT_MAINS_UNDERVOLTAGE_TIMER_R_TMR_P_INTERVAL 0x27a030 /* Интервал таймера, мс. */
+#define REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_CONTROL 0x27a031 /* Слово управления. */
+#define REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_STATUS 0x27a032 /* Слово состояния. */
+#define REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_IN_VALUE 0x27a033 /* Входное значение сигнала. */
+#define REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_OUT_VALUE 0x27a034 /* Выходное значение сигнала. */
+#define REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_R_TMR_CONTROL 0x27a035 /* Слово управления. */
+#define REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_R_TMR_STATUS 0x27a036 /* Слово состояния. */
+#define REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_R_TMR_OUT_EXPIRED 0x27a037 /* Флаг истечения времени. */
+#define REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_R_TMR_OUT_TIMEOUT 0x27a038 /* Строб тайм-аута. */
+#define REG_ID_PROT_MAINS_OVERVOLTAGE_TIMER_R_TMR_P_INTERVAL 0x27a039 /* Интервал таймера, мс. */
+#define REG_ID_PROT_MAINS_OVERCURRENT_TIMER_CONTROL 0x27a03a /* Слово управления. */
+#define REG_ID_PROT_MAINS_OVERCURRENT_TIMER_STATUS 0x27a03b /* Слово состояния. */
+#define REG_ID_PROT_MAINS_OVERCURRENT_TIMER_IN_VALUE 0x27a03c /* Входное значение сигнала. */
+#define REG_ID_PROT_MAINS_OVERCURRENT_TIMER_OUT_VALUE 0x27a03d /* Выходное значение сигнала. */
+#define REG_ID_PROT_MAINS_OVERCURRENT_TIMER_R_TMR_CONTROL 0x27a03e /* Слово управления. */
+#define REG_ID_PROT_MAINS_OVERCURRENT_TIMER_R_TMR_STATUS 0x27a03f /* Слово состояния. */
+#define REG_ID_PROT_MAINS_OVERCURRENT_TIMER_R_TMR_OUT_EXPIRED 0x27a040 /* Флаг истечения времени. */
+#define REG_ID_PROT_MAINS_OVERCURRENT_TIMER_R_TMR_OUT_TIMEOUT 0x27a041 /* Строб тайм-аута. */
+#define REG_ID_PROT_MAINS_OVERCURRENT_TIMER_R_TMR_P_INTERVAL 0x27a042 /* Интервал таймера, мс. */
+#define REG_ID_PROT_OVERCURRENT_TIMER_CONTROL 0x27a043 /* Слово управления. */
+#define REG_ID_PROT_OVERCURRENT_TIMER_STATUS 0x27a044 /* Слово состояния. */
+#define REG_ID_PROT_OVERCURRENT_TIMER_IN_VALUE 0x27a045 /* Входное значение сигнала. */
+#define REG_ID_PROT_OVERCURRENT_TIMER_OUT_VALUE 0x27a046 /* Выходное значение сигнала. */
+#define REG_ID_PROT_OVERCURRENT_TIMER_R_TMR_CONTROL 0x27a047 /* Слово управления. */
+#define REG_ID_PROT_OVERCURRENT_TIMER_R_TMR_STATUS 0x27a048 /* Слово состояния. */
+#define REG_ID_PROT_OVERCURRENT_TIMER_R_TMR_OUT_EXPIRED 0x27a049 /* Флаг истечения времени. */
+#define REG_ID_PROT_OVERCURRENT_TIMER_R_TMR_OUT_TIMEOUT 0x27a04a /* Строб тайм-аута. */
+#define REG_ID_PROT_OVERCURRENT_TIMER_R_TMR_P_INTERVAL 0x27a04b /* Интервал таймера, мс. */
+#define REG_ID_PROT_OVERVOLTAGE_TIMER_CONTROL 0x27a04c /* Слово управления. */
+#define REG_ID_PROT_OVERVOLTAGE_TIMER_STATUS 0x27a04d /* Слово состояния. */
+#define REG_ID_PROT_OVERVOLTAGE_TIMER_IN_VALUE 0x27a04e /* Входное значение сигнала. */
+#define REG_ID_PROT_OVERVOLTAGE_TIMER_OUT_VALUE 0x27a04f /* Выходное значение сигнала. */
+#define REG_ID_PROT_OVERVOLTAGE_TIMER_R_TMR_CONTROL 0x27a050 /* Слово управления. */
+#define REG_ID_PROT_OVERVOLTAGE_TIMER_R_TMR_STATUS 0x27a051 /* Слово состояния. */
+#define REG_ID_PROT_OVERVOLTAGE_TIMER_R_TMR_OUT_EXPIRED 0x27a052 /* Флаг истечения времени. */
+#define REG_ID_PROT_OVERVOLTAGE_TIMER_R_TMR_OUT_TIMEOUT 0x27a053 /* Строб тайм-аута. */
+#define REG_ID_PROT_OVERVOLTAGE_TIMER_R_TMR_P_INTERVAL 0x27a054 /* Интервал таймера, мс. */
 #define REG_ID_CANOPEN_COUNT 0x27b000 /* Number of sub entries count */
 #define REG_ID_CANOPEN_CONTROL 0x27b001 /* Слово управления. */
 #define REG_ID_CANOPEN_STATUS 0x27b002 /* Слово состояния. */

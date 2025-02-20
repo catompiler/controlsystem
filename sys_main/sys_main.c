@@ -760,8 +760,10 @@ static void FSM_state_run(M_sys_main* sys)
 
     if(ctrl_need_triacs){
         ph3c.control = CONTROL_ENABLE;
+        triacs.control = CONTROL_ENABLE;
     }else{
         ph3c.control = CONTROL_NONE;
+        triacs.control = CONTROL_NONE;
     }
 }
 
@@ -928,6 +930,7 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     // Мотор.
     IDLE(motor);
     IDLE(adc);
+    IDLE(prot);
     IDLE(adc_model);
     IDLE(lrm);
     // Обновим минимум и максимум тока цифровых потенциометров.

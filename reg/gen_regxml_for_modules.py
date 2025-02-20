@@ -20,7 +20,7 @@ EXCLUDE_DIRS = ["CANopenNode", "slcan", "tmp", "Debug", "Release", "MCU", "Deskt
 CPP_INCS = [PROJECT_PATH, os.path.join(PROJECT_PATH, "CANopenNode"),
             os.path.join(PROJECT_PATH, "CMSIS_5/CMSIS/Core/Include"),
             os.path.join(PROJECT_PATH, "mtb-xmclib-cat3/CMSIS/Infineon/COMPONENT_XMC4500/Include")]
-CPP_DEFS = ["PORT_XMC4500", "SYSLOG_GLOBAL"]
+CPP_DEFS = ["PORT_KIT_XMC45_RELAX_LITE_V1", "SYSLOG_GLOBAL"]
 
 IGNORE_FIELDS_PREFIXES = ["m_"]
 REMOVE_PREFIXES = ["p_", "r_"]

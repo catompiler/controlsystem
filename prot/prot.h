@@ -14,10 +14,10 @@ enum _E_Prot_Errors0 {
     PROT_ERR0_INTERNAL_SW = 0x01, //!< Ошибка ПО.
     PROT_ERR0_INTERNAL_HW = 0x02, //!< Ошибка аппаратной части.
 
-    PROT_ERR0_INTERNAL_PWR,
+    PROT_ERR0_INTERNAL_PWR = 0x04,
 
-    PROT_ERR0_INTERNAL_CAN_FAULT,
-    PROT_ERR0_INTERNAL_COMM_TIMEOUT,
+    PROT_ERR0_INTERNAL_CAN_FAULT = 0x08,
+    PROT_ERR0_INTERNAL_COMM_TIMEOUT = 0x10,
 
     //PROT_ERR0_ = 0x00, //!< .
 };
@@ -26,13 +26,13 @@ enum _E_Prot_Errors0 {
 enum _E_Prot_Errors1 {
     PROT_ERR1_NONE = ERROR_NONE, //!< Нет ошибок.
 
-    PROT_ERR1_MAINS_LOST,
-    PROT_ERR1_MAINS_INVALID,
-    PROT_ERR1_MAINS_UNDERVOLTAGE,
-    PROT_ERR1_MAINS_OVERVOLTAGE,
-    PROT_ERR1_MAINS_OVERCURRENT,
-    PROT_ERR1_OVERCURRENT,
-    PROT_ERR1_OVERVOLTAGE,
+    PROT_ERR1_MAINS_LOST = 0x01,
+    PROT_ERR1_MAINS_INVALID = 0x02,
+    PROT_ERR1_MAINS_UNDERVOLTAGE = 0x04,
+    PROT_ERR1_MAINS_OVERVOLTAGE = 0x08,
+    PROT_ERR1_MAINS_OVERCURRENT = 0x10,
+    PROT_ERR1_OVERVOLTAGE = 0x20,
+    PROT_ERR1_OVERCURRENT = 0x40,
 
     //PROT_ERR1_ = 0x00, //!< .
 };
@@ -41,10 +41,10 @@ enum _E_Prot_Errors1 {
 enum _E_Prot_Errors2 {
     PROT_ERR2_NONE = ERROR_NONE, //!< Нет ошибок.
 
-    PROT_ERR2_EXTERNAL_FAULT,
-    PROT_ERR2_OVERLOAD,
-    PROT_ERR2_CELL_FAULT,
-    PROT_ERR2_ASYNC_RUN,
+    PROT_ERR2_EXTERNAL_FAULT = 0x01,
+    PROT_ERR2_OVERLOAD = 0x02,
+    PROT_ERR2_CELL_FAULT = 0x04,
+    PROT_ERR2_ASYNC_RUN = 0x08,
 
     //PROT_ERR2_ = 0x00, //!< .
 };
@@ -95,10 +95,10 @@ struct _S_Prot {
     reg_iq24_t p_mains_overvoltage_U_hi;
     // Превышение тока.
     reg_iq24_t p_mains_overcurrent_I_hi;
-    // Превышение тока выхода.
-    reg_iq24_t p_overcurrent_I_hi;
     // Превышение напряжения выхода.
     reg_iq24_t p_overvoltage_U_hi;
+    // Превышение тока выхода.
+    reg_iq24_t p_overcurrent_I_hi;
     // Регистры.
     // "Сырые" значения защит.
     error_t raw_errors0;
@@ -118,10 +118,10 @@ struct _S_Prot {
     M_timer_on r_mains_overvoltage_timer;
     // Превышение тока.
     M_timer_on r_mains_overcurrent_timer;
-    // Превышение тока выхода.
-    M_timer_on r_overcurrent_timer;
     // Превышение напряжения выхода.
     M_timer_on r_overvoltage_timer;
+    // Превышение тока выхода.
+    M_timer_on r_overcurrent_timer;
     // Методы.
     METHOD_INIT(M_prot);
     METHOD_DEINIT(M_prot);
@@ -150,8 +150,8 @@ EXTERN METHOD_IDLE_PROTO(M_prot);
         IQ24(0.8), /* p_mains_undervoltage_U_low */\
         IQ24(1.2), /* p_mains_overvoltage_U_hi */\
         IQ24(1.4), /* p_mains_overcurrent_I_hi */\
-        IQ24(1.4), /* p_overcurrent_I_hi */\
         IQ24(1.5), /* p_overvoltage_U_hi */\
+        IQ24(1.4), /* p_overcurrent_I_hi */\
         /* Регистры */\
         0, 0, 0, /* raw_errors0, raw_errors1, raw_errors2 */\
         0, 0, 0, /* mask_errors0, mask_errors1, mask_errors2 */\

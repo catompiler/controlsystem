@@ -684,6 +684,9 @@ static void setup()
     dlog.p_ch[dlog_i++].enabled = 1;
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_LRM_IN_CONTROL5;
     dlog.p_ch[dlog_i++].enabled = 1;
+
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_PROT_RAW_ERRORS1;
+    dlog.p_ch[dlog_i++].enabled = 1;
 #endif
     // Cell RMS.
     /*dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UA_OUT_VALUE;

@@ -86,7 +86,7 @@ EXTERN METHOD_CONTROL_PROTO(M_triacs);
 
 #define TRIACS_DEFAULTS {\
         /* Базовые поля */\
-        CONTROL_ENABLE/*0*/, 0, /* control, status */\
+        0, 0, /* control, status */\
         /* Входные данные */\
         {0}, /* in_control */\
         0, /* in_control_delay_angle */\
