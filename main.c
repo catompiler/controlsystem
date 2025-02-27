@@ -896,7 +896,7 @@ int main(void)
 #endif
 
 #if defined(PORT_POSIX)
-        if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
+        //if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
         if(sys.status & SYS_MAIN_STATUS_QUIT) break;
 
         struct timespec ts_sleep = {0, 1000000};

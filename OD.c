@@ -172,7 +172,7 @@ typedef struct {
     OD_obj_record_t o_2770_triacs[11];
     OD_obj_record_t o_2780_lrm[53];
     OD_obj_record_t o_2790_motor[43];
-    OD_obj_record_t o_27A0_prot[85];
+    OD_obj_record_t o_27A0_prot[87];
     OD_obj_record_t o_27B0_canopen[3];
     OD_obj_record_t o_27C0_storage[3];
     OD_obj_record_t o_27D0_settings[4];
@@ -8545,464 +8545,476 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.p_mains_lost_U_low,
+    .dataOrig = &prot.out_has_errors,
     .subIndex = 8,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.p_mains_invalid_A_delta,
+    .dataOrig = &prot.out_error_occured,
     .subIndex = 9,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.p_mains_invalid_F_delta,
+    .dataOrig = &prot.p_mains_lost_U_low,
     .subIndex = 10,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.p_mains_undervoltage_U_low,
+    .dataOrig = &prot.p_mains_invalid_A_delta,
     .subIndex = 11,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.p_mains_overvoltage_U_hi,
+    .dataOrig = &prot.p_mains_invalid_F_delta,
     .subIndex = 12,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.p_mains_overcurrent_I_hi,
+    .dataOrig = &prot.p_mains_undervoltage_U_low,
     .subIndex = 13,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.p_overcurrent_I_hi,
+    .dataOrig = &prot.p_mains_overvoltage_U_hi,
     .subIndex = 14,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.p_overvoltage_U_hi,
+    .dataOrig = &prot.p_mains_overcurrent_I_hi,
     .subIndex = 15,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.raw_errors0,
+    .dataOrig = &prot.p_overvoltage_U_hi,
     .subIndex = 16,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.raw_errors1,
+    .dataOrig = &prot.p_overcurrent_I_hi,
     .subIndex = 17,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.raw_errors2,
+    .dataOrig = &prot.raw_errors0,
     .subIndex = 18,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.mask_errors0,
+    .dataOrig = &prot.raw_errors1,
     .subIndex = 19,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.mask_errors1,
+    .dataOrig = &prot.raw_errors2,
     .subIndex = 20,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.mask_errors2,
+    .dataOrig = &prot.mask_errors0,
     .subIndex = 21,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_lost_timer.control,
+    .dataOrig = &prot.mask_errors1,
     .subIndex = 22,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_lost_timer.status,
+    .dataOrig = &prot.mask_errors2,
     .subIndex = 23,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_lost_timer.in_value,
+    .dataOrig = &prot.r_mains_lost_timer.control,
     .subIndex = 24,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_lost_timer.out_value,
+    .dataOrig = &prot.r_mains_lost_timer.status,
     .subIndex = 25,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_lost_timer.r_tmr.control,
+    .dataOrig = &prot.r_mains_lost_timer.in_value,
     .subIndex = 26,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_lost_timer.r_tmr.status,
+    .dataOrig = &prot.r_mains_lost_timer.out_value,
     .subIndex = 27,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_lost_timer.r_tmr.out_expired,
+    .dataOrig = &prot.r_mains_lost_timer.r_tmr.control,
     .subIndex = 28,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_lost_timer.r_tmr.out_timeout,
+    .dataOrig = &prot.r_mains_lost_timer.r_tmr.status,
     .subIndex = 29,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_lost_timer.r_tmr.p_interval,
+    .dataOrig = &prot.r_mains_lost_timer.r_tmr.out_expired,
     .subIndex = 30,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_invalid_timer.control,
+    .dataOrig = &prot.r_mains_lost_timer.r_tmr.out_timeout,
     .subIndex = 31,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_invalid_timer.status,
+    .dataOrig = &prot.r_mains_lost_timer.r_tmr.p_interval,
     .subIndex = 32,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_invalid_timer.in_value,
+    .dataOrig = &prot.r_mains_invalid_timer.control,
     .subIndex = 33,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_invalid_timer.out_value,
+    .dataOrig = &prot.r_mains_invalid_timer.status,
     .subIndex = 34,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_invalid_timer.r_tmr.control,
+    .dataOrig = &prot.r_mains_invalid_timer.in_value,
     .subIndex = 35,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_invalid_timer.r_tmr.status,
+    .dataOrig = &prot.r_mains_invalid_timer.out_value,
     .subIndex = 36,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_invalid_timer.r_tmr.out_expired,
+    .dataOrig = &prot.r_mains_invalid_timer.r_tmr.control,
     .subIndex = 37,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_invalid_timer.r_tmr.out_timeout,
+    .dataOrig = &prot.r_mains_invalid_timer.r_tmr.status,
     .subIndex = 38,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_invalid_timer.r_tmr.p_interval,
+    .dataOrig = &prot.r_mains_invalid_timer.r_tmr.out_expired,
     .subIndex = 39,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_undervoltage_timer.control,
+    .dataOrig = &prot.r_mains_invalid_timer.r_tmr.out_timeout,
     .subIndex = 40,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_undervoltage_timer.status,
+    .dataOrig = &prot.r_mains_invalid_timer.r_tmr.p_interval,
     .subIndex = 41,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_undervoltage_timer.in_value,
+    .dataOrig = &prot.r_mains_undervoltage_timer.control,
     .subIndex = 42,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_undervoltage_timer.out_value,
+    .dataOrig = &prot.r_mains_undervoltage_timer.status,
     .subIndex = 43,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_undervoltage_timer.r_tmr.control,
+    .dataOrig = &prot.r_mains_undervoltage_timer.in_value,
     .subIndex = 44,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_undervoltage_timer.r_tmr.status,
+    .dataOrig = &prot.r_mains_undervoltage_timer.out_value,
     .subIndex = 45,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_undervoltage_timer.r_tmr.out_expired,
+    .dataOrig = &prot.r_mains_undervoltage_timer.r_tmr.control,
     .subIndex = 46,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_undervoltage_timer.r_tmr.out_timeout,
+    .dataOrig = &prot.r_mains_undervoltage_timer.r_tmr.status,
     .subIndex = 47,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_undervoltage_timer.r_tmr.p_interval,
+    .dataOrig = &prot.r_mains_undervoltage_timer.r_tmr.out_expired,
     .subIndex = 48,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overvoltage_timer.control,
+    .dataOrig = &prot.r_mains_undervoltage_timer.r_tmr.out_timeout,
     .subIndex = 49,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overvoltage_timer.status,
+    .dataOrig = &prot.r_mains_undervoltage_timer.r_tmr.p_interval,
     .subIndex = 50,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overvoltage_timer.in_value,
+    .dataOrig = &prot.r_mains_overvoltage_timer.control,
     .subIndex = 51,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overvoltage_timer.out_value,
+    .dataOrig = &prot.r_mains_overvoltage_timer.status,
     .subIndex = 52,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overvoltage_timer.r_tmr.control,
+    .dataOrig = &prot.r_mains_overvoltage_timer.in_value,
     .subIndex = 53,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overvoltage_timer.r_tmr.status,
+    .dataOrig = &prot.r_mains_overvoltage_timer.out_value,
     .subIndex = 54,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overvoltage_timer.r_tmr.out_expired,
+    .dataOrig = &prot.r_mains_overvoltage_timer.r_tmr.control,
     .subIndex = 55,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overvoltage_timer.r_tmr.out_timeout,
+    .dataOrig = &prot.r_mains_overvoltage_timer.r_tmr.status,
     .subIndex = 56,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overvoltage_timer.r_tmr.p_interval,
+    .dataOrig = &prot.r_mains_overvoltage_timer.r_tmr.out_expired,
     .subIndex = 57,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overcurrent_timer.control,
+    .dataOrig = &prot.r_mains_overvoltage_timer.r_tmr.out_timeout,
     .subIndex = 58,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overcurrent_timer.status,
+    .dataOrig = &prot.r_mains_overvoltage_timer.r_tmr.p_interval,
     .subIndex = 59,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overcurrent_timer.in_value,
+    .dataOrig = &prot.r_mains_overcurrent_timer.control,
     .subIndex = 60,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overcurrent_timer.out_value,
+    .dataOrig = &prot.r_mains_overcurrent_timer.status,
     .subIndex = 61,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overcurrent_timer.r_tmr.control,
+    .dataOrig = &prot.r_mains_overcurrent_timer.in_value,
     .subIndex = 62,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overcurrent_timer.r_tmr.status,
+    .dataOrig = &prot.r_mains_overcurrent_timer.out_value,
     .subIndex = 63,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overcurrent_timer.r_tmr.out_expired,
+    .dataOrig = &prot.r_mains_overcurrent_timer.r_tmr.control,
     .subIndex = 64,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overcurrent_timer.r_tmr.out_timeout,
+    .dataOrig = &prot.r_mains_overcurrent_timer.r_tmr.status,
     .subIndex = 65,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_mains_overcurrent_timer.r_tmr.p_interval,
+    .dataOrig = &prot.r_mains_overcurrent_timer.r_tmr.out_expired,
     .subIndex = 66,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overcurrent_timer.control,
+    .dataOrig = &prot.r_mains_overcurrent_timer.r_tmr.out_timeout,
     .subIndex = 67,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overcurrent_timer.status,
+    .dataOrig = &prot.r_mains_overcurrent_timer.r_tmr.p_interval,
     .subIndex = 68,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overcurrent_timer.in_value,
+    .dataOrig = &prot.r_overvoltage_timer.control,
     .subIndex = 69,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overcurrent_timer.out_value,
+    .dataOrig = &prot.r_overvoltage_timer.status,
     .subIndex = 70,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overcurrent_timer.r_tmr.control,
+    .dataOrig = &prot.r_overvoltage_timer.in_value,
     .subIndex = 71,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overcurrent_timer.r_tmr.status,
+    .dataOrig = &prot.r_overvoltage_timer.out_value,
     .subIndex = 72,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overcurrent_timer.r_tmr.out_expired,
+    .dataOrig = &prot.r_overvoltage_timer.r_tmr.control,
     .subIndex = 73,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overcurrent_timer.r_tmr.out_timeout,
+    .dataOrig = &prot.r_overvoltage_timer.r_tmr.status,
     .subIndex = 74,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overcurrent_timer.r_tmr.p_interval,
+    .dataOrig = &prot.r_overvoltage_timer.r_tmr.out_expired,
     .subIndex = 75,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overvoltage_timer.control,
+    .dataOrig = &prot.r_overvoltage_timer.r_tmr.out_timeout,
     .subIndex = 76,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overvoltage_timer.status,
+    .dataOrig = &prot.r_overvoltage_timer.r_tmr.p_interval,
     .subIndex = 77,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overvoltage_timer.in_value,
+    .dataOrig = &prot.r_overcurrent_timer.control,
     .subIndex = 78,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overvoltage_timer.out_value,
+    .dataOrig = &prot.r_overcurrent_timer.status,
     .subIndex = 79,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overvoltage_timer.r_tmr.control,
+    .dataOrig = &prot.r_overcurrent_timer.in_value,
     .subIndex = 80,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overvoltage_timer.r_tmr.status,
+    .dataOrig = &prot.r_overcurrent_timer.out_value,
     .subIndex = 81,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overvoltage_timer.r_tmr.out_expired,
+    .dataOrig = &prot.r_overcurrent_timer.r_tmr.control,
     .subIndex = 82,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overvoltage_timer.r_tmr.out_timeout,
+    .dataOrig = &prot.r_overcurrent_timer.r_tmr.status,
     .subIndex = 83,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &prot.r_overvoltage_timer.r_tmr.p_interval,
+    .dataOrig = &prot.r_overcurrent_timer.r_tmr.out_expired,
     .subIndex = 84,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &prot.r_overcurrent_timer.r_tmr.out_timeout,
+    .subIndex = 85,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &prot.r_overcurrent_timer.r_tmr.p_interval,
+    .subIndex = 86,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     }
@@ -9232,7 +9244,7 @@ static OD_ATTR_OD OD_entry_t ODList[] = {
     {0x2770, 0x0b, ODT_REC, &ODObjs.o_2770_triacs, NULL},
     {0x2780, 0x35, ODT_REC, &ODObjs.o_2780_lrm, NULL},
     {0x2790, 0x2b, ODT_REC, &ODObjs.o_2790_motor, NULL},
-    {0x27a0, 0x55, ODT_REC, &ODObjs.o_27A0_prot, NULL},
+    {0x27a0, 0x57, ODT_REC, &ODObjs.o_27A0_prot, NULL},
     {0x27b0, 0x03, ODT_REC, &ODObjs.o_27B0_canopen, NULL},
     {0x27c0, 0x03, ODT_REC, &ODObjs.o_27C0_storage, NULL},
     {0x27d0, 0x04, ODT_REC, &ODObjs.o_27D0_settings, NULL},

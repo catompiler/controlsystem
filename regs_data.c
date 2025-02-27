@@ -590,7 +590,7 @@ struct _S_regs_data regs_data = {
     .count = 42 /* Number of sub entries count */
 },
 .prot = {
-    .count = 84 /* Number of sub entries count */
+    .count = 86 /* Number of sub entries count */
 },
 .canopen = {
     .count = 2 /* Number of sub entries count */
