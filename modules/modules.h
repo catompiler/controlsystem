@@ -66,7 +66,7 @@
 #include "canopen/canopen.h"
 #include "storage/storage.h"
 #include "settings/settings.h"
-#include "run_trig/run_trig.h"
+#include "field_trig/field_trig.h"
 
 
 
@@ -215,7 +215,7 @@ extern M_cell_cb cell_cb;
 
 // Триггеры работы двигателя.
 // Модуль вычисления триггера.
-extern M_run_trig run_trig;
+extern M_field_trig field_trig;
 // Порог превышения током статора заданного значения.
 extern M_threshold_gt thr_run_trig_I_s;
 // Разрешение учитывания тока статора.
@@ -242,12 +242,15 @@ extern M_threshold_lt thr_sec_I_s;
 extern M_threshold_gt thr_sec_T;
 // И по маске.
 extern M_and3_mask am_sec_field_on;
-
 // Триггер пуска.
-// ИЛИ двух критериев.
-extern M_or2 or_field_on;
 // Таймер разрешения включения.
 extern M_timer_on tmr_field_on;
+// Порог тока ротора при втягивании ротора
+// в синхронизм без подачи возбуждения.
+extern M_threshold_lt thr_field_on_I_r_sync;
+// Таймер разрешения включения
+// при втягивании в синхронизм (нет детекта отрицательной полуволны).
+extern M_timer_on tmr_field_on_I_r_sync;
 
 // Цепочка завершения запуска и переход к подаче возбуждения.
 // Компаратор отрицательного значения величины для определения скольжения.
@@ -266,13 +269,6 @@ extern M_comp_eq cmp_ctrl_state_is_start;
 // Включение пускового сопротивления == Не готов к подаче возбуждения И запуск.
 extern M_and2 and_rstart_on;
 
-
-// Порог тока ротора при втягивании ротора
-// в синхронизм без подачи возбуждения.
-extern M_threshold_lt thr_field_on_I_r_sync;
-// Таймер разрешения включения
-// при втягивании в синхронизм (нет детекта отрицательной полуволны).
-extern M_timer_on tmr_field_on_I_r_sync;
 
 // Гашение поля.
 // Порог тока ротора, при котором гашения поля прекращается.

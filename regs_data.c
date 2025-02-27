@@ -424,8 +424,8 @@ struct _S_regs_data regs_data = {
 .cell_cb = {
     .count = 5 /* Number of sub entries count */
 },
-.run_trig = {
-    .count = 3 /* Number of sub entries count */
+.field_trig = {
+    .count = 4 /* Number of sub entries count */
 },
 .thr_run_trig_i_s = {
     .count = 5 /* Number of sub entries count */
@@ -460,10 +460,13 @@ struct _S_regs_data regs_data = {
 .am_sec_field_on = {
     .count = 9 /* Number of sub entries count */
 },
-.or_field_on = {
+.tmr_field_on = {
+    .count = 9 /* Number of sub entries count */
+},
+.thr_field_on_i_r_sync = {
     .count = 5 /* Number of sub entries count */
 },
-.tmr_field_on = {
+.tmr_field_on_i_r_sync = {
     .count = 9 /* Number of sub entries count */
 },
 .thr_value_for_slip_lt_zero = {
@@ -486,12 +489,6 @@ struct _S_regs_data regs_data = {
 },
 .and_rstart_on = {
     .count = 5 /* Number of sub entries count */
-},
-.thr_field_on_i_r_sync = {
-    .count = 5 /* Number of sub entries count */
-},
-.tmr_field_on_i_r_sync = {
-    .count = 9 /* Number of sub entries count */
 },
 .thr_field_supp_i_r = {
     .count = 5 /* Number of sub entries count */

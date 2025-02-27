@@ -298,7 +298,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
 
     // Триггеры пуска.
     // Модуль триггера пуска.
-    INIT(run_trig);
+    INIT(field_trig);
     // Триггер пуска по превышению током статора заданного значения.
     INIT(thr_run_trig_I_s);
     // Разрешение учитывания тока статора.
@@ -318,7 +318,6 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(thr_sec_T);
     INIT(am_sec_field_on);
     // Общие модули критериев.
-    INIT(or_field_on);
     INIT(tmr_field_on);
     INIT(thr_field_on_I_r_sync);
     INIT(tmr_field_on_I_r_sync);
@@ -506,7 +505,6 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(thr_sec_T);
     DEINIT(am_sec_field_on);
     // Общие модули критериев.
-    DEINIT(or_field_on);
     DEINIT(tmr_field_on);
     DEINIT(thr_field_on_I_r_sync);
     DEINIT(tmr_field_on_I_r_sync);
@@ -521,7 +519,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
 
     // Триггеры пуска.
     // Модуль триггера пуска.
-    DEINIT(run_trig);
+    DEINIT(field_trig);
     // Триггер пуска по превышению током статора заданного значения.
     DEINIT(thr_run_trig_I_s);
     // Разрешение учитывания тока статора.
@@ -873,7 +871,7 @@ METHOD_CALC_IMPL(M_sys_main, sys)
         sys_ctrl.control &= ~SYS_CONTROL_CONTROL_TEST;
     }
     // Включение.
-    if(run_trig.out_value == FLAG_ACTIVE){
+    if(field_trig.out_run == FLAG_ACTIVE){
         sys_ctrl.control |= SYS_CONTROL_CONTROL_RUN;
     }else{
         sys_ctrl.control &= ~SYS_CONTROL_CONTROL_RUN;

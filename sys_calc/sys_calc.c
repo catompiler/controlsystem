@@ -367,107 +367,11 @@ static void sys_calc_calc_start_time(M_sys_calc* sys_calc)
     CALC(cnt_start);
 }
 
-static void sys_calc_calc_run_trig(M_sys_calc* sys_calc)
+static void sys_calc_calc_field_trig(M_sys_calc* sys_calc)
 {
     (void) sys_calc;
 
-    CALC(run_trig);
-}
-
-static void sys_calc_calc_field_on_conds(M_sys_calc* sys_calc)
-{
-    // Ток статора для условий пуска.
-    iq24_t I_stator = mean_rms_Icell.out_value;
-
-    // Основное условие пуска.
-    // Порог скольжения.
-    thr_prim_Slip.in_value = slip.out_value;
-    CALC(thr_prim_Slip);
-    // Порог тока.
-    thr_prim_I_s.in_value = I_stator;
-    CALC(thr_prim_I_s);
-    // Порог времени.
-    thr_prim_T.in_value = cnt_start.out_value;
-    CALC(thr_prim_T);
-    // И с маской.
-    am_prim_field_on.in_value[0] = thr_prim_Slip.out_value;
-    am_prim_field_on.in_value[1] = thr_prim_I_s.out_value;
-    am_prim_field_on.in_value[2] = thr_prim_T.out_value;
-    CALC(am_prim_field_on);
-
-    // Дополнительное условие пуска.
-    // Порог скольжения.
-    thr_sec_Slip.in_value = slip.out_value;
-    CALC(thr_sec_Slip);
-    // Порог тока.
-    thr_sec_I_s.in_value = I_stator;
-    CALC(thr_sec_I_s);
-    // Порог времени.
-    thr_sec_T.in_value = cnt_start.out_value;
-    CALC(thr_sec_T);
-    // И с маской.
-    am_sec_field_on.in_value[0] = thr_sec_Slip.out_value;
-    am_sec_field_on.in_value[1] = thr_sec_I_s.out_value;
-    am_sec_field_on.in_value[2] = thr_sec_T.out_value;
-    CALC(am_sec_field_on);
-
-    // Объединение условий.
-    or_field_on.in_value[0] = am_prim_field_on.out_value;
-    or_field_on.in_value[1] = am_sec_field_on.out_value;
-    CALC(or_field_on);
-
-    // Таймер подачи возбуждения по условиям.
-    tmr_field_on.in_value = or_field_on.out_value;
-    CALC(tmr_field_on);
-
-    // Подача возбуждения при самопроизвольном втягивании двигателя в синхронизм.
-    // Триггер.
-    thr_field_on_I_r_sync.in_value = mean_Irstart.out_value;
-    CALC(thr_field_on_I_r_sync);
-    // Таймер.
-    tmr_field_on_I_r_sync.in_value = thr_field_on_I_r_sync.out_value;
-    CALC(tmr_field_on_I_r_sync);
-}
-
-static void sys_calc_calc_start_exc(M_sys_calc* sys_calc)
-{
-    (void) sys_calc;
-
-    // Цепочка завершения запуска и переход к подаче возбуждения.
-
-    // Компаратор отрицательного значения величины для определения скольжения.
-    thr_value_for_slip_lt_zero.in_value = filter_zcd_slip.out_value;
-    CALC(thr_value_for_slip_lt_zero);
-
-    // Величина для определения меньше нуля ИЛИ ротор сам втянулся в синхронизм.
-    or_value_slip_lt_zero_I_r_sync.in_value[0] = thr_value_for_slip_lt_zero.out_value;
-    or_value_slip_lt_zero_I_r_sync.in_value[1] = tmr_field_on_I_r_sync.out_value;
-    CALC(or_value_slip_lt_zero_I_r_sync);
-
-    // Нужно подавать возбуждение И можно открывать тиристоры.
-    and_ready_to_exc.in_value[0] = tmr_field_on.out_value;
-    and_ready_to_exc.in_value[1] = or_value_slip_lt_zero_I_r_sync.out_value;
-    CALC(and_ready_to_exc);
-
-    // Таймер отключения пускового сопротивления.
-    tmr_field_on_rstart_off.in_value = and_ready_to_exc.out_value;
-    CALC(tmr_field_on_rstart_off);
-
-    // Цепочка управления пусковым сопротивлением.
-
-    // НЕ готовность подачи возбуждения.
-    not_ready_to_exc.in_value = and_ready_to_exc.out_value;
-    CALC(not_ready_to_exc);
-
-    // Компаратор состояния системы управления.
-    cmp_ctrl_state_is_start.in_A = fsm_state(&sys_ctrl.fsm_state);
-    cmp_ctrl_state_is_start.in_B = SYS_CONTROL_STATE_START;
-    CALC(cmp_ctrl_state_is_start);
-
-    // Включение пускового сопротивления == Не готов к подаче возбуждения И запуск.
-    and_rstart_on.in_value[0] = not_ready_to_exc.out_value;
-    and_rstart_on.in_value[1] = cmp_ctrl_state_is_start.out_value;
-    CALC(and_rstart_on);
+    CALC(field_trig);
 }
 
 static void sys_calc_calc_start_forcing(M_sys_calc* sys_calc)
@@ -599,14 +503,8 @@ METHOD_CALC_IMPL(M_sys_calc, sys_calc)
     // Start time (ms) counter.
     sys_calc_calc_start_time(sys_calc);
 
-    // Start trig by Istator > Ithreshold.
-    sys_calc_calc_run_trig(sys_calc);
-
-    // Field on conditions.
-    sys_calc_calc_field_on_conds(sys_calc);
-
-    // Field start.
-    sys_calc_calc_start_exc(sys_calc);
+    // Field triggers.
+    sys_calc_calc_field_trig(sys_calc);
 
     // Field forcing at start.
     sys_calc_calc_start_forcing(sys_calc);

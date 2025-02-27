@@ -529,9 +529,9 @@ struct _S_cell_cb {
     uint8_t count; /* Number of sub entries count */
 } cell_cb;
 
-struct _S_run_trig {
+struct _S_field_trig {
     uint8_t count; /* Number of sub entries count */
-} run_trig;
+} field_trig;
 
 struct _S_thr_run_trig_i_s {
     uint8_t count; /* Number of sub entries count */
@@ -577,13 +577,17 @@ struct _S_am_sec_field_on {
     uint8_t count; /* Number of sub entries count */
 } am_sec_field_on;
 
-struct _S_or_field_on {
-    uint8_t count; /* Number of sub entries count */
-} or_field_on;
-
 struct _S_tmr_field_on {
     uint8_t count; /* Number of sub entries count */
 } tmr_field_on;
+
+struct _S_thr_field_on_i_r_sync {
+    uint8_t count; /* Number of sub entries count */
+} thr_field_on_i_r_sync;
+
+struct _S_tmr_field_on_i_r_sync {
+    uint8_t count; /* Number of sub entries count */
+} tmr_field_on_i_r_sync;
 
 struct _S_thr_value_for_slip_lt_zero {
     uint8_t count; /* Number of sub entries count */
@@ -612,14 +616,6 @@ struct _S_cmp_ctrl_state_is_start {
 struct _S_and_rstart_on {
     uint8_t count; /* Number of sub entries count */
 } and_rstart_on;
-
-struct _S_thr_field_on_i_r_sync {
-    uint8_t count; /* Number of sub entries count */
-} thr_field_on_i_r_sync;
-
-struct _S_tmr_field_on_i_r_sync {
-    uint8_t count; /* Number of sub entries count */
-} tmr_field_on_i_r_sync;
 
 struct _S_thr_field_supp_i_r {
     uint8_t count; /* Number of sub entries count */

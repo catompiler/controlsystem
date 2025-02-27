@@ -187,7 +187,7 @@ static void FSM_state_start(M_sys_control* sys_ctrl)
     }
 
     // Если время ожидания отключения пускового сопротивления вышло.
-    if(tmr_field_on_rstart_off.out_value == FLAG_ACTIVE){
+    if(field_trig.out_field_on == FLAG_ACTIVE){
         // Остановим счётчик времени пуска.
         cnt_start.control = CONTROL_STOP;
         CONTROL(cnt_start);
@@ -280,7 +280,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
 
 
     // Пусковое сопротивление.
-    if(and_rstart_on.out_value == FLAG_ACTIVE){
+    if(field_trig.out_rstart_on == FLAG_ACTIVE){
         sys_ctrl->out_command |= SYS_CONTROL_COMMAND_R_START_ON;
     }else{
         sys_ctrl->out_command &= ~SYS_CONTROL_COMMAND_R_START_ON;

@@ -811,10 +811,11 @@ REG(REG_ID_CELL_CB_STATUS, &cell_cb.status, REG_TYPE_U32, REG_FLAG_NONE, 0x00000
 REG(REG_ID_CELL_CB_IN_NO_STATE, &cell_cb.in_no_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние NO контакта выключателя ячейки. */
 REG(REG_ID_CELL_CB_IN_NC_STATE, &cell_cb.in_nc_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние NC контакта выключателя ячейки. */
 REG(REG_ID_CELL_CB_OUT_STATE, &cell_cb.out_state, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Состояние выключателя ячейки. */
-REG(REG_ID_RUN_TRIG_COUNT, &regs_data.run_trig.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
-REG(REG_ID_RUN_TRIG_CONTROL, &run_trig.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
-REG(REG_ID_RUN_TRIG_STATUS, &run_trig.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
-REG(REG_ID_RUN_TRIG_OUT_VALUE, &run_trig.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние триггера включения. */
+REG(REG_ID_FIELD_TRIG_COUNT, &regs_data.field_trig.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
+REG(REG_ID_FIELD_TRIG_CONTROL, &field_trig.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_FIELD_TRIG_STATUS, &field_trig.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_FIELD_TRIG_OUT_RUN, &field_trig.out_run, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние триггера включения двигателя. */
+REG(REG_ID_FIELD_TRIG_OUT_FIELD_ON, &field_trig.out_field_on, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние триггера включения возбуждения. */
 REG(REG_ID_THR_RUN_TRIG_I_S_COUNT, &regs_data.thr_run_trig_i_s.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_RUN_TRIG_I_S_CONTROL, &thr_run_trig_I_s.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_RUN_TRIG_I_S_STATUS, &thr_run_trig_I_s.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -893,12 +894,6 @@ REG(REG_ID_AM_SEC_FIELD_ON_OUT_VALUE, &am_sec_field_on.out_value, REG_TYPE_U32, 
 REG(REG_ID_AM_SEC_FIELD_ON_MASK0, &am_sec_field_on.p_mask[0], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_AM_SEC_FIELD_ON_MASK1, &am_sec_field_on.p_mask[1], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_AM_SEC_FIELD_ON_MASK2, &am_sec_field_on.p_mask[2], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
-REG(REG_ID_OR_FIELD_ON_COUNT, &regs_data.or_field_on.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
-REG(REG_ID_OR_FIELD_ON_CONTROL, &or_field_on.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
-REG(REG_ID_OR_FIELD_ON_STATUS, &or_field_on.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
-REG(REG_ID_OR_FIELD_ON_IN_VALUE0, &or_field_on.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_OR_FIELD_ON_IN_VALUE1, &or_field_on.in_value[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_OR_FIELD_ON_OUT_VALUE, &or_field_on.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_TMR_FIELD_ON_COUNT, &regs_data.tmr_field_on.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_FIELD_ON_CONTROL, &tmr_field_on.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_FIELD_ON_STATUS, &tmr_field_on.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -909,6 +904,22 @@ REG(REG_ID_TMR_FIELD_ON_TMR_STATUS, &tmr_field_on.r_tmr.status, REG_TYPE_U32, RE
 REG(REG_ID_TMR_FIELD_ON_TMR_OUT_EXPIRED, &tmr_field_on.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
 REG(REG_ID_TMR_FIELD_ON_TMR_OUT_TIMEOUT, &tmr_field_on.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
 REG(REG_ID_TMR_FIELD_ON_TMR_P_INTERVAL, &tmr_field_on.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
+REG(REG_ID_THR_FIELD_ON_I_R_SYNC_COUNT, &regs_data.thr_field_on_i_r_sync.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
+REG(REG_ID_THR_FIELD_ON_I_R_SYNC_CONTROL, &thr_field_on_I_r_sync.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_THR_FIELD_ON_I_R_SYNC_STATUS, &thr_field_on_I_r_sync.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_THR_FIELD_ON_I_R_SYNC_IN_VALUE, &thr_field_on_I_r_sync.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
+REG(REG_ID_THR_FIELD_ON_I_R_SYNC_OUT_VALUE, &thr_field_on_I_r_sync.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
+REG(REG_ID_THR_FIELD_ON_I_R_SYNC_THRESHOLD, &thr_field_on_I_r_sync.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_COUNT, &regs_data.tmr_field_on_i_r_sync.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_CONTROL, &tmr_field_on_I_r_sync.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_STATUS, &tmr_field_on_I_r_sync.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_IN_VALUE, &tmr_field_on_I_r_sync.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_OUT_VALUE, &tmr_field_on_I_r_sync.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное значение сигнала. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_CONTROL, &tmr_field_on_I_r_sync.r_tmr.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_STATUS, &tmr_field_on_I_r_sync.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_EXPIRED, &tmr_field_on_I_r_sync.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_TIMEOUT, &tmr_field_on_I_r_sync.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
+REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_P_INTERVAL, &tmr_field_on_I_r_sync.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_COUNT, &regs_data.thr_value_for_slip_lt_zero.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_CONTROL, &thr_value_for_slip_lt_zero.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_VALUE_FOR_SLIP_LT_ZERO_STATUS, &thr_value_for_slip_lt_zero.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -954,22 +965,6 @@ REG(REG_ID_AND_RSTART_ON_STATUS, &and_rstart_on.status, REG_TYPE_U32, REG_FLAG_N
 REG(REG_ID_AND_RSTART_ON_IN_VALUE0, &and_rstart_on.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AND_RSTART_ON_IN_VALUE1, &and_rstart_on.in_value[1], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AND_RSTART_ON_OUT_VALUE, &and_rstart_on.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
-REG(REG_ID_THR_FIELD_ON_I_R_SYNC_COUNT, &regs_data.thr_field_on_i_r_sync.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
-REG(REG_ID_THR_FIELD_ON_I_R_SYNC_CONTROL, &thr_field_on_I_r_sync.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
-REG(REG_ID_THR_FIELD_ON_I_R_SYNC_STATUS, &thr_field_on_I_r_sync.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
-REG(REG_ID_THR_FIELD_ON_I_R_SYNC_IN_VALUE, &thr_field_on_I_r_sync.in_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение для сравнения. */
-REG(REG_ID_THR_FIELD_ON_I_R_SYNC_OUT_VALUE, &thr_field_on_I_r_sync.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Результат сравнения значения с порогом. */
-REG(REG_ID_THR_FIELD_ON_I_R_SYNC_THRESHOLD, &thr_field_on_I_r_sync.p_threshold, REG_TYPE_I32, REG_FLAG_CONF, 0x000000) /* Порог. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_COUNT, &regs_data.tmr_field_on_i_r_sync.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_CONTROL, &tmr_field_on_I_r_sync.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_STATUS, &tmr_field_on_I_r_sync.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_IN_VALUE, &tmr_field_on_I_r_sync.in_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Входное значение сигнала. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_OUT_VALUE, &tmr_field_on_I_r_sync.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное значение сигнала. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_CONTROL, &tmr_field_on_I_r_sync.r_tmr.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_STATUS, &tmr_field_on_I_r_sync.r_tmr.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_EXPIRED, &tmr_field_on_I_r_sync.r_tmr.out_expired, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг истечения времени. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_OUT_TIMEOUT, &tmr_field_on_I_r_sync.r_tmr.out_timeout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Строб тайм-аута. */
-REG(REG_ID_TMR_FIELD_ON_I_R_SYNC_TMR_P_INTERVAL, &tmr_field_on_I_r_sync.r_tmr.p_interval, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Интервал таймера, мс. */
 REG(REG_ID_THR_FIELD_SUPP_I_R_COUNT, &regs_data.thr_field_supp_i_r.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_FIELD_SUPP_I_R_CONTROL, &thr_field_supp_I_r.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_FIELD_SUPP_I_R_STATUS, &thr_field_supp_I_r.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
