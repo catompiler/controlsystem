@@ -424,14 +424,14 @@ struct _S_regs_data regs_data = {
 .cell_cb = {
     .count = 5 /* Number of sub entries count */
 },
+.run_trig = {
+    .count = 3 /* Number of sub entries count */
+},
 .thr_run_trig_i_s = {
     .count = 5 /* Number of sub entries count */
 },
 .am_run_trig_i_s = {
     .count = 5 /* Number of sub entries count */
-},
-.mux_run_trig = {
-    .count = 6 /* Number of sub entries count */
 },
 .tmr_run_trig = {
     .count = 9 /* Number of sub entries count */

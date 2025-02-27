@@ -101,9 +101,9 @@ M_valid_range3 vr_rms_Ucell = VALID_RANGE3_DEFCFG(IQ24(0.5), IQ24(1.5));
 
 M_cell_cb cell_cb = CELL_CB_DEFAULTS;
 
+M_run_trig run_trig = RUN_TRIG_DEFAULTS;
 M_threshold_gt thr_run_trig_I_s = THRESHOLD_GT_DEFCFG(IQ24(0.1));
 M_and1_mask am_run_trig_I_s = AND1_MASK_DEFCFG(1);
-M_mux2 mux_run_trig = MUX2_DEFAULTS;
 M_timer_on tmr_run_trig = TIMER_ON_DEFCFG(10);
 
 M_threshold_lt thr_prim_Slip = THRESHOLD_LT_DEFCFG(IQ24(0.05));

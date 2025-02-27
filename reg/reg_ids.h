@@ -806,25 +806,22 @@
 #define REG_ID_CELL_CB_IN_NO_STATE 0x242003 /* Состояние NO контакта выключателя ячейки. */
 #define REG_ID_CELL_CB_IN_NC_STATE 0x242004 /* Состояние NC контакта выключателя ячейки. */
 #define REG_ID_CELL_CB_OUT_STATE 0x242005 /* Состояние выключателя ячейки. */
-#define REG_ID_THR_RUN_TRIG_I_S_COUNT 0x243000 /* Number of sub entries count */
-#define REG_ID_THR_RUN_TRIG_I_S_CONTROL 0x243001 /* Слово управления. */
-#define REG_ID_THR_RUN_TRIG_I_S_STATUS 0x243002 /* Слово состояния. */
-#define REG_ID_THR_RUN_TRIG_I_S_IN_VALUE 0x243003 /* Значение для сравнения. */
-#define REG_ID_THR_RUN_TRIG_I_S_OUT_VALUE 0x243004 /* Результат сравнения значения с порогом. */
-#define REG_ID_THR_RUN_TRIG_I_S_THRESHOLD 0x243005 /* Порог. */
-#define REG_ID_AM_RUN_TRIG_I_S_COUNT 0x244000 /* Number of sub entries count */
-#define REG_ID_AM_RUN_TRIG_I_S_CONTROL 0x244001 /* Слово управления. */
-#define REG_ID_AM_RUN_TRIG_I_S_STATUS 0x244002 /* Слово состояния. */
-#define REG_ID_AM_RUN_TRIG_I_S_IN_VALUE0 0x244003 /*  */
-#define REG_ID_AM_RUN_TRIG_I_S_OUT_VALUE 0x244004 /*  */
-#define REG_ID_AM_RUN_TRIG_I_S_MASK0 0x244005 /*  */
-#define REG_ID_MUX_RUN_TRIG_COUNT 0x245000 /* Number of sub entries count */
-#define REG_ID_MUX_RUN_TRIG_CONTROL 0x245001 /* Слово управления. */
-#define REG_ID_MUX_RUN_TRIG_STATUS 0x245002 /* Слово состояния. */
-#define REG_ID_MUX_RUN_TRIG_IN_VALUE0 0x245003 /* Входные значения. */
-#define REG_ID_MUX_RUN_TRIG_IN_VALUE1 0x245004 /* Входные значения. */
-#define REG_ID_MUX_RUN_TRIG_OUT_VALUE 0x245005 /* Выходное значение. */
-#define REG_ID_MUX_RUN_TRIG_SEL 0x245006 /* Селектор значений. */
+#define REG_ID_RUN_TRIG_COUNT 0x243000 /* Number of sub entries count */
+#define REG_ID_RUN_TRIG_CONTROL 0x243001 /* Слово управления. */
+#define REG_ID_RUN_TRIG_STATUS 0x243002 /* Слово состояния. */
+#define REG_ID_RUN_TRIG_OUT_VALUE 0x243003 /* Состояние триггера включения. */
+#define REG_ID_THR_RUN_TRIG_I_S_COUNT 0x244000 /* Number of sub entries count */
+#define REG_ID_THR_RUN_TRIG_I_S_CONTROL 0x244001 /* Слово управления. */
+#define REG_ID_THR_RUN_TRIG_I_S_STATUS 0x244002 /* Слово состояния. */
+#define REG_ID_THR_RUN_TRIG_I_S_IN_VALUE 0x244003 /* Значение для сравнения. */
+#define REG_ID_THR_RUN_TRIG_I_S_OUT_VALUE 0x244004 /* Результат сравнения значения с порогом. */
+#define REG_ID_THR_RUN_TRIG_I_S_THRESHOLD 0x244005 /* Порог. */
+#define REG_ID_AM_RUN_TRIG_I_S_COUNT 0x245000 /* Number of sub entries count */
+#define REG_ID_AM_RUN_TRIG_I_S_CONTROL 0x245001 /* Слово управления. */
+#define REG_ID_AM_RUN_TRIG_I_S_STATUS 0x245002 /* Слово состояния. */
+#define REG_ID_AM_RUN_TRIG_I_S_IN_VALUE0 0x245003 /*  */
+#define REG_ID_AM_RUN_TRIG_I_S_OUT_VALUE 0x245004 /*  */
+#define REG_ID_AM_RUN_TRIG_I_S_MASK0 0x245005 /*  */
 #define REG_ID_TMR_RUN_TRIG_COUNT 0x246000 /* Number of sub entries count */
 #define REG_ID_TMR_RUN_TRIG_CONTROL 0x246001 /* Слово управления. */
 #define REG_ID_TMR_RUN_TRIG_STATUS 0x246002 /* Слово состояния. */

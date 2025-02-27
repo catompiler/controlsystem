@@ -117,9 +117,9 @@ typedef struct {
     OD_obj_record_t o_2400_vr_filter_freq_umains[12];
     OD_obj_record_t o_2410_vr_rms_ucell[12];
     OD_obj_record_t o_2420_cell_cb[6];
-    OD_obj_record_t o_2430_thr_run_trig_i_s[6];
-    OD_obj_record_t o_2440_am_run_trig_i_s[6];
-    OD_obj_record_t o_2450_mux_run_trig[7];
+    OD_obj_record_t o_2430_run_trig[4];
+    OD_obj_record_t o_2440_thr_run_trig_i_s[6];
+    OD_obj_record_t o_2450_am_run_trig_i_s[6];
     OD_obj_record_t o_2460_tmr_run_trig[10];
     OD_obj_record_t o_2470_thr_prim_slip[6];
     OD_obj_record_t o_2480_thr_prim_i_s[6];
@@ -4935,7 +4935,33 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2430_thr_run_trig_i_s = {
+.o_2430_run_trig = {
+    {
+    .dataOrig = &regs_data.run_trig.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &run_trig.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &run_trig.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &run_trig.out_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_2440_thr_run_trig_i_s = {
     {
     .dataOrig = &regs_data.thr_run_trig_i_s.count,
     .subIndex = 0,
@@ -4973,7 +4999,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2440_am_run_trig_i_s = {
+.o_2450_am_run_trig_i_s = {
     {
     .dataOrig = &regs_data.am_run_trig_i_s.count,
     .subIndex = 0,
@@ -5007,50 +5033,6 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &am_run_trig_I_s.p_mask[0],
     .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2450_mux_run_trig = {
-    {
-    .dataOrig = &regs_data.mux_run_trig.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &mux_run_trig.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &mux_run_trig.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &mux_run_trig.in_value[0],
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &mux_run_trig.in_value[1],
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &mux_run_trig.out_value,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &mux_run_trig.p_sel,
-    .subIndex = 6,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     }
@@ -9189,9 +9171,9 @@ static OD_ATTR_OD OD_entry_t ODList[] = {
     {0x2400, 0x0c, ODT_REC, &ODObjs.o_2400_vr_filter_freq_umains, NULL},
     {0x2410, 0x0c, ODT_REC, &ODObjs.o_2410_vr_rms_ucell, NULL},
     {0x2420, 0x06, ODT_REC, &ODObjs.o_2420_cell_cb, NULL},
-    {0x2430, 0x06, ODT_REC, &ODObjs.o_2430_thr_run_trig_i_s, NULL},
-    {0x2440, 0x06, ODT_REC, &ODObjs.o_2440_am_run_trig_i_s, NULL},
-    {0x2450, 0x07, ODT_REC, &ODObjs.o_2450_mux_run_trig, NULL},
+    {0x2430, 0x04, ODT_REC, &ODObjs.o_2430_run_trig, NULL},
+    {0x2440, 0x06, ODT_REC, &ODObjs.o_2440_thr_run_trig_i_s, NULL},
+    {0x2450, 0x06, ODT_REC, &ODObjs.o_2450_am_run_trig_i_s, NULL},
     {0x2460, 0x0a, ODT_REC, &ODObjs.o_2460_tmr_run_trig, NULL},
     {0x2470, 0x06, ODT_REC, &ODObjs.o_2470_thr_prim_slip, NULL},
     {0x2480, 0x06, ODT_REC, &ODObjs.o_2480_thr_prim_i_s, NULL},

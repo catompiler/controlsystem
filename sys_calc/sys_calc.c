@@ -369,26 +369,9 @@ static void sys_calc_calc_start_time(M_sys_calc* sys_calc)
 
 static void sys_calc_calc_run_trig(M_sys_calc* sys_calc)
 {
-    // Ток статора больше порогового.
-    thr_run_trig_I_s.in_value = mean_rms_Icell.out_value;
-    CALC(thr_run_trig_I_s);
+    (void) sys_calc;
 
-    // Разрешение учитывания тока статора.
-    am_run_trig_I_s.in_value[0] = thr_run_trig_I_s.out_value;
-    CALC(am_run_trig_I_s);
-    // Выбор условий запуска в зависимости от состояния контактов выключателя ячейки.
-    mux_run_trig.in_value[0] = am_run_trig_I_s.out_value;
-    mux_run_trig.in_value[1] = (cell_cb.out_state == CELL_CB_ON) ? FLAG_ACTIVE : FLAG_NONE;
-    if(cell_cb.out_state == CELL_CB_ON || cell_cb.out_state == CELL_CB_OFF){
-        mux_run_trig.p_sel = 1;
-    }else{
-        mux_run_trig.p_sel = 0;
-    }
-    CALC(mux_run_trig);
-
-    // Таймер включения.
-    tmr_run_trig.in_value = mux_run_trig.out_value;
-    CALC(tmr_run_trig);
+    CALC(run_trig);
 }
 
 static void sys_calc_calc_field_on_conds(M_sys_calc* sys_calc)

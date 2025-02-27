@@ -66,6 +66,7 @@
 #include "canopen/canopen.h"
 #include "storage/storage.h"
 #include "settings/settings.h"
+#include "run_trig/run_trig.h"
 
 
 
@@ -213,12 +214,12 @@ extern M_valid_range3 vr_rms_Ucell;
 extern M_cell_cb cell_cb;
 
 // Триггеры работы двигателя.
+// Модуль вычисления триггера.
+extern M_run_trig run_trig;
 // Порог превышения током статора заданного значения.
 extern M_threshold_gt thr_run_trig_I_s;
 // Разрешение учитывания тока статора.
 extern M_and1_mask am_run_trig_I_s;
-// Выбор условий запуска в зависимости от состояния контактов выключателя ячейки.
-extern M_mux2 mux_run_trig;
 // Таймер до включения по порогу тока статора.
 extern M_timer_on tmr_run_trig;
 

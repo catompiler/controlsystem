@@ -297,12 +297,12 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(cell_cb);
 
     // Триггеры пуска.
+    // Модуль триггера пуска.
+    INIT(run_trig);
     // Триггер пуска по превышению током статора заданного значения.
     INIT(thr_run_trig_I_s);
     // Разрешение учитывания тока статора.
     INIT(am_run_trig_I_s);
-    // Выбор условий запуска в зависимости от состояния контактов выключателя ячейки.
-    INIT(mux_run_trig);
     // Таймер включения по току статора.
     INIT(tmr_run_trig);
 
@@ -520,12 +520,12 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(and_rstart_on);
 
     // Триггеры пуска.
+    // Модуль триггера пуска.
+    DEINIT(run_trig);
     // Триггер пуска по превышению током статора заданного значения.
     DEINIT(thr_run_trig_I_s);
     // Разрешение учитывания тока статора.
     DEINIT(am_run_trig_I_s);
-    // Выбор условий запуска в зависимости от состояния контактов выключателя ячейки.
-    DEINIT(mux_run_trig);
     // Таймер включения по току статора.
     DEINIT(tmr_run_trig);
 
@@ -873,7 +873,7 @@ METHOD_CALC_IMPL(M_sys_main, sys)
         sys_ctrl.control &= ~SYS_CONTROL_CONTROL_TEST;
     }
     // Включение.
-    if(tmr_run_trig.out_value == FLAG_ACTIVE){
+    if(run_trig.out_value == FLAG_ACTIVE){
         sys_ctrl.control |= SYS_CONTROL_CONTROL_RUN;
     }else{
         sys_ctrl.control &= ~SYS_CONTROL_CONTROL_RUN;

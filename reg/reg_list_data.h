@@ -811,6 +811,10 @@ REG(REG_ID_CELL_CB_STATUS, &cell_cb.status, REG_TYPE_U32, REG_FLAG_NONE, 0x00000
 REG(REG_ID_CELL_CB_IN_NO_STATE, &cell_cb.in_no_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние NO контакта выключателя ячейки. */
 REG(REG_ID_CELL_CB_IN_NC_STATE, &cell_cb.in_nc_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние NC контакта выключателя ячейки. */
 REG(REG_ID_CELL_CB_OUT_STATE, &cell_cb.out_state, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Состояние выключателя ячейки. */
+REG(REG_ID_RUN_TRIG_COUNT, &regs_data.run_trig.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
+REG(REG_ID_RUN_TRIG_CONTROL, &run_trig.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_RUN_TRIG_STATUS, &run_trig.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_RUN_TRIG_OUT_VALUE, &run_trig.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние триггера включения. */
 REG(REG_ID_THR_RUN_TRIG_I_S_COUNT, &regs_data.thr_run_trig_i_s.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_THR_RUN_TRIG_I_S_CONTROL, &thr_run_trig_I_s.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_THR_RUN_TRIG_I_S_STATUS, &thr_run_trig_I_s.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -823,13 +827,6 @@ REG(REG_ID_AM_RUN_TRIG_I_S_STATUS, &am_run_trig_I_s.status, REG_TYPE_U32, REG_FL
 REG(REG_ID_AM_RUN_TRIG_I_S_IN_VALUE0, &am_run_trig_I_s.in_value[0], REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_RUN_TRIG_I_S_OUT_VALUE, &am_run_trig_I_s.out_value, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_AM_RUN_TRIG_I_S_MASK0, &am_run_trig_I_s.p_mask[0], REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
-REG(REG_ID_MUX_RUN_TRIG_COUNT, &regs_data.mux_run_trig.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
-REG(REG_ID_MUX_RUN_TRIG_CONTROL, &mux_run_trig.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
-REG(REG_ID_MUX_RUN_TRIG_STATUS, &mux_run_trig.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
-REG(REG_ID_MUX_RUN_TRIG_IN_VALUE0, &mux_run_trig.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
-REG(REG_ID_MUX_RUN_TRIG_IN_VALUE1, &mux_run_trig.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
-REG(REG_ID_MUX_RUN_TRIG_OUT_VALUE, &mux_run_trig.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_RUN_TRIG_SEL, &mux_run_trig.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
 REG(REG_ID_TMR_RUN_TRIG_COUNT, &regs_data.tmr_run_trig.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_TMR_RUN_TRIG_CONTROL, &tmr_run_trig.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_TMR_RUN_TRIG_STATUS, &tmr_run_trig.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */

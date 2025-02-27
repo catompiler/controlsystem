@@ -529,6 +529,10 @@ struct _S_cell_cb {
     uint8_t count; /* Number of sub entries count */
 } cell_cb;
 
+struct _S_run_trig {
+    uint8_t count; /* Number of sub entries count */
+} run_trig;
+
 struct _S_thr_run_trig_i_s {
     uint8_t count; /* Number of sub entries count */
 } thr_run_trig_i_s;
@@ -536,10 +540,6 @@ struct _S_thr_run_trig_i_s {
 struct _S_am_run_trig_i_s {
     uint8_t count; /* Number of sub entries count */
 } am_run_trig_i_s;
-
-struct _S_mux_run_trig {
-    uint8_t count; /* Number of sub entries count */
-} mux_run_trig;
 
 struct _S_tmr_run_trig {
     uint8_t count; /* Number of sub entries count */
