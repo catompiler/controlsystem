@@ -119,12 +119,13 @@ M_threshold_lt thr_field_on_I_r_sync = THRESHOLD_LT_DEFCFG(IQ24(0.001));
 M_timer_on tmr_field_on_I_r_sync = TIMER_ON_DEFCFG(2500);
 
 M_threshold_lt thr_value_for_slip_lt_zero = THRESHOLD_LT_DEFCFG(IQ24(0));
-M_or2 or_value_slip_lt_zero_I_r_sync = OR2_DEFAULTS;
-M_and2 and_ready_to_exc = AND2_DEFAULTS;
 M_timer_on tmr_field_on_rstart_off = TIMER_ON_DEFCFG(10);
-M_not not_ready_to_exc = NOT_DEFAULTS;
 M_comp_eq cmp_ctrl_state_is_start = COMP_EQ_DEFAULTS;
-M_and2 and_rstart_on = AND2_DEFAULTS;
+
+M_timer tmr_start_min_forcing = TIMER_DEFCFG(500);
+M_timer tmr_start_max_forcing = TIMER_DEFCFG(5000);
+M_timer_on tmr_start_stab_forcing = TIMER_ON_DEFCFG(500);
+M_threshold_le thr_start_Q_le_zero = THRESHOLD_LE_DEFCFG(IQ24(0));
 
 M_threshold_lt thr_field_supp_I_r = THRESHOLD_LT_DEFCFG(IQ24(0.01));
 M_timer tmr_field_supp = TIMER_DEFCFG(1000);
@@ -145,13 +146,6 @@ M_filter1 filter_mean_Iarm = FILTER1_DEFCFG(IQ24(0.00016));
 M_filter1 filter_mean_Uarm = FILTER1_DEFCFG(IQ24(0.00033));
 M_filter1 filter_mean_Irstart = FILTER1_DEFCFG(IQ24(0.00016));
 
-
-M_timer tmr_start_min_forcing = TIMER_DEFCFG(500);
-M_timer tmr_start_max_forcing = TIMER_DEFCFG(5000);
-M_timer_on tmr_start_stab_forcing = TIMER_ON_DEFCFG(500);
-M_threshold_le thr_start_Q_le_zero = THRESHOLD_LE_DEFCFG(IQ24(0));
-M_and2 and_start_min_forcing_end = AND2_DEFAULTS;
-M_or2 or_start_forcing_end = OR2_DEFAULTS;
 
 M_mux4 mux_field_regs = MUX4_DEFAULTS;
 M_limit lim_field_regs_curr_ref = LIMIT_DEFCFG(IQ24(0.0), IQ24(1.0));

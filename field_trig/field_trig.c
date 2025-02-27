@@ -102,8 +102,43 @@ static void field_trig_calc_field_on(M_field_trig* ft)
     ft->out_rstart_on = (ready_to_exc == FLAG_NONE) && (fsm_state(&sys_ctrl.fsm_state) == SYS_CONTROL_STATE_START);
 }
 
+static void field_trig_calc_start_forcing(M_field_trig* ft)
+{
+    // Компаратор реактивной мощности.
+    thr_start_Q_le_zero.in_value = sum_Q.out_value;
+    CALC(thr_start_Q_le_zero);
+
+    // Таймер стабилизации.
+    tmr_start_stab_forcing.in_value = thr_start_Q_le_zero.out_value;
+    CALC(tmr_start_stab_forcing);
+
+    // Таймер минимального времени форсировки.
+    CALC(tmr_start_min_forcing);
+
+    // Таймер максимального времени форсировки.
+    CALC(tmr_start_max_forcing);
+
+    ft->out_start_forcing_end = tmr_start_max_forcing.out_expired || (tmr_start_min_forcing.out_expired && tmr_start_stab_forcing.out_value);
+}
+
+static void field_trig_calc_field_supp(M_field_trig* ft)
+{
+    thr_field_supp_I_r.in_value = mean_Iarm.out_value;
+    CALC(thr_field_supp_I_r);
+
+    CALC(tmr_field_supp);
+
+    ft->out_field_supp_end = tmr_field_supp.out_expired || thr_field_supp_I_r.out_value;
+}
+
 METHOD_CALC_IMPL(M_field_trig, ft)
 {
+    // Триггер запуска двигателя.
     field_trig_calc_run(ft);
+    // Триггер подачи возбуждения.
     field_trig_calc_field_on(ft);
+    // Триггер окончания форсировки при запуске.
+    field_trig_calc_start_forcing(ft);
+    // Триггер окончания гашения поля.
+    field_trig_calc_field_supp(ft);
 }

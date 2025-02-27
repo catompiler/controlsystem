@@ -208,7 +208,14 @@ static void FSM_state_start_field_force(M_sys_control* sys_ctrl)
     }
 
     // Если отменена команда "Форсировка".
-    if(or_start_forcing_end.out_value == FLAG_ACTIVE){
+    if(field_trig.out_start_forcing_end == FLAG_ACTIVE){
+        // Остановим таймер минимальной форсировки при запуске.
+        tmr_start_min_forcing.control = CONTROL_STOP;
+        CONTROL(tmr_start_min_forcing);
+        // Остановим таймер максимальной форсировки при запуске.
+        tmr_start_max_forcing.control = CONTROL_STOP;
+        CONTROL(tmr_start_max_forcing);
+
         // Перейдём в состояние "Работа".
         fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_RUN);
     }
@@ -251,8 +258,7 @@ static void FSM_state_field_supp(M_sys_control* sys_ctrl)
     }
 
     // Если поле погашено.
-    if(tmr_field_supp.out_expired ||
-       thr_field_supp_I_r.out_value == FLAG_ACTIVE){
+    if(field_trig.out_field_supp_end){
         // Остановим таймер гашения поля.
         tmr_field_supp.control = CONTROL_STOP;
         CONTROL(tmr_field_supp);

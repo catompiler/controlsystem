@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
+#include "port.h"
 #include "sys_counter/sys_counter.h"
 #include "syslog/syslog.h"
 #include "eeprom/eeprom.h"

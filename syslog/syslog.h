@@ -21,7 +21,7 @@ typedef enum _E_Syslog_Level {
 #define SYSLOG_MAX_MSG_LEN 32
 
 //! Размер буфера сообщений.
-#define SYSLOG_BUF_LEN 128
+#define SYSLOG_BUF_LEN 256
 
 //! Размер буфера для метки времени.
 #define SYSLOG_TIME_BUF_LEN 20

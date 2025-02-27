@@ -593,29 +593,25 @@ struct _S_thr_value_for_slip_lt_zero {
     uint8_t count; /* Number of sub entries count */
 } thr_value_for_slip_lt_zero;
 
-struct _S_or_value_slip_lt_zero_i_r_sync {
-    uint8_t count; /* Number of sub entries count */
-} or_value_slip_lt_zero_i_r_sync;
-
-struct _S_and_ready_to_exc {
-    uint8_t count; /* Number of sub entries count */
-} and_ready_to_exc;
-
 struct _S_tmr_field_on_rstart_off {
     uint8_t count; /* Number of sub entries count */
 } tmr_field_on_rstart_off;
 
-struct _S_not_ready_to_exc {
+struct _S_tmr_start_min_forcing {
     uint8_t count; /* Number of sub entries count */
-} not_ready_to_exc;
+} tmr_start_min_forcing;
 
-struct _S_cmp_ctrl_state_is_start {
+struct _S_tmr_start_max_forcing {
     uint8_t count; /* Number of sub entries count */
-} cmp_ctrl_state_is_start;
+} tmr_start_max_forcing;
 
-struct _S_and_rstart_on {
+struct _S_tmr_start_stab_forcing {
     uint8_t count; /* Number of sub entries count */
-} and_rstart_on;
+} tmr_start_stab_forcing;
+
+struct _S_thr_start_q_le_zero {
+    uint8_t count; /* Number of sub entries count */
+} thr_start_q_le_zero;
 
 struct _S_thr_field_supp_i_r {
     uint8_t count; /* Number of sub entries count */
@@ -672,30 +668,6 @@ struct _S_filter_mean_uarm {
 struct _S_filter_mean_irstart {
     uint8_t count; /* Number of sub entries count */
 } filter_mean_irstart;
-
-struct _S_tmr_start_min_forcing {
-    uint8_t count; /* Number of sub entries count */
-} tmr_start_min_forcing;
-
-struct _S_tmr_start_max_forcing {
-    uint8_t count; /* Number of sub entries count */
-} tmr_start_max_forcing;
-
-struct _S_tmr_start_stab_forcing {
-    uint8_t count; /* Number of sub entries count */
-} tmr_start_stab_forcing;
-
-struct _S_thr_start_q_le_zero {
-    uint8_t count; /* Number of sub entries count */
-} thr_start_q_le_zero;
-
-struct _S_and_start_min_forcing_end {
-    uint8_t count; /* Number of sub entries count */
-} and_start_min_forcing_end;
-
-struct _S_or_start_forcing_end {
-    uint8_t count; /* Number of sub entries count */
-} or_start_forcing_end;
 
 struct _S_mux_field_regs {
     uint8_t count; /* Number of sub entries count */

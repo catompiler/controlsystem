@@ -255,19 +255,21 @@ extern M_timer_on tmr_field_on_I_r_sync;
 // Цепочка завершения запуска и переход к подаче возбуждения.
 // Компаратор отрицательного значения величины для определения скольжения.
 extern M_threshold_lt thr_value_for_slip_lt_zero;
-// Величина для определения меньше нуля ИЛИ ротор сам втянулся в синхронизм.
-extern M_or2 or_value_slip_lt_zero_I_r_sync;
-// Нужно подавать возбуждение И можно открывать тиристоры.
-extern M_and2 and_ready_to_exc; // and_field_on_slip_sync
 // Таймер отключения пускового сопротивления.
 extern M_timer_on tmr_field_on_rstart_off;
 // Цепочка управления пусковым сопротивлением.
-// НЕ готовность подачи возбуждения.
-extern M_not not_ready_to_exc;
-// Компаратор состояния системы управления.
-extern M_comp_eq cmp_ctrl_state_is_start;
-// Включение пускового сопротивления == Не готов к подаче возбуждения И запуск.
-extern M_and2 and_rstart_on;
+// --
+
+
+// Форсировка при запуске.
+//! Таймер минимального времени форсировки.
+extern M_timer tmr_start_min_forcing;
+//! Таймер максимального времени форсировки.
+extern M_timer tmr_start_max_forcing;
+//! Таймер окончания форсировки (время стабилизации).
+extern M_timer_on tmr_start_stab_forcing;
+//! Компаратор не положительной реактивной мощности.
+extern M_threshold_le thr_start_Q_le_zero;
 
 
 // Гашение поля.
@@ -299,19 +301,6 @@ extern M_filter1 filter_mean_Uarm;
 // Среднее значение тока пускового сопротивления.
 extern M_filter1 filter_mean_Irstart;
 
-// Форсировка при запуске.
-//! Таймер минимального времени форсировки.
-extern M_timer tmr_start_min_forcing;
-//! Таймер максимального времени форсировки.
-extern M_timer tmr_start_max_forcing;
-//! Таймер окончания форсировки (время стабилизации).
-extern M_timer_on tmr_start_stab_forcing;
-//! Компаратор не положительной реактивной мощности.
-extern M_threshold_le thr_start_Q_le_zero;
-//! Прошло минимальное время форсировки И форсировка завершена.
-extern M_and2 and_start_min_forcing_end;
-//! Прошло максимальное время форсировки ИЛИ форсировка завершена.
-extern M_or2 or_start_forcing_end;
 
 // Регуляторы.
 // Контур тока.

@@ -26,6 +26,8 @@ struct _S_Field_Trig {
     flag_t out_run; //! Состояние триггера включения двигателя.
     flag_t out_field_on; //! Состояние триггера включения возбуждения.
     flag_t out_rstart_on; //!< Триггер управления пусковым сопротивлением.
+    flag_t out_start_forcing_end; //!< Триггер окончания форсировки при запуске.
+    flag_t out_field_supp_end; //!< Триггер окончания гашения поля при останове.
     // Параметры.
     // Регистры.
     // Методы.
@@ -48,6 +50,8 @@ EXTERN METHOD_CALC_PROTO(M_field_trig);
         0, /* out_run */\
         0, /* out_field_on */\
         0, /* out_rstart_on */\
+        0, /* out_start_forcing_end */\
+        0, /* out_field_supp_end */\
         /* Параметры */\
         /* Регистры */\
         /* Методы */\

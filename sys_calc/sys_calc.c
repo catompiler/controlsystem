@@ -374,33 +374,6 @@ static void sys_calc_calc_field_trig(M_sys_calc* sys_calc)
     CALC(field_trig);
 }
 
-static void sys_calc_calc_start_forcing(M_sys_calc* sys_calc)
-{
-    (void) sys_calc;
-
-    // Компаратор реактивной мощности.
-    thr_start_Q_le_zero.in_value = sum_Q.out_value;
-    CALC(thr_start_Q_le_zero);
-
-    // Таймер стабилизации.
-    tmr_start_stab_forcing.in_value = thr_start_Q_le_zero.out_value;
-    CALC(tmr_start_stab_forcing);
-
-    // Таймер минимального времени форсировки.
-    CALC(tmr_start_min_forcing);
-
-    // Таймер максимального времени форсировки.
-    CALC(tmr_start_max_forcing);
-
-    and_start_min_forcing_end.in_value[0] = tmr_start_min_forcing.out_expired;
-    and_start_min_forcing_end.in_value[1] = tmr_start_stab_forcing.out_value;
-    CALC(and_start_min_forcing_end);
-
-    or_start_forcing_end.in_value[0] = tmr_start_max_forcing.out_expired;
-    or_start_forcing_end.in_value[1] = and_start_min_forcing_end.out_value;
-    CALC(or_start_forcing_end);
-}
-
 static void sys_calc_calc_current_regulator(M_sys_calc* sys_calc)
 {
     (void) sys_calc;
@@ -451,16 +424,6 @@ static void sys_calc_calc_current_regulator(M_sys_calc* sys_calc)
     ph3c.in_control_value = pid_i.out_value;
 }
 
-static void sys_calc_calc_field_supp(M_sys_calc* sys_calc)
-{
-    (void) sys_calc;
-
-    thr_field_supp_I_r.in_value = mean_Iarm.out_value;
-    CALC(thr_field_supp_I_r);
-
-    CALC(tmr_field_supp);
-}
-
 /*
 
 static void sys_calc_calc_(M_sys_calc* sys_calc)
@@ -506,12 +469,6 @@ METHOD_CALC_IMPL(M_sys_calc, sys_calc)
     // Field triggers.
     sys_calc_calc_field_trig(sys_calc);
 
-    // Field forcing at start.
-    sys_calc_calc_start_forcing(sys_calc);
-
     // Контур тока.
     sys_calc_calc_current_regulator(sys_calc);
-
-    // Field suppression.
-    sys_calc_calc_field_supp(sys_calc);
 }

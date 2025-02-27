@@ -271,8 +271,6 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(tmr_start_max_forcing);
     INIT(tmr_start_stab_forcing);
     INIT(thr_start_Q_le_zero);
-    INIT(and_start_min_forcing_end);
-    INIT(or_start_forcing_end);
     // Регуляторы.
     INIT(mux_field_regs);
     INIT(lim_field_regs_curr_ref);
@@ -323,12 +321,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(tmr_field_on_I_r_sync);
     // Модули старта подачи возбуждения.
     INIT(thr_value_for_slip_lt_zero);
-    INIT(or_value_slip_lt_zero_I_r_sync);
-    INIT(and_ready_to_exc);
     INIT(tmr_field_on_rstart_off);
-    INIT(not_ready_to_exc);
-    INIT(cmp_ctrl_state_is_start);
-    INIT(and_rstart_on);
 
     // Гашение поля.
     INIT(thr_field_supp_I_r);
@@ -473,8 +466,6 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(tmr_start_max_forcing);
     DEINIT(tmr_start_stab_forcing);
     DEINIT(thr_start_Q_le_zero);
-    DEINIT(and_start_min_forcing_end);
-    DEINIT(or_start_forcing_end);
     // Регуляторы.
     INIT(mux_field_regs);
     INIT(lim_field_regs_curr_ref);
@@ -510,12 +501,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(tmr_field_on_I_r_sync);
     // Модули старта подачи возбуждения.
     DEINIT(thr_value_for_slip_lt_zero);
-    DEINIT(or_value_slip_lt_zero_I_r_sync);
-    DEINIT(and_ready_to_exc);
     DEINIT(tmr_field_on_rstart_off);
-    DEINIT(not_ready_to_exc);
-    DEINIT(cmp_ctrl_state_is_start);
-    DEINIT(and_rstart_on);
 
     // Триггеры пуска.
     // Модуль триггера пуска.

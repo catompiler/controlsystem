@@ -117,7 +117,7 @@ typedef struct {
     OD_obj_record_t o_2400_vr_filter_freq_umains[12];
     OD_obj_record_t o_2410_vr_rms_ucell[12];
     OD_obj_record_t o_2420_cell_cb[6];
-    OD_obj_record_t o_2430_field_trig[5];
+    OD_obj_record_t o_2430_field_trig[8];
     OD_obj_record_t o_2440_thr_run_trig_i_s[6];
     OD_obj_record_t o_2450_am_run_trig_i_s[6];
     OD_obj_record_t o_2460_tmr_run_trig[10];
@@ -133,48 +133,41 @@ typedef struct {
     OD_obj_record_t o_2500_thr_field_on_i_r_sync[6];
     OD_obj_record_t o_2510_tmr_field_on_i_r_sync[10];
     OD_obj_record_t o_2520_thr_value_for_slip_lt_zero[6];
-    OD_obj_record_t o_2530_or_value_slip_lt_zero_i_r_sync[6];
-    OD_obj_record_t o_2540_and_ready_to_exc[6];
-    OD_obj_record_t o_2550_tmr_field_on_rstart_off[10];
-    OD_obj_record_t o_2560_not_ready_to_exc[5];
-    OD_obj_record_t o_2570_cmp_ctrl_state_is_start[6];
-    OD_obj_record_t o_2580_and_rstart_on[6];
-    OD_obj_record_t o_2590_thr_field_supp_i_r[6];
-    OD_obj_record_t o_25A0_tmr_field_supp[6];
-    OD_obj_record_t o_25B0_cnt_start[4];
-    OD_obj_record_t o_25C0_filter_zcd_ua[7];
-    OD_obj_record_t o_25D0_filter_zcd_ub[7];
-    OD_obj_record_t o_25E0_filter_zcd_uc[7];
-    OD_obj_record_t o_25F0_filter_zcd_slip[7];
-    OD_obj_record_t o_2600_filter_freq_ua[7];
-    OD_obj_record_t o_2610_filter_freq_ub[7];
-    OD_obj_record_t o_2620_filter_freq_uc[7];
-    OD_obj_record_t o_2630_filter_freq_slip[7];
-    OD_obj_record_t o_2640_filter_mean_iarm[7];
-    OD_obj_record_t o_2650_filter_mean_uarm[7];
-    OD_obj_record_t o_2660_filter_mean_irstart[7];
-    OD_obj_record_t o_2670_tmr_start_min_forcing[6];
-    OD_obj_record_t o_2680_tmr_start_max_forcing[6];
-    OD_obj_record_t o_2690_tmr_start_stab_forcing[10];
-    OD_obj_record_t o_26A0_thr_start_q_le_zero[6];
-    OD_obj_record_t o_26B0_and_start_min_forcing_end[6];
-    OD_obj_record_t o_26C0_or_start_forcing_end[6];
-    OD_obj_record_t o_26D0_mux_field_regs[9];
-    OD_obj_record_t o_26E0_lim_field_regs_curr_ref[7];
-    OD_obj_record_t o_26F0_mux_field_force_ref[7];
-    OD_obj_record_t o_2700_mot_pot_field_test[10];
-    OD_obj_record_t o_2710_mot_pot_manual_curr_ref[10];
-    OD_obj_record_t o_2720_mux_curr_ref[9];
-    OD_obj_record_t o_2730_pid_i[12];
-    OD_obj_record_t o_2740_pid_coefs_i[12];
-    OD_obj_record_t o_2750_ph3c[97];
-    OD_obj_record_t o_2760_triacs[11];
-    OD_obj_record_t o_2770_lrm[53];
-    OD_obj_record_t o_2780_motor[43];
-    OD_obj_record_t o_2790_prot[87];
-    OD_obj_record_t o_27A0_canopen[3];
-    OD_obj_record_t o_27B0_storage[3];
-    OD_obj_record_t o_27C0_settings[4];
+    OD_obj_record_t o_2530_tmr_field_on_rstart_off[10];
+    OD_obj_record_t o_2540_tmr_start_min_forcing[6];
+    OD_obj_record_t o_2550_tmr_start_max_forcing[6];
+    OD_obj_record_t o_2560_tmr_start_stab_forcing[10];
+    OD_obj_record_t o_2570_thr_start_q_le_zero[6];
+    OD_obj_record_t o_2580_thr_field_supp_i_r[6];
+    OD_obj_record_t o_2590_tmr_field_supp[6];
+    OD_obj_record_t o_25A0_cnt_start[4];
+    OD_obj_record_t o_25B0_filter_zcd_ua[7];
+    OD_obj_record_t o_25C0_filter_zcd_ub[7];
+    OD_obj_record_t o_25D0_filter_zcd_uc[7];
+    OD_obj_record_t o_25E0_filter_zcd_slip[7];
+    OD_obj_record_t o_25F0_filter_freq_ua[7];
+    OD_obj_record_t o_2600_filter_freq_ub[7];
+    OD_obj_record_t o_2610_filter_freq_uc[7];
+    OD_obj_record_t o_2620_filter_freq_slip[7];
+    OD_obj_record_t o_2630_filter_mean_iarm[7];
+    OD_obj_record_t o_2640_filter_mean_uarm[7];
+    OD_obj_record_t o_2650_filter_mean_irstart[7];
+    OD_obj_record_t o_2660_mux_field_regs[9];
+    OD_obj_record_t o_2670_lim_field_regs_curr_ref[7];
+    OD_obj_record_t o_2680_mux_field_force_ref[7];
+    OD_obj_record_t o_2690_mot_pot_field_test[10];
+    OD_obj_record_t o_26A0_mot_pot_manual_curr_ref[10];
+    OD_obj_record_t o_26B0_mux_curr_ref[9];
+    OD_obj_record_t o_26C0_pid_i[12];
+    OD_obj_record_t o_26D0_pid_coefs_i[12];
+    OD_obj_record_t o_26E0_ph3c[97];
+    OD_obj_record_t o_26F0_triacs[11];
+    OD_obj_record_t o_2700_lrm[53];
+    OD_obj_record_t o_2710_motor[43];
+    OD_obj_record_t o_2720_prot[87];
+    OD_obj_record_t o_2730_canopen[3];
+    OD_obj_record_t o_2740_storage[3];
+    OD_obj_record_t o_2750_settings[4];
 } ODObjs_t;
 
 static CO_PROGMEM ODObjs_t ODObjs = {
@@ -4964,6 +4957,24 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .subIndex = 4,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
+    },
+    {
+    .dataOrig = &field_trig.out_rstart_on,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &field_trig.out_start_forcing_end,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &field_trig.out_field_supp_end,
+    .subIndex = 7,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
     }
 },
 .o_2440_thr_run_trig_i_s = {
@@ -5656,83 +5667,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2530_or_value_slip_lt_zero_i_r_sync = {
-    {
-    .dataOrig = &regs_data.or_value_slip_lt_zero_i_r_sync.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &or_value_slip_lt_zero_I_r_sync.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &or_value_slip_lt_zero_I_r_sync.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &or_value_slip_lt_zero_I_r_sync.in_value[0],
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &or_value_slip_lt_zero_I_r_sync.in_value[1],
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &or_value_slip_lt_zero_I_r_sync.out_value,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2540_and_ready_to_exc = {
-    {
-    .dataOrig = &regs_data.and_ready_to_exc.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &and_ready_to_exc.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &and_ready_to_exc.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &and_ready_to_exc.in_value[0],
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &and_ready_to_exc.in_value[1],
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &and_ready_to_exc.out_value,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2550_tmr_field_on_rstart_off = {
+.o_2530_tmr_field_on_rstart_off = {
     {
     .dataOrig = &regs_data.tmr_field_on_rstart_off.count,
     .subIndex = 0,
@@ -5794,701 +5729,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2560_not_ready_to_exc = {
-    {
-    .dataOrig = &regs_data.not_ready_to_exc.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &not_ready_to_exc.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &not_ready_to_exc.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &not_ready_to_exc.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &not_ready_to_exc.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2570_cmp_ctrl_state_is_start = {
-    {
-    .dataOrig = &regs_data.cmp_ctrl_state_is_start.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &cmp_ctrl_state_is_start.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &cmp_ctrl_state_is_start.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &cmp_ctrl_state_is_start.in_A,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &cmp_ctrl_state_is_start.in_B,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &cmp_ctrl_state_is_start.out_value,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2580_and_rstart_on = {
-    {
-    .dataOrig = &regs_data.and_rstart_on.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &and_rstart_on.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &and_rstart_on.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &and_rstart_on.in_value[0],
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &and_rstart_on.in_value[1],
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &and_rstart_on.out_value,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2590_thr_field_supp_i_r = {
-    {
-    .dataOrig = &regs_data.thr_field_supp_i_r.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &thr_field_supp_I_r.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &thr_field_supp_I_r.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &thr_field_supp_I_r.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &thr_field_supp_I_r.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &thr_field_supp_I_r.p_threshold,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_25A0_tmr_field_supp = {
-    {
-    .dataOrig = &regs_data.tmr_field_supp.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &tmr_field_supp.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &tmr_field_supp.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &tmr_field_supp.out_expired,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &tmr_field_supp.out_timeout,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &tmr_field_supp.p_interval,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_25B0_cnt_start = {
-    {
-    .dataOrig = &regs_data.cnt_start.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &cnt_start.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &cnt_start.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &cnt_start.out_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_25C0_filter_zcd_ua = {
-    {
-    .dataOrig = &regs_data.filter_zcd_ua.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_zcd_Ua.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Ua.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Ua.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Ua.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Ua.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Ua.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_25D0_filter_zcd_ub = {
-    {
-    .dataOrig = &regs_data.filter_zcd_ub.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_zcd_Ub.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Ub.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Ub.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Ub.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Ub.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Ub.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_25E0_filter_zcd_uc = {
-    {
-    .dataOrig = &regs_data.filter_zcd_uc.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_zcd_Uc.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Uc.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Uc.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Uc.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Uc.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_Uc.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_25F0_filter_zcd_slip = {
-    {
-    .dataOrig = &regs_data.filter_zcd_slip.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_zcd_slip.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_slip.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_slip.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_slip.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_slip.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_zcd_slip.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2600_filter_freq_ua = {
-    {
-    .dataOrig = &regs_data.filter_freq_ua.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_freq_Ua.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Ua.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Ua.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Ua.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Ua.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Ua.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2610_filter_freq_ub = {
-    {
-    .dataOrig = &regs_data.filter_freq_ub.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_freq_Ub.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Ub.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Ub.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Ub.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Ub.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Ub.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2620_filter_freq_uc = {
-    {
-    .dataOrig = &regs_data.filter_freq_uc.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_freq_Uc.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Uc.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Uc.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Uc.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Uc.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_Uc.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2630_filter_freq_slip = {
-    {
-    .dataOrig = &regs_data.filter_freq_slip.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_freq_slip.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_slip.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_slip.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_slip.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_slip.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_freq_slip.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2640_filter_mean_iarm = {
-    {
-    .dataOrig = &regs_data.filter_mean_iarm.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_mean_Iarm.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Iarm.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Iarm.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Iarm.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Iarm.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Iarm.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2650_filter_mean_uarm = {
-    {
-    .dataOrig = &regs_data.filter_mean_uarm.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_mean_Uarm.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Uarm.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Uarm.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Uarm.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Uarm.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Uarm.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2660_filter_mean_irstart = {
-    {
-    .dataOrig = &regs_data.filter_mean_irstart.count,
-    .subIndex = 0,
-    .attribute = ODA_SDO_R,
-    .dataLength = 1
-    },
-    {
-    .dataOrig = &filter_mean_Irstart.control,
-    .subIndex = 1,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Irstart.status,
-    .subIndex = 2,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Irstart.in_value,
-    .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Irstart.out_value,
-    .subIndex = 4,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Irstart.p_T,
-    .subIndex = 5,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    },
-    {
-    .dataOrig = &filter_mean_Irstart.r_Ts,
-    .subIndex = 6,
-    .attribute = ODA_SDO_RW | ODA_MB,
-    .dataLength = 4
-    }
-},
-.o_2670_tmr_start_min_forcing = {
+.o_2540_tmr_start_min_forcing = {
     {
     .dataOrig = &regs_data.tmr_start_min_forcing.count,
     .subIndex = 0,
@@ -6526,7 +5767,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2680_tmr_start_max_forcing = {
+.o_2550_tmr_start_max_forcing = {
     {
     .dataOrig = &regs_data.tmr_start_max_forcing.count,
     .subIndex = 0,
@@ -6564,7 +5805,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2690_tmr_start_stab_forcing = {
+.o_2560_tmr_start_stab_forcing = {
     {
     .dataOrig = &regs_data.tmr_start_stab_forcing.count,
     .subIndex = 0,
@@ -6626,7 +5867,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_26A0_thr_start_q_le_zero = {
+.o_2570_thr_start_q_le_zero = {
     {
     .dataOrig = &regs_data.thr_start_q_le_zero.count,
     .subIndex = 0,
@@ -6664,83 +5905,593 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_26B0_and_start_min_forcing_end = {
+.o_2580_thr_field_supp_i_r = {
     {
-    .dataOrig = &regs_data.and_start_min_forcing_end.count,
+    .dataOrig = &regs_data.thr_field_supp_i_r.count,
     .subIndex = 0,
     .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
-    .dataOrig = &and_start_min_forcing_end.control,
+    .dataOrig = &thr_field_supp_I_r.control,
     .subIndex = 1,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &and_start_min_forcing_end.status,
+    .dataOrig = &thr_field_supp_I_r.status,
     .subIndex = 2,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &and_start_min_forcing_end.in_value[0],
+    .dataOrig = &thr_field_supp_I_r.in_value,
     .subIndex = 3,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &and_start_min_forcing_end.in_value[1],
+    .dataOrig = &thr_field_supp_I_r.out_value,
     .subIndex = 4,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &and_start_min_forcing_end.out_value,
+    .dataOrig = &thr_field_supp_I_r.p_threshold,
     .subIndex = 5,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     }
 },
-.o_26C0_or_start_forcing_end = {
+.o_2590_tmr_field_supp = {
     {
-    .dataOrig = &regs_data.or_start_forcing_end.count,
+    .dataOrig = &regs_data.tmr_field_supp.count,
     .subIndex = 0,
     .attribute = ODA_SDO_R,
     .dataLength = 1
     },
     {
-    .dataOrig = &or_start_forcing_end.control,
+    .dataOrig = &tmr_field_supp.control,
     .subIndex = 1,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &or_start_forcing_end.status,
+    .dataOrig = &tmr_field_supp.status,
     .subIndex = 2,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &or_start_forcing_end.in_value[0],
+    .dataOrig = &tmr_field_supp.out_expired,
     .subIndex = 3,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &or_start_forcing_end.in_value[1],
+    .dataOrig = &tmr_field_supp.out_timeout,
     .subIndex = 4,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     },
     {
-    .dataOrig = &or_start_forcing_end.out_value,
+    .dataOrig = &tmr_field_supp.p_interval,
     .subIndex = 5,
     .attribute = ODA_SDO_RW | ODA_MB,
     .dataLength = 4
     }
 },
-.o_26D0_mux_field_regs = {
+.o_25A0_cnt_start = {
+    {
+    .dataOrig = &regs_data.cnt_start.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &cnt_start.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &cnt_start.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &cnt_start.out_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_25B0_filter_zcd_ua = {
+    {
+    .dataOrig = &regs_data.filter_zcd_ua.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_zcd_Ua.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Ua.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Ua.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Ua.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Ua.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Ua.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_25C0_filter_zcd_ub = {
+    {
+    .dataOrig = &regs_data.filter_zcd_ub.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_zcd_Ub.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Ub.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Ub.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Ub.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Ub.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Ub.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_25D0_filter_zcd_uc = {
+    {
+    .dataOrig = &regs_data.filter_zcd_uc.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_zcd_Uc.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Uc.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Uc.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Uc.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Uc.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_Uc.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_25E0_filter_zcd_slip = {
+    {
+    .dataOrig = &regs_data.filter_zcd_slip.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_zcd_slip.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_slip.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_slip.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_slip.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_slip.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_zcd_slip.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_25F0_filter_freq_ua = {
+    {
+    .dataOrig = &regs_data.filter_freq_ua.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_freq_Ua.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Ua.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Ua.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Ua.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Ua.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Ua.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_2600_filter_freq_ub = {
+    {
+    .dataOrig = &regs_data.filter_freq_ub.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_freq_Ub.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Ub.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Ub.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Ub.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Ub.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Ub.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_2610_filter_freq_uc = {
+    {
+    .dataOrig = &regs_data.filter_freq_uc.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_freq_Uc.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Uc.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Uc.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Uc.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Uc.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_Uc.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_2620_filter_freq_slip = {
+    {
+    .dataOrig = &regs_data.filter_freq_slip.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_freq_slip.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_slip.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_slip.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_slip.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_slip.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_freq_slip.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_2630_filter_mean_iarm = {
+    {
+    .dataOrig = &regs_data.filter_mean_iarm.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_mean_Iarm.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Iarm.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Iarm.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Iarm.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Iarm.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Iarm.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_2640_filter_mean_uarm = {
+    {
+    .dataOrig = &regs_data.filter_mean_uarm.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_mean_Uarm.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Uarm.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Uarm.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Uarm.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Uarm.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Uarm.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_2650_filter_mean_irstart = {
+    {
+    .dataOrig = &regs_data.filter_mean_irstart.count,
+    .subIndex = 0,
+    .attribute = ODA_SDO_R,
+    .dataLength = 1
+    },
+    {
+    .dataOrig = &filter_mean_Irstart.control,
+    .subIndex = 1,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Irstart.status,
+    .subIndex = 2,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Irstart.in_value,
+    .subIndex = 3,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Irstart.out_value,
+    .subIndex = 4,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Irstart.p_T,
+    .subIndex = 5,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    },
+    {
+    .dataOrig = &filter_mean_Irstart.r_Ts,
+    .subIndex = 6,
+    .attribute = ODA_SDO_RW | ODA_MB,
+    .dataLength = 4
+    }
+},
+.o_2660_mux_field_regs = {
     {
     .dataOrig = &regs_data.mux_field_regs.count,
     .subIndex = 0,
@@ -6796,7 +6547,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_26E0_lim_field_regs_curr_ref = {
+.o_2670_lim_field_regs_curr_ref = {
     {
     .dataOrig = &regs_data.lim_field_regs_curr_ref.count,
     .subIndex = 0,
@@ -6840,7 +6591,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_26F0_mux_field_force_ref = {
+.o_2680_mux_field_force_ref = {
     {
     .dataOrig = &regs_data.mux_field_force_ref.count,
     .subIndex = 0,
@@ -6884,7 +6635,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2700_mot_pot_field_test = {
+.o_2690_mot_pot_field_test = {
     {
     .dataOrig = &regs_data.mot_pot_field_test.count,
     .subIndex = 0,
@@ -6946,7 +6697,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2710_mot_pot_manual_curr_ref = {
+.o_26A0_mot_pot_manual_curr_ref = {
     {
     .dataOrig = &regs_data.mot_pot_manual_curr_ref.count,
     .subIndex = 0,
@@ -7008,7 +6759,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2720_mux_curr_ref = {
+.o_26B0_mux_curr_ref = {
     {
     .dataOrig = &regs_data.mux_curr_ref.count,
     .subIndex = 0,
@@ -7064,7 +6815,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2730_pid_i = {
+.o_26C0_pid_i = {
     {
     .dataOrig = &regs_data.pid_i.count,
     .subIndex = 0,
@@ -7138,7 +6889,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2740_pid_coefs_i = {
+.o_26D0_pid_coefs_i = {
     {
     .dataOrig = &regs_data.pid_coefs_i.count,
     .subIndex = 0,
@@ -7212,7 +6963,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2750_ph3c = {
+.o_26E0_ph3c = {
     {
     .dataOrig = &regs_data.ph3c.count,
     .subIndex = 0,
@@ -7796,7 +7547,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2760_triacs = {
+.o_26F0_triacs = {
     {
     .dataOrig = &regs_data.triacs.count,
     .subIndex = 0,
@@ -7864,7 +7615,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2770_lrm = {
+.o_2700_lrm = {
     {
     .dataOrig = &regs_data.lrm.count,
     .subIndex = 0,
@@ -8184,7 +7935,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2780_motor = {
+.o_2710_motor = {
     {
     .dataOrig = &regs_data.motor.count,
     .subIndex = 0,
@@ -8444,7 +8195,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_2790_prot = {
+.o_2720_prot = {
     {
     .dataOrig = &regs_data.prot.count,
     .subIndex = 0,
@@ -8968,7 +8719,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_27A0_canopen = {
+.o_2730_canopen = {
     {
     .dataOrig = &regs_data.canopen.count,
     .subIndex = 0,
@@ -8988,7 +8739,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_27B0_storage = {
+.o_2740_storage = {
     {
     .dataOrig = &regs_data.storage.count,
     .subIndex = 0,
@@ -9008,7 +8759,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     .dataLength = 4
     }
 },
-.o_27C0_settings = {
+.o_2750_settings = {
     {
     .dataOrig = &regs_data.settings.count,
     .subIndex = 0,
@@ -9138,7 +8889,7 @@ static OD_ATTR_OD OD_entry_t ODList[] = {
     {0x2400, 0x0c, ODT_REC, &ODObjs.o_2400_vr_filter_freq_umains, NULL},
     {0x2410, 0x0c, ODT_REC, &ODObjs.o_2410_vr_rms_ucell, NULL},
     {0x2420, 0x06, ODT_REC, &ODObjs.o_2420_cell_cb, NULL},
-    {0x2430, 0x05, ODT_REC, &ODObjs.o_2430_field_trig, NULL},
+    {0x2430, 0x08, ODT_REC, &ODObjs.o_2430_field_trig, NULL},
     {0x2440, 0x06, ODT_REC, &ODObjs.o_2440_thr_run_trig_i_s, NULL},
     {0x2450, 0x06, ODT_REC, &ODObjs.o_2450_am_run_trig_i_s, NULL},
     {0x2460, 0x0a, ODT_REC, &ODObjs.o_2460_tmr_run_trig, NULL},
@@ -9154,48 +8905,41 @@ static OD_ATTR_OD OD_entry_t ODList[] = {
     {0x2500, 0x06, ODT_REC, &ODObjs.o_2500_thr_field_on_i_r_sync, NULL},
     {0x2510, 0x0a, ODT_REC, &ODObjs.o_2510_tmr_field_on_i_r_sync, NULL},
     {0x2520, 0x06, ODT_REC, &ODObjs.o_2520_thr_value_for_slip_lt_zero, NULL},
-    {0x2530, 0x06, ODT_REC, &ODObjs.o_2530_or_value_slip_lt_zero_i_r_sync, NULL},
-    {0x2540, 0x06, ODT_REC, &ODObjs.o_2540_and_ready_to_exc, NULL},
-    {0x2550, 0x0a, ODT_REC, &ODObjs.o_2550_tmr_field_on_rstart_off, NULL},
-    {0x2560, 0x05, ODT_REC, &ODObjs.o_2560_not_ready_to_exc, NULL},
-    {0x2570, 0x06, ODT_REC, &ODObjs.o_2570_cmp_ctrl_state_is_start, NULL},
-    {0x2580, 0x06, ODT_REC, &ODObjs.o_2580_and_rstart_on, NULL},
-    {0x2590, 0x06, ODT_REC, &ODObjs.o_2590_thr_field_supp_i_r, NULL},
-    {0x25a0, 0x06, ODT_REC, &ODObjs.o_25A0_tmr_field_supp, NULL},
-    {0x25b0, 0x04, ODT_REC, &ODObjs.o_25B0_cnt_start, NULL},
-    {0x25c0, 0x07, ODT_REC, &ODObjs.o_25C0_filter_zcd_ua, NULL},
-    {0x25d0, 0x07, ODT_REC, &ODObjs.o_25D0_filter_zcd_ub, NULL},
-    {0x25e0, 0x07, ODT_REC, &ODObjs.o_25E0_filter_zcd_uc, NULL},
-    {0x25f0, 0x07, ODT_REC, &ODObjs.o_25F0_filter_zcd_slip, NULL},
-    {0x2600, 0x07, ODT_REC, &ODObjs.o_2600_filter_freq_ua, NULL},
-    {0x2610, 0x07, ODT_REC, &ODObjs.o_2610_filter_freq_ub, NULL},
-    {0x2620, 0x07, ODT_REC, &ODObjs.o_2620_filter_freq_uc, NULL},
-    {0x2630, 0x07, ODT_REC, &ODObjs.o_2630_filter_freq_slip, NULL},
-    {0x2640, 0x07, ODT_REC, &ODObjs.o_2640_filter_mean_iarm, NULL},
-    {0x2650, 0x07, ODT_REC, &ODObjs.o_2650_filter_mean_uarm, NULL},
-    {0x2660, 0x07, ODT_REC, &ODObjs.o_2660_filter_mean_irstart, NULL},
-    {0x2670, 0x06, ODT_REC, &ODObjs.o_2670_tmr_start_min_forcing, NULL},
-    {0x2680, 0x06, ODT_REC, &ODObjs.o_2680_tmr_start_max_forcing, NULL},
-    {0x2690, 0x0a, ODT_REC, &ODObjs.o_2690_tmr_start_stab_forcing, NULL},
-    {0x26a0, 0x06, ODT_REC, &ODObjs.o_26A0_thr_start_q_le_zero, NULL},
-    {0x26b0, 0x06, ODT_REC, &ODObjs.o_26B0_and_start_min_forcing_end, NULL},
-    {0x26c0, 0x06, ODT_REC, &ODObjs.o_26C0_or_start_forcing_end, NULL},
-    {0x26d0, 0x09, ODT_REC, &ODObjs.o_26D0_mux_field_regs, NULL},
-    {0x26e0, 0x07, ODT_REC, &ODObjs.o_26E0_lim_field_regs_curr_ref, NULL},
-    {0x26f0, 0x07, ODT_REC, &ODObjs.o_26F0_mux_field_force_ref, NULL},
-    {0x2700, 0x0a, ODT_REC, &ODObjs.o_2700_mot_pot_field_test, NULL},
-    {0x2710, 0x0a, ODT_REC, &ODObjs.o_2710_mot_pot_manual_curr_ref, NULL},
-    {0x2720, 0x09, ODT_REC, &ODObjs.o_2720_mux_curr_ref, NULL},
-    {0x2730, 0x0c, ODT_REC, &ODObjs.o_2730_pid_i, NULL},
-    {0x2740, 0x0c, ODT_REC, &ODObjs.o_2740_pid_coefs_i, NULL},
-    {0x2750, 0x61, ODT_REC, &ODObjs.o_2750_ph3c, NULL},
-    {0x2760, 0x0b, ODT_REC, &ODObjs.o_2760_triacs, NULL},
-    {0x2770, 0x35, ODT_REC, &ODObjs.o_2770_lrm, NULL},
-    {0x2780, 0x2b, ODT_REC, &ODObjs.o_2780_motor, NULL},
-    {0x2790, 0x57, ODT_REC, &ODObjs.o_2790_prot, NULL},
-    {0x27a0, 0x03, ODT_REC, &ODObjs.o_27A0_canopen, NULL},
-    {0x27b0, 0x03, ODT_REC, &ODObjs.o_27B0_storage, NULL},
-    {0x27c0, 0x04, ODT_REC, &ODObjs.o_27C0_settings, NULL},
+    {0x2530, 0x0a, ODT_REC, &ODObjs.o_2530_tmr_field_on_rstart_off, NULL},
+    {0x2540, 0x06, ODT_REC, &ODObjs.o_2540_tmr_start_min_forcing, NULL},
+    {0x2550, 0x06, ODT_REC, &ODObjs.o_2550_tmr_start_max_forcing, NULL},
+    {0x2560, 0x0a, ODT_REC, &ODObjs.o_2560_tmr_start_stab_forcing, NULL},
+    {0x2570, 0x06, ODT_REC, &ODObjs.o_2570_thr_start_q_le_zero, NULL},
+    {0x2580, 0x06, ODT_REC, &ODObjs.o_2580_thr_field_supp_i_r, NULL},
+    {0x2590, 0x06, ODT_REC, &ODObjs.o_2590_tmr_field_supp, NULL},
+    {0x25a0, 0x04, ODT_REC, &ODObjs.o_25A0_cnt_start, NULL},
+    {0x25b0, 0x07, ODT_REC, &ODObjs.o_25B0_filter_zcd_ua, NULL},
+    {0x25c0, 0x07, ODT_REC, &ODObjs.o_25C0_filter_zcd_ub, NULL},
+    {0x25d0, 0x07, ODT_REC, &ODObjs.o_25D0_filter_zcd_uc, NULL},
+    {0x25e0, 0x07, ODT_REC, &ODObjs.o_25E0_filter_zcd_slip, NULL},
+    {0x25f0, 0x07, ODT_REC, &ODObjs.o_25F0_filter_freq_ua, NULL},
+    {0x2600, 0x07, ODT_REC, &ODObjs.o_2600_filter_freq_ub, NULL},
+    {0x2610, 0x07, ODT_REC, &ODObjs.o_2610_filter_freq_uc, NULL},
+    {0x2620, 0x07, ODT_REC, &ODObjs.o_2620_filter_freq_slip, NULL},
+    {0x2630, 0x07, ODT_REC, &ODObjs.o_2630_filter_mean_iarm, NULL},
+    {0x2640, 0x07, ODT_REC, &ODObjs.o_2640_filter_mean_uarm, NULL},
+    {0x2650, 0x07, ODT_REC, &ODObjs.o_2650_filter_mean_irstart, NULL},
+    {0x2660, 0x09, ODT_REC, &ODObjs.o_2660_mux_field_regs, NULL},
+    {0x2670, 0x07, ODT_REC, &ODObjs.o_2670_lim_field_regs_curr_ref, NULL},
+    {0x2680, 0x07, ODT_REC, &ODObjs.o_2680_mux_field_force_ref, NULL},
+    {0x2690, 0x0a, ODT_REC, &ODObjs.o_2690_mot_pot_field_test, NULL},
+    {0x26a0, 0x0a, ODT_REC, &ODObjs.o_26A0_mot_pot_manual_curr_ref, NULL},
+    {0x26b0, 0x09, ODT_REC, &ODObjs.o_26B0_mux_curr_ref, NULL},
+    {0x26c0, 0x0c, ODT_REC, &ODObjs.o_26C0_pid_i, NULL},
+    {0x26d0, 0x0c, ODT_REC, &ODObjs.o_26D0_pid_coefs_i, NULL},
+    {0x26e0, 0x61, ODT_REC, &ODObjs.o_26E0_ph3c, NULL},
+    {0x26f0, 0x0b, ODT_REC, &ODObjs.o_26F0_triacs, NULL},
+    {0x2700, 0x35, ODT_REC, &ODObjs.o_2700_lrm, NULL},
+    {0x2710, 0x2b, ODT_REC, &ODObjs.o_2710_motor, NULL},
+    {0x2720, 0x57, ODT_REC, &ODObjs.o_2720_prot, NULL},
+    {0x2730, 0x03, ODT_REC, &ODObjs.o_2730_canopen, NULL},
+    {0x2740, 0x03, ODT_REC, &ODObjs.o_2740_storage, NULL},
+    {0x2750, 0x04, ODT_REC, &ODObjs.o_2750_settings, NULL},
     {0x0000, 0x00, 0, NULL, NULL}
 };
 

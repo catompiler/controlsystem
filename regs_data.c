@@ -425,7 +425,7 @@ struct _S_regs_data regs_data = {
     .count = 5 /* Number of sub entries count */
 },
 .field_trig = {
-    .count = 4 /* Number of sub entries count */
+    .count = 7 /* Number of sub entries count */
 },
 .thr_run_trig_i_s = {
     .count = 5 /* Number of sub entries count */
@@ -472,22 +472,19 @@ struct _S_regs_data regs_data = {
 .thr_value_for_slip_lt_zero = {
     .count = 5 /* Number of sub entries count */
 },
-.or_value_slip_lt_zero_i_r_sync = {
-    .count = 5 /* Number of sub entries count */
-},
-.and_ready_to_exc = {
-    .count = 5 /* Number of sub entries count */
-},
 .tmr_field_on_rstart_off = {
     .count = 9 /* Number of sub entries count */
 },
-.not_ready_to_exc = {
-    .count = 4 /* Number of sub entries count */
-},
-.cmp_ctrl_state_is_start = {
+.tmr_start_min_forcing = {
     .count = 5 /* Number of sub entries count */
 },
-.and_rstart_on = {
+.tmr_start_max_forcing = {
+    .count = 5 /* Number of sub entries count */
+},
+.tmr_start_stab_forcing = {
+    .count = 9 /* Number of sub entries count */
+},
+.thr_start_q_le_zero = {
     .count = 5 /* Number of sub entries count */
 },
 .thr_field_supp_i_r = {
@@ -531,24 +528,6 @@ struct _S_regs_data regs_data = {
 },
 .filter_mean_irstart = {
     .count = 6 /* Number of sub entries count */
-},
-.tmr_start_min_forcing = {
-    .count = 5 /* Number of sub entries count */
-},
-.tmr_start_max_forcing = {
-    .count = 5 /* Number of sub entries count */
-},
-.tmr_start_stab_forcing = {
-    .count = 9 /* Number of sub entries count */
-},
-.thr_start_q_le_zero = {
-    .count = 5 /* Number of sub entries count */
-},
-.and_start_min_forcing_end = {
-    .count = 5 /* Number of sub entries count */
-},
-.or_start_forcing_end = {
-    .count = 5 /* Number of sub entries count */
 },
 .mux_field_regs = {
     .count = 8 /* Number of sub entries count */
