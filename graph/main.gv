@@ -1,0 +1,1902 @@
+digraph Main {
+
+    rankdir = LR;
+    style = "filled, rounded";
+    fillcolor = lightblue;
+    color = black;
+    bgcolor = white;
+    layout = dot;#dot;#osage;
+    splines = spline;
+    #cluster = false;
+    #overlap = "prism";
+    #pad = 0.5;
+    #nodesep = 1;
+    #ranksep = 2;
+    packmode = "cluster";
+    pack = true;
+    remincross = true;
+    #ratio = "auto"; #"compress";
+    #size = "1,1"
+    #page = "1,1"
+    #concentrate = true;
+    #mclimit = 5;#1.0
+    #minlen = 1;
+    #nslimit = 10;
+    #orderint = "in"
+    #remincross = false; #true
+    #searchsize = 30; #30;
+    #voro_margin = 0.01; #0.01
+    
+
+    node [shape=rectangle];
+    edge []
+
+    subgraph cluster_ph3c {
+        label = "ph3c";
+        node [shape = plaintext]
+        ph3c [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_Ua_angle">in_Ua_angle</td><td port="out_control">out_control</td></tr>
+            <tr><td port="in_Ub_angle">in_Ub_angle</td><td port="out_control_delay_angle">out_control_delay_angle</td></tr>
+            <tr><td port="in_Uc_angle">in_Uc_angle</td><td port="out_control_max_duration_angle">out_control_max_duration_angle</td></tr>
+            <tr><td port="in_control_value">in_control_value</td><td port="out_min_control_value">out_min_control_value</td></tr>
+            <tr><td port="" border="0"></td><td port="out_max_control_value">out_max_control_value</td></tr>
+            </table>
+        >];
+    }
+
+    subgraph cluster_adc {
+        label = "adc";
+        node [shape = plaintext];
+        adc [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="out_Ua">out_Ua</td></tr>
+            <tr><td port="out_Ub">out_Ub</td></tr>
+            <tr><td port="out_Uc">out_Uc</td></tr>
+            <tr><td port="out_s_Ua">out_s_Ua</td></tr>
+            <tr><td port="out_s_Ub">out_s_Ub</td></tr>
+            <tr><td port="out_s_Uc">out_s_Uc</td></tr>
+            <tr><td port="out_Ia">out_Ia</td></tr>
+            <tr><td port="out_Ib">out_Ib</td></tr>
+            <tr><td port="out_Ic">out_Ic</td></tr>
+            <tr><td port="out_s_Ia">out_s_Ia</td></tr>
+            <tr><td port="out_s_Ib">out_s_Ib</td></tr>
+            <tr><td port="out_s_Ic">out_s_Ic</td></tr>
+            <tr><td port="out_Uarm">out_Uarm</td></tr>
+            <tr><td port="out_Iarm">out_Iarm</td></tr>
+            <tr><td port="out_Irstart">out_Irstart</td></tr>
+            </table>
+        >];
+    }
+
+    subgraph cluster_adc_model {
+        label = "adc_model";
+        node [shape = plaintext];
+        adc_model [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="out_Ua">out_Ua</td></tr>
+            <tr><td port="out_Ub">out_Ub</td></tr>
+            <tr><td port="out_Uc">out_Uc</td></tr>
+            <tr><td port="out_s_Ua">out_s_Ua</td></tr>
+            <tr><td port="out_s_Ub">out_s_Ub</td></tr>
+            <tr><td port="out_s_Uc">out_s_Uc</td></tr>
+            </table>
+        >];
+    }
+
+    subgraph cluster_lrm {
+        label = "lrm";
+        node [shape = plaintext];
+        lrm [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_Ua">in_Ua</td><td port="out_Ia">out_Ia</td></tr>
+            <tr><td port="in_Ub">in_Ub</td><td port="out_Ib">out_Ib</td></tr>
+            <tr><td port="in_Uc">in_Uc</td><td port="out_Ic">out_Ic</td></tr>
+            <tr><td port="in_stator_Ua">in_stator_Ua</td><td port="out_stator_Ia">out_stator_Ia</td></tr>
+            <tr><td port="in_stator_Ub">in_stator_Ub</td><td port="out_stator_Ib">out_stator_Ib</td></tr>
+            <tr><td port="in_stator_Uc">in_stator_Uc</td><td port="out_stator_Ic">out_stator_Ic</td></tr>
+            <tr><td port="in_Uref_angle">in_Uref_angle</td><td port="out_Ufld">out_Ufld</td></tr>
+            <tr><td port="in_control">in_control</td><td port="out_Ifld">out_Ifld</td></tr>
+            <tr><td port="in_control_delay_angle">in_control_delay_angle</td><td port="out_Irstart">out_Irstart</td></tr>
+            <tr><td port="in_control_duration_angle">in_control_duration_angle</td><td port="out_M">out_M</td></tr>
+            <tr><td port="in_start_r_on">in_start_r_on</td><td port="out_w">out_w</td></tr>
+            </table>
+        >];
+    }
+
+    subgraph cluster_for_phc{
+        label = "calc_for_phc"
+
+        subgraph cluster_mux_Umains {
+            label = "mux_Umains";
+            node [shape = plaintext];
+            mux_Umains [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A0">in_A[0]</td><td port="out_A">out_A</td></tr>
+                <tr><td port="in_B0">in_B[0]</td><td port="out_B">out_B</td></tr>
+                <tr><td port="in_C0">in_C[0]</td><td port="out_C">out_C</td></tr>
+                <tr><td port="in_A1">in_A[1]</td><td port="" border="1" rowspan="3"></td></tr>
+                <tr><td port="in_B1">in_B[1]</td><td port="" border="0"></td></tr>
+                <tr><td port="in_C1">in_C[1]</td><td port="" border="0"></td></tr>
+                <tr><td port="p_sel" colspan="2">sel</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_phase_ampl_Ua {
+            label = "phase_ampl_Ua";
+            node [shape = plaintext];
+            phase_ampl_Ua [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_phase">out_phase</td></tr>
+                <tr><td port="" border="0"></td><td port="out_ampl">out_ampl</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_phase_ampl_Ub {
+            label = "phase_ampl_Ub";
+            node [shape = plaintext];
+            phase_ampl_Ub [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_phase">out_phase</td></tr>
+                <tr><td port="" border="0"></td><td port="out_ampl">out_ampl</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_phase_ampl_Uc {
+            label = "phase_ampl_Uc";
+            node [shape = plaintext];
+            phase_ampl_Uc [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_phase">out_phase</td></tr>
+                <tr><td port="" border="0"></td><td port="out_ampl">out_ampl</td></tr>
+                </table>
+            >];
+        }
+    }
+
+    subgraph cluster_calc_for_model {
+        label = "calc_for_model"
+        
+        subgraph cluster_mux_Ucell {
+            label = "mux_Ucell";
+            node [shape = plaintext];
+            mux_Ucell [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A0">in_A[0]</td><td port="out_A">out_A</td></tr>
+                <tr><td port="in_B0">in_B[0]</td><td port="out_B">out_B</td></tr>
+                <tr><td port="in_C0">in_C[0]</td><td port="out_C">out_C</td></tr>
+                <tr><td port="in_A1">in_A[1]</td><td port="" border="1" rowspan="3"></td></tr>
+                <tr><td port="in_B1">in_B[1]</td><td port="" border="0"></td></tr>
+                <tr><td port="in_C1">in_C[1]</td><td port="" border="0"></td></tr>
+                <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_calc_Ucell {
+            label = "calc_Ucell";
+            node [shape = plaintext];
+            calc_Ucell [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A">in_A</td><td port="out_A">out_A</td></tr>
+                <tr><td port="in_B">in_B</td><td port="out_B">out_B</td></tr>
+                <tr><td port="in_C">in_C</td><td port="out_C">out_C</td></tr>
+                <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                </table>
+            >];
+        }
+    }
+
+    subgraph cluster_calc_mains {
+        label = "calc_mains"
+
+        subgraph cluster_mux_Imains {
+            label = "mux_Imains";
+            node [shape = plaintext];
+            mux_Imains [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A0">in_A[0]</td><td port="out_A">out_A</td></tr>
+                <tr><td port="in_B0">in_B[0]</td><td port="out_B">out_B</td></tr>
+                <tr><td port="in_C0">in_C[0]</td><td port="out_C">out_C</td></tr>
+                <tr><td port="in_A1">in_A[1]</td><td port="" border="1" rowspan="3"></td></tr>
+                <tr><td port="in_B1">in_B[1]</td><td port="" border="0"></td></tr>
+                <tr><td port="in_C1">in_C[1]</td><td port="" border="0"></td></tr>
+                <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rect_curr {
+            label = "rect_curr";
+            node [shape = plaintext];
+            rect_curr [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_Ia">in_Ia</td><td port="out_I">out_I</td></tr>
+                <tr><td port="in_Ib">in_Ib</td><td port="" border="1" rowspan="2"></td></tr>
+                <tr><td port="in_Ic">in_Ic</td><td port="" border="0"></td></tr>
+                </table>
+            >];
+        }
+    }
+
+    subgraph cluster_calc_armature {
+        label = "calc_armature"
+
+        subgraph cluster_mux_Uarm {
+            label = "mux_Uarm";
+            node [shape = plaintext];
+            mux_Uarm [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="1"></td></tr>
+                <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_mux_Iarm {
+            label = "mux_Iarm";
+            node [shape = plaintext];
+            mux_Iarm [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="2"></td></tr>
+                <tr><td port="in_value2">in_value[2]</td><td port="" border="0"></td></tr>
+                <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_mux_Irstart {
+            label = "mux_Irstart";
+            node [shape = plaintext];
+            mux_Irstart [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="1"></td></tr>
+                <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                </table>
+            >];
+        }
+    }
+
+    subgraph cluster_calc_cell {
+        label = "calc_cell"
+
+        subgraph cluster_mux_Icell {
+            label = "mux_Icell";
+            node [shape = plaintext];
+            mux_Icell [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A0">in_A[0]</td><td port="out_A">out_A</td></tr>
+                <tr><td port="in_B0">in_B[0]</td><td port="out_B">out_B</td></tr>
+                <tr><td port="in_C0">in_C[0]</td><td port="out_C">out_C</td></tr>
+                <tr><td port="in_A1">in_A[1]</td><td port="" border="1" rowspan="3"></td></tr>
+                <tr><td port="in_B1">in_B[1]</td><td port="" border="0"></td></tr>
+                <tr><td port="in_C1">in_C[1]</td><td port="" border="0"></td></tr>
+                <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_calc_Icell {
+            label = "calc_Icell";
+            node [shape = plaintext];
+            calc_Icell [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A">in_A</td><td port="out_A">out_A</td></tr>
+                <tr><td port="in_B">in_B</td><td port="out_B">out_B</td></tr>
+                <tr><td port="in_C">in_C</td><td port="out_C">out_C</td></tr>
+                <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_phase_Ucell {
+            label = "phase_Ucell";
+            node [shape = plaintext];
+            phase_Ucell [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A">in_A</td><td port="out_A">out_A</td></tr>
+                <tr><td port="in_B">in_B</td><td port="out_B">out_B</td></tr>
+                <tr><td port="in_C">in_C</td><td port="out_C">out_C</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_phase_lrm_I_stator {
+            label = "phase_lrm_I_stator";
+            node [shape = plaintext];
+            phase_lrm_I_stator [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A">in_A</td><td port="out_A">out_A</td></tr>
+                <tr><td port="in_B">in_B</td><td port="out_B">out_B</td></tr>
+                <tr><td port="in_C">in_C</td><td port="out_C">out_C</td></tr>
+                </table>
+            >];
+        }
+    }
+
+    subgraph cluster_calc_mains_freq {
+        label = "calc_mains_freq";
+
+        subgraph cluster_filter_zcd_Ua {
+            label = "filter_zcd_Ua";
+            node [shape = plaintext];
+            filter_zcd_Ua [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_filter_zcd_Ub {
+            label = "filter_zcd_Ub";
+            node [shape = plaintext];
+            filter_zcd_Ub [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_filter_zcd_Uc {
+            label = "filter_zcd_Uc";
+            node [shape = plaintext];
+            filter_zcd_Uc [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_zcd_Ua {
+            label = "zcd_Ua";
+            node [shape = plaintext];
+            zcd_Ua [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_zero_cross">out_zero_cross</td></tr>
+                <tr><td port="" border="0"></td><td port="out_period">out_period</td></tr>
+                <tr><td port="" border="0"></td><td port="out_freq">out_freq</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_zcd_Ub {
+            label = "zcd_Ub";
+            node [shape = plaintext];
+            zcd_Ub [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_zero_cross">out_zero_cross</td></tr>
+                <tr><td port="" border="0"></td><td port="out_period">out_period</td></tr>
+                <tr><td port="" border="0"></td><td port="out_freq">out_freq</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_zcd_Uc {
+            label = "zcd_Uc";
+            node [shape = plaintext];
+            zcd_Uc [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_zero_cross">out_zero_cross</td></tr>
+                <tr><td port="" border="0"></td><td port="out_period">out_period</td></tr>
+                <tr><td port="" border="0"></td><td port="out_freq">out_freq</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_filter_freq_Ua {
+            label = "filter_freq_Ua";
+            node [shape = plaintext];
+            filter_freq_Ua [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_filter_freq_Ub {
+            label = "filter_freq_Ub";
+            node [shape = plaintext];
+            filter_freq_Ub [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_filter_freq_Uc {
+            label = "filter_freq_Uc";
+            node [shape = plaintext];
+            filter_freq_Uc [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+    }
+
+    subgraph cluster_calc_slip {
+        label = "calc_slip";
+
+        subgraph cluster_mux_slip {
+            label = "mux_slip";
+            node [shape = plaintext];
+            mux_slip [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="1"></td></tr>
+                <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_filter_zcd_slip {
+            label = "filter_zcd_slip";
+            node [shape = plaintext];
+            filter_zcd_slip [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_zcd_slip {
+            label = "zcd_slip";
+            node [shape = plaintext];
+            zcd_slip [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_zero_cross">out_zero_cross</td></tr>
+                <tr><td port="" border="0"></td><td port="out_period">out_period</td></tr>
+                <tr><td port="" border="0"></td><td port="out_freq">out_freq</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_filter_freq_slip {
+            label = "filter_freq_slip";
+            node [shape = plaintext];
+            filter_freq_slip [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_slip {
+            label = "slip";
+            node [shape = plaintext];
+            slip [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+    }
+
+    
+    subgraph cluster_calc_rms_mains{
+        label = "calc_rms_mains";
+
+        subgraph cluster_rms_Ua {
+            label = "rms_Ua";
+            node [shape = plaintext];
+            rms_Ua [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_Ub {
+            label = "rms_Ub";
+            node [shape = plaintext];
+            rms_Ub [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_Uc {
+            label = "rms_Uc";
+            node [shape = plaintext];
+            rms_Uc [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_Ia {
+            label = "rms_Ia";
+            node [shape = plaintext];
+            rms_Ia [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_Ib {
+            label = "rms_Ib";
+            node [shape = plaintext];
+            rms_Ib [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_Ic {
+            label = "rms_Ic";
+            node [shape = plaintext];
+            rms_Ic [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+    }
+
+
+    subgraph cluster_calc_rms_cell {
+        label = "calc_rms_cell";
+
+        subgraph cluster_rms_cell_Ua {
+            label = "rms_cell_Ua";
+            node [shape = plaintext];
+            rms_cell_Ua [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_cell_Ub {
+            label = "rms_cell_Ub";
+            node [shape = plaintext];
+            rms_cell_Ub [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_cell_Uc {
+            label = "rms_cell_Uc";
+            node [shape = plaintext];
+            rms_cell_Uc [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_cell_Ua_phase {
+            label = "rms_cell_Ua_phase";
+            node [shape = plaintext];
+            rms_cell_Ua_phase [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_cell_Ub_phase {
+            label = "rms_cell_Ub_phase";
+            node [shape = plaintext];
+            rms_cell_Ub_phase [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_cell_Uc_phase {
+            label = "rms_cell_Uc_phase";
+            node [shape = plaintext];
+            rms_cell_Uc_phase [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_cell_Ia {
+            label = "rms_cell_Ia";
+            node [shape = plaintext];
+            rms_cell_Ia [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_cell_Ib {
+            label = "rms_cell_Ib";
+            node [shape = plaintext];
+            rms_cell_Ib [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_rms_cell_Ic {
+            label = "rms_cell_Ic";
+            node [shape = plaintext];
+            rms_cell_Ic [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_mean_rms_Icell {
+            label = "mean_rms_Icell";
+            node [shape = plaintext];
+            mean_rms_Icell [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_value1">in_value[1]</td><td port="" border="0" rowspan="2"></td></tr>
+                <tr><td port="in_value2">in_value[2]</td><td port="" border="0"></td></tr>
+                </table>
+            >];
+        }
+    }
+
+
+    subgraph cluster_calc_mean_armature {
+        label = "calc_mean_armature";
+
+        subgraph cluster_mean_Iarm {
+            label = "mean_Iarm";
+            node [shape = plaintext];
+            mean_Iarm [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_filter_mean_Iarm {
+            label = "filter_mean_Iarm";
+            node [shape = plaintext];
+            filter_mean_Iarm [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_mean_Uarm {
+            label = "mean_Uarm";
+            node [shape = plaintext];
+            mean_Uarm [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_filter_mean_Uarm {
+            label = "filter_mean_Uarm";
+            node [shape = plaintext];
+            filter_mean_Uarm [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_mean_Irstart {
+            label = "mean_Irstart";
+            node [shape = plaintext];
+            mean_Irstart [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_filter_mean_Irstart {
+            label = "filter_mean_Irstart";
+            node [shape = plaintext];
+            filter_mean_Irstart [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                </table>
+            >];
+        }
+    }
+
+
+    subgraph cluster_calc_power {
+        label = "calc_power";
+
+        subgraph cluster_power_A {
+            label = "power_A";
+            node [shape = plaintext];
+            power_A [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_U">in_U</td><td port="out_S">out_S</td></tr>
+                <tr><td port="in_I">in_I</td><td port="out_P">out_P</td></tr>
+                <tr><td port="in_rms_U">in_rms_U</td><td port="out_Q">out_Q</td></tr>
+                <tr><td port="in_rms_I">in_rms_I</td><td port="" border="0"></td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_power_B {
+            label = "power_B";
+            node [shape = plaintext];
+            power_B [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_U">in_U</td><td port="out_S">out_S</td></tr>
+                <tr><td port="in_I">in_I</td><td port="out_P">out_P</td></tr>
+                <tr><td port="in_rms_U">in_rms_U</td><td port="out_Q">out_Q</td></tr>
+                <tr><td port="in_rms_I">in_rms_I</td><td port="" border="0"></td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_power_C {
+            label = "power_C";
+            node [shape = plaintext];
+            power_C [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_U">in_U</td><td port="out_S">out_S</td></tr>
+                <tr><td port="in_I">in_I</td><td port="out_P">out_P</td></tr>
+                <tr><td port="in_rms_U">in_rms_U</td><td port="out_Q">out_Q</td></tr>
+                <tr><td port="in_rms_I">in_rms_I</td><td port="" border="0"></td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_sum_S {
+            label = "sum_S";
+            node [shape = plaintext];
+            sum_S [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_value1">in_value[1]</td></tr>
+                <tr><td port="in_value2">in_value[2]</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_sum_P {
+            label = "sum_P";
+            node [shape = plaintext];
+            sum_P [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_value1">in_value[1]</td></tr>
+                <tr><td port="in_value2">in_value[2]</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_sum_Q {
+            label = "sum_Q";
+            node [shape = plaintext];
+            sum_Q [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_value1">in_value[1]</td></tr>
+                <tr><td port="in_value2">in_value[2]</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_power_factor {
+            label = "power_factor";
+            node [shape = plaintext];
+            power_factor [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_S">in_S</td><td port="out_cos_phi">out_cos_phi</td></tr>
+                <tr><td port="in_P">in_P</td><td port="out_sin_phi">out_sin_phi</td></tr>
+                <tr><td port="in_Q">in_Q</td><td port="out_tan_phi">out_tan_phi</td></tr>
+                </table>
+            >];
+        }
+    }
+
+
+    subgraph cluster_calc_valid_ranges{
+        label = "calc_valid_ranges";
+
+        subgraph cluster_vr_rms_Umains {
+            label = "vr_rms_Umains";
+            node [shape = plaintext];
+            vr_rms_Umains [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value0">out_value[0]</td></tr>
+                <tr><td port="in_value1">in_value[1]</td><td port="out_value1">out_value[1]</td></tr>
+                <tr><td port="in_value2">in_value[2]</td><td port="out_value2">out_value[2]</td></tr>
+                <tr><td port=""></td><td port="out_value_all">out_value_all</td></tr>
+                <tr><td port="p_min_value" colspan="2">p_min_value</td></tr>
+                <tr><td port="p_max_value" colspan="2">p_max_value</td></tr>
+                </table>
+            >];
+        }
+            
+        subgraph cluster_vr_filter_freq_Umains {
+            label = "vr_filter_freq_Umains";
+            node [shape = plaintext];
+            vr_filter_freq_Umains [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value0">out_value[0]</td></tr>
+                <tr><td port="in_value1">in_value[1]</td><td port="out_value1">out_value[1]</td></tr>
+                <tr><td port="in_value2">in_value[2]</td><td port="out_value2">out_value[2]</td></tr>
+                <tr><td port=""></td><td port="out_value_all">out_value_all</td></tr>
+                <tr><td port="p_min_value" colspan="2">p_min_value</td></tr>
+                <tr><td port="p_max_value" colspan="2">p_max_value</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_vr_rms_Ucell {
+            label = "vr_rms_Ucell";
+            node [shape = plaintext];
+            vr_rms_Ucell [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value0">out_value[0]</td></tr>
+                <tr><td port="in_value1">in_value[1]</td><td port="out_value1">out_value[1]</td></tr>
+                <tr><td port="in_value2">in_value[2]</td><td port="out_value2">out_value[2]</td></tr>
+                <tr><td port=""></td><td port="out_value_all">out_value_all</td></tr>
+                <tr><td port="p_min_value" colspan="2">p_min_value</td></tr>
+                <tr><td port="p_max_value" colspan="2">p_max_value</td></tr>
+                </table>
+            >];
+        }
+    }
+
+
+    subgraph cluster_cell_cb {
+        label = "cell_cb";
+        node [shape = plaintext];
+        cell_cb [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_no_state">in_no_state</td><td port="out_state">out_state</td></tr>
+            <tr><td port="in_nc_state">in_nc_state</td><td port="" border="0"></td></tr>
+            </table>
+        >];
+    }
+
+
+    subgraph cluster_cnt_start {
+        label = "cnt_start";
+        node [shape = plaintext];
+        cnt_start [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="start">start</td><td port="out_value">out_value</td></tr>
+            <tr><td port="stop">stop</td><td port="" border="0"></td></tr>
+            </table>
+        >];
+    }
+
+
+    subgraph cluster_calc_run_trig {
+        label = "calc_run_trig";
+
+        subgraph cluster_thr_run_trig_I_s {
+            label = "thr_run_trig_I_s";
+            node [shape = plaintext];
+            thr_run_trig_I_s [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                <tr><td port="p_threshold" colspan="2">p_threshold</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_am_run_trig_I_s {
+            label = "am_run_trig_I_s";
+            node [shape = plaintext];
+            am_run_trig_I_s [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="p_mask" colspan="2">p_mask</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_run_trig_val1_comp_cell_cb_on {
+            label = "comp";
+            node [shape = plaintext];
+            run_trig_val1_comp_cell_cb_on [label = "==\nCELL_CB_ON"];
+        }
+
+        subgraph cluster_run_trig_sel_comp_cell_cb_on {
+            label = "comp";
+            node [shape = plaintext];
+            run_trig_sel_comp_cell_cb_on [label = "==\nCELL_CB_ON"];
+        }
+
+        subgraph cluster_run_trig_sel_comp_cell_cb_off {
+            label = "comp";
+            node [shape = plaintext];
+            run_trig_sel_comp_cell_cb_off [label = "==\nCELL_CB_OFF"];
+        }
+
+        subgraph cluster_run_trig_sel_or {
+            label = "or";
+            node [shape = plaintext];
+            run_trig_sel_or [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A">in_A</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_B">in_B</td><td port="" border="0"></td></tr>
+                <!--<tr><td port="" colspan="2">sel</td></tr>-->
+                </table>
+            >];
+        }
+
+        subgraph cluster_mux_run_trig {
+            label = "mux_run_trig";
+            node [shape = plaintext];
+            mux_run_trig [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="1"></td></tr>
+                <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_tmr_run_trig {
+            label = "tmr_run_trig";
+            node [shape = plaintext];
+            tmr_run_trig [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                <tr><td port="r_interval" colspan="2">r_interval</td></tr>
+                </table>
+            >];
+        }
+    }
+
+    
+    subgraph cluster_calc_field_on_conds {
+        label = "calc_field_on_conds";
+
+
+        subgraph cluster_prim_cond {
+            label = "prim";
+
+            subgraph cluster_thr_prim_Slip {
+                label = "thr_prim_Slip";
+                node [shape = plaintext];
+                thr_prim_Slip [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="p_threshold" colspan="2">p_threshold</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_thr_prim_I_s {
+                label = "thr_prim_I_s";
+                node [shape = plaintext];
+                thr_prim_I_s [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="p_threshold" colspan="2">p_threshold</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_thr_prim_T {
+                label = "thr_prim_T";
+                node [shape = plaintext];
+                thr_prim_T [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="p_threshold" colspan="2">p_threshold</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_am_prim_field_on {
+                label = "am_prim_field_on";
+                node [shape = plaintext];
+                am_prim_field_on [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="in_value1">in_value[1]</td><td port="" rowspan="2"></td></tr>
+                    <tr><td port="in_value2">in_value[2]</td></tr>
+                    <tr><td port="p_mask" colspan="2">p_mask</td></tr>
+                    </table>
+                >];
+            }
+        }
+
+        
+        subgraph cluster_sec_cond {
+            label = "sec";
+
+            subgraph cluster_thr_sec_Slip {
+                label = "thr_sec_Slip";
+                node [shape = plaintext];
+                thr_sec_Slip [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="p_threshold" colspan="2">p_threshold</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_thr_sec_I_s {
+                label = "thr_sec_I_s";
+                node [shape = plaintext];
+                thr_sec_I_s [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="p_threshold" colspan="2">p_threshold</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_thr_sec_T {
+                label = "thr_sec_T";
+                node [shape = plaintext];
+                thr_sec_T [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="p_threshold" colspan="2">p_threshold</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_am_sec_field_on {
+                label = "am_sec_field_on";
+                node [shape = plaintext];
+                am_sec_field_on [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="in_value1">in_value[1]</td><td port="" rowspan="2"></td></tr>
+                    <tr><td port="in_value2">in_value[2]</td></tr>
+                    <tr><td port="p_mask" colspan="2">p_mask</td></tr>
+                    </table>
+                >];
+            }
+        }
+
+        subgraph cluster_or_field_on {
+            label = "or_field_on";
+            node [shape = plaintext];
+            or_field_on [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_value1">in_value[1]</td><td port="" border="0"></td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_tmr_field_on {
+            label = "tmr_field_on";
+            node [shape = plaintext];
+            tmr_field_on [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                <tr><td port="r_interval" colspan="2">r_interval</td></tr>
+                </table>
+            >];
+        }
+        
+        subgraph cluster_thr_field_on_I_r_sync {
+            label = "thr_field_on_I_r_sync";
+            node [shape = plaintext];
+            thr_field_on_I_r_sync [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                <tr><td port="p_threshold" colspan="2">p_threshold</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_tmr_field_on_I_r_sync {
+            label = "tmr_field_on_I_r_sync";
+            node [shape = plaintext];
+            tmr_field_on_I_r_sync [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                <tr><td port="r_interval" colspan="2">r_interval</td></tr>
+                </table>
+            >];
+        }
+    }
+
+    subgraph cluster_calc_field_supp {
+        label = "calc_field_supp";
+
+        subgraph cluster_thr_field_supp_I_r {
+            label = "thr_field_supp_I_r";
+            node [shape = plaintext];
+            thr_field_supp_I_r [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                <tr><td port="p_threshold" colspan="2">p_threshold</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_tmr_field_supp {
+            label = "tmr_field_supp";
+            node [shape = plaintext];
+            tmr_field_supp [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_value">in_value</td><td port="out_expired">out_expired</td></tr>
+                <tr><td port="r_interval" colspan="2">r_interval</td></tr>
+                </table>
+            >];
+        }
+    }
+
+    subgraph cluster_sys_stat {
+        label = "sys_stat";
+
+        subgraph cluster_sys_stat_in_command {
+            label = "in_command";
+
+            node [shape = plaintext];
+            sys_stat_in_command [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="r_start_on">r_start_on</td></tr>
+                <!--<tr><td port="r_start_off">r_start_off</td></tr>-->
+                </table>
+            >];
+        }
+    }
+
+    subgraph cluster_sys_cmd {
+        label = "sys_cmd";
+
+        subgraph cluster_sys_cmd_out_command {
+            label = "out_command";
+
+            node [shape = plaintext];
+            sys_cmd_out_command [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="cell_cb_no">cell_cb_no</td></tr>
+                <tr><td port="cell_cb_nc">cell_cb_nc</td></tr>
+                <tr><td port="cell_prot">cell_prot</td></tr>
+                <tr><td port="test">test</td></tr>
+                </table>
+            >];
+        }
+    }
+
+    subgraph cluster_sys_ctrl {
+        label = "sys_ctrl";
+
+        subgraph cluster_sys_ctrl_fsm {
+            label = "fsm";
+            node [shape = ellipse];
+            sys_ctrl_state_init [label = "INIT"]; #SYS_CONTROL_STATE_
+            sys_ctrl_state_check [label = "CHECK"];
+            sys_ctrl_state_idle [label = "IDLE"];
+            sys_ctrl_state_ready [label = "READY"];
+            sys_ctrl_state_test [label = "TEST"];
+            sys_ctrl_state_start [label = "START"];
+            sys_ctrl_state_start_field_force [label = "START_FIELD_FORCE"];
+            sys_ctrl_state_run [label = "RUN"];
+            sys_ctrl_state_field_force [label = "FIELD_FORCE"];
+            sys_ctrl_state_field_supp [label = "FIELD_SUPP"];
+            sys_ctrl_state_error [label = "ERROR"];
+
+            sys_ctrl_fsm_state [label = "state" shape = "doublecircle"];
+        }
+
+        // subgraph cluster_sys_ctrl_status1 {
+        //     label = "status";
+
+        //     node [shape = plaintext];
+        //     sys_ctrl_status1 [label = <
+        //         <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+        //         <tr><td port="ready">ready</td></tr>
+        //         <tr><td port="run">run</td></tr>
+        //         <tr><td port="error">error</td></tr>
+        //         </table>
+        //     >];
+        // }
+
+        subgraph cluster_sys_ctrl_control {
+            label = "control";
+
+            node [shape = plaintext];
+            sys_ctrl_control [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="reset">reset</td></tr>
+                <tr><td port="enable">enable</td></tr>
+                <tr><td port="run">run</td></tr>
+                <tr><td port="test">test</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_sys_ctrl_out_command {
+            label = "out_command";
+
+            node [shape = plaintext];
+            sys_ctrl_out_command [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="r_start_on">r_start_on</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_sys_ctrl_status {
+            label = "status";
+
+            node [shape = plaintext];
+            sys_ctrl_status [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="ready">ready</td></tr>
+                <tr><td port="run">run</td></tr>
+                <tr><td port="error">error</td></tr>
+                </table>
+            >];
+        }
+        
+        subgraph cluster_thr_value_for_slip_lt_zero {
+            label = "comp";
+            node [shape = plaintext];
+            thr_value_for_slip_lt_zero [label = "<\n0"];
+        }
+
+        subgraph cluster_or_value_slip_lt_zero_I_r_sync {
+            label = "or";
+            node [shape = plaintext];
+            or_value_slip_lt_zero_I_r_sync [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A">in_A</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_B">in_B</td><td port="" border="0"></td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_and_ready_to_exc {
+            label = "and";
+            node [shape = plaintext];
+            and_ready_to_exc [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A">in_A</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_B">in_B</td><td port="" border="0"></td></tr>
+                </table>
+            >];
+        }
+        
+        subgraph cluster_not_ready_to_exc {
+            label = "not";
+            node [shape = plaintext];
+            not_ready_to_exc [label = ""];
+        }
+        
+        subgraph cluster_and_rstart_on {
+            label = "and";
+            node [shape = plaintext];
+            and_rstart_on  [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A">in_A</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_B">in_B</td><td port="" border="0"></td></tr>
+                </table>
+            >];
+        }
+        
+        cmp_ctrl_state_is_start_in_B_value [label="SYS_CONTROL_STATE_START"];
+
+        subgraph cluster_cmp_ctrl_state_is_start {
+            label = "comp";
+            node [shape = plaintext];
+            cmp_ctrl_state_is_start [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="in_A">in_A</td><td port="out_value">out_value</td></tr>
+                <tr><td port="in_B">in_B</td><td port="" border="0"></td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_tmr_field_on_rstart_off {
+            label = "tmr_field_on_rstart_off";
+            node [shape = plaintext];
+            tmr_field_on_rstart_off [label = <
+                <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                <tr><td port="start">start</td><td port="out_value">out_value</td></tr>
+                <tr><td port="r_interval" colspan="2">r_interval</td></tr>
+                </table>
+            >];
+        }
+
+        subgraph cluster_start_field_forcing {
+            label = "start field forcing";
+            
+
+            subgraph cluster_tmr_start_min_forcing {
+                label = "tmr_start_min_forcing";
+                node [shape = plaintext];
+                tmr_start_min_forcing [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="start">start</td><td port="out_expired">out_expired</td></tr>
+                    <tr><td port="r_interval" colspan="2">r_interval</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_tmr_start_max_forcing {
+                label = "tmr_start_max_forcing";
+                node [shape = plaintext];
+                tmr_start_max_forcing [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="start">start</td><td port="out_expired">out_expired</td></tr>
+                    <tr><td port="r_interval" colspan="2">r_interval</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_tmr_start_stab_forcing {
+                label = "tmr_start_stab_forcing";
+                node [shape = plaintext];
+                tmr_start_stab_forcing [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="r_interval" colspan="2">r_interval</td></tr>
+                    </table>
+                >];
+            }
+        
+            subgraph cluster_thr_start_Q_le_zero {
+                label = "comp";
+                node [shape = plaintext];
+                thr_start_Q_le_zero [label = "<\n0"];
+            }
+
+            subgraph cluster_and_start_min_forcing_end {
+                label = "and";
+                node [shape = plaintext];
+                and_start_min_forcing_end [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_A">in_A</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="in_B">in_B</td><td port="" border="0"></td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_or_start_forcing_end {
+                label = "or";
+                node [shape = plaintext];
+                or_start_forcing_end [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_A">in_A</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="in_B">in_B</td><td port="" border="0"></td></tr>
+                    </table>
+                >];
+            }
+
+        }
+
+        subgraph cluster_regulators {
+            label = "PID";
+
+            subgraph cluster_pid_i_coefs {
+                label = "PID I coefs";
+                node [shape = plaintext];
+                pid_i_coefs [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="" rowspan="4" border="0" width="45"></td><td port="out_kp">out_kp</td></tr>
+                    <tr><td port="out_ki">out_ki</td></tr>
+                    <tr><td port="out_kd">out_kd</td></tr>
+                    <tr><td port="out_kf">out_kf</td></tr>
+                    <tr><td port="p_kp" colspan="2">p_kp</td></tr>
+                    <tr><td port="p_Ti" colspan="2">p_Ti</td></tr>
+                    <tr><td port="p_Td" colspan="2">p_Td</td></tr>
+                    <tr><td port="p_Tf" colspan="2">p_Tf</td></tr>
+                    <tr><td port="r_Ts" colspan="2">r_Ts</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_pid_i {
+                label = "PID I";
+                node [shape = plaintext];
+                pid_i [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_ref">in_ref</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="in_fbk">in_fbk</td><td port=""></td></tr>
+                    <tr><td port="r_kp" colspan="2">r_kp</td></tr>
+                    <tr><td port="r_ki" colspan="2">r_ki</td></tr>
+                    <tr><td port="r_kd" colspan="2">r_kd</td></tr>
+                    <tr><td port="r_kf" colspan="2">r_kf</td></tr>
+                    <tr><td port="r_min" colspan="2">r_min</td></tr>
+                    <tr><td port="r_max" colspan="2">r_max</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_mux_field_regs {
+                label = "mux_field_regs";
+                node [shape = plaintext];
+                mux_field_regs [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="3"></td></tr>
+                    <tr><td port="in_value2">in_value[2]</td></tr>
+                    <tr><td port="in_value3">in_value[3]</td></tr>
+                    </table>
+                >];
+            }
+
+            field_force_ref [label="I_forcing" style="rounded"];
+
+            field_forcing_ref_sel_i2t [label="I2t overheat" style="rounded"];
+
+            subgraph cluster_mux_field_force_ref {
+                label = "mux_field_force_ref";
+                node [shape = plaintext];
+                mux_field_force_ref [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="1"></td></tr>
+                    <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_lim_field_regs_curr_ref {
+                label = "lim_field_regs_curr_ref";
+                node [shape = plaintext];
+                lim_field_regs_curr_ref [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="p_min_value" colspan="2">p_min_value</td></tr>
+                    <tr><td port="p_max_value" colspan="2">p_max_value</td></tr>
+                    </table>
+                >];
+            }
+
+            mot_pot_field_test_min_zero [label="0" style="rounded"];
+
+            subgraph cluster_mot_pot_field_test {
+                label = "mot_pot_field_test";
+                node [shape = plaintext];
+                mot_pot_field_test [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_dec">in_dec</td><td port="" border="0" width="40"></td></tr>
+                    <tr><td port="in_inc">in_inc</td></tr>
+                    <tr><td port="r_value" colspan="2">r_value</td></tr>
+                    <tr><td port="p_time" colspan="2">p_time</td></tr>
+                    <tr><td port="p_min" colspan="2">p_min</td></tr>
+                    <tr><td port="p_max" colspan="2">p_max</td></tr>
+                    </table>
+                >];
+            }
+
+            subgraph cluster_mot_pot_manual_curr_ref {
+                label = "mot_pot_manual_curr_ref";
+                node [shape = plaintext];
+                mot_pot_manual_curr_ref [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_dec">in_dec</td><td port="" border="0" width="40"></td></tr>
+                    <tr><td port="in_inc">in_inc</td></tr>
+                    <tr><td port="r_value" colspan="2">r_value</td></tr>
+                    <tr><td port="p_time" colspan="2">p_time</td></tr>
+                    <tr><td port="p_min" colspan="2">p_min</td></tr>
+                    <tr><td port="p_max" colspan="2">p_max</td></tr>
+                    </table>
+                >];
+            }
+
+            field_curr_ref_zero [label="0" style="rounded"];
+
+            subgraph cluster_mux_curr_ref {
+                label = "mux_curr_ref";
+                node [shape = plaintext];
+                mux_curr_ref [label = <
+                    <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+                    <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+                    <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="3"></td></tr>
+                    <tr><td port="in_value2">in_value[2]</td></tr>
+                    <tr><td port="in_value3">in_value[3]</td></tr>
+                    <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+                    </table>
+                >];
+            }
+        }
+    }
+
+    
+
+    subgraph cluster_ramp_ {
+        label = "ramp_";
+        style = "invis";
+        node [shape = plaintext; style = "invis"];
+        ramp_ [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+            <tr><td port="p_time" colspan="2">p_time</td></tr>
+            <tr><td port="p_min" colspan="2">p_min</td></tr>
+            <tr><td port="p_max" colspan="2">p_max</td></tr>
+            </table>
+        >];
+    }
+
+    subgraph cluster_name {
+        label = "name";
+        style = "invis";
+        node [shape = plaintext; style = "invis"];
+        name [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port=""></td><td port=""></td></tr>
+            </table>
+        >];
+    }
+
+    # tmp {
+
+    # } tmp
+
+    # sys_main
+    phase_ampl_Ua:out_phase:e -> ph3c:in_Ua_angle:w;
+    phase_ampl_Ub:out_phase:e -> ph3c:in_Ub_angle:w;
+    phase_ampl_Uc:out_phase:e -> ph3c:in_Uc_angle:w;
+
+    mux_Umains:out_A:e -> lrm:in_Ua:w;
+    mux_Umains:out_B:e -> lrm:in_Ub:w;
+    mux_Umains:out_C:e -> lrm:in_Uc:w;
+    calc_Ucell:out_A:e -> lrm:in_stator_Ua:w;
+    calc_Ucell:out_B:e -> lrm:in_stator_Ub:w;
+    calc_Ucell:out_C:e -> lrm:in_stator_Uc:w;
+    phase_ampl_Ua:out_phase:e -> lrm:in_Uref_angle:w;
+    ph3c:out_control:e -> lrm:in_control:w;
+    ph3c:out_control_delay_angle:e -> lrm:in_control_delay_angle:w;
+    ph3c:out_control_max_duration_angle:e -> lrm:in_control_duration_angle:w;
+    sys_stat_in_command:r_start_on:e -> lrm:in_start_r_on:w;
+
+    sys_cmd_out_command:cell_cb_no:e -> cell_cb:in_no_state:w;
+    sys_cmd_out_command:cell_cb_nc:e -> cell_cb:in_nc_state:w;
+    sys_cmd_out_command:test:e -> sys_ctrl_control:test:w;
+
+    tmr_run_trig:out_value:e -> sys_ctrl_control:run:w;
+
+    sys_ctrl_out_command:r_start_on:e -> sys_stat_in_command:r_start_on:w;
+
+
+    # sys_ctrl
+
+    # fsm
+    # state init
+    sys_ctrl_state_init -> sys_ctrl_state_check [label = ""];
+    #vr_rms_Umains:out_value_all:e -> sys_ctrl_state_check;
+    #vr_filter_freq_Umains:out_value_all:e -> sys_ctrl_state_check;
+    sys_ctrl_state_check -> sys_ctrl_state_idle [label = "vr_rms_Umains:out_value_all && vr_filter_freq_Umains:out_value_all"];
+
+    # state idle
+    #vr_rms_Ucell:out_value_all:e -> sys_ctrl_state_idle;
+    sys_ctrl_state_idle -> sys_ctrl_state_ready [label = "vr_rms_Ucell:out_value_all"];
+
+    # state ready
+    #sys_ctrl_control:test -> sys_ctrl_state_ready;
+    #sys_ctrl_control:run -> sys_ctrl_state_ready;
+    sys_ctrl_state_ready -> sys_ctrl_state_start [label = "control:run == 1"];
+    sys_ctrl_state_ready -> sys_ctrl_state_test [label = "control:test == 1"];
+
+    # state start
+    #tmr_field_on_rstart_off:out_expired:e -> sys_ctrl_state_start;
+    sys_ctrl_state_start -> sys_ctrl_state_start_field_force [label = ""];
+    
+    # start field force
+    sys_ctrl_state_start_field_force -> sys_ctrl_state_run [label = ""];
+
+    # state run
+    #sys_ctrl_control:run -> sys_ctrl_state_run;
+    sys_ctrl_state_run -> sys_ctrl_state_field_supp [label = "control:run == 0"];
+    sys_ctrl_state_run -> sys_ctrl_state_field_force [label = "control:force == 1"];
+    
+    # field force
+    sys_ctrl_state_field_force -> sys_ctrl_state_run [label = "control:force == 0"];
+
+    # state test
+    #sys_ctrl_control:test -> sys_ctrl_state_test;
+    sys_ctrl_state_test -> sys_ctrl_state_init [label = "control:test == 0"];
+
+    # state field_supp
+    #tmr_field_supp:out_expired:e -> sys_ctrl_state_field_supp;
+    #thr_field_supp_I_r:out_value:e -> sys_ctrl_state_field_supp;
+    sys_ctrl_state_field_supp -> sys_ctrl_state_init [label = "tmr_field_supp:out_expired || thr_field_supp_I_r:out_value"];
+
+
+    # start
+    tmr_run_trig:out_value:e -> cnt_start:start:w;
+    
+    sys_ctrl_fsm_state -> cmp_ctrl_state_is_start:in_A:w;
+    cmp_ctrl_state_is_start_in_B_value:e -> cmp_ctrl_state_is_start:in_B:w;
+
+    cmp_ctrl_state_is_start:out_value:e -> and_rstart_on:in_A:w;
+    not_ready_to_exc:e -> and_rstart_on:in_B:w;
+
+    filter_zcd_slip:out_value:e       -> thr_value_for_slip_lt_zero:w;
+    thr_value_for_slip_lt_zero:e      -> or_value_slip_lt_zero_I_r_sync:in_A:w;
+    tmr_field_on_I_r_sync:out_value:e -> or_value_slip_lt_zero_I_r_sync:in_B:w;
+
+    tmr_field_on:out_value:e                   -> and_ready_to_exc:in_B:w;
+    or_value_slip_lt_zero_I_r_sync:out_value:e -> and_ready_to_exc:in_A:w;
+    
+    and_ready_to_exc:out_value:e -> not_ready_to_exc:w;
+    and_ready_to_exc:out_value:e -> tmr_field_on_rstart_off:start:w;
+
+    and_rstart_on:out_value:e -> sys_ctrl_out_command:r_start_on:w;
+
+    tmr_field_on_rstart_off:out_value:e   -> sys_ctrl_status:run;
+
+
+    # start field forcing.
+    sum_Q:out_value:e -> thr_start_Q_le_zero:w;
+
+    thr_start_Q_le_zero:e -> tmr_start_stab_forcing:in_value:w;
+
+    tmr_start_min_forcing:out_expired:e -> and_start_min_forcing_end:in_A:w;
+    tmr_start_stab_forcing:out_value:e -> and_start_min_forcing_end:in_B:w;
+
+    tmr_start_max_forcing:out_expired:e -> or_start_forcing_end:in_A:w;
+    and_start_min_forcing_end:out_value:e -> or_start_forcing_end:in_B:w;
+
+    # regulators
+    # pid i coefs
+    pid_i_coefs:out_kp:e -> pid_i:r_kp:w;
+    pid_i_coefs:out_ki:e -> pid_i:r_ki:w;
+    pid_i_coefs:out_kd:e -> pid_i:r_kd:w;
+    pid_i_coefs:out_kf:e -> pid_i:r_kf:w;
+
+    
+    # pid i
+    # min/max lim.
+    lim_field_regs_curr_ref:p_min_value:e -> mot_pot_manual_curr_ref:p_min:w;
+    lim_field_regs_curr_ref:p_max_value:e -> mot_pot_manual_curr_ref:p_max:w;
+    mot_pot_field_test_min_zero           -> mot_pot_field_test:p_min:w;
+    lim_field_regs_curr_ref:p_max_value:e -> mot_pot_field_test:p_max:w;
+
+    mot_pot_manual_curr_ref:r_value:e -> mux_field_regs:in_value0:w;
+
+    mux_field_regs:out_value:e -> lim_field_regs_curr_ref:in_value:w;
+    
+    field_force_ref                 -> mux_field_force_ref:in_value0:w;
+    lim_field_regs_curr_ref:p_max_value:e -> mux_field_force_ref:in_value1:w;
+    field_forcing_ref_sel_i2t       -> mux_field_force_ref:p_sel:s;
+
+    field_curr_ref_zero                 -> mux_curr_ref:in_value0:w;
+    mot_pot_field_test:r_value:e        -> mux_curr_ref:in_value1:w;
+    mux_field_force_ref:out_value:e     -> mux_curr_ref:in_value2:w;
+    lim_field_regs_curr_ref:out_value:e -> mux_curr_ref:in_value3:w;
+
+    mux_curr_ref:out_value:e -> pid_i:in_ref:w;
+    mean_Iarm:out_value:e -> pid_i:in_fbk:w;
+
+    pid_i:out_value:e -> ph3c:in_control_value:w;
+
+
+
+    # meas
+    # Mains
+    adc:out_Ua:e       -> mux_Umains:in_A0:w;
+    adc_model:out_Ua:e -> mux_Umains:in_A1:w;
+    adc:out_Ub:e       -> mux_Umains:in_B0:w;
+    adc_model:out_Ub:e -> mux_Umains:in_B1:w;
+    adc:out_Uc:e       -> mux_Umains:in_C0:w;
+    adc_model:out_Uc:e -> mux_Umains:in_C1:w;
+
+    adc:out_Ia:e       -> mux_Imains:in_A0:w;
+    lrm:out_Ia:e       -> mux_Imains:in_A1:w;
+    adc:out_Ib:e       -> mux_Imains:in_B0:w;
+    lrm:out_Ib:e       -> mux_Imains:in_B1:w;
+    adc:out_Ic:e       -> mux_Imains:in_C0:w;
+    lrm:out_Ic:e       -> mux_Imains:in_C1:w;
+
+    mux_Imains:out_A:e -> rect_curr:in_Ia:w;
+    mux_Imains:out_B:e -> rect_curr:in_Ib:w;
+    mux_Imains:out_C:e -> rect_curr:in_Ic:w;
+
+    mux_Umains:out_A:e -> phase_ampl_Ua:in_value:w;
+    mux_Umains:out_B:e -> phase_ampl_Ub:in_value:w;
+    mux_Umains:out_C:e -> phase_ampl_Uc:in_value:w;
+
+    # Armature
+    adc:out_Uarm:e     -> mux_Uarm:in_value0:w;
+    lrm:out_Ufld:e     -> mux_Uarm:in_value1:w;
+
+    rect_curr:out_I:e  -> mux_Iarm:in_value0:w;
+    lrm:out_Ifld:e     -> mux_Iarm:in_value1:w;
+    adc:out_Iarm:e     -> mux_Iarm:in_value2:w;
+
+    adc:out_Irstart:e  -> mux_Irstart:in_value0:w;
+    lrm:out_Irstart:e  -> mux_Irstart:in_value1:w;
+
+    # Cell
+    adc:out_s_Ua:e       -> mux_Ucell:in_A0:w;
+    adc_model:out_s_Ua:e -> mux_Ucell:in_A1:w;
+    adc:out_s_Ub:e       -> mux_Ucell:in_B0:w;
+    adc_model:out_s_Ub:e -> mux_Ucell:in_B1:w;
+    adc:out_s_Uc:e       -> mux_Ucell:in_C0:w;
+    adc_model:out_s_Uc:e -> mux_Ucell:in_C1:w;
+
+    mux_Ucell:out_A:e    -> calc_Ucell:in_A:w;
+    mux_Ucell:out_B:e    -> calc_Ucell:in_B:w;
+    mux_Ucell:out_C:e    -> calc_Ucell:in_C:w;
+
+    calc_Ucell:out_A:e   -> phase_Ucell:in_A:w;
+    calc_Ucell:out_B:e   -> phase_Ucell:in_B:w;
+    calc_Ucell:out_C:e   -> phase_Ucell:in_C:w;
+
+    lrm:out_stator_Ia:e -> phase_lrm_I_stator:in_A:w;
+    lrm:out_stator_Ib:e -> phase_lrm_I_stator:in_B:w;
+    lrm:out_stator_Ic:e -> phase_lrm_I_stator:in_C:w;
+
+    adc:out_s_Ia:e             -> mux_Icell:in_A0:w;
+    phase_lrm_I_stator:out_A:e -> mux_Icell:in_A1:w;
+    adc:out_s_Ib:e             -> mux_Icell:in_B0:w;
+    phase_lrm_I_stator:out_B:e -> mux_Icell:in_B1:w;
+    adc:out_s_Ic:e             -> mux_Icell:in_C0:w;
+    phase_lrm_I_stator:out_C:e -> mux_Icell:in_C1:w;
+
+    mux_Icell:out_A:e  -> calc_Icell:in_A:w;
+    mux_Icell:out_B:e  -> calc_Icell:in_B:w;
+    mux_Icell:out_C:e  -> calc_Icell:in_C:w;
+
+    # Mains freq
+    mux_Umains:out_A:e -> filter_zcd_Ua:in_value:w;
+    mux_Umains:out_B:e -> filter_zcd_Ub:in_value:w;
+    mux_Umains:out_C:e -> filter_zcd_Uc:in_value:w;
+
+    filter_zcd_Ua:out_value:e -> zcd_Ua:in_value:w;
+    filter_zcd_Ub:out_value:e -> zcd_Ub:in_value:w;
+    filter_zcd_Uc:out_value:e -> zcd_Uc:in_value:w;
+
+    zcd_Ua:out_freq:e -> filter_freq_Ua:in_value:w;
+    zcd_Ub:out_freq:e -> filter_freq_Ub:in_value:w;
+    zcd_Uc:out_freq:e -> filter_freq_Uc:in_value:w;
+
+    # Slip
+    mux_Irstart:out_value:e -> mux_slip:in_value0:w;
+    mux_Uarm:out_value:e    -> mux_slip:in_value1:w;
+
+    mux_slip:out_value:e -> filter_zcd_slip:in_value:w;
+    filter_zcd_slip:out_value:e -> zcd_slip:in_value:w;
+    zcd_slip:out_freq:e -> filter_freq_slip:in_value:w;
+    filter_freq_slip:out_value:e -> slip:in_value:w;
+
+    # RMS Mains
+    mux_Umains:out_A:e -> rms_Ua:in_value:w;
+    mux_Umains:out_B:e -> rms_Ub:in_value:w;
+    mux_Umains:out_C:e -> rms_Uc:in_value:w;
+
+    mux_Imains:out_A:e -> rms_Ia:in_value:w;
+    mux_Imains:out_B:e -> rms_Ib:in_value:w;
+    mux_Imains:out_C:e -> rms_Ic:in_value:w;
+
+    # RMS cell
+    calc_Ucell:out_A:e -> rms_cell_Ua:in_value:w;
+    calc_Ucell:out_B:e -> rms_cell_Ub:in_value:w;
+    calc_Ucell:out_C:e -> rms_cell_Uc:in_value:w;
+    
+    phase_Ucell:out_A:e -> rms_cell_Ua_phase:in_value:w;
+    phase_Ucell:out_B:e -> rms_cell_Ub_phase:in_value:w;
+    phase_Ucell:out_C:e -> rms_cell_Uc_phase:in_value:w;
+
+    calc_Icell:out_A:e -> rms_cell_Ia:in_value:w;
+    calc_Icell:out_B:e -> rms_cell_Ib:in_value:w;
+    calc_Icell:out_C:e -> rms_cell_Ic:in_value:w;
+
+    rms_cell_Ia:out_value:e -> mean_rms_Icell:in_value0:w;
+    rms_cell_Ib:out_value:e -> mean_rms_Icell:in_value1:w;
+    rms_cell_Ic:out_value:e -> mean_rms_Icell:in_value2:w;
+
+    # Mean arm
+    mux_Iarm:out_value:e  -> mean_Iarm:in_value:w;
+    mean_Iarm:out_value:e -> filter_mean_Iarm:in_value:w;
+
+    mux_Uarm:out_value:e  -> mean_Uarm:in_value:w;
+    mean_Uarm:out_value:e -> filter_mean_Uarm:in_value:w;
+    
+    mux_Irstart:out_value:e  -> mean_Irstart:in_value:w;
+    mean_Irstart:out_value:e -> filter_mean_Irstart:in_value:w;
+
+    # Power
+    phase_Ucell:out_A:e           -> power_A:in_U:w;
+    calc_Icell:out_A:e            -> power_A:in_I:w;
+    rms_cell_Ua_phase:out_value:e -> power_A:in_rms_U:w;
+    rms_cell_Ia:out_value:e       -> power_A:in_rms_I:w;
+    
+    phase_Ucell:out_B:e           -> power_B:in_U:w;
+    calc_Icell:out_B:e            -> power_B:in_I:w;
+    rms_cell_Ub_phase:out_value:e -> power_B:in_rms_U:w;
+    rms_cell_Ib:out_value:e       -> power_B:in_rms_I:w;
+    
+    phase_Ucell:out_C:e           -> power_C:in_U:w;
+    calc_Icell:out_C:e            -> power_C:in_I:w;
+    rms_cell_Uc_phase:out_value:e -> power_C:in_rms_U:w;
+    rms_cell_Ic:out_value:e       -> power_C:in_rms_I:w;
+
+    # Power sums
+    # S
+    power_A:out_S:e -> sum_S:in_value0:w;
+    power_B:out_S:e -> sum_S:in_value1:w;
+    power_C:out_S:e -> sum_S:in_value2:w;
+    # P
+    power_A:out_P:e -> sum_P:in_value0:w;
+    power_B:out_P:e -> sum_P:in_value1:w;
+    power_C:out_P:e -> sum_P:in_value2:w;
+    # Q
+    power_A:out_Q:e -> sum_Q:in_value0:w;
+    power_B:out_Q:e -> sum_Q:in_value1:w;
+    power_C:out_Q:e -> sum_Q:in_value2:w;
+
+    # Power factor
+    sum_S:out_value:e -> power_factor:in_S:w
+    sum_P:out_value:e -> power_factor:in_P:w
+    sum_Q:out_value:e -> power_factor:in_Q:w
+
+    # Valid ranges
+    rms_Ua:out_value:e -> vr_rms_Umains:in_value0:w
+    rms_Ub:out_value:e -> vr_rms_Umains:in_value1:w
+    rms_Uc:out_value:e -> vr_rms_Umains:in_value2:w
+
+    filter_freq_Ua:out_value:e -> vr_filter_freq_Umains:in_value0:w
+    filter_freq_Ub:out_value:e -> vr_filter_freq_Umains:in_value1:w
+    filter_freq_Uc:out_value:e -> vr_filter_freq_Umains:in_value2:w
+
+    rms_cell_Ua:out_value:e -> vr_rms_Ucell:in_value0:w
+    rms_cell_Ub:out_value:e -> vr_rms_Ucell:in_value1:w
+    rms_cell_Uc:out_value:e -> vr_rms_Ucell:in_value2:w
+
+    # Run trig
+    
+    mean_rms_Icell:out_value:e -> thr_run_trig_I_s:in_value:w;
+    thr_run_trig_I_s:out_value:e -> am_run_trig_I_s:in_value0:w;
+
+    cell_cb:out_state:e -> run_trig_val1_comp_cell_cb_on:w;
+    cell_cb:out_state:e -> run_trig_sel_comp_cell_cb_off:w;
+    cell_cb:out_state:e -> run_trig_sel_comp_cell_cb_on:w;
+
+    run_trig_sel_comp_cell_cb_on:e -> run_trig_sel_or:in_A:w;
+    run_trig_sel_comp_cell_cb_off:e -> run_trig_sel_or:in_B:w;
+    
+    am_run_trig_I_s:out_value:e -> mux_run_trig:in_value0:w;
+    run_trig_val1_comp_cell_cb_on:e -> mux_run_trig:in_value1:w;
+    run_trig_sel_or:out_value:e -> mux_run_trig:p_sel:s;
+
+    mux_run_trig:out_value:e -> tmr_run_trig:in_value:w;
+
+    # Field on
+    slip:out_value:e           -> thr_prim_Slip:in_value:w;
+    mean_rms_Icell:out_value:e -> thr_prim_I_s:in_value:w;
+    cnt_start:out_value:e      -> thr_prim_T:in_value:w;
+
+    thr_prim_Slip:out_value:e -> am_prim_field_on:in_value0:w;
+    thr_prim_I_s:out_value:e  -> am_prim_field_on:in_value1:w;
+    thr_prim_T:out_value:e    -> am_prim_field_on:in_value2:w;
+
+
+    slip:out_value:e           -> thr_sec_Slip:in_value:w;
+    mean_rms_Icell:out_value:e -> thr_sec_I_s:in_value:w;
+    cnt_start:out_value:e      -> thr_sec_T:in_value:w;
+
+    thr_sec_Slip:out_value:e -> am_sec_field_on:in_value0:w;
+    thr_sec_I_s:out_value:e  -> am_sec_field_on:in_value1:w;
+    thr_sec_T:out_value:e    -> am_sec_field_on:in_value2:w;
+
+    am_prim_field_on:out_value:e -> or_field_on:in_value0:w;
+    am_sec_field_on:out_value:e  -> or_field_on:in_value1:w;
+
+    or_field_on:out_value:e -> tmr_field_on:in_value:w;
+
+    mean_Irstart:out_value:e -> thr_field_on_I_r_sync:in_value:w;
+    thr_field_on_I_r_sync:out_value:e -> tmr_field_on_I_r_sync:in_value:w;
+
+    # Field supp
+    mean_Iarm:out_value:e -> thr_field_supp_I_r:in_value:w;
+
+}
