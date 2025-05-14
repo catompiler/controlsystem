@@ -43,6 +43,15 @@ METHOD_DEINIT_IMPL(M_sys_control, sys_ctrl)
     sys_ctrl->warnings = SYS_CONTROL_WARNING_NONE;
 }
 
+//static void FSM_state_none(M_sys_control* sys_ctrl)
+//{
+//    FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
+//    }
+//
+//    // Перейдём в состояние "Инициализация".
+//    fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_INIT);
+//}
+
 static void FSM_state_init(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
@@ -146,6 +155,12 @@ static void FSM_state_idle(M_sys_control* sys_ctrl)
     }
 
     fsm_end(&sys_ctrl->fsm_idle);
+
+    // Если получена команда "Опробование".
+    if(sys_ctrl->control & SYS_CONTROL_CONTROL_TEST){
+        // Перейдём в состояние "Опробование".
+        fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_TEST);
+    }
 }
 
 static void FSM_state_ready(M_sys_control* sys_ctrl)
@@ -207,7 +222,7 @@ static void FSM_state_start_field_force(M_sys_control* sys_ctrl)
         CONTROL(tmr_start_max_forcing);
     }
 
-    // Если отменена команда "Форсировка".
+    // Если "Форсировка" завершена.
     if(field_trig.out_start_forcing_end == FLAG_ACTIVE){
         // Остановим таймер минимальной форсировки при запуске.
         tmr_start_min_forcing.control = CONTROL_STOP;
@@ -229,6 +244,12 @@ static void FSM_state_run(M_sys_control* sys_ctrl)
 
     //mot_pot_manual_curr_ref.in_inc = FLAG_ACTIVE;
     //mux_field_regs.in_value[0] = mux_field_regs.in_value[0] + IQ24(0.000025);//0.35
+
+    // Если подана команда "Форсировка".
+    if(sys_ctrl->control & SYS_CONTROL_CONTROL_FORCE){
+        // Перейдём в состояние "Форсировка".
+        fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_FIELD_FORCE);
+    }
 
     // Если отменена команда "Работа".
     if(!(sys_ctrl->control & SYS_CONTROL_CONTROL_RUN)){
@@ -271,11 +292,22 @@ static void FSM_state_error(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
     }
+
+    // Если очищена команда "Ошибка".
+    if(!(sys_ctrl->control & SYS_CONTROL_CONTROL_ERROR)){
+        // Перейдём в состояние "Инициализация".
+        fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_INIT);
+    }
 }
 
 //! До обработки состояний.
 static void FSM_pre_state(M_sys_control* sys_ctrl)
 {
+    // Если получена команда "Ошибка".
+    if(sys_ctrl->control & SYS_CONTROL_CONTROL_ERROR){
+        // Перейдём в состояние "Ошибка".
+        fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_ERROR);
+    }
 }
 
 //! После обработки состояний.
@@ -293,14 +325,14 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
     }
 
 
-    // Включение / выключение модулей в зависимости от состояния.
+    // Переключения в зависимости от состояния.
     switch(cur_state){
-    case SYS_CONTROL_STATE_NONE:
-        ph3c.control = CONTROL_NONE;
-        triacs.control = CONTROL_NONE;
-        mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
-        pid_i.control = CONTROL_NONE;
-        break;
+//    case SYS_CONTROL_STATE_NONE:
+//        ph3c.control = CONTROL_NONE;
+//        triacs.control = CONTROL_NONE;
+//        mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
+//        pid_i.control = CONTROL_NONE;
+//        break;
     case SYS_CONTROL_STATE_INIT:
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
@@ -381,8 +413,9 @@ static void FSM_state(M_sys_control* sys_ctrl)
     FSM_pre_state(sys_ctrl);
 
     switch(fsm_cur_state(&sys_ctrl->fsm_state)){
-    case SYS_CONTROL_STATE_NONE:
-        break;
+//    case SYS_CONTROL_STATE_NONE:
+//        FSM_state_none(sys_ctrl);
+//        break;
     case SYS_CONTROL_STATE_INIT:
         FSM_state_init(sys_ctrl);
         break;

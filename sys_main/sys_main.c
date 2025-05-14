@@ -720,8 +720,8 @@ static void FSM_state_init(M_sys_main* sys)
 
     // Если все модули имеют валидный выход.
     if(status & STATUS_VALID){
-        // Разрешим систему управления.
-        sys_ctrl.control = SYS_CONTROL_CONTROL_ENABLE;
+//        // Разрешим систему управления.
+//        sys_ctrl.control = SYS_CONTROL_CONTROL_ENABLE;
 
         // Переход в состояние ожидания включения.
         fsm_set_state(&sys->fsm_state, SYS_MAIN_STATE_RUN);
@@ -829,18 +829,26 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     cell_cb.in_nc_state = (sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_CB_NC) ? FLAG_ACTIVE : FLAG_NONE;
     CALC(cell_cb);
 
+
+    // Команды.
+    // Входные команды.
+
     // Команда сброса ошибок.
     if(sys_cmd.out_command & SYS_COMMAND_COMMAND_RESET_ERR){
         prot.control |= CONTROL_RESET;
     }
 
+    // Обработка защит.
+
+//    // Защиты ячейки.
+//    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_PROT){
+//    }
+
     // Защиты.
     CALC(prot);
 
     if(prot.out_has_errors){
-        sys_stat.in_command |= SYS_STATUS_COMMAND_ERROR;
-    }else{
-        sys_stat.in_command &= ~SYS_STATUS_COMMAND_ERROR;
+        //sys_ctrl.control
     }
 
     if(prot.out_error_occured){
@@ -849,7 +857,6 @@ METHOD_CALC_IMPL(M_sys_main, sys)
 
     // if(prot.errors == 0){
 
-    // Входные команды.
     // Опробование.
     if(sys_cmd.out_command & SYS_COMMAND_COMMAND_TEST){
         sys_ctrl.control |= SYS_CONTROL_CONTROL_TEST;
@@ -862,10 +869,15 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     }else{
         sys_ctrl.control &= ~SYS_CONTROL_CONTROL_RUN;
     }
-    // Защиты ячейки.
-    if(sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_PROT){
-    }
+
+
     // Выходные команды.
+    // Флаг ошибки.
+    if(prot.out_has_errors){
+        sys_stat.in_command |= SYS_STATUS_COMMAND_ERROR;
+    }else{
+        sys_stat.in_command &= ~SYS_STATUS_COMMAND_ERROR;
+    }
     // Включение пускового сопротивления.
     if(sys_ctrl.out_command & SYS_CONTROL_COMMAND_R_START_ON){
         sys_stat.in_command |= SYS_STATUS_COMMAND_R_START_ON;
