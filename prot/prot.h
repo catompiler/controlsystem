@@ -49,6 +49,18 @@ enum _E_Prot_Errors2 {
     //PROT_ERR2_ = 0x00, //!< .
 };
 
+//! Ни одна из ошибок.
+#define PROT_ERR_NONE 0x0
+//! Все ошибки.
+#define PROT_ERR_ALL 0xffffffff
+//! Ошибки Mains.
+#define PROT_ERR_ERR1_MAINS (PROT_ERR1_MAINS_LOST | PROT_ERR1_MAINS_INVALID |\
+                             PROT_ERR1_MAINS_UNDERVOLTAGE | PROT_ERR1_MAINS_OVERVOLTAGE |\
+                             PROT_ERR1_MAINS_OVERCURRENT)
+//! Ошибки Over*.
+#define PROT_ERR_ERR1_OVER (PROT_ERR1_MAINS_OVERVOLTAGE | PROT_ERR1_MAINS_OVERCURRENT |\
+                            PROT_ERR1_OVERVOLTAGE | PROT_ERR1_OVERCURRENT)
+
 
 //! Перечисление возможных бит предупреждений.
 enum _E_Prot_Warnings0 {
@@ -88,19 +100,26 @@ struct _S_Prot {
     strobe_t out_error_occured; //!< Флаг возникновения новой ошибки.
     // Параметры.
     // Потеря фаз(ы).
+    reg_u32_t p_mains_lost_enabled;
     reg_iq24_t p_mains_lost_U_low;
     // Отклонение угла фаз и частоты.
+    reg_u32_t p_mains_invalid_enabled;
     reg_iq24_t p_mains_invalid_A_delta;
     reg_iq24_t p_mains_invalid_F_delta;
     // Снижение напряжения.
+    reg_u32_t p_mains_undervoltage_enabled;
     reg_iq24_t p_mains_undervoltage_U_low;
     // Превышение напряжения.
+    reg_u32_t p_mains_overvoltage_enabled;
     reg_iq24_t p_mains_overvoltage_U_hi;
     // Превышение тока.
+    reg_u32_t p_mains_overcurrent_enabled;
     reg_iq24_t p_mains_overcurrent_I_hi;
     // Превышение напряжения выхода.
+    reg_u32_t p_overvoltage_enabled;
     reg_iq24_t p_overvoltage_U_hi;
     // Превышение тока выхода.
+    reg_u32_t p_overcurrent_enabled;
     reg_iq24_t p_overcurrent_I_hi;
     // Регистры.
     // "Сырые" значения защит.
@@ -151,14 +170,28 @@ EXTERN METHOD_IDLE_PROTO(M_prot);
         0, /* out_has_errors */\
         0, /* out_error_occured */\
         /* Параметры */\
+        /* Потеря фаз(ы). */\
+        1, /* p_mains_lost_enabled */\
         IQ24(0.3), /* p_mains_lost_U_low */\
+        /* Отклонение угла фаз и частоты. */\
+        1, /* p_mains_invalid_enabled */\
         IQ24(0.05), /* p_mains_invalid_A_delta */\
         IQ24(5.0), /* p_mains_invalid_F_delta */\
+        /* Снижение напряжения. */\
+        1, /* p_mains_undervoltage_enabled */\
         IQ24(0.8), /* p_mains_undervoltage_U_low */\
+        /* Превышение напряжения. */\
+        1, /* p_mains_overvoltage_enabled */\
         IQ24(1.2), /* p_mains_overvoltage_U_hi */\
+        /* Превышение тока. */\
+        1, /* p_mains_overcurrent_enabled */\
         IQ24(1.4), /* p_mains_overcurrent_I_hi */\
-        IQ24(1.5), /* p_overvoltage_U_hi */\
-        IQ24(1.4), /* p_overcurrent_I_hi */\
+        /* Превышение напряжения выхода. */\
+        1, /* p_overvoltage_enabled */\
+        IQ24(2.72), /* p_overvoltage_U_hi */\
+        /* Превышение тока выхода. */\
+        1, /* p_overcurrent_enabled */\
+        IQ24(1.5), /* p_overcurrent_I_hi */\
         /* Регистры */\
         0, 0, 0, /* raw_errors0, raw_errors1, raw_errors2 */\
         0, 0, 0, /* mask_errors0, mask_errors1, mask_errors2 */\
@@ -167,8 +200,8 @@ EXTERN METHOD_IDLE_PROTO(M_prot);
         TIMER_ON_DEFCFG(100), /* r_mains_undervoltage_timer */\
         TIMER_ON_DEFCFG(100), /* r_mains_overvoltage_timer */\
         TIMER_ON_DEFCFG(10), /* r_mains_overcurrent_timer */\
-        TIMER_ON_DEFCFG(10), /* r_overcurrent_timer */\
         TIMER_ON_DEFCFG(100), /* r_overvoltage_timer */\
+        TIMER_ON_DEFCFG(10), /* r_overcurrent_timer */\
         /* Методы */\
         METHOD_INIT_PTR(M_prot), METHOD_DEINIT_PTR(M_prot),\
         METHOD_CONTROL_PTR(M_prot), METHOD_CALC_PTR(M_prot),\
