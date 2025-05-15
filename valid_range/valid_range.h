@@ -19,6 +19,7 @@ enum _E_Valid_Range_Control {
 //! Перечисление возможных бит статуса.
 enum _E_Valid_Range_Status {
     VALID_RANGE_STATUS_NONE = STATUS_NONE,
+    VALID_RANGE_STATUS_VALID = STATUS_VALID,
 };
 
 //! Предварительная декларация типа модуля.

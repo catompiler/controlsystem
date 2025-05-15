@@ -25,4 +25,5 @@ static int32_t valid_range_check(M_valid_range* vr, iql_t value)
 METHOD_CALC_IMPL(M_valid_range, vr)
 {
     vr->out_value = valid_range_check(vr, vr->in_value);
+    vr->status = STATUS_VALID;
 }

@@ -38,4 +38,5 @@ METHOD_CALC_IMPL(M_valid_range3, vr)
     }
 
     vr->out_value_all = check_all_res;
+    vr->status = STATUS_VALID;
 }
