@@ -10,6 +10,53 @@
 #define MUX_CURR_REF_RUN 3
 
 
+// Константы маск защит.
+// init.
+#define PROT_ERR0_MASK_INIT (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_INIT (PROT_ERR_NONE)
+#define PROT_ERR2_MASK_INIT (PROT_ERR2_EXTERNAL_FAULT)
+// check.
+#define PROT_ERR0_MASK_CHECK (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_CHECK (PROT_ERR_ERR1_OVER)
+#define PROT_ERR2_MASK_CHECK (PROT_ERR2_EXTERNAL_FAULT)
+// idle.
+#define PROT_ERR0_MASK_IDLE (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_IDLE (PROT_ERR_ALL)
+#define PROT_ERR2_MASK_IDLE (PROT_ERR2_EXTERNAL_FAULT)
+// ready.
+#define PROT_ERR0_MASK_READY (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_READY (PROT_ERR_ALL)
+#define PROT_ERR2_MASK_READY (PROT_ERR_ALL)
+// test.
+#define PROT_ERR0_MASK_TEST (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_TEST (PROT_ERR_ALL)
+#define PROT_ERR2_MASK_TEST (PROT_ERR_ALL)
+// start.
+#define PROT_ERR0_MASK_START (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_START (PROT_ERR_ALL)
+#define PROT_ERR2_MASK_START (PROT_ERR_ALL)
+// run.
+#define PROT_ERR0_MASK_RUN (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_RUN (PROT_ERR_ALL)
+#define PROT_ERR2_MASK_RUN (PROT_ERR_ALL)
+// start field force.
+#define PROT_ERR0_MASK_START_FIELD_FORCE (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_START_FIELD_FORCE (PROT_ERR_ALL)
+#define PROT_ERR2_MASK_START_FIELD_FORCE (PROT_ERR_ALL)
+// field force.
+#define PROT_ERR0_MASK_FIELD_FORCE (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_FIELD_FORCE (PROT_ERR_ALL)
+#define PROT_ERR2_MASK_FIELD_FORCE (PROT_ERR_ALL)
+// field supp.
+#define PROT_ERR0_MASK_FIELD_SUPP (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_FIELD_SUPP (PROT_ERR_ALL)
+#define PROT_ERR2_MASK_FIELD_SUPP (PROT_ERR_ALL)
+// error.
+#define PROT_ERR0_MASK_ERROR (PROT_ERR_ALL)
+#define PROT_ERR1_MASK_ERROR (PROT_ERR_ALL)
+#define PROT_ERR2_MASK_ERROR (PROT_ERR_ALL)
+
+
 METHOD_INIT_IMPL(M_sys_control, sys_ctrl)
 {
     // Сброс внутренних переменных.
@@ -89,7 +136,7 @@ static void FSM_state_check(M_sys_control* sys_ctrl)
         }
 
         // Если напряжения в допустимых пределах.
-        if(vr_rms_Umains.out_value_all == VALID_RANGE3_ALL_WITHIN){
+        if((vr_rms_Umains.status & STATUS_VALID) && (vr_rms_Umains.out_value_all == VALID_RANGE3_ALL_WITHIN)){
             // Перейдём в состояние ожидания частоты сети.
             fsm_set_state(&sys_ctrl->fsm_check, SYS_CONTROL_CHECK_WAIT_MAINS_FREQ);
         }
@@ -101,7 +148,7 @@ static void FSM_state_check(M_sys_control* sys_ctrl)
         }
 
         // Если частота в допустимых пределах.
-        if(vr_filter_freq_Umains.out_value_all == VALID_RANGE3_ALL_WITHIN){
+        if((vr_filter_freq_Umains.status & STATUS_VALID) && (vr_filter_freq_Umains.out_value_all == VALID_RANGE3_ALL_WITHIN)){
             // Перейдём в состояние ожидания включения контактора.
             fsm_set_state(&sys_ctrl->fsm_check, SYS_CONTROL_CHECK_DONE);
         }
@@ -141,7 +188,7 @@ static void FSM_state_idle(M_sys_control* sys_ctrl)
         }
 
         // Если напряжения в допустимых пределах.
-        if(vr_rms_Ucell.out_value_all == VALID_RANGE3_ALL_WITHIN){
+        if((vr_rms_Ucell.status & STATUS_VALID) && (vr_rms_Ucell.out_value_all == VALID_RANGE3_ALL_WITHIN)){
             // Перейдём в состояние ожидания частоты сети.
             fsm_set_state(&sys_ctrl->fsm_idle, SYS_CONTROL_IDLE_DONE);
         }
@@ -338,66 +385,99 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        prot.mask_errors0 = PROT_ERR0_MASK_INIT;
+        prot.mask_errors1 = PROT_ERR1_MASK_INIT;
+        prot.mask_errors2 = PROT_ERR2_MASK_INIT;
         break;
     case SYS_CONTROL_STATE_CHECK:
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        prot.mask_errors0 = PROT_ERR0_MASK_CHECK;
+        prot.mask_errors1 = PROT_ERR1_MASK_CHECK;
+        prot.mask_errors2 = PROT_ERR2_MASK_CHECK;
         break;
     case SYS_CONTROL_STATE_IDLE:
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        prot.mask_errors0 = PROT_ERR0_MASK_IDLE;
+        prot.mask_errors1 = PROT_ERR1_MASK_IDLE;
+        prot.mask_errors2 = PROT_ERR2_MASK_IDLE;
         break;
     case SYS_CONTROL_STATE_READY:
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        prot.mask_errors0 = PROT_ERR0_MASK_READY;
+        prot.mask_errors1 = PROT_ERR1_MASK_READY;
+        prot.mask_errors2 = PROT_ERR2_MASK_READY;
         break;
     case SYS_CONTROL_STATE_TEST:
         ph3c.control = CONTROL_ENABLE;
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_TEST;
         pid_i.control = CONTROL_ENABLE;
+        prot.mask_errors0 = PROT_ERR0_MASK_TEST;
+        prot.mask_errors1 = PROT_ERR1_MASK_TEST;
+        prot.mask_errors2 = PROT_ERR2_MASK_TEST;
         break;
     case SYS_CONTROL_STATE_START:
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        prot.mask_errors0 = PROT_ERR0_MASK_START;
+        prot.mask_errors1 = PROT_ERR1_MASK_START;
+        prot.mask_errors2 = PROT_ERR2_MASK_START;
         break;
     case SYS_CONTROL_STATE_START_FIELD_FORCE:
         ph3c.control = CONTROL_ENABLE;
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_FORCE;
         pid_i.control = CONTROL_ENABLE;
+        prot.mask_errors0 = PROT_ERR0_MASK_START_FIELD_FORCE;
+        prot.mask_errors1 = PROT_ERR1_MASK_START_FIELD_FORCE;
+        prot.mask_errors2 = PROT_ERR2_MASK_START_FIELD_FORCE;
         break;
     case SYS_CONTROL_STATE_RUN:
         ph3c.control = CONTROL_ENABLE;
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_RUN;
         pid_i.control = CONTROL_ENABLE;
+        prot.mask_errors0 = PROT_ERR0_MASK_RUN;
+        prot.mask_errors1 = PROT_ERR1_MASK_RUN;
+        prot.mask_errors2 = PROT_ERR2_MASK_RUN;
         break;
     case SYS_CONTROL_STATE_FIELD_FORCE:
         ph3c.control = CONTROL_ENABLE;
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_FORCE;
         pid_i.control = CONTROL_ENABLE;
+        prot.mask_errors0 = PROT_ERR0_MASK_FIELD_FORCE;
+        prot.mask_errors1 = PROT_ERR1_MASK_FIELD_FORCE;
+        prot.mask_errors2 = PROT_ERR2_MASK_FIELD_FORCE;
         break;
     case SYS_CONTROL_STATE_FIELD_SUPP:
         ph3c.control = CONTROL_ENABLE;
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_SUPP;
         pid_i.control = CONTROL_ENABLE;
+        prot.mask_errors0 = PROT_ERR0_MASK_FIELD_SUPP;
+        prot.mask_errors1 = PROT_ERR1_MASK_FIELD_SUPP;
+        prot.mask_errors2 = PROT_ERR2_MASK_FIELD_SUPP;
         break;
     case SYS_CONTROL_STATE_ERROR:
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        prot.mask_errors0 = PROT_ERR0_MASK_ERROR;
+        prot.mask_errors1 = PROT_ERR1_MASK_ERROR;
+        prot.mask_errors2 = PROT_ERR2_MASK_ERROR;
         break;
     default:
         break;

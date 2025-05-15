@@ -42,17 +42,17 @@ enum _E_Sys_Control_Warnings {
 //! Перечисление возможных бит состояния.
 enum _E_Sys_Control_State {
     //SYS_CONTROL_STATE_NONE,
-    SYS_CONTROL_STATE_INIT = 0x00,
-    SYS_CONTROL_STATE_CHECK,
-    SYS_CONTROL_STATE_IDLE,
-    SYS_CONTROL_STATE_READY,
-    SYS_CONTROL_STATE_TEST,
-    SYS_CONTROL_STATE_START,
-    SYS_CONTROL_STATE_START_FIELD_FORCE,
-    SYS_CONTROL_STATE_RUN,
-    SYS_CONTROL_STATE_FIELD_FORCE, // Field Forcing
-    SYS_CONTROL_STATE_FIELD_SUPP, // Field Suppression
-    SYS_CONTROL_STATE_ERROR,
+    SYS_CONTROL_STATE_INIT              = 0,
+    SYS_CONTROL_STATE_CHECK             = 1,
+    SYS_CONTROL_STATE_IDLE              = 2,
+    SYS_CONTROL_STATE_READY             = 3,
+    SYS_CONTROL_STATE_TEST              = 4,
+    SYS_CONTROL_STATE_START             = 5,
+    SYS_CONTROL_STATE_START_FIELD_FORCE = 6,
+    SYS_CONTROL_STATE_RUN               = 7,
+    SYS_CONTROL_STATE_FIELD_FORCE       = 8, // Field Forcing
+    SYS_CONTROL_STATE_FIELD_SUPP        = 9, // Field Suppression
+    SYS_CONTROL_STATE_ERROR             = 10,
 };
 
 //! Перечисление состояний проверки входа.
