@@ -836,6 +836,7 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     // Команда сброса ошибок.
     if(sys_cmd.out_command & SYS_COMMAND_COMMAND_RESET_ERR){
         prot.control |= CONTROL_RESET;
+        sys_ctrl.control &= ~SYS_CONTROL_CONTROL_ERROR;
     }
 
     // Обработка защит.
@@ -848,11 +849,10 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     CALC(prot);
 
     if(prot.out_has_errors){
-        //sys_ctrl.control
+        sys_ctrl.control = SYS_CONTROL_CONTROL_ERROR;
     }
 
     if(prot.out_error_occured){
-        //sys_ctrl.control
     }
 
     // if(prot.errors == 0){

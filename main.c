@@ -688,6 +688,9 @@ static void setup()
 
     dlog.p_ch[dlog_i  ].reg_id = REG_ID_PROT_RAW_ERRORS1;
     dlog.p_ch[dlog_i++].enabled = 1;
+
+    dlog.p_ch[dlog_i  ].reg_id = REG_ID_SYS_CTRL_FSM_STATE_STATE;
+    dlog.p_ch[dlog_i++].enabled = 1;
 #endif
     // Cell RMS.
     /*dlog.p_ch[dlog_i  ].reg_id = REG_ID_RMS_CELL_UA_OUT_VALUE;
@@ -873,13 +876,22 @@ int main(void)
 
     init_sysmain();
 
-#if defined(PORT_POSIX)
-    // Main contactor is on.
-    sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
-#endif
-
     for(;;){
         IDLE(sys);
+
+#if defined(PORT_POSIX)
+        if(adc_tim.out_counter >= DATA_LOG_CH_LEN / 8){
+            // Main contactor is on.
+            sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
+        }
+#endif
+
+#if defined(PORT_POSIX)
+        if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
+            // Stop.
+            sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
+        }
+#endif
 
         if(sys_cmd.out_command == SYS_COMMAND_COMMAND_CELL_CB_NO){
             lrm.in_stator_on = 1;
@@ -888,13 +900,6 @@ int main(void)
         if((sys_cmd.out_command == SYS_COMMAND_COMMAND_CELL_CB_NC) || (sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_PROT)){
             lrm.in_stator_on = 0;
         }
-
-#if defined(PORT_POSIX)
-        if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
-            // Stop.
-            sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
-        }
-#endif
 
 #if defined(PORT_POSIX)
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
