@@ -1,5 +1,7 @@
 #include "modules.h"
 #include "conf/consts.h"
+#include "portdefs.h"
+
 
 
 M_sys_main sys = SYS_MAIN_DEFAULTS;
@@ -24,7 +26,7 @@ M_sys_time sys_time = SYS_TIME_DEFAULTS;
 
 M_timer tmr_sys_fsm = TIMER_DEFAULTS;
 
-M_data_log dlog = DATA_LOG_DEFAULTS;
+COMM_DATA M_data_log dlog = DATA_LOG_DEFAULTS;
 
 M_sys_calc sys_calc = SYS_CALC_DEFAULTS;
 
@@ -39,9 +41,9 @@ M_mux_abc mux_Ucell = MUX_ABC_DEFAULTS;
 M_mux_abc mux_Icell = MUX_ABC_DEFAULTS;
 M_mux2 mux_slip = MUX2_DEFAULTS;
 
-M_phase_ampl phase_ampl_Ua = PHASE_AMPL_DEFAULTS;
-M_phase_ampl phase_ampl_Ub = PHASE_AMPL_DEFAULTS;
-M_phase_ampl phase_ampl_Uc = PHASE_AMPL_DEFAULTS;
+CCM_DATA M_phase_ampl phase_ampl_Ua = PHASE_AMPL_DEFAULTS;
+CCM_DATA M_phase_ampl phase_ampl_Ub = PHASE_AMPL_DEFAULTS;
+CCM_DATA M_phase_ampl phase_ampl_Uc = PHASE_AMPL_DEFAULTS;
 
 M_zero_cross_detect zcd_Ua = ZERO_CROSS_DETECT_DEFAULTS;
 M_zero_cross_detect zcd_Ub = ZERO_CROSS_DETECT_DEFAULTS;
@@ -58,30 +60,30 @@ M_star_line_to_phase phase_Ucell = STAR_LINE_TO_PHASE_DEFAULTS;
 M_value_3phase calc_Ucell = VALUE_3PHASE_DEFAULTS;
 M_value_3phase calc_Icell = VALUE_3PHASE_DEFAULTS;
 
-M_rms rms_Ua = RMS_DEFAULTS;
-M_rms rms_Ub = RMS_DEFAULTS;
-M_rms rms_Uc = RMS_DEFAULTS;
-M_rms rms_Ia = RMS_DEFAULTS;
-M_rms rms_Ib = RMS_DEFAULTS;
-M_rms rms_Ic = RMS_DEFAULTS;
-M_rms rms_cell_Ua = RMS_DEFAULTS;
-M_rms rms_cell_Ub = RMS_DEFAULTS;
-M_rms rms_cell_Uc = RMS_DEFAULTS;
-M_rms rms_cell_Ua_phase = RMS_DEFAULTS;
-M_rms rms_cell_Ub_phase = RMS_DEFAULTS;
-M_rms rms_cell_Uc_phase = RMS_DEFAULTS;
-M_rms rms_cell_Ia = RMS_DEFAULTS;
-M_rms rms_cell_Ib = RMS_DEFAULTS;
-M_rms rms_cell_Ic = RMS_DEFAULTS;
+CCM_DATA M_rms rms_Ua = RMS_DEFAULTS;
+CCM_DATA M_rms rms_Ub = RMS_DEFAULTS;
+CCM_DATA M_rms rms_Uc = RMS_DEFAULTS;
+CCM_DATA M_rms rms_Ia = RMS_DEFAULTS;
+CCM_DATA M_rms rms_Ib = RMS_DEFAULTS;
+CCM_DATA M_rms rms_Ic = RMS_DEFAULTS;
+CCM_DATA M_rms rms_cell_Ua = RMS_DEFAULTS;
+CCM_DATA M_rms rms_cell_Ub = RMS_DEFAULTS;
+CCM_DATA M_rms rms_cell_Uc = RMS_DEFAULTS;
+CCM_DATA M_rms rms_cell_Ua_phase = RMS_DEFAULTS;
+CCM_DATA M_rms rms_cell_Ub_phase = RMS_DEFAULTS;
+CCM_DATA M_rms rms_cell_Uc_phase = RMS_DEFAULTS;
+CCM_DATA M_rms rms_cell_Ia = RMS_DEFAULTS;
+CCM_DATA M_rms rms_cell_Ib = RMS_DEFAULTS;
+CCM_DATA M_rms rms_cell_Ic = RMS_DEFAULTS;
 
 #if (CONF_PERIOD_SAMPLES % 6 != 0)
-M_fract_mean mean_Iarm = FRACT_MEAN_DEFAULTS;
-M_fract_mean mean_Uarm = FRACT_MEAN_DEFAULTS;
-M_fract_mean mean_Irstart = FRACT_MEAN_DEFAULTS;
+CCM_DATA M_fract_mean mean_Iarm = FRACT_MEAN_DEFAULTS;
+CCM_DATA M_fract_mean mean_Uarm = FRACT_MEAN_DEFAULTS;
+CCM_DATA M_fract_mean mean_Irstart = FRACT_MEAN_DEFAULTS;
 #else // (CONF_PERIOD_SAMPLES % 6 != 0)
-M_dc_mean mean_Iarm = DC_MEAN_DEFAULTS;
-M_dc_mean mean_Uarm = DC_MEAN_DEFAULTS;
-M_dc_mean mean_Irstart = DC_MEAN_DEFAULTS;
+CCM_DATA M_dc_mean mean_Iarm = DC_MEAN_DEFAULTS;
+CCM_DATA M_dc_mean mean_Uarm = DC_MEAN_DEFAULTS;
+CCM_DATA M_dc_mean mean_Irstart = DC_MEAN_DEFAULTS;
 #endif // (CONF_PERIOD_SAMPLES % 6 != 0)
 M_mean3 mean_rms_Icell = MEAN3_DEFAULTS;
 
@@ -89,9 +91,9 @@ M_sum3 sum_S = SUM3_DEFAULTS;
 M_sum3 sum_P = SUM3_DEFAULTS;
 M_sum3 sum_Q = SUM3_DEFAULTS;
 
-M_power power_A = POWER_DEFAULTS;
-M_power power_B = POWER_DEFAULTS;
-M_power power_C = POWER_DEFAULTS;
+CCM_DATA M_power power_A = POWER_DEFAULTS;
+CCM_DATA M_power power_B = POWER_DEFAULTS;
+CCM_DATA M_power power_C = POWER_DEFAULTS;
 
 M_power_factor power_factor = POWER_FACTOR_DEFAULTS;
 
@@ -170,7 +172,8 @@ M_prot prot = PROT_DEFAULTS;
 
 M_canopen canopen = CANOPEN_DEFAULTS;
 
-M_storage storage = STORAGE_DEFAULTS;
+COMM_DATA M_storage storage = STORAGE_DEFAULTS;
 
-M_settings settings = SETTINGS_DEFAULTS;
+COMM_DATA M_settings settings = SETTINGS_DEFAULTS;
 
+COMM_DATA M_event_log event_log = EVENT_LOG_DEFAULTS;

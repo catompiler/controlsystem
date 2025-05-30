@@ -14,6 +14,9 @@
 //! Формат значений от младшего полуслова к старшему,
 //! чётное слово - пара из действительных частей (R[n+1], R[n])
 //! нечётное слово - пара из мнимых частей (I[n+1], I[n])
+#ifdef CCM_DATA
+CCM_DATA
+#endif
 __attribute__((aligned(4)))
 static const int32_t phase_ampl_cmplx_sin_table[PHASE_AMPL_CMPLX_SIN_TABLE_SIZE] = {
     0x00050000, 0x003e0000, 0x0090002b, 0x021a00f5, 0x02870151, 0x056c039e, 0x069f0447, 0x09750768,

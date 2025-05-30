@@ -1,5 +1,6 @@
 #include "rms.h"
 #include "bits/bits.h"
+#include "portdefs.h"
 #include "iqmath/iqmath.h"
 
 
@@ -12,7 +13,7 @@ METHOD_DEINIT_IMPL(M_rms, rms)
 }
 
 
-static void calc_rms(M_rms* rms)
+CCM_CODE static void calc_rms(M_rms* rms)
 {
     liq24_t acc = rms->m_sum;
 

@@ -818,6 +818,12 @@ static void main_end()
 
     DEINIT(sys);
 
+    // Настройки.
+    DEINIT(settings);
+
+    // Хранилище.
+    DEINIT(storage);
+
     printf("done\n");
 
 #if defined(WRITE_DLOG_TO_CSV) && WRITE_DLOG_TO_CSV == 1

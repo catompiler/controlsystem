@@ -41,6 +41,9 @@ def gen_cmplx_sin_table():
     print("//! Формат значений от младшего полуслова к старшему,");
     print("//! чётное слово - пара из действительных частей (R[n+1], R[n])");
     print("//! нечётное слово - пара из мнимых частей (I[n+1], I[n])");
+    print("#ifdef CCM_DATA");
+    print("CCM_DATA");
+    print("#endif");
     print("__attribute__((aligned(4)))");
     print("static const int32_t phase_ampl_cmplx_sin_table[PHASE_AMPL_CMPLX_SIN_TABLE_SIZE] = {\n    ", end='');
     for i in range(0, table_size >> 1):

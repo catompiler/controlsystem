@@ -1,13 +1,16 @@
 #include "power.h"
 #include "bits/bits.h"
+#include "portdefs.h"
+#include "iqmath/iqmath.h"
 
 
-static void power_calc_S(M_power* pwr)
+
+CCM_CODE static void power_calc_S(M_power* pwr)
 {
     pwr->out_S = iq24_mul_sat(pwr->in_rms_U, pwr->in_rms_I);
 }
 
-static void power_calc_P(M_power* pwr)
+CCM_CODE static void power_calc_P(M_power* pwr)
 {
     liq24_t value;
 
@@ -43,7 +46,7 @@ static void power_calc_P(M_power* pwr)
     pwr->out_P = iq24_sat(value);
 }
 
-static void power_calc_Q(M_power* pwr)
+CCM_CODE static void power_calc_Q(M_power* pwr)
 {
     liq24_t value;
 

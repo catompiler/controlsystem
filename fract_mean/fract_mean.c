@@ -1,5 +1,6 @@
 #include "fract_mean.h"
 #include "iqmath/iqutils.h"
+#include "portdefs.h"
 
 
 
@@ -11,7 +12,7 @@ METHOD_DEINIT_IMPL(M_fract_mean, mean)
 {
 }
 
-METHOD_CALC_IMPL(M_fract_mean, mean)
+CCM_CODE METHOD_CALC_IMPL(M_fract_mean, mean)
 {
     // Поместим данные в буфер.
     mean->m_buf[mean->m_index] = mean->in_value;

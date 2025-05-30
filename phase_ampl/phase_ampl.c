@@ -1,6 +1,7 @@
 #include "phase_ampl.h"
 #include "bits/bits.h"
 #include "iqmath/iqmath.h"
+#include "portdefs.h"
 #include "phase_ampl_cmplx_sin_table.h"
 
 
@@ -27,7 +28,7 @@ METHOD_DEINIT_IMPL(M_phase_ampl, pa)
 #define USE_64BIT_LOAD 0
 
 #if defined(USE_64BIT_LOAD) && USE_64BIT_LOAD == 1
-ALWAYS_INLINE static void phase_ampl_move_blocks(M_phase_ampl* pa)
+CCM_CODE static void phase_ampl_move_blocks(M_phase_ampl* pa)
 {
     uint64_t* ptr_wr = (uint64_t*)&pa->m_data[0];
     uint64_t* ptr_rd = (uint64_t*)&pa->m_data[PHASE_AMPL_BLOCK_LEN];
@@ -39,7 +40,7 @@ ALWAYS_INLINE static void phase_ampl_move_blocks(M_phase_ampl* pa)
     }
 }
 #else  //USE_64BIT_LOAD
-ALWAYS_INLINE static void phase_ampl_move_blocks(M_phase_ampl* pa)
+CCM_CODE static void phase_ampl_move_blocks(M_phase_ampl* pa)
 {
     uint32_t* ptr_wr = (uint32_t*)&pa->m_data[0];
     uint32_t* ptr_rd = (uint32_t*)&pa->m_data[PHASE_AMPL_BLOCK_LEN];
@@ -62,7 +63,7 @@ ALWAYS_INLINE static void phase_ampl_move_blocks(M_phase_ampl* pa)
 #endif  //USE_64BIT_LOAD
 
 
-static void calc_phase_ampl(M_phase_ampl* pa)
+CCM_CODE static void calc_phase_ampl(M_phase_ampl* pa)
 {
 #if defined(USE_64BIT_LOAD) && USE_64BIT_LOAD == 1
 
@@ -175,7 +176,6 @@ static void calc_phase_ampl(M_phase_ampl* pa)
 METHOD_CALC_IMPL(M_phase_ampl, pa)
 {
     if(!(pa->control & CONTROL_ENABLE)) return;
-
 
     iql_t in_val = pa->in_value >> (IQ24_FRACT_BITS - PHASE_AMPL_DATA_FRACT_BITS);
     iq14l_t iq_pa_val = __SSAT(in_val, PHASE_AMPL_DATA_SAT_BIT);

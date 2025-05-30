@@ -66,6 +66,7 @@
 #include "canopen/canopen.h"
 #include "storage/storage.h"
 #include "settings/settings.h"
+#include "event_log/event_log.h"
 #include "field_trig/field_trig.h"
 
 
@@ -353,5 +354,8 @@ extern M_storage storage;
 
 //! Настройки.
 extern M_settings settings;
+
+//! Лог событий.
+extern M_event_log event_log;
 
 #endif /* MODULES_H */

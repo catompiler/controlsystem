@@ -50,10 +50,14 @@ enum _E_Storage_Region {
 // Начало памяти.
 #define STORAGE_MEM_BEG 0x0
 // Регионы памяти.
+// Регион настроек.
 #define STORAGE_MEM_RGN_SETTINGS_OFFSET 0x0
 #define STORAGE_MEM_RGN_SETTINGS_SIZE 0x800
+// Регион событий.
+#define STORAGE_MEM_RGN_EVENTS_OFFSET 0x2000
+#define STORAGE_MEM_RGN_EVENTS_SIZE 0x01E000
 // Конец памяти.
-#define STORAGE_MEM_END 0x400
+#define STORAGE_MEM_END 0x020000
 
 
 
