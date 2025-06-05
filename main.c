@@ -434,6 +434,12 @@ static void init_settings()
     INIT(settings);
 }
 
+static void init_event_log()
+{
+    // Лог событий.
+    INIT(event_log);
+}
+
 static void load_settings()
 {
     // Read settings.
@@ -458,6 +464,31 @@ static void load_settings()
         SYSLOG(SYSLOG_INFO, "Settings readed successfully!");
     }
 }
+
+static void refresh_event_log()
+{
+    // Read settings.
+    event_log.control = EVENT_LOG_CONTROL_REFRESH;
+    CONTROL(event_log);
+
+    for(;;){
+        // Настройки.
+        IDLE(event_log);
+
+        if((event_log.status & EVENT_LOG_STATUS_RUN) == 0) break;
+
+        // Хранилище.
+        IDLE(storage);
+    }
+
+    if(event_log.status & STATUS_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Event log refresh error!");
+    }else{
+        SYSLOG(SYSLOG_INFO, "Event log refreshed successfully!");
+    }
+}
+
+
 
 #if defined(PORT_XMC4500) || defined(PORT_XMC4700)
 //static can_node_t* can_node;
@@ -818,6 +849,9 @@ static void main_end()
 
     DEINIT(sys);
 
+    // Лог событий.
+    DEINIT(event_log);
+
     // Настройки.
     DEINIT(settings);
 
@@ -875,8 +909,10 @@ int main(void)
     init_eeprom();
     init_storage();
     init_settings();
+    init_event_log();
 
     load_settings();
+    refresh_event_log();
 
     setup();
 

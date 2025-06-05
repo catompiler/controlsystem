@@ -153,11 +153,8 @@ static size_t storage_region_address(unsigned int rgn)
         break;
     case STORAGE_RGN_SETTINGS:
         return STORAGE_MEM_BEG + STORAGE_MEM_RGN_SETTINGS_OFFSET;
-    case STORAGE_RGN_OSC0:
-    case STORAGE_RGN_OSC1:
-    case STORAGE_RGN_OSC2:
-    case STORAGE_RGN_OSC3:
-        break;
+    case STORAGE_RGN_EVENTS:
+        return STORAGE_MEM_BEG + STORAGE_MEM_RGN_EVENTS_OFFSET;
     }
     return 0;
 }
@@ -169,11 +166,8 @@ static size_t storage_region_size(unsigned int rgn)
         break;
     case STORAGE_RGN_SETTINGS:
         return STORAGE_MEM_RGN_SETTINGS_SIZE;
-    case STORAGE_RGN_OSC0:
-    case STORAGE_RGN_OSC1:
-    case STORAGE_RGN_OSC2:
-    case STORAGE_RGN_OSC3:
-        break;
+    case STORAGE_RGN_EVENTS:
+        return STORAGE_MEM_RGN_EVENTS_SIZE;
     }
     return 0;
 }

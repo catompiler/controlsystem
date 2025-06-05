@@ -5,8 +5,6 @@
 #include "reg/reg.h"
 #include "defs/defs.h"
 #include "storage/storage.h"
-#include "sys_time/sys_time.h"
-#include "crc/crc16_ccitt.h"
 
 
 //! Перечисление возможных бит управления.
@@ -34,13 +32,15 @@ enum _E_Event_Log_Status {
 typedef struct PACKED _S_Event_Header {
     uint32_t magic; //!< Формат.
     uint32_t index; //!< Индекс события.
+    uint8_t type; //!< Тип события.
+    uint8_t reserved0[3]; //!< Зарезервировано.
     uint16_t crc; //!< Контрольная сумма.
 } event_header_t;
 
 //! Размер заголовка события.
 #define EVENT_HEADER_SIZE sizeof(event_header_t)
 
-static_assert(EVENT_HEADER_SIZE == 10, "event_header_t invalid size!");
+static_assert(EVENT_HEADER_SIZE == 14, "event_header_t invalid size!");
 
 
 
@@ -55,8 +55,6 @@ typedef enum _E_Event_Type {
 
 //! Структура информации о событии.
 typedef struct PACKED _S_Event_Info {
-    uint8_t type; //!< Тип события.
-    uint8_t reserved0[3]; //!< Зарезервировано.
     uint32_t time; //!< Время события.
     uint32_t error0; //!< Слово ошибки 0.
     uint32_t error1; //!< Слово ошибки 1.
@@ -78,7 +76,8 @@ typedef struct PACKED _S_Event_Info {
 //! Размер информации о событии.
 #define EVENT_INFO_SIZE sizeof(event_info_t)
 
-static_assert(EVENT_INFO_SIZE == 66, "event_info_t invalid size!");
+static_assert(EVENT_INFO_SIZE == 62, "event_info_t invalid size!");
+
 
 
 //! Структура информации осциллограммы события.
@@ -136,6 +135,7 @@ typedef struct PACKED _S_Event_Osc_Channel_Data {
 static_assert(EVENT_OSC_CHANNEL_DATA_SIZE == (EVENT_OSC_SAMPLE_SIZE*EVENT_OSC_SAMPLES_COUNT + 2), "event_osc_channel_data_t invalid size!");
 
 
+
 //! Структура канала осциллограммы события.
 typedef struct PACKED _S_Event_Osc_Channel {
     event_osc_channel_info_t info; //!< Информация.
@@ -146,6 +146,7 @@ typedef struct PACKED _S_Event_Osc_Channel {
 #define EVENT_OSC_CHANNEL_SIZE sizeof(event_osc_channel_t)
 
 static_assert(EVENT_OSC_CHANNEL_SIZE == (EVENT_OSC_CHANNEL_INFO_SIZE + EVENT_OSC_CHANNEL_DATA_SIZE), "event_osc_channel_t invalid size!");
+
 
 
 //! Число каналов осциллограммы.
@@ -163,6 +164,7 @@ typedef struct PACKED _S_Event_Osc {
 static_assert(EVENT_OSC_SIZE == (EVENT_OSC_CHANNEL_SIZE * EVENT_OSC_CHANNELS_COUNT), "event_osc_t invalid size!");
 
 
+
 //! Событие.
 typedef struct PACKED _S_Event {
     event_header_t header; //!< Заголовок события.
@@ -177,6 +179,7 @@ typedef struct PACKED _S_Event {
 static_assert(EVENT_SIZE == (EVENT_HEADER_SIZE + EVENT_INFO_SIZE + EVENT_OSC_INFO_SIZE + EVENT_OSC_SIZE), "event_t invalid size!");
 
 
+
 //! Событие.
 typedef struct PACKED _S_Event_Data {
     event_header_t header; //!< Заголовок события.
@@ -188,6 +191,7 @@ typedef struct PACKED _S_Event_Data {
 #define EVENT_DATA_SIZE sizeof(event_data_t)
 
 static_assert(EVENT_DATA_SIZE == (EVENT_HEADER_SIZE + EVENT_INFO_SIZE + EVENT_OSC_INFO_SIZE), "event_data_t invalid size!");
+
 
 
 //! Структура данных осциллограммы события.
@@ -218,13 +222,57 @@ typedef struct _S_Event_Log_Cmd {
 
 
 //! Размер хранилища для одного события.
-#define EVENT_STORAGE_SIZE (8*1024)
+#define EVENT_STORAGE_SIZE ((((EVENT_SIZE) + (STORAGE_MEM_RGN_EVENTS_ERASE_SIZE - 1)) / STORAGE_MEM_RGN_EVENTS_ERASE_SIZE) * STORAGE_MEM_RGN_EVENTS_ERASE_SIZE)
 
 static_assert(EVENT_STORAGE_SIZE >= EVENT_SIZE, "Event size too large!");
 
 
+
 //! Число событий в хранилище.
 #define EVENTS_COUNT ((STORAGE_MEM_RGN_EVENTS_SIZE)/(EVENT_STORAGE_SIZE))
+
+
+
+// Метод err_t refresh(future_t* future).
+#define EVENT_LOG_METHOD_REFRESH_M_NAME refresh
+#define EVENT_LOG_METHOD_REFRESH_RET err_t
+#define EVENT_LOG_METHOD_REFRESH_ARGS future_t* future
+#define EVENT_LOG_METHOD_REFRESH(MOD_TYPE)                       METHOD(MOD_TYPE, EVENT_LOG_METHOD_REFRESH_M_NAME, EVENT_LOG_METHOD_REFRESH_RET, EVENT_LOG_METHOD_REFRESH_ARGS)
+#define EVENT_LOG_METHOD_REFRESH_PTR(MOD_NAME)                   METHOD_PTR(MOD_NAME, EVENT_LOG_METHOD_REFRESH_M_NAME)
+#define EVENT_LOG_METHOD_REFRESH_PROTO(MOD_NAME)                 METHOD_PROTO(MOD_NAME, EVENT_LOG_METHOD_REFRESH_M_NAME, EVENT_LOG_METHOD_REFRESH_RET, EVENT_LOG_METHOD_REFRESH_ARGS)
+#define EVENT_LOG_METHOD_REFRESH_IMPL(MOD_NAME, THIS, FUT)       METHOD_IMPL(MOD_NAME, THIS, EVENT_LOG_METHOD_REFRESH_M_NAME, EVENT_LOG_METHOD_REFRESH_RET, FUT)
+#define EVENT_LOG_REFRESH(MOD, FUT)                              CALL(MOD, EVENT_LOG_METHOD_REFRESH_M_NAME, FUT)
+
+
+
+//
+//// Метод err_t read(unsigned int rgn, size_t offset, void* data, size_t size, future_t* future).
+//#define EVENT_LOG_METHOD_READ_M_NAME read
+//#define EVENT_LOG_METHOD_READ_RET err_t
+//#define EVENT_LOG_METHOD_READ_ARGS unsigned int rgn, size_t offset, void* data, size_t size, future_t* future
+//#define EVENT_LOG_METHOD_READ(MOD_TYPE)                       METHOD(MOD_TYPE, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, EVENT_LOG_METHOD_READ_ARGS)
+//#define EVENT_LOG_METHOD_READ_PTR(MOD_NAME)                   METHOD_PTR(MOD_NAME, EVENT_LOG_METHOD_READ_M_NAME)
+//#define EVENT_LOG_METHOD_READ_PROTO(MOD_NAME)                 METHOD_PROTO(MOD_NAME, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, EVENT_LOG_METHOD_READ_ARGS)
+//#define EVENT_LOG_METHOD_READ_IMPL(MOD_NAME, THIS, RGN,\
+//                                   OFF, DAT, SIZ, FUT)       METHOD_IMPL(MOD_NAME, THIS, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, RGN, OFF, DAT, SIZ, FUT)
+//#define EVENT_LOG_READ(MOD, RGN, OFF, DAT, SIZ, FUT)          CALL(MOD, EVENT_LOG_METHOD_READ_M_NAME, RGN, OFF, DAT, SIZ, FUT)
+//
+//
+//
+//
+//// Метод err_t read(unsigned int rgn, size_t offset, void* data, size_t size, future_t* future).
+//#define EVENT_LOG_METHOD_READ_M_NAME read
+//#define EVENT_LOG_METHOD_READ_RET err_t
+//#define EVENT_LOG_METHOD_READ_ARGS unsigned int rgn, size_t offset, void* data, size_t size, future_t* future
+//#define EVENT_LOG_METHOD_READ(MOD_TYPE)                       METHOD(MOD_TYPE, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, EVENT_LOG_METHOD_READ_ARGS)
+//#define EVENT_LOG_METHOD_READ_PTR(MOD_NAME)                   METHOD_PTR(MOD_NAME, EVENT_LOG_METHOD_READ_M_NAME)
+//#define EVENT_LOG_METHOD_READ_PROTO(MOD_NAME)                 METHOD_PROTO(MOD_NAME, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, EVENT_LOG_METHOD_READ_ARGS)
+//#define EVENT_LOG_METHOD_READ_IMPL(MOD_NAME, THIS, RGN,\
+//                                   OFF, DAT, SIZ, FUT)       METHOD_IMPL(MOD_NAME, THIS, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, RGN, OFF, DAT, SIZ, FUT)
+//#define EVENT_LOG_READ(MOD, RGN, OFF, DAT, SIZ, FUT)          CALL(MOD, EVENT_LOG_METHOD_READ_M_NAME, RGN, OFF, DAT, SIZ, FUT)
+//
+
+
 
 
 //! Предварительная декларация типа модуля.
@@ -244,8 +292,9 @@ struct _S_Event_Log {
     // Методы.
     METHOD_INIT(M_event_log);
     METHOD_DEINIT(M_event_log);
-    METHOD_CALC(M_event_log);
+    METHOD_CONTROL(M_event_log);
     METHOD_IDLE(M_event_log);
+    EVENT_LOG_METHOD_REFRESH(M_event_log);
     // Коллбэки.
     // Внутренние данные.
     event_data_t m_event_data; //!< Данные события.
@@ -254,6 +303,7 @@ struct _S_Event_Log {
     size_t m_events_count; //!< Число событий.
     size_t m_events_index; //!< Индекс последнего события.
     size_t m_events_put; //!< Индекс записи события.
+    size_t m_events_get; //!< Индекс чтения события.
     event_log_cmd_t m_queue[EVENT_LOG_QUEUE_LEN]; //!< Очередь команд.
     size_t m_q_head_index; //!< Голова очереди.
     size_t m_q_tail_index; //!< Хвост очереди.
@@ -263,8 +313,9 @@ struct _S_Event_Log {
 
 EXTERN METHOD_INIT_PROTO(M_event_log);
 EXTERN METHOD_DEINIT_PROTO(M_event_log);
-EXTERN METHOD_CALC_PROTO(M_event_log);
+EXTERN METHOD_CONTROL_PROTO(M_event_log);
 EXTERN METHOD_IDLE_PROTO(M_event_log);
+EXTERN EVENT_LOG_METHOD_REFRESH_PROTO(M_event_log);
 
 #define EVENT_LOG_DEFAULTS {\
         /* Базовые поля */\
@@ -277,7 +328,8 @@ EXTERN METHOD_IDLE_PROTO(M_event_log);
         {{{0}}}, /* r_osc_channel_data */\
         /* Методы */\
         METHOD_INIT_PTR(M_event_log), METHOD_DEINIT_PTR(M_event_log),\
-        METHOD_CALC_PTR(M_event_log), METHOD_IDLE_PTR(M_event_log),\
+        METHOD_CONTROL_PTR(M_event_log), METHOD_IDLE_PTR(M_event_log),\
+        EVENT_LOG_METHOD_REFRESH_PTR(M_event_log),\
         /* Коллбэки */\
         /* Внутренние данные */\
         {{0}}, /* m_event_data */\
@@ -286,6 +338,7 @@ EXTERN METHOD_IDLE_PROTO(M_event_log);
         0, /* m_events_count */\
         0, /* m_events_index */\
         0, /* m_events_put */\
+        0, /* m_events_get */\
         {{0}}, /* m_queue */\
         0, /* m_q_head_index */\
         0, /* m_q_tail_index */\

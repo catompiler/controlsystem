@@ -33,15 +33,9 @@ enum _E_Storage_Command {
 
 //! Перечисление регионов.
 enum _E_Storage_Region {
-    STORAGE_RGN_NONE = 0,                                        //!< STORAGE_NONE
-    STORAGE_RGN_SETTINGS = 1,                                    //!< STORAGE_SETTINGS
-    STORAGE_RGN_OSC0 = 2,                                        //!< STORAGE_OSC0
-    STORAGE_RGN_OSCn = STORAGE_RGN_OSC0,                             //!< STORAGE_OSCn
-    STORAGE_RGN_OSC1 = (STORAGE_RGN_OSCn + 1),                       //!< STORAGE_OSC1
-    STORAGE_RGN_OSC2 = (STORAGE_RGN_OSCn + 2),                       //!< STORAGE_OSC2
-    STORAGE_RGN_OSC3 = (STORAGE_RGN_OSCn + 3),                       //!< STORAGE_OSC3
-    STORAGE_RGN_OSC_MAX = STORAGE_RGN_OSC3,                          //!< STORAGE_OSC_MAX
-    STORAGE_RGN_OSCs_COUNT = (STORAGE_RGN_OSC_MAX - STORAGE_RGN_OSC0 + 1)//!< STORAGE_OSCs_COUNT
+    STORAGE_RGN_NONE = 0,       //!< STORAGE_NONE
+    STORAGE_RGN_SETTINGS = 1,   //!< STORAGE_SETTINGS
+    STORAGE_RGN_EVENTS = 2,     //!< STORAGE_EVENTS
 };
 
 // Карта памяти.
@@ -56,6 +50,7 @@ enum _E_Storage_Region {
 // Регион событий.
 #define STORAGE_MEM_RGN_EVENTS_OFFSET 0x2000
 #define STORAGE_MEM_RGN_EVENTS_SIZE 0x01E000
+#define STORAGE_MEM_RGN_EVENTS_ERASE_SIZE EEPROM_ERASE_SIZE
 // Конец памяти.
 #define STORAGE_MEM_END 0x020000
 

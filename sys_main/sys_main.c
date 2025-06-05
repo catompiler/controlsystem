@@ -145,9 +145,6 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     // Осциллограф.
     INIT(dlog);
 
-    // Лог событий.
-    INIT(event_log);
-
     // Мотор.
     INIT(motor);
 
@@ -617,7 +614,6 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Мотор.
     DEINIT(motor);
 
-    DEINIT(event_log);
     DEINIT(dlog);
     DEINIT(sys_time);
     DEINIT(conf);
