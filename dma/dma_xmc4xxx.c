@@ -60,13 +60,13 @@ void DMA1_IRQ_Handler(void)
             if(callback){
                 callback(handler->user_data);
             } // Else - clear all interrupt flags.
-            //else{
+            else{
                 GPDMA0->CLEARTFR = ch_mask;
                 GPDMA0->CLEARBLOCK = ch_mask;
                 GPDMA0->CLEARSRCTRAN = ch_mask;
                 GPDMA0->CLEARDSTTRAN = ch_mask;
                 GPDMA0->CLEARERR = ch_mask;
-            //}
+            }
         }
     }
 }
@@ -92,13 +92,13 @@ void DMA2_IRQ_Handler(void)
             if(callback){
                 callback(handler->user_data);
             } // Else - clear all interrupt flags.
-            //else{
+            else{
                 GPDMA1->CLEARTFR = ch_mask;
                 GPDMA1->CLEARBLOCK = ch_mask;
                 GPDMA1->CLEARSRCTRAN = ch_mask;
                 GPDMA1->CLEARDSTTRAN = ch_mask;
                 GPDMA1->CLEARERR = ch_mask;
-            //}
+            }
         }
     }
 }
