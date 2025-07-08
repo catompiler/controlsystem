@@ -344,10 +344,8 @@ struct _S_Event_Log {
     event_data_t m_event_data; //!< Данные события.
     event_osc_data_t m_osc_channel_data; //!< Канал осциллограммы.
     uint8_t m_events_map[EVENTS_COUNT]; //!< Карта событий в памяти.
-    size_t m_events_count; //!< Число событий.
     size_t m_events_index; //!< Индекс последнего события.
     size_t m_events_put; //!< Индекс записи события.
-    size_t m_events_get; //!< Индекс чтения события.
     event_log_cmd_t m_queue[EVENT_LOG_QUEUE_LEN]; //!< Очередь команд.
     size_t m_q_head_index; //!< Голова очереди.
     size_t m_q_tail_index; //!< Хвост очереди.
@@ -383,12 +381,8 @@ EXTERN EVENT_LOG_METHOD_WRITE_PROTO(M_event_log);
         {{0}}, /* m_event_data */\
         {{{0}}}, /* m_osc_channel_data */\
         {0}, /* m_events_map */\
-        0, /* m_events_count */\
         0, /* m_events_index */\
         0, /* m_events_put */\
-        0, /* m_events_get */\
-        /*0,*/ /* m_events_iter */\
-        /*0,*/ /* m_events_min_index */\
         {{0}}, /* m_queue */\
         0, /* m_q_head_index */\
         0, /* m_q_tail_index */\

@@ -109,15 +109,11 @@ static void event_log_make_event(M_event_log* elog, event_data_t* ed, event_type
 
 static void event_log_handle_event_written(M_event_log* elog)
 {
+    elog->m_events_map[elog->m_events_put] = elog->m_event_data.header.type;
+
     elog->m_events_index ++;
 
-    CYCLIC_INC(elog->m_events_put, 0, (EVENTS_COUNT-1));
-
-    if(elog->m_events_count < EVENTS_COUNT){
-        elog->m_events_count ++;
-    }else{
-        CYCLIC_INC(elog->m_events_get, 0, (EVENTS_COUNT-1));
-    }
+    CYCLIC_INC(elog->m_events_put, 0, (EVENTS_COUNT));
 }
 
 static void event_log_refresh(M_event_log* elog, event_log_cmd_t* cmd)
@@ -139,32 +135,14 @@ static void event_log_refresh(M_event_log* elog, event_log_cmd_t* cmd)
         uint16_t crc = crc16_ccitt_ansi(header, EVENT_HEADER_SIZE - 2);
 
         if(header->crc == crc && header->magic == EVENT_MAGIC){
-            // Самое первое считанное событие.
-            if(elog->m_events_count == 0){
-                // Установим начальные индексы.
-                elog->m_events_get = cmd->refresh.m_events_iter;
-                cmd->refresh.m_events_min_index = header->index;
 
-                elog->m_events_index = header->index;
-
-                elog->m_events_put = cmd->refresh.m_events_iter;
-                CYCLIC_INC(elog->m_events_put, 0, (EVENTS_COUNT-1));
-            }
-
-            elog->m_events_count ++;
             elog->m_events_map[cmd->refresh.m_events_iter] = elog->m_event_data.header.type;
 
-            if(header->index > elog->m_events_index){
+            if(header->index >= elog->m_events_index){
                 elog->m_events_index = header->index;
 
                 elog->m_events_put = cmd->refresh.m_events_iter;
-                CYCLIC_INC(elog->m_events_put, 0, (EVENTS_COUNT-1));
-            }
-
-            if(header->index < cmd->refresh.m_events_min_index){
-                cmd->refresh.m_events_min_index = header->index;
-
-                elog->m_events_get = cmd->refresh.m_events_iter;
+                CYCLIC_INC(elog->m_events_put, 0, (EVENTS_COUNT));
             }
         }
 
@@ -172,10 +150,8 @@ static void event_log_refresh(M_event_log* elog, event_log_cmd_t* cmd)
 
     }else{
         // init new refresh.
-        elog->m_events_count = 0;
         elog->m_events_index = 0;
         elog->m_events_put = 0;
-        elog->m_events_get = 0;
         cmd->refresh.m_events_iter = 0;
         cmd->refresh.m_events_min_index = 0;
 
@@ -235,10 +211,8 @@ static void event_log_reset(M_event_log* elog, event_log_cmd_t* cmd)
 
     }else{
         // init new reset.
-        elog->m_events_count = 0;
         elog->m_events_index = 0;
         elog->m_events_put = 0;
-        elog->m_events_get = 0;
         cmd->reset.m_events_iter = 0;
 
         event_header_t* header = &elog->m_event_data.header;

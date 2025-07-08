@@ -461,7 +461,7 @@ static void load_settings()
         //settings.control = SETTINGS_CONTROL_STORE;
         //CONTROL(settings);
     }else{
-        SYSLOG(SYSLOG_INFO, "Settings readed successfully!");
+        SYSLOG(SYSLOG_INFO, "Settings readed success!");
     }
 }
 
@@ -472,7 +472,7 @@ static void refresh_event_log()
     CONTROL(event_log);
 
     for(;;){
-        // Настройки.
+        // Лог событий.
         IDLE(event_log);
 
         if((event_log.status & EVENT_LOG_STATUS_RUN) == 0) break;
@@ -481,15 +481,65 @@ static void refresh_event_log()
         IDLE(storage);
     }
 
-    // Write event.
-    event_log.control = EVENT_LOG_CONTROL_WRITE;
-    CONTROL(event_log);
-
     if(event_log.status & STATUS_ERROR){
         SYSLOG(SYSLOG_WARNING, "Event log refresh error!");
     }else{
-        SYSLOG(SYSLOG_INFO, "Event log refreshed successfully!");
+        SYSLOG(SYSLOG_INFO, "Event log refreshed success!");
     }
+}
+
+static void test_event_log()
+{
+    // Read settings.
+    event_log.control = EVENT_LOG_CONTROL_RESET;
+    CONTROL(event_log);
+
+    for(;;){
+        // Лог событий.
+        IDLE(event_log);
+
+        if((event_log.status & EVENT_LOG_STATUS_RUN) == 0) break;
+
+        // Хранилище.
+        IDLE(storage);
+    }
+
+    if(event_log.status & STATUS_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Event log reset error!");
+    }else{
+        SYSLOG(SYSLOG_INFO, "Event log reset success!");
+    }
+
+    const size_t write_events = EVENTS_COUNT + (EVENTS_COUNT >> 1);
+    size_t i;
+    for(i = 0; i < write_events; i ++){
+
+        if((event_log.status & EVENT_LOG_STATUS_RUN) == 0){
+            // Write event.
+            event_log.control = EVENT_LOG_CONTROL_WRITE;
+            CONTROL(event_log);
+        }
+
+        for(;;){
+            // Лог событий.
+            IDLE(event_log);
+
+            if((event_log.status & EVENT_LOG_STATUS_RUN) == 0) break;
+
+            // Хранилище.
+            IDLE(storage);
+        }
+
+        if((event_log.status & EVENT_LOG_STATUS_ERROR) != 0) break;
+    }
+
+    if(event_log.status & STATUS_ERROR){
+        SYSLOG(SYSLOG_WARNING, "Event log write events error!");
+    }else{
+        SYSLOG(SYSLOG_INFO, "Event log write events success!");
+    }
+
+    refresh_event_log();
 }
 
 
@@ -917,6 +967,7 @@ int main(void)
 
     load_settings();
     refresh_event_log();
+    //test_event_log();
 
     setup();
 
