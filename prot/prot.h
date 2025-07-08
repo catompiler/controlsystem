@@ -94,6 +94,7 @@ struct _S_Prot {
     error_t errors2; //!< Слово ошибок 1.
     warning_t warnings0; //!< Слово предупреждений 0.
     warning_t warnings1; //!< Слово предупреждений 1.
+    warning_t warnings2; //!< Слово предупреждений 2.
     // Входные данные.
     // Выходные данные.
     flag_t out_has_errors; //!< Флаг наличия ошибок.
@@ -164,7 +165,7 @@ EXTERN METHOD_IDLE_PROTO(M_prot);
         /* Базовые поля */\
         0, 0, /* control, status */\
         0, 0, 0, /* errors0, errors1, errors2 */\
-        0, 0, /* warnings0, warnings1 */\
+        0, 0, 0, /* warnings0, warnings1, warnings2 */\
         /* Входные данные */\
         /* Выходные данные */\
         0, /* out_has_errors */\

@@ -481,6 +481,10 @@ static void refresh_event_log()
         IDLE(storage);
     }
 
+    // Write event.
+    event_log.control = EVENT_LOG_CONTROL_WRITE;
+    CONTROL(event_log);
+
     if(event_log.status & STATUS_ERROR){
         SYSLOG(SYSLOG_WARNING, "Event log refresh error!");
     }else{
