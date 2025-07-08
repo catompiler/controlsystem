@@ -467,7 +467,7 @@ static void load_settings()
 
 static void refresh_event_log()
 {
-    // Read settings.
+    // Refresh events.
     event_log.control = EVENT_LOG_CONTROL_REFRESH;
     CONTROL(event_log);
 
@@ -490,7 +490,7 @@ static void refresh_event_log()
 
 static void test_event_log()
 {
-    // Read settings.
+    // Reset events.
     event_log.control = EVENT_LOG_CONTROL_RESET;
     CONTROL(event_log);
 
@@ -537,6 +537,30 @@ static void test_event_log()
         SYSLOG(SYSLOG_WARNING, "Event log write events error!");
     }else{
         SYSLOG(SYSLOG_INFO, "Event log write events success!");
+    }
+
+
+    // Read event.
+    event_log.control = EVENT_LOG_CONTROL_READ;
+    event_log.in_event_n = EVENTS_COUNT - 1;
+    CONTROL(event_log);
+
+    for(;;){
+        // Лог событий.
+        IDLE(event_log);
+
+        if((event_log.status & EVENT_LOG_STATUS_RUN) == 0) break;
+
+        // Хранилище.
+        IDLE(storage);
+    }
+
+    //SYSLOG(SYSLOG_INFO, "Event index: %u", event_log.r_event_data.header.index);
+
+    if((event_log.status & STATUS_ERROR) || (event_log.r_event_data.header.index != write_events)){
+        SYSLOG(SYSLOG_WARNING, "Event read error!");
+    }else{
+        SYSLOG(SYSLOG_INFO, "Event read success!");
     }
 
     refresh_event_log();

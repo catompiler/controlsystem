@@ -14,7 +14,7 @@ enum _E_Event_Log_Control {
     EVENT_LOG_CONTROL_RESET = CONTROL_RESET,
     EVENT_LOG_CONTROL_REFRESH = (CONTROL_USER << 0),
     EVENT_LOG_CONTROL_WRITE = (CONTROL_USER << 1),
-    EVENT_LOG_CONTROL_READ_EVENT = (CONTROL_USER << 2),
+    EVENT_LOG_CONTROL_READ = (CONTROL_USER << 2),
     EVENT_LOG_CONTROL_READ_OSC = (CONTROL_USER << 3),
 };
 
@@ -227,11 +227,17 @@ typedef struct _S_Event_Log_Cmd_Write {
 
 //! Команда чтения события.
 typedef struct _S_Event_Log_Cmd_Read {
-    size_t event_number; //!< Номер сообщения.
-    size_t osc_channel; //!< Номер канала осциллограммы.
+    size_t event_index; //!< Индекс сообщения.
+    event_data_t* event_data; //!< Данные события.
+} event_log_cmd_read_t;
+
+//! Команда чтения события.
+typedef struct _S_Event_Log_Cmd_Read_Osc {
+    size_t event_index; //!< Индекс сообщения.
+    size_t osc_ch_n; //!< Номер канала осциллограммы.
     void* data; //!< Адрес данных.
     size_t size; //!< Размер данных.
-} event_log_cmd_read_t;
+} event_log_cmd_read_osc_t;
 
 
 //! Структура элемента очереди.
@@ -243,6 +249,7 @@ typedef struct _S_Event_Log_Cmd {
         event_log_cmd_reset_t reset; //!< Сброс списка событий.
         event_log_cmd_write_t write; //!< Запись нового события.
         event_log_cmd_read_t read; //!< Чтение данных события.
+        event_log_cmd_read_osc_t read_osc; //!< Чтение данных Осциллограммы.
     };
 } event_log_cmd_t;
 
@@ -288,7 +295,7 @@ static_assert(EVENT_STORAGE_SIZE >= EVENT_SIZE, "Event size too large!");
 
 
 
-// Метод err_t read(unsigned int rgn, size_t offset, void* data, size_t size, future_t* future).
+// Метод err_t read(event_type_t type, future_t* future).
 #define EVENT_LOG_METHOD_WRITE_M_NAME write
 #define EVENT_LOG_METHOD_WRITE_RET err_t
 #define EVENT_LOG_METHOD_WRITE_ARGS event_type_t type, future_t* future
@@ -302,17 +309,17 @@ static_assert(EVENT_STORAGE_SIZE >= EVENT_SIZE, "Event size too large!");
 
 
 
-//// Метод err_t read(unsigned int rgn, size_t offset, void* data, size_t size, future_t* future).
-//#define EVENT_LOG_METHOD_READ_M_NAME read
-//#define EVENT_LOG_METHOD_READ_RET err_t
-//#define EVENT_LOG_METHOD_READ_ARGS unsigned int rgn, size_t offset, void* data, size_t size, future_t* future
-//#define EVENT_LOG_METHOD_READ(MOD_TYPE)                       METHOD(MOD_TYPE, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, EVENT_LOG_METHOD_READ_ARGS)
-//#define EVENT_LOG_METHOD_READ_PTR(MOD_NAME)                   METHOD_PTR(MOD_NAME, EVENT_LOG_METHOD_READ_M_NAME)
-//#define EVENT_LOG_METHOD_READ_PROTO(MOD_NAME)                 METHOD_PROTO(MOD_NAME, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, EVENT_LOG_METHOD_READ_ARGS)
-//#define EVENT_LOG_METHOD_READ_IMPL(MOD_NAME, THIS, RGN,\
-//                                   OFF, DAT, SIZ, FUT)       METHOD_IMPL(MOD_NAME, THIS, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, RGN, OFF, DAT, SIZ, FUT)
-//#define EVENT_LOG_READ(MOD, RGN, OFF, DAT, SIZ, FUT)          CALL(MOD, EVENT_LOG_METHOD_READ_M_NAME, RGN, OFF, DAT, SIZ, FUT)
-//
+// Метод err_t read(size_t event_n, event_data_t* event_data, future_t* future).
+#define EVENT_LOG_METHOD_READ_M_NAME read
+#define EVENT_LOG_METHOD_READ_RET err_t
+#define EVENT_LOG_METHOD_READ_ARGS size_t event_n, event_data_t* event_data, future_t* future
+#define EVENT_LOG_METHOD_READ(MOD_TYPE)                       METHOD(MOD_TYPE, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, EVENT_LOG_METHOD_READ_ARGS)
+#define EVENT_LOG_METHOD_READ_PTR(MOD_NAME)                   METHOD_PTR(MOD_NAME, EVENT_LOG_METHOD_READ_M_NAME)
+#define EVENT_LOG_METHOD_READ_PROTO(MOD_NAME)                 METHOD_PROTO(MOD_NAME, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, EVENT_LOG_METHOD_READ_ARGS)
+#define EVENT_LOG_METHOD_READ_IMPL(MOD_NAME, THIS,\
+                                   EVN, EVD, FUT)             METHOD_IMPL(MOD_NAME, THIS, EVENT_LOG_METHOD_READ_M_NAME, EVENT_LOG_METHOD_READ_RET, EVN, EVD, FUT)
+#define EVENT_LOG_READ(MOD, EVN, EVD, FUT)                    CALL(MOD, EVENT_LOG_METHOD_READ_M_NAME, EVN, EVD, FUT)
+
 
 
 
@@ -326,11 +333,14 @@ struct _S_Event_Log {
     control_t control; //!< Слово управления.
     status_t status; //!< Слово состояния.
     // Входные данные.
+    reg_u32_t in_event_type; //!< Тип события для записи.
+    reg_u32_t in_event_n; //!< Номер события для чтения.
+    reg_u32_t in_osc_ch_n; //!< Номер канала для чтения.
     // Выходные данные.
     // Параметры.
     // Регистры.
-    //event_data_t r_event_data; //!< Буфер для чтения / записи события.
-    //event_osc_data_t r_osc_channel_data; //!< Буфер для чтения / записи канала осциллограммы.
+    event_data_t r_event_data; //!< Буфер для чтения / записи события.
+    event_osc_data_t r_osc_channel_data; //!< Буфер для чтения / записи канала осциллограммы.
     // Методы.
     METHOD_INIT(M_event_log);
     METHOD_DEINIT(M_event_log);
@@ -339,6 +349,7 @@ struct _S_Event_Log {
     EVENT_LOG_METHOD_REFRESH(M_event_log);
     EVENT_LOG_METHOD_RESET(M_event_log);
     EVENT_LOG_METHOD_WRITE(M_event_log);
+    EVENT_LOG_METHOD_READ(M_event_log);
     // Коллбэки.
     // Внутренние данные.
     event_data_t m_event_data; //!< Данные события.
@@ -360,22 +371,27 @@ EXTERN METHOD_IDLE_PROTO(M_event_log);
 EXTERN EVENT_LOG_METHOD_REFRESH_PROTO(M_event_log);
 EXTERN EVENT_LOG_METHOD_RESET_PROTO(M_event_log);
 EXTERN EVENT_LOG_METHOD_WRITE_PROTO(M_event_log);
+EXTERN EVENT_LOG_METHOD_READ_PROTO(M_event_log);
 
 #define EVENT_LOG_DEFAULTS {\
         /* Базовые поля */\
         0, 0, /* control, status */\
         /* Входные данные */\
+        EVENT_TYPE_INFO, /* in_event_type */\
+        0, /* in_event_n */\
+        0, /* in_osc_ch_n */\
         /* Выходные данные */\
         /* Параметры */\
         /* Регистры */\
-        /*{{0}},*/ /* r_event_data */\
-        /*{{{0}}},*/ /* r_osc_channel_data */\
+        {{0}}, /* r_event_data */\
+        {{{0}}}, /* r_osc_channel_data */\
         /* Методы */\
         METHOD_INIT_PTR(M_event_log), METHOD_DEINIT_PTR(M_event_log),\
         METHOD_CONTROL_PTR(M_event_log), METHOD_IDLE_PTR(M_event_log),\
         EVENT_LOG_METHOD_REFRESH_PTR(M_event_log),\
         EVENT_LOG_METHOD_RESET_PTR(M_event_log),\
         EVENT_LOG_METHOD_WRITE_PTR(M_event_log),\
+        EVENT_LOG_METHOD_READ_PTR(M_event_log),\
         /* Коллбэки */\
         /* Внутренние данные */\
         {{0}}, /* m_event_data */\

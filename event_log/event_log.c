@@ -296,6 +296,8 @@ static void event_log_write(M_event_log* elog, event_log_cmd_t* cmd)
 
 static err_t event_log_post_write(M_event_log* elog, event_type_t type, future_t* future)
 {
+    if((size_t)type > EVENT_TYPE_ERROR) return E_INVALID_VALUE;
+
     if(elog->m_q_count == EVENT_LOG_QUEUE_LEN) return E_BUSY;
 
     event_log_cmd_t* cmd = &elog->m_queue[elog->m_q_head_index];
@@ -313,6 +315,61 @@ static err_t event_log_post_write(M_event_log* elog, event_type_t type, future_t
 
     return E_IN_PROGRESS;
 }
+
+static void event_log_read(M_event_log* elog, event_log_cmd_t* cmd)
+{
+    if(future_running(&elog->m_future)) return;
+
+    err_t err = E_NO_ERROR;
+
+    if(future_done(&elog->m_future)){
+
+        err = FUTURE_RESULT_ERR(future_result(&elog->m_future));
+
+        if(err != E_NO_ERROR){
+            event_log_cmd_done(elog, cmd, err);
+            return;
+        }
+
+        event_log_cmd_done(elog, cmd, E_NO_ERROR);
+
+    }else{
+        err = STORAGE_READ(storage, STORAGE_RGN_EVENTS, cmd->read.event_index * EVENT_STORAGE_SIZE, cmd->read.event_data, EVENT_DATA_SIZE, &elog->m_future);
+
+        if(err != E_IN_PROGRESS && err != E_NO_ERROR){
+            event_log_cmd_done(elog, cmd, err);
+            return;
+        }
+    }
+}
+
+static err_t event_log_post_read(M_event_log* elog, size_t event_n, event_data_t* event_data, future_t* future)
+{
+    if(event_n >= EVENTS_COUNT) return E_OUT_OF_RANGE;
+    if(event_data == NULL) return E_NULL_POINTER;
+
+    if(elog->m_q_count == EVENT_LOG_QUEUE_LEN) return E_BUSY;
+
+    event_log_cmd_t* cmd = &elog->m_queue[elog->m_q_head_index];
+
+    size_t event_index = elog->m_events_put + event_n;
+    if(event_index >= EVENTS_COUNT) event_index -= EVENTS_COUNT;
+
+    cmd->type = EVENT_LOG_CONTROL_READ;
+    cmd->future = future;
+    cmd->read.event_index = event_index;
+    cmd->read.event_data = event_data;
+
+    future_init(&elog->m_future);
+
+    elog->m_q_head_index = event_log_inc_queue_index(elog->m_q_head_index);
+    event_log_inc_queue_count(elog);
+
+    event_log_cmd_future_start(cmd);
+
+    return E_IN_PROGRESS;
+}
+
 
 METHOD_CONTROL_IMPL(M_event_log, elog)
 {
@@ -347,7 +404,20 @@ METHOD_CONTROL_IMPL(M_event_log, elog)
     if(elog->control & EVENT_LOG_CONTROL_WRITE){
         elog->control &= ~EVENT_LOG_CONTROL_WRITE;
 
-        err = event_log_post_write(elog, EVENT_TYPE_INFO, NULL);
+        err = event_log_post_write(elog, elog->in_event_type, NULL);
+        if(err == E_NO_ERROR){
+            elog->status = EVENT_LOG_STATUS_READY;
+        }else if(err == E_IN_PROGRESS){
+            elog->status = EVENT_LOG_STATUS_RUN;
+        }else{
+            elog->status = EVENT_LOG_STATUS_ERROR;
+        }
+    }
+
+    if(elog->control & EVENT_LOG_CONTROL_READ){
+        elog->control &= ~EVENT_LOG_CONTROL_READ;
+
+        err = event_log_post_read(elog, elog->in_event_n, &elog->r_event_data, NULL);
         if(err == E_NO_ERROR){
             elog->status = EVENT_LOG_STATUS_READY;
         }else if(err == E_IN_PROGRESS){
@@ -379,6 +449,9 @@ METHOD_IDLE_IMPL(M_event_log, elog)
     case EVENT_LOG_CONTROL_WRITE:
         event_log_write(elog, cmd);
         break;
+    case EVENT_LOG_CONTROL_READ:
+        event_log_read(elog, cmd);
+        break;
     }
 }
 
@@ -395,4 +468,9 @@ EVENT_LOG_METHOD_RESET_IMPL(M_event_log, elog, future_t* future)
 EVENT_LOG_METHOD_WRITE_IMPL(M_event_log, elog, event_type_t type, future_t* future)
 {
     return event_log_post_write(elog, type, future);
+}
+
+EVENT_LOG_METHOD_READ_IMPL(M_event_log, elog, size_t event_n, event_data_t* event_data, future_t* future)
+{
+    return event_log_post_read(elog, event_n, event_data, future);
 }
