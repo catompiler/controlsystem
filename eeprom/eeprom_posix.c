@@ -83,8 +83,10 @@ err_t eeprom_write_page(eeprom_t* eeprom, size_t address, const void* cur_data_p
     memset(eeprom->page_buf, 0xff, EEPROM_PAGE_SIZE);
     memcpy(&eeprom->page_buf[in_page_address], cur_data_ptr, cur_data_size);
 
-    if(fseek(eeprom->f, page_address, SEEK_SET) != 0) return E_IO_ERROR;
-    if(fwrite(eeprom->page_buf, 1, EEPROM_PAGE_SIZE, eeprom->f) != EEPROM_PAGE_SIZE){
+    //if(fseek(eeprom->f, page_address, SEEK_SET) != 0) return E_IO_ERROR;
+    //if(fwrite(eeprom->page_buf, 1, EEPROM_PAGE_SIZE, eeprom->f) != EEPROM_PAGE_SIZE){
+    if(fseek(eeprom->f, page_address + in_page_address, SEEK_SET) != 0) return E_IO_ERROR;
+    if(fwrite(&eeprom->page_buf[in_page_address], 1, cur_data_size, eeprom->f) != cur_data_size){
         return E_IO_ERROR;
     }
 
@@ -261,7 +263,8 @@ static err_t eeprom_process_write(eeprom_t* eeprom)
         break;
     case EEPROM_STATE_WRITE:{
         size_t cur_data_write_size = cur_data_remain;
-        if(cur_data_write_size > EEPROM_PAGE_SIZE) cur_data_write_size = EEPROM_PAGE_SIZE;
+        size_t max_size = ((cur_address + EEPROM_PAGE_SIZE) & (~(EEPROM_PAGE_SIZE - 1))) - cur_address;
+        if(cur_data_write_size > max_size) cur_data_write_size = max_size; // EEPROM_PAGE_SIZE
 
         void* cur_data_ptr = (void*)((uint8_t*)eeprom->data_ptr + eeprom->data_processed);
 
@@ -281,7 +284,8 @@ static err_t eeprom_process_write(eeprom_t* eeprom)
     }break;
     case EEPROM_STATE_ERASE:{
         size_t cur_data_erase_size = cur_data_remain;
-        if(cur_data_erase_size > EEPROM_ERASE_SIZE) cur_data_erase_size = EEPROM_ERASE_SIZE;
+        size_t max_size = ((cur_address + EEPROM_ERASE_SIZE) & (~(EEPROM_ERASE_SIZE - 1))) - cur_address;
+        if(cur_data_erase_size > max_size) cur_data_erase_size = max_size; // EEPROM_ERASE_SIZE
 
         err = eeprom_open(eeprom);
         if(err != E_NO_ERROR) break;

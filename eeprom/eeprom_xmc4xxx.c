@@ -225,7 +225,9 @@ static err_t eeprom_process_erase(eeprom_t* eeprom)
     size_t cur_data_remain = eeprom->data_size - eeprom->data_processed;
 
     size_t cur_data_erase_size = cur_data_remain;
-    if(cur_data_erase_size > EEPROM_ERASE_SIZE) cur_data_erase_size = EEPROM_ERASE_SIZE;
+    //if(cur_data_erase_size > EEPROM_ERASE_SIZE) cur_data_erase_size = EEPROM_ERASE_SIZE;
+    size_t max_erase_size = ((cur_address + EEPROM_ERASE_SIZE) & (~(EEPROM_ERASE_SIZE - 1))) - cur_address;
+    if(cur_data_erase_size > max_erase_size) cur_data_erase_size = max_erase_size; // EEPROM_ERASE_SIZE
 
     if(eeprom->state == EEPROM_STATE_NONE){
         eeprom->state = EEPROM_STATE_ERASE;
@@ -292,10 +294,14 @@ static err_t eeprom_process_write(eeprom_t* eeprom)
     size_t cur_data_remain = eeprom->data_size - eeprom->data_processed;
 
     size_t cur_data_write_size = cur_data_remain;
-    if(cur_data_write_size > EEPROM_PAGE_SIZE) cur_data_write_size = EEPROM_PAGE_SIZE;
+    //if(cur_data_write_size > EEPROM_PAGE_SIZE) cur_data_write_size = EEPROM_PAGE_SIZE;
+    size_t max_write_size = ((cur_address + EEPROM_PAGE_SIZE) & (~(EEPROM_PAGE_SIZE - 1))) - cur_address;
+    if(cur_data_write_size > max_write_size) cur_data_write_size = max_write_size; // EEPROM_PAGE_SIZE
 
     size_t cur_data_erase_size = cur_data_remain;
-    if(cur_data_erase_size > EEPROM_ERASE_SIZE) cur_data_erase_size = EEPROM_ERASE_SIZE;
+    //if(cur_data_erase_size > EEPROM_ERASE_SIZE) cur_data_erase_size = EEPROM_ERASE_SIZE;
+    size_t max_erase_size = ((cur_address + EEPROM_ERASE_SIZE) & (~(EEPROM_ERASE_SIZE - 1))) - cur_address;
+    if(cur_data_erase_size > max_erase_size) cur_data_erase_size = max_erase_size; // EEPROM_ERASE_SIZE
 
     if(eeprom->state == EEPROM_STATE_NONE){
 //        if(eeprom->flags & EEPROM_FLAG_ERASE){
