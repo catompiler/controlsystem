@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
 #include "defs/defs.h"
 #include "reg_types.h"
 
@@ -189,6 +190,23 @@ ALWAYS_INLINE static reg_u16_t reg_value_u16(const reg_t* reg)
 ALWAYS_INLINE static reg_u32_t reg_value_u32(const reg_t* reg)
 {
     return reg_value(reg, reg_u32_t);
+}
+
+/**
+ * Получает флаг является ли тип регистра знаковым.
+ * @param type Тип.
+ * @return Флаг является ли тип регистра знаковым.
+ */
+EXTERN bool reg_type_is_signed(reg_type_t type);
+
+/**
+ * Получает флаг является ли регистр знаковым.
+ * @param reg Регистр.
+ * @return Флаг является ли регистр знаковым.
+ */
+ALWAYS_INLINE static bool reg_is_signed(const reg_t* reg)
+{
+    return reg_type_is_signed(reg->type);
 }
 
 #endif /* REG_REG_H_ */

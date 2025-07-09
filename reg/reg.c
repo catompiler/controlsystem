@@ -26,8 +26,6 @@ size_t reg_data_size(const reg_t* reg)
 
 iql_t reg_valuel(const reg_t* reg)
 {
-	if(reg == NULL) return 0;
-
 	iql_t val = 0;
 
 	switch(reg->type){
@@ -62,4 +60,21 @@ iql_t reg_valuel(const reg_t* reg)
 		break;
 	}
 	return val;
+}
+
+bool reg_type_is_signed(reg_type_t type)
+{
+    switch(type){
+    default:
+        break;
+    case REG_TYPE_I8:
+    case REG_TYPE_I16:
+    case REG_TYPE_I32:
+    case REG_TYPE_IQ24:
+    case REG_TYPE_IQ15:
+    case REG_TYPE_IQ7:
+        return true;
+    }
+
+    return false;
 }

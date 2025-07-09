@@ -125,6 +125,13 @@ typedef uint8_t event_osc_sample_t;
 //! Число семплов канала осциллограммы.
 #define EVENT_OSC_SAMPLES_COUNT 480
 
+//! Доля семплов до события.
+#define EVENT_OSC_BEFORE 0.5f
+//! Число семплов до события.
+#define EVENT_OSC_SAMPLES_BEFORE_MAX ((uint32_t)((EVENT_OSC_BEFORE)*(EVENT_OSC_SAMPLES_COUNT)))
+//! Число семплов после события.
+#define EVENT_OSC_SAMPLES_AFTER_MIN ((EVENT_OSC_SAMPLES_COUNT)-(EVENT_OSC_SAMPLES_BEFORE_MAX))
+
 
 //! Структура данных канала осциллограммы.
 typedef struct PACKED _S_Event_Osc_Channel_Data {
@@ -223,6 +230,11 @@ typedef struct _S_Event_Log_Cmd_Reset {
 typedef struct _S_Event_Log_Cmd_Write {
     event_type_t type; //!< Тип сообщения для записи.
     bool event_written; //!< Флаг записи события.
+    size_t dlog_first; //!< Положение первого семпла дата логгера.
+    uint32_t samples_before; //!< Число семплов в дата логгере до наступления события.
+    uint32_t samples_after; //!< Число семплов в дата логгере после наступления события.
+    size_t osc_ch_n; //!< Номер записываемого канала.
+    bool osc_written; //!< Флаг записи осциллограммы.
 } event_log_cmd_write_t;
 
 //! Команда чтения события.
@@ -243,7 +255,8 @@ typedef struct _S_Event_Log_Cmd_Read_Osc {
 //! Структура элемента очереди.
 typedef struct _S_Event_Log_Cmd {
     unsigned int type;//!< Команда.
-    future_t* future; //!< Будущее.
+    future_t* future; //!< Будущее для оповещения инициатора команды.
+    future_t m_future; //!< Будущее для отслеживания асинхронной операции.
     union {
         event_log_cmd_refresh_t refresh; //!< Обновление списка событий.
         event_log_cmd_reset_t reset; //!< Сброс списка событий.
@@ -361,7 +374,6 @@ struct _S_Event_Log {
     size_t m_q_head_index; //!< Голова очереди.
     size_t m_q_tail_index; //!< Хвост очереди.
     size_t m_q_count; //!< Число элементов в очереди.
-    future_t m_future; //!< Будущее.
 };
 
 EXTERN METHOD_INIT_PROTO(M_event_log);
@@ -403,7 +415,6 @@ EXTERN EVENT_LOG_METHOD_READ_PROTO(M_event_log);
         0, /* m_q_head_index */\
         0, /* m_q_tail_index */\
         0, /* m_q_count */\
-        {0}, /* m_future */\
     }
 
 #endif /* EVENT_LOG_H */

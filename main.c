@@ -997,6 +997,18 @@ int main(void)
 
     init_sysmain();
 
+    // Reset events.
+    event_log.control = EVENT_LOG_CONTROL_RESET;
+    CONTROL(event_log);
+
+    // Write event.
+    event_log.in_event_type = EVENT_TYPE_INFO;
+    event_log.control = EVENT_LOG_CONTROL_WRITE;
+    CONTROL(event_log);
+//    future_t future;
+//    future_init(&future);
+//    EVENT_LOG_WRITE(event_log, EVENT_TYPE_INFO, &future);
+
     for(;;){
         IDLE(sys);
 
@@ -1024,6 +1036,7 @@ int main(void)
 
 #if defined(PORT_POSIX)
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
+        //if(future_done(&future)) break;
         if(sys.status & SYS_MAIN_STATUS_QUIT) break;
 
         struct timespec ts_sleep = {0, 1000000};

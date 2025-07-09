@@ -12,11 +12,14 @@
 enum _E_Data_Log_Control {
     DATA_LOG_CONTROL_NONE = CONTROL_NONE,
     DATA_LOG_CONTROL_ENABLE = CONTROL_ENABLE,
+    DATA_LOG_CONTROL_RESET = CONTROL_RESET,
+    DATA_LOG_CONTROL_STOP = CONTROL_STOP,
 };
 
 //! Перечисление возможных бит статуса.
 enum _E_Data_Log_Status {
     DATA_LOG_STATUS_NONE = STATUS_NONE,
+    DATA_LOG_STATUS_RUN = STATUS_RUN,
 };
 
 #if defined(PORT_POSIX)
@@ -38,7 +41,7 @@ enum _E_Data_Log_Status {
 #define DATA_LOG_NEXT_INDEX(INDEX)\
     do{\
         (INDEX) = (INDEX) + 1;\
-        if((INDEX) >= DATA_LOG_CH_LEN){\
+        if((INDEX) >= (DATA_LOG_CH_LEN)){\
             (INDEX) = 0;\
         }\
     }while(0)
@@ -46,10 +49,26 @@ enum _E_Data_Log_Status {
 #define DATA_LOG_PREV_INDEX(INDEX)\
     do{\
         if((INDEX) == 0){\
-            (INDEX) = DATA_LOG_CH_LEN;\
+            (INDEX) = (DATA_LOG_CH_LEN);\
         }\
         (INDEX) = (INDEX) - 1;\
     }while(0)
+// Индекс после.
+#define DATA_LOG_AFTER_INDEX(INDEX, COUNT)\
+        do{\
+            (INDEX) = (INDEX) + (COUNT);\
+            if((INDEX) >= (DATA_LOG_CH_LEN)){\
+                (INDEX) = (INDEX) - (DATA_LOG_CH_LEN);\
+            }\
+        }while(0)
+// Индекс до.
+#define DATA_LOG_BEFORE_INDEX(INDEX, COUNT)\
+        do{\
+            if((INDEX) < (COUNT)){\
+                (INDEX) = (INDEX) + (DATA_LOG_CH_LEN);\
+            }\
+            (INDEX) = (INDEX) - (COUNT);\
+        }while(0)
 
 
 //! Тип значения данных лога.
@@ -77,6 +96,7 @@ struct _S_Data_Log {
     control_t control; //!< Слово управления.
     status_t status; //!< Слово состояния.
     // Входные данные.
+    reg_u32_t in_stop_samples; //!< Число семплов до остановки.
     // Выходные данные.
     // Параметры.
     data_log_ch_param_t p_ch[DATA_LOG_CH_COUNT]; //!< Параметры каналов.
@@ -88,14 +108,17 @@ struct _S_Data_Log {
     // Методы.
     METHOD_INIT(M_data_log);
     METHOD_DEINIT(M_data_log);
+    METHOD_CONTROL(M_data_log);
     METHOD_CALC(M_data_log);
     METHOD_IDLE(M_data_log);
     // Коллбэки.
     // Внутренние данные.
+    uint32_t m_stop_samples; //!< Отсчёт семплов до остановки.
 };
 
 EXTERN METHOD_INIT_PROTO(M_data_log);
 EXTERN METHOD_DEINIT_PROTO(M_data_log);
+EXTERN METHOD_CONTROL_PROTO(M_data_log);
 EXTERN METHOD_CALC_PROTO(M_data_log);
 EXTERN METHOD_IDLE_PROTO(M_data_log);
 
@@ -103,6 +126,7 @@ EXTERN METHOD_IDLE_PROTO(M_data_log);
         /* Базовые поля */\
         0, 0, /* control, status */\
         /* Входные данные */\
+        0, /* in_stop_samples */\
         /* Выходные данные */\
         /* Параметры */\
         {{0}}, /* Массив параметров каналов */\
@@ -111,9 +135,11 @@ EXTERN METHOD_IDLE_PROTO(M_data_log);
         {{0}}, /* Данные каналов */\
         /* Методы */\
         METHOD_INIT_PTR(M_data_log), METHOD_DEINIT_PTR(M_data_log),\
-        METHOD_CALC_PTR(M_data_log), METHOD_IDLE_PTR(M_data_log),\
+        METHOD_CONTROL_PTR(M_data_log), METHOD_CALC_PTR(M_data_log),\
+        METHOD_IDLE_PTR(M_data_log),\
         /* Коллбэки */\
         /* Внутренние данные */\
+        0, /* m_stop_samples */\
     }
 
 #endif /* DATA_LOG_H */

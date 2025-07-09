@@ -40,9 +40,40 @@ METHOD_DEINIT_IMPL(M_data_log, dlog)
 {
 }
 
+METHOD_CONTROL_IMPL(M_data_log, dlog)
+{
+    if(dlog->control & DATA_LOG_CONTROL_RESET){
+        dlog->control &= ~DATA_LOG_CONTROL_RESET;
+
+        dlog->r_count = 0;
+        dlog->r_get_index = 0;
+        dlog->r_put_index = 0;
+    }
+
+    if(dlog->control & DATA_LOG_CONTROL_STOP){
+        if(dlog->m_stop_samples == 0){
+            if(dlog->in_stop_samples != 0){
+                dlog->m_stop_samples = dlog->in_stop_samples;
+            }else{
+                dlog->control &= ~(DATA_LOG_CONTROL_ENABLE | DATA_LOG_CONTROL_STOP);
+            }
+        }
+    }else{
+        dlog->m_stop_samples = 0;
+    }
+
+    if(dlog->control & DATA_LOG_CONTROL_ENABLE){
+        dlog->status |= DATA_LOG_STATUS_RUN;
+    }else{
+        dlog->status &= ~DATA_LOG_STATUS_RUN;
+    }
+}
+
 METHOD_CALC_IMPL(M_data_log, dlog)
 {
-    if(!(dlog->control & CONTROL_ENABLE)) return;
+    CONTROL((*dlog));
+
+    if(!(dlog->control & DATA_LOG_CONTROL_ENABLE)) return;
 
     data_log_ch_param_t* ch_par;
     data_log_ch_data_t* ch_dat;
@@ -85,6 +116,13 @@ METHOD_CALC_IMPL(M_data_log, dlog)
     dlog->r_count = count;
     dlog->r_get_index = get_index;
     dlog->r_put_index = put_index;
+
+    if(dlog->m_stop_samples > 0){
+        dlog->m_stop_samples --;
+        if(dlog->m_stop_samples == 0){
+            dlog->control &= ~(DATA_LOG_CONTROL_ENABLE | DATA_LOG_CONTROL_STOP);
+        }
+    }
 }
 
 METHOD_IDLE_IMPL(M_data_log, dlog)
