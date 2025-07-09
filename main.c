@@ -997,17 +997,23 @@ int main(void)
 
     init_sysmain();
 
-    // Reset events.
-    event_log.control = EVENT_LOG_CONTROL_RESET;
-    CONTROL(event_log);
-
-    // Write event.
-    event_log.in_event_type = EVENT_TYPE_INFO;
-    event_log.control = EVENT_LOG_CONTROL_WRITE;
-    CONTROL(event_log);
+//    // Reset events.
+//    event_log.control = EVENT_LOG_CONTROL_RESET;
+//    CONTROL(event_log);
+//
+//    // Write event.
+//    event_log.in_event_type = EVENT_TYPE_INFO;
+//    event_log.control = EVENT_LOG_CONTROL_WRITE;
+//    CONTROL(event_log);
 //    future_t future;
 //    future_init(&future);
 //    EVENT_LOG_WRITE(event_log, EVENT_TYPE_INFO, &future);
+
+//    // Read osc.
+//    event_log.in_event_n = EVENTS_COUNT-1;
+//    event_log.in_osc_ch_n = 0;
+//    event_log.control = EVENT_LOG_CONTROL_READ_OSC;
+//    CONTROL(event_log);
 
     for(;;){
         IDLE(sys);

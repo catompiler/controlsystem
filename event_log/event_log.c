@@ -539,6 +539,69 @@ static err_t event_log_post_read(M_event_log* elog, size_t event_n, event_data_t
     return E_IN_PROGRESS;
 }
 
+static void event_log_read_osc(M_event_log* elog, event_log_cmd_t* cmd)
+{
+    if(future_running(&cmd->m_future)) return;
+
+    err_t err = E_NO_ERROR;
+
+    if(future_done(&cmd->m_future)){
+
+        err = FUTURE_RESULT_ERR(future_result(&cmd->m_future));
+
+        if(err != E_NO_ERROR){
+            event_log_cmd_done(elog, cmd, err);
+            return;
+        }
+
+        event_log_cmd_done(elog, cmd, E_NO_ERROR);
+
+    }else{
+        // Адрес события в регионе.
+        size_t address = cmd->read_osc.event_index * EVENT_STORAGE_SIZE;
+        // Адрес осциллограммы.
+        address += offsetof(event_t, osc);
+        // Адрес данных.
+        address += EVENT_OSC_CHANNEL_SIZE * cmd->read_osc.osc_ch_n;
+
+        err = STORAGE_READ(storage, STORAGE_RGN_EVENTS, address, cmd->read_osc.osc_ch, EVENT_OSC_CHANNEL_SIZE, &cmd->m_future);
+
+        if(err != E_IN_PROGRESS && err != E_NO_ERROR){
+            event_log_cmd_done(elog, cmd, err);
+            return;
+        }
+    }
+}
+
+static err_t event_log_post_read_osc(M_event_log* elog, size_t event_n, size_t osc_ch_n, event_osc_channel_t* osc_ch, future_t* future)
+{
+    if(event_n >= EVENTS_COUNT) return E_OUT_OF_RANGE;
+    if(osc_ch_n >= EVENT_OSC_CHANNELS_COUNT) return E_OUT_OF_RANGE;
+    if(osc_ch == NULL) return E_NULL_POINTER;
+
+    if(elog->m_q_count == EVENT_LOG_QUEUE_LEN) return E_BUSY;
+
+    event_log_cmd_t* cmd = &elog->m_queue[elog->m_q_head_index];
+
+    size_t event_index = elog->m_events_put + event_n;
+    if(event_index >= EVENTS_COUNT) event_index -= EVENTS_COUNT;
+
+    cmd->type = EVENT_LOG_CONTROL_READ_OSC;
+    cmd->future = future;
+    cmd->read_osc.event_index = event_index;
+    cmd->read_osc.osc_ch_n = osc_ch_n;
+    cmd->read_osc.osc_ch = osc_ch;
+
+    future_init(&cmd->m_future);
+
+    elog->m_q_head_index = event_log_inc_queue_index(elog->m_q_head_index);
+    event_log_inc_queue_count(elog);
+
+    event_log_cmd_future_start(cmd);
+
+    return E_IN_PROGRESS;
+}
+
 
 METHOD_CONTROL_IMPL(M_event_log, elog)
 {
@@ -595,6 +658,19 @@ METHOD_CONTROL_IMPL(M_event_log, elog)
             elog->status = EVENT_LOG_STATUS_ERROR;
         }
     }
+
+    if(elog->control & EVENT_LOG_CONTROL_READ_OSC){
+        elog->control &= ~EVENT_LOG_CONTROL_READ_OSC;
+
+        err = event_log_post_read_osc(elog, elog->in_event_n, elog->in_osc_ch_n, &elog->r_osc_channel_data.channel, NULL);
+        if(err == E_NO_ERROR){
+            elog->status = EVENT_LOG_STATUS_READY;
+        }else if(err == E_IN_PROGRESS){
+            elog->status = EVENT_LOG_STATUS_RUN;
+        }else{
+            elog->status = EVENT_LOG_STATUS_ERROR;
+        }
+    }
 }
 
 METHOD_IDLE_IMPL(M_event_log, elog)
@@ -621,6 +697,9 @@ METHOD_IDLE_IMPL(M_event_log, elog)
     case EVENT_LOG_CONTROL_READ:
         event_log_read(elog, cmd);
         break;
+    case EVENT_LOG_CONTROL_READ_OSC:
+        event_log_read_osc(elog, cmd);
+        break;
     }
 }
 
@@ -642,4 +721,9 @@ EVENT_LOG_METHOD_WRITE_IMPL(M_event_log, elog, event_type_t type, future_t* futu
 EVENT_LOG_METHOD_READ_IMPL(M_event_log, elog, size_t event_n, event_data_t* event_data, future_t* future)
 {
     return event_log_post_read(elog, event_n, event_data, future);
+}
+
+EVENT_LOG_METHOD_READ_OSC_IMPL(M_event_log, elog, size_t event_n, size_t osc_ch_n, event_osc_channel_t* osc_ch, future_t* future)
+{
+    return event_log_post_read_osc(elog, event_n, osc_ch_n, osc_ch, future);
 }

@@ -247,8 +247,7 @@ typedef struct _S_Event_Log_Cmd_Read {
 typedef struct _S_Event_Log_Cmd_Read_Osc {
     size_t event_index; //!< Индекс сообщения.
     size_t osc_ch_n; //!< Номер канала осциллограммы.
-    void* data; //!< Адрес данных.
-    size_t size; //!< Размер данных.
+    event_osc_channel_t* osc_ch; //!< Данные канала.
 } event_log_cmd_read_osc_t;
 
 
@@ -336,6 +335,20 @@ static_assert(EVENT_STORAGE_SIZE >= EVENT_SIZE, "Event size too large!");
 
 
 
+// Метод err_t read(size_t event_n, size_t osc_ch_n, event_osc_channel_t* osc_ch, future_t* future).
+#define EVENT_LOG_METHOD_READ_OSC_M_NAME read_osc
+#define EVENT_LOG_METHOD_READ_OSC_RET err_t
+#define EVENT_LOG_METHOD_READ_OSC_ARGS size_t event_n, size_t osc_ch_n, event_osc_channel_t* osc_ch, future_t* future
+#define EVENT_LOG_METHOD_READ_OSC(MOD_TYPE)                       METHOD(MOD_TYPE, EVENT_LOG_METHOD_READ_OSC_M_NAME, EVENT_LOG_METHOD_READ_OSC_RET, EVENT_LOG_METHOD_READ_OSC_ARGS)
+#define EVENT_LOG_METHOD_READ_OSC_PTR(MOD_NAME)                   METHOD_PTR(MOD_NAME, EVENT_LOG_METHOD_READ_OSC_M_NAME)
+#define EVENT_LOG_METHOD_READ_OSC_PROTO(MOD_NAME)                 METHOD_PROTO(MOD_NAME, EVENT_LOG_METHOD_READ_OSC_M_NAME, EVENT_LOG_METHOD_READ_OSC_RET, EVENT_LOG_METHOD_READ_OSC_ARGS)
+#define EVENT_LOG_METHOD_READ_OSC_IMPL(MOD_NAME, THIS,\
+                                       EVN, CHN, CH, FUT)         METHOD_IMPL(MOD_NAME, THIS, EVENT_LOG_METHOD_READ_OSC_M_NAME, EVENT_LOG_METHOD_READ_OSC_RET, EVN, CHN, CH, FUT)
+#define EVENT_LOG_READ_OSC(MOD, EVN, CHN, CH, FUT)                CALL(MOD, EVENT_LOG_METHOD_READ_OSC_M_NAME, EVN, CHN, CH, FUT)
+
+
+
+
 
 //! Предварительная декларация типа модуля.
 typedef struct _S_Event_Log M_event_log;
@@ -363,6 +376,7 @@ struct _S_Event_Log {
     EVENT_LOG_METHOD_RESET(M_event_log);
     EVENT_LOG_METHOD_WRITE(M_event_log);
     EVENT_LOG_METHOD_READ(M_event_log);
+    EVENT_LOG_METHOD_READ_OSC(M_event_log);
     // Коллбэки.
     // Внутренние данные.
     event_data_t m_event_data; //!< Данные события.
@@ -384,6 +398,7 @@ EXTERN EVENT_LOG_METHOD_REFRESH_PROTO(M_event_log);
 EXTERN EVENT_LOG_METHOD_RESET_PROTO(M_event_log);
 EXTERN EVENT_LOG_METHOD_WRITE_PROTO(M_event_log);
 EXTERN EVENT_LOG_METHOD_READ_PROTO(M_event_log);
+EXTERN EVENT_LOG_METHOD_READ_OSC_PROTO(M_event_log);
 
 #define EVENT_LOG_DEFAULTS {\
         /* Базовые поля */\
@@ -404,6 +419,7 @@ EXTERN EVENT_LOG_METHOD_READ_PROTO(M_event_log);
         EVENT_LOG_METHOD_RESET_PTR(M_event_log),\
         EVENT_LOG_METHOD_WRITE_PTR(M_event_log),\
         EVENT_LOG_METHOD_READ_PTR(M_event_log),\
+        EVENT_LOG_METHOD_READ_OSC_PTR(M_event_log),\
         /* Коллбэки */\
         /* Внутренние данные */\
         {{0}}, /* m_event_data */\
