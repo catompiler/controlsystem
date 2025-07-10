@@ -67,6 +67,18 @@ static const uint32_t NBTR_values[] = {
     0x00001b04, // 800 kbit
     0x00001b03  // 1000 kbit
 };
+#elif CAN_FREQ == 72000000
+static const uint32_t NBTR_values[] = {
+    0x00009b3b, // 10 kbit
+    0x00009b1d, // 20 kbit
+    0x00009b0b, // 50 kbit
+    0x00001c2c, // 100 kbit
+    0x00001c23, // 125 kbit
+    0x00001c11, // 250 kbit
+    0x00001c08, // 500 kbit
+    0x00001b05, // 800 kbit
+    0x00000508  // 1000 kbit
+};
 #else
 #error Unknown NBTR values for defined CAN frequency!
 #endif
@@ -148,8 +160,12 @@ ALWAYS_INLINE static CAN_MO_TypeDef* can_get_mo(can_t* can, size_t index)
 
     assert(index < CAN_MO_COUNT);
 
+#ifdef CAN_MO
+    return &CAN_MO->MO[index];
+#else
     // Согласно Reference Manual.
     return (CAN_MO_TypeDef*)(CAN_MO0_BASE + 0x20 * index);
+#endif
 }
 
 //! Получает ноду MO.
@@ -489,9 +505,14 @@ err_t can_init(can_t* can, can_init_t* is)
     //if(is == NULL) return E_NULL_POINTER;
 
     // Enable clock.
-    can->can_device->CLC = can->can_device->CLC & ~(CAN_CLC_SBWE_Msk | CAN_CLC_DISR_Msk);
+    can->can_device->CLC = can->can_device->CLC & ~(CAN_CLC_DISR_Msk); //CAN_CLC_SBWE_Msk |
     // wait.
     while(can->can_device->CLC & CAN_CLC_DISS_Msk){ __NOP(); }
+
+#if defined PORT_XMC4700
+    // Clock source.
+    can->can_device->MCR = ((1) << CAN_MCR_CLKSEL_Pos);
+#endif
 
     // Prescaler.
     uint32_t step = SystemCoreClock / (CAN_FREQ);
@@ -501,7 +522,7 @@ err_t can_init(can_t* can, can_init_t* is)
                ((1024 - step) << USIC_CH_FDR_STEP_Pos);
 
     // Set MPR bit select to manual (by MOIPR_MPN).
-    can->can_device->MCR = 0;
+    can->can_device->MCR = can->can_device->MCR & ~(CAN_MCR_MPSEL_Msk);
 
     // Wait list 0 init.
     while(can->can_device->PANCTR & CAN_PANCTR_BUSY_Msk){ __NOP(); }

@@ -895,9 +895,9 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     // Конечный автомат.
     FSM_state(sys);
 
-#warning DEBUG // begin {
-    dac.in_value[0] = iq24_mul(lrm.out_Ufld, IQ24(0.5));
-    // } end
+//#warning DEBUG // begin {
+//    dac.in_value[0] = iq24_mul(lrm.out_Ufld, IQ24(0.5));
+//    // } end
 
     // Запись выхода ЦАП.
     CALC(dac);

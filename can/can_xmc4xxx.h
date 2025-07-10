@@ -43,8 +43,8 @@
 
 
 //! Число MO.
-#if defined(CAN_MO255)
-#define CAN_MO_COUNT 256
+#if defined(CAN_MO)
+#define CAN_MO_COUNT (sizeof(CAN_MO->MO)/sizeof(CAN_MO->MO[0]))
 #elif defined(CAN_MO63)
 #define CAN_MO_COUNT 64
 #else
@@ -54,7 +54,11 @@
 
 
 //! Частота тактирования блока CAN.
-#define CAN_FREQ 60000000
+#if defined(PORT_XMC4500)
+    #define CAN_FREQ 60000000
+#elif defined(PORT_XMC4700)
+    #define CAN_FREQ 72000000
+#endif
 
 
 //! Перечисление стандартных битрейтов.

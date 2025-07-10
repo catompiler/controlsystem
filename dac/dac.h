@@ -19,7 +19,7 @@ enum _E_Dac_Status {
 // Разрешённые каналы.
 // Канал 0.
 #ifndef DAC_CHANNEL0_ENABLED
-#define DAC_CHANNEL0_ENABLED 1
+#define DAC_CHANNEL0_ENABLED 0
 #endif
 // Канал 1.
 #ifndef DAC_CHANNEL1_ENABLED
