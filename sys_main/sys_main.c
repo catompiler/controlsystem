@@ -847,6 +847,7 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     }
 
     if(prot.out_error_occured){
+        EVENT_LOG_WRITE(event_log, EVENT_TYPE_ERROR, NULL);
     }
 
     // if(prot.errors == 0){
