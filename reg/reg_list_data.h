@@ -365,6 +365,7 @@ REG(REG_ID_TMR_SYS_FSM_INTERVAL, &tmr_sys_fsm.p_interval, REG_TYPE_U32, REG_FLAG
 REG(REG_ID_DLOG_COUNT, &regs_data.dlog.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_DLOG_CONTROL, &dlog.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_DLOG_STATUS, &dlog.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_DLOG_IN_STOP_SAMPLES, &dlog.in_stop_samples, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Число семплов до остановки. */
 REG(REG_ID_DLOG_CH0_ENABLED, &dlog.p_ch[0].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
 REG(REG_ID_DLOG_CH0_REG_ID, &dlog.p_ch[0].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
 REG(REG_ID_DLOG_CH1_ENABLED, &dlog.p_ch[1].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
@@ -397,7 +398,7 @@ REG(REG_ID_DLOG_CH14_ENABLED, &dlog.p_ch[14].enabled, REG_TYPE_U32, REG_FLAG_NON
 REG(REG_ID_DLOG_CH14_REG_ID, &dlog.p_ch[14].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
 REG(REG_ID_DLOG_CH15_ENABLED, &dlog.p_ch[15].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Разрешение логгирования канала. */
 REG(REG_ID_DLOG_CH15_REG_ID, &dlog.p_ch[15].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор логгируемого регистра. */
-REG(REG_ID_DLOG_COUNT_35, &dlog.r_count, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Число записанных данных. */
+REG(REG_ID_DLOG_COUNT_36, &dlog.r_count, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Число записанных данных. */
 REG(REG_ID_DLOG_GET_INDEX, &dlog.r_get_index, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Индекс чтения данных. */
 REG(REG_ID_DLOG_PUT_INDEX, &dlog.r_put_index, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Индекс записи данных. */
 REG(REG_ID_DLOG_CH0_DATA, &dlog.r_ch[0].data[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные. */
@@ -1348,15 +1349,23 @@ REG(REG_ID_PROT_ERRORS1, &prot.errors1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /
 REG(REG_ID_PROT_ERRORS2, &prot.errors2, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово ошибок 1. */
 REG(REG_ID_PROT_WARNINGS0, &prot.warnings0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений 0. */
 REG(REG_ID_PROT_WARNINGS1, &prot.warnings1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений 1. */
+REG(REG_ID_PROT_WARNINGS2, &prot.warnings2, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений 2. */
 REG(REG_ID_PROT_OUT_HAS_ERRORS, &prot.out_has_errors, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг наличия ошибок. */
 REG(REG_ID_PROT_OUT_ERROR_OCCURED, &prot.out_error_occured, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг возникновения новой ошибки. */
+REG(REG_ID_PROT_MAINS_LOST_ENABLED, &prot.p_mains_lost_enabled, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_MAINS_LOST_U_LOW, &prot.p_mains_lost_U_low, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_MAINS_INVALID_ENABLED, &prot.p_mains_invalid_enabled, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_MAINS_INVALID_A_DELTA, &prot.p_mains_invalid_A_delta, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_MAINS_INVALID_F_DELTA, &prot.p_mains_invalid_F_delta, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_ENABLED, &prot.p_mains_undervoltage_enabled, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_MAINS_UNDERVOLTAGE_U_LOW, &prot.p_mains_undervoltage_U_low, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_MAINS_OVERVOLTAGE_ENABLED, &prot.p_mains_overvoltage_enabled, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_MAINS_OVERVOLTAGE_U_HI, &prot.p_mains_overvoltage_U_hi, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_MAINS_OVERCURRENT_ENABLED, &prot.p_mains_overcurrent_enabled, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_MAINS_OVERCURRENT_I_HI, &prot.p_mains_overcurrent_I_hi, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_OVERVOLTAGE_ENABLED, &prot.p_overvoltage_enabled, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_OVERVOLTAGE_U_HI, &prot.p_overvoltage_U_hi, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
+REG(REG_ID_PROT_OVERCURRENT_ENABLED, &prot.p_overcurrent_enabled, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_OVERCURRENT_I_HI, &prot.p_overcurrent_I_hi, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_RAW_ERRORS0, &prot.raw_errors0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
 REG(REG_ID_PROT_RAW_ERRORS1, &prot.raw_errors1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /*  */
@@ -1437,6 +1446,49 @@ REG(REG_ID_SETTINGS_COUNT, &regs_data.settings.count, REG_TYPE_U8, REG_FLAG_READ
 REG(REG_ID_SETTINGS_CONTROL, &settings.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_SETTINGS_STATUS, &settings.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
 REG(REG_ID_SETTINGS_ERRORS, &settings.errors, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Ошибки. */
+REG(REG_ID_EVENT_LOG_COUNT, &regs_data.event_log.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
+REG(REG_ID_EVENT_LOG_CONTROL, &event_log.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_EVENT_LOG_STATUS, &event_log.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_EVENT_LOG_IN_EVENT_TYPE, &event_log.in_event_type, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Тип события для записи. */
+REG(REG_ID_EVENT_LOG_IN_EVENT_N, &event_log.in_event_n, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Номер события для чтения. */
+REG(REG_ID_EVENT_LOG_IN_OSC_CH_N, &event_log.in_osc_ch_n, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Номер канала для чтения. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_HEADER_MAGIC, &event_log.r_event_data.header.magic, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор заголовка. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_HEADER_INDEX, &event_log.r_event_data.header.index, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Индекс события. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_HEADER_TYPE, &event_log.r_event_data.header.type, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Тип события. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_HEADER_RESERVED00, &event_log.r_event_data.header.reserved0[0], REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Зарезервировано. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_HEADER_RESERVED01, &event_log.r_event_data.header.reserved0[1], REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Зарезервировано. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_HEADER_RESERVED02, &event_log.r_event_data.header.reserved0[2], REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Зарезервировано. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_HEADER_CRC, &event_log.r_event_data.header.crc, REG_TYPE_U16, REG_FLAG_NONE, 0x000000) /* Контрольная сумма. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_TIME, &event_log.r_event_data.info.time, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Время события. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_ERROR0, &event_log.r_event_data.info.error0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово ошибки 0. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_ERROR1, &event_log.r_event_data.info.error1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово ошибки 1. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_ERROR2, &event_log.r_event_data.info.error2, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово ошибки 2. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_REG_ERROR0, &event_log.r_event_data.info.reg_error0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Регистр ошибки 0. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_REG_ERROR1, &event_log.r_event_data.info.reg_error1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Регистр ошибки 1. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_REG_ERROR2, &event_log.r_event_data.info.reg_error2, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Регистр ошибки 2. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_WARNING0, &event_log.r_event_data.info.warning0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждения 0. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_WARNING1, &event_log.r_event_data.info.warning1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждения 1. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_WARNING2, &event_log.r_event_data.info.warning2, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждения 2. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_REG_WARNING0, &event_log.r_event_data.info.reg_warning0, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Регистр предупреждения 0. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_REG_WARNING1, &event_log.r_event_data.info.reg_warning1, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Регистр предупреждения 1. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_REG_WARNING2, &event_log.r_event_data.info.reg_warning2, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Регистр предупреждения 2. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_DIN, &event_log.r_event_data.info.din, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояния цифровых входов. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_DOUT, &event_log.r_event_data.info.dout, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояния цифровых выходов. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_INFO_CRC, &event_log.r_event_data.info.crc, REG_TYPE_U16, REG_FLAG_NONE, 0x000000) /* Контрольная сумма. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_OSC_INFO_FS, &event_log.r_event_data.osc_info.Fs, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Частота дискретизации. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_OSC_INFO_CHANNELS_COUNT, &event_log.r_event_data.osc_info.channels_count, REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Число каналов. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_OSC_INFO_RESERVED00, &event_log.r_event_data.osc_info.reserved0[0], REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Зарезервировано. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_OSC_INFO_RESERVED01, &event_log.r_event_data.osc_info.reserved0[1], REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Зарезервировано. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_OSC_INFO_RESERVED02, &event_log.r_event_data.osc_info.reserved0[2], REG_TYPE_U8, REG_FLAG_NONE, 0x000000) /* Зарезервировано. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_OSC_INFO_SAMPLES_COUNT, &event_log.r_event_data.osc_info.samples_count, REG_TYPE_U16, REG_FLAG_NONE, 0x000000) /* Число семплов. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_OSC_INFO_EVENT_SAMPLE, &event_log.r_event_data.osc_info.event_sample, REG_TYPE_U16, REG_FLAG_NONE, 0x000000) /* Семпл возникновения события. */
+REG(REG_ID_EVENT_LOG_EVENT_DATA_OSC_INFO_CRC, &event_log.r_event_data.osc_info.crc, REG_TYPE_U16, REG_FLAG_NONE, 0x000000) /* Контрольная сумма. */
+REG(REG_ID_EVENT_LOG_OSC_CHANNEL_DATA_CHANNEL_INFO_REG_ID, &event_log.r_osc_channel_data.channel.info.reg_id, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Идентификатор осциллографируемого регистра. */
+REG(REG_ID_EVENT_LOG_OSC_CHANNEL_DATA_CHANNEL_INFO_OFFSET, &event_log.r_osc_channel_data.channel.info.offset, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Смещение. */
+REG(REG_ID_EVENT_LOG_OSC_CHANNEL_DATA_CHANNEL_INFO_GAIN, &event_log.r_osc_channel_data.channel.info.gain, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Усиление. */
+REG(REG_ID_EVENT_LOG_OSC_CHANNEL_DATA_CHANNEL_INFO_CRC, &event_log.r_osc_channel_data.channel.info.crc, REG_TYPE_U16, REG_FLAG_NONE, 0x000000) /* Контрольная сумма. */
+REG(REG_ID_EVENT_LOG_OSC_CHANNEL_DATA_CHANNEL_DATA_SAMPLES, &event_log.r_osc_channel_data.channel.data.samples[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные осциллограммы. */
+REG(REG_ID_EVENT_LOG_OSC_CHANNEL_DATA_CHANNEL_DATA_CRC, &event_log.r_osc_channel_data.channel.data.crc, REG_TYPE_U16, REG_FLAG_NONE, 0x000000) /* Контрольная сумма. */
 
 REGS_END()
 

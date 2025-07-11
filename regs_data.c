@@ -70,8 +70,8 @@ struct _S_regs_data regs_data = {
 },
 .SDOServerParameter_1201 = {
     .highestSub_indexSupported = 2 /* Number of sub-entries */,
-    .COB_IDClientToServer_rx_ = 0x701 /*  */,
-    .COB_IDServerToClient_tx_ = 0x681 /*  */
+    .COB_IDClientToServer_rx_ = 0x641 /*  */,
+    .COB_IDServerToClient_tx_ = 0x621 /*  */
 },
 .SDOClientParameter = {
     .count = 3 /* Number of sub-entries */,
@@ -266,7 +266,7 @@ struct _S_regs_data regs_data = {
     .count = 5 /* Number of sub entries count */
 },
 .dlog = {
-    .count = 53 /* Number of sub entries count */
+    .count = 54 /* Number of sub entries count */
 },
 .sys_calc = {
     .count = 2 /* Number of sub entries count */
@@ -566,7 +566,7 @@ struct _S_regs_data regs_data = {
     .count = 42 /* Number of sub entries count */
 },
 .prot = {
-    .count = 86 /* Number of sub entries count */
+    .count = 94 /* Number of sub entries count */
 },
 .canopen = {
     .count = 2 /* Number of sub entries count */
@@ -576,5 +576,8 @@ struct _S_regs_data regs_data = {
 },
 .settings = {
     .count = 3 /* Number of sub entries count */
+},
+.event_log = {
+    .count = 42 /* Number of sub entries count */
 }
 };

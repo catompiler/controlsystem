@@ -192,6 +192,7 @@ extern OD_ATTR_OD OD_t *OD;
 #define OD_ENTRY_H2730 &OD->list[149]
 #define OD_ENTRY_H2740 &OD->list[150]
 #define OD_ENTRY_H2750 &OD->list[151]
+#define OD_ENTRY_H2760 &OD->list[152]
 
 
 // Object dictionary entries - shortcuts with names
@@ -347,6 +348,7 @@ extern OD_ATTR_OD OD_t *OD;
 #define OD_ENTRY_H2730_canopen &OD->list[149]
 #define OD_ENTRY_H2740_storage &OD->list[150]
 #define OD_ENTRY_H2750_settings &OD->list[151]
+#define OD_ENTRY_H2760_event_log &OD->list[152]
 
 
 // OD config structure
