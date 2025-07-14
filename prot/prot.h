@@ -192,7 +192,7 @@ EXTERN METHOD_IDLE_PROTO(M_prot);
         IQ24(2.72), /* p_overvoltage_U_hi */\
         /* Превышение тока выхода. */\
         1, /* p_overcurrent_enabled */\
-        IQ24(1.75), /* p_overcurrent_I_hi */\
+        IQ24(2.00), /* p_overcurrent_I_hi */\
         /* Регистры */\
         0, 0, 0, /* raw_errors0, raw_errors1, raw_errors2 */\
         0, 0, 0, /* mask_errors0, mask_errors1, mask_errors2 */\
