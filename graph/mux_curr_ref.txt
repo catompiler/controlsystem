@@ -1,0 +1,10 @@
+graph {flow: east}
+
+(mux_curr_ref [in_value0||in_value1||in_value2||in_value3||out_value]{basename:mux_curr_ref})
+
+[ 0                                 ]{origin: mux_curr_ref.0; offset: -2,0} --> [ mux_curr_ref.0 ]
+[ mot_pot_field_test.r_value        ]{origin: mux_curr_ref.1; offset: -2,0} --> [ mux_curr_ref.1 ]
+[ mux_field_force_ref.out_value     ]{origin: mux_curr_ref.2; offset: -2,0} --> [ mux_curr_ref.2 ]
+[ lim_field_regs_curr_ref.out_value ]{origin: mux_curr_ref.3; offset: -2,0} --> [ mux_curr_ref.3 ]
+
+[ mux_curr_ref.4            ] --> [ pid_i.in_ref ] {origin: mux_curr_ref.4; offset: 2,0}

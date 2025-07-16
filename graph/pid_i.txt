@@ -1,0 +1,8 @@
+graph {flow: east}
+
+(pid_i [in_ref||in_fbk||out_value]{basename:pid_i})
+
+[mux_curr_ref.out_value] --> [ pid_i.0 ] {origin: mux_curr_ref.out_value; offset: 2,0}
+[mean_Iarm.out_value] --> [pid_i.1]
+
+[pid_i.2] --> [ph3c.in_control_value]
