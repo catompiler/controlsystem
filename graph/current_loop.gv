@@ -1,0 +1,226 @@
+digraph control_loop {
+    rankdir = "LR";
+    TBbalance = "min";
+
+    style = "filled, rounded";
+    fillcolor = "lightblue";
+    color = "black";
+    bgcolor = "white";
+    layout = "dot";#dot;#osage;
+
+    pad = 0.5;
+    nodesep = 1;
+    ranksep = 2;
+    splines = "spline";
+
+    concentrate = true;
+
+    remincross = true;
+    #searchsize = 3;
+
+    #mclimit = 1.0;
+
+    #outputorder = "nodesfirst";
+
+    clusterrank = "local";
+    compound = true;
+
+    newrank = true;
+
+    #ordering="in"; #out
+
+    #packmode = "node";
+
+    #overlap = scale;
+    #outputorder=nodesfirst;
+    #nslimit = 1;
+    
+
+    node [shape="rectangle"];
+    edge [constraint = true];
+
+    subgraph cluster_mot_pot_manual_curr_ref {
+        label = "mot_pot_manual_curr_ref";
+        node [shape = plaintext];
+        mot_pot_manual_curr_ref [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_dec">in_dec</td><td port="" border="0" width="40"></td></tr>
+            <tr><td port="in_inc">in_inc</td></tr>
+            <tr><td port="r_value" colspan="2">r_value</td></tr>
+            <tr><td port="p_time" colspan="2">p_time</td></tr>
+            <tr><td port="p_min" colspan="2">p_min</td></tr>
+            <tr><td port="p_max" colspan="2">p_max</td></tr>
+            </table>
+        >];
+    }
+
+    mux_field_regs_zero1 [label="0" style="rounded"];
+    mux_field_regs_zero2 [label="0" style="rounded"];
+    mux_field_regs_zero3 [label="0" style="rounded"];
+
+    subgraph cluster_mux_field_regs {
+        label = "mux_field_regs";
+        node [shape = plaintext];
+        mux_field_regs [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+            <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="3"></td></tr>
+            <tr><td port="in_value2">in_value[2]</td></tr>
+            <tr><td port="in_value3">in_value[3]</td></tr>
+            </table>
+        >];
+    }
+
+    mot_pot_field_test_min_zero [label="0" style="rounded"];
+
+    subgraph cluster_mot_pot_field_test {
+        label = "mot_pot_field_test";
+        node [shape = plaintext];
+        mot_pot_field_test [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_dec">in_dec</td><td port="" border="0" width="40"></td></tr>
+            <tr><td port="in_inc">in_inc</td></tr>
+            <tr><td port="r_value" colspan="2">r_value</td></tr>
+            <tr><td port="p_time" colspan="2">p_time</td></tr>
+            <tr><td port="p_min" colspan="2">p_min</td></tr>
+            <tr><td port="p_max" colspan="2">p_max</td></tr>
+            </table>
+        >];
+    }
+
+    field_force_ref [label="I_forcing" style="rounded"];
+
+    field_forcing_ref_sel_i2t [label="I2t overheat" style="rounded"];
+
+    subgraph cluster_mux_field_force_ref {
+        label = "mux_field_force_ref";
+        node [shape = plaintext];
+        mux_field_force_ref [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+            <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="1"></td></tr>
+            <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+            </table>
+        >];
+    }
+
+    subgraph cluster_lim_field_regs_curr_ref {
+        label = "lim_field_regs_curr_ref";
+        node [shape = plaintext];
+        lim_field_regs_curr_ref [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+            <tr><td port="p_min_value" colspan="2">p_min_value</td></tr>
+            <tr><td port="p_max_value" colspan="2">p_max_value</td></tr>
+            </table>
+        >];
+    }
+
+    mux_curr_ref_in0_zero [label="0" style="rounded"];
+
+    subgraph cluster_mux_curr_ref {
+        label = "mux_curr_ref";
+        node [shape = plaintext];
+        mux_curr_ref [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_value0">in_value[0]</td><td port="out_value">out_value</td></tr>
+            <tr><td port="in_value1">in_value[1]</td><td port="" border="1" rowspan="3"></td></tr>
+            <tr><td port="in_value2">in_value[2]</td></tr>
+            <tr><td port="in_value3">in_value[3]</td></tr>
+            <tr><td port="p_sel" colspan="2">p_sel</td></tr>
+            </table>
+        >];
+    }
+
+    subgraph cluster_mean_Iarm {
+        label = "mean_Iarm";
+        node [shape = plaintext];
+        mean_Iarm [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_value">in_value</td><td port="out_value">out_value</td></tr>
+            </table>
+        >];
+    }
+
+    subgraph cluster_pid_i_coefs {
+        label = "PID I coefs";
+        node [shape = plaintext];
+        pid_i_coefs [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="" rowspan="4" border="0" width="45"></td><td port="out_kp">out_kp</td></tr>
+            <tr><td port="out_ki">out_ki</td></tr>
+            <tr><td port="out_kd">out_kd</td></tr>
+            <tr><td port="out_kf">out_kf</td></tr>
+            <tr><td port="p_kp" colspan="2">p_kp</td></tr>
+            <tr><td port="p_Ti" colspan="2">p_Ti</td></tr>
+            <tr><td port="p_Td" colspan="2">p_Td</td></tr>
+            <tr><td port="p_Tf" colspan="2">p_Tf</td></tr>
+            <tr><td port="r_Ts" colspan="2">r_Ts</td></tr>
+            </table>
+        >];
+    }
+
+    subgraph cluster_pid_i {
+        label = "PID I";
+        node [shape = plaintext];
+        pid_i [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_ref">in_ref</td><td port="out_value">out_value</td></tr>
+            <tr><td port="in_fbk">in_fbk</td><td port=""></td></tr>
+            <tr><td port="r_kp" colspan="2">r_kp</td></tr>
+            <tr><td port="r_ki" colspan="2">r_ki</td></tr>
+            <tr><td port="r_kd" colspan="2">r_kd</td></tr>
+            <tr><td port="r_kf" colspan="2">r_kf</td></tr>
+            <tr><td port="r_min" colspan="2">r_min</td></tr>
+            <tr><td port="r_max" colspan="2">r_max</td></tr>
+            </table>
+        >];
+    }
+
+    subgraph cluster_ph3c {
+        label = "ph3c";
+        node [shape = plaintext];
+        ph3c [label = <
+            <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+            <tr><td port="in_control_value">in_control_value</td></tr>
+            </table>
+        >];
+    }
+
+
+    # regulators
+    # pid i coefs
+    pid_i_coefs:out_kp:e -> pid_i:r_kp:w;
+    pid_i_coefs:out_ki:e -> pid_i:r_ki:w;
+    pid_i_coefs:out_kd:e -> pid_i:r_kd:w;
+    pid_i_coefs:out_kf:e -> pid_i:r_kf:w;
+
+    
+    # pid i
+    # min/max lim.
+    lim_field_regs_curr_ref:p_min_value:e -> mot_pot_manual_curr_ref:p_min:w;
+    lim_field_regs_curr_ref:p_max_value:e -> mot_pot_manual_curr_ref:p_max:w;
+    mot_pot_field_test_min_zero           -> mot_pot_field_test:p_min:w;
+    lim_field_regs_curr_ref:p_max_value:e -> mot_pot_field_test:p_max:w;
+
+    mot_pot_manual_curr_ref:r_value:e -> mux_field_regs:in_value0:w [weight=5, color="red", penwidth=3.0];
+    mux_field_regs_zero1:e -> mux_field_regs:in_value1:w;
+    mux_field_regs_zero2:e -> mux_field_regs:in_value2:w;
+    mux_field_regs_zero3:e -> mux_field_regs:in_value3:w;
+
+    mux_field_regs:out_value:e -> lim_field_regs_curr_ref:in_value:w [weight=2, color="red", penwidth=3.0];
+    
+    field_force_ref:e               -> mux_field_force_ref:in_value0:w;
+    lim_field_regs_curr_ref:p_max_value:e -> mux_field_force_ref:in_value1:w;
+    field_forcing_ref_sel_i2t:e     -> mux_field_force_ref:p_sel:s;
+
+    mux_curr_ref_in0_zero:e             -> mux_curr_ref:in_value0:w;
+    mot_pot_field_test:r_value:e        -> mux_curr_ref:in_value1:w;
+    mux_field_force_ref:out_value:e     -> mux_curr_ref:in_value2:w;
+    lim_field_regs_curr_ref:out_value:e -> mux_curr_ref:in_value3:w [weight=1, color="red", penwidth=3.0];
+
+    mux_curr_ref:out_value:e -> pid_i:in_ref:w [weight=5, color="red", penwidth=3.0];
+    mean_Iarm:out_value:e -> pid_i:in_fbk:w [weight=1, color="green", penwidth=3.0];
+
+    pid_i:out_value:e -> ph3c:in_control_value:w [weight=2, color="red", penwidth=3.0];
+}
