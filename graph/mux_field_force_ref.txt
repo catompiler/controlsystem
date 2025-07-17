@@ -1,0 +1,8 @@
+graph {flow: east}
+
+(mux_field_force_ref [in_value0||in_value1||out_value]{basename:mux_field_force_ref})
+
+[ parameter - field force current     ]{origin:mux_field_force_ref.0; offset:-2,0;} --> [mux_field_force_ref.0]
+[ lim_field_regs_curr_ref.p_max_value ]{origin:mux_field_force_ref.1; offset:-2,0;} --> [ mux_field_force_ref.1]
+
+[ mux_field_force_ref.2               ]{origin:mux_field_force_ref.2; offset:2,0;} --> [ mux_curr_ref.in_value\[2\]]

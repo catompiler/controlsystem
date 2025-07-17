@@ -1,0 +1,13 @@
+graph {flow: east}
+
+
+(mux_field_regs [in_value0||in_value1||in_value2||in_value3||out_value]{basename: mux_field_regs})
+
+
+[mot_pot_manual_curr_ref.r_value]{origin:mux_field_regs.0;offset:-2,0} --> [mux_field_regs.0]
+[zero1]{label:0;origin:mux_field_regs.1;offset:-2,0} --> [mux_field_regs.1]
+[zero2]{label:0;origin:mux_field_regs.2;offset:-2,0} --> [mux_field_regs.2]
+[zero3]{label:0;origin:mux_field_regs.3;offset:-2,0} --> [mux_field_regs.3]
+
+[mux_field_regs.4] --> [lim_field_regs_curr_ref.in_value]{origin:mux_field_regs.4;offset:2,0}
+

@@ -1,0 +1,8 @@
+graph {flow: east}
+
+
+(lim_field_regs_curr_ref [in_value||out_value]{basename:lim_field_regs_curr_ref})
+
+[mux_field_regs.out_value]{origin:lim_field_regs_curr_ref.0; offset:-2,0;} -->[ lim_field_regs_curr_ref.0 ]
+[ lim_field_regs_curr_ref.1 ] --> [ mux_curr_ref.in_value\[3\] ]{origin:lim_field_regs_curr_ref.1; offset:2,0;}
+
