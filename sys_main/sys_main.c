@@ -799,7 +799,27 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     { lrm.in_control[i] = ph3c.out_control[i]; }
     lrm.in_control_delay_angle = ph3c.out_control_delay_angle;
     lrm.in_control_duration_angle = ph3c.out_control_max_duration_angle;
-    lrm.in_start_r_on = (sys_stat.in_command & SYS_STATUS_COMMAND_R_START_ON) ? FLAG_ACTIVE : FLAG_NONE;
+    // Логика входов/выходов.
+    // Ячейка включена.
+    if((sys_cmd.out_command &
+            (SYS_COMMAND_COMMAND_CELL_CB_NO | SYS_COMMAND_COMMAND_CELL_CB_NC))
+            == SYS_COMMAND_COMMAND_CELL_CB_NO){
+        lrm.in_stator_on = 1;
+    }
+    // Ячейка выключена ИЛИ защита ячейки ИЛИ ошибка ТВУ.
+    if(((sys_cmd.out_command &
+            (SYS_COMMAND_COMMAND_CELL_CB_NO | SYS_COMMAND_COMMAND_CELL_CB_NC))
+            == SYS_COMMAND_COMMAND_CELL_CB_NC) ||
+       (sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_PROT) ||
+       (sys_stat.in_command & SYS_STATUS_COMMAND_ERROR)){
+        lrm.in_stator_on = 0;
+    }
+    // Пусковое сопротивление.
+    if(sys_stat.in_command & SYS_STATUS_COMMAND_R_START_ON){
+        lrm.in_start_r_on = FLAG_ACTIVE;
+    }else{
+        lrm.in_start_r_on = FLAG_NONE;
+    }
     CALC(lrm);
 
 

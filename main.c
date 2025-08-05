@@ -1021,27 +1021,19 @@ int main(void)
 #if defined(PORT_POSIX)
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN / 8){
             // Main contactor is on.
-            sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
+            //sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NO;
         }
 #endif
 
 #if defined(PORT_POSIX)
         if(adc_tim.out_counter >= DATA_LOG_CH_LEN - DATA_LOG_CH_LEN / 8){
             // Stop.
-            sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
+            //sys_cmd.out_command = SYS_COMMAND_COMMAND_CELL_CB_NC;
         }
 #endif
 
-        if(sys_cmd.out_command == SYS_COMMAND_COMMAND_CELL_CB_NO){
-            lrm.in_stator_on = 1;
-        }
-
-        if((sys_cmd.out_command == SYS_COMMAND_COMMAND_CELL_CB_NC) || (sys_cmd.out_command & SYS_COMMAND_COMMAND_CELL_PROT)){
-            lrm.in_stator_on = 0;
-        }
-
 #if defined(PORT_POSIX)
-        if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
+        //if(adc_tim.out_counter >= DATA_LOG_CH_LEN) break;
         //if(future_done(&future)) break;
         if(sys.status & SYS_MAIN_STATUS_QUIT) break;
 
