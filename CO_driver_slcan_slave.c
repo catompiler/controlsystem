@@ -198,8 +198,11 @@ static bool can_send_msg(CO_CANmodule_t* CANmodule, CO_CANtx_t* buffer)
         }
     }
 
-    slcan_err_t err = slcan_slave_send_can_msg(slave, &can_msg, NULL);
-    if(err != E_SLCAN_NO_ERROR) return false;
+    slcan_slave_flags_t flags = slcan_slave_flags(slave);
+    if((flags & SLCAN_SLAVE_FLAG_OPENED) && !(flags & SLCAN_SLAVE_FLAG_LISTEN_ONLY)){
+        slcan_err_t err = slcan_slave_send_can_msg(slave, &can_msg, NULL);
+        if(err != E_SLCAN_NO_ERROR) return false;
+    }
 
     return true;
 }
