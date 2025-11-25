@@ -170,12 +170,14 @@ static CO_ReturnError_t init_CO_slcan_slave(M_canopen* co)
         return coerr;
     }
 
+#if (((CO_CONFIG_PDO)&CO_CONFIG_RPDO_ENABLE) != 0) || (((CO_CONFIG_PDO)&CO_CONFIG_TPDO_ENABLE) != 0)
     coerr = CO_CANopenInitPDO(co->m_co_ss, co->m_co_ss->em, OD, NODE_ID, &errInfo);
 
     if(coerr != CO_ERROR_NO){
         //printf("CANopen init PDO fail! (err: %d err_info: %d)\n", (int)coerr, (int)errInfo);
         return coerr;
     }
+#endif
 
     /* Разрешение работы */
     CO_CANsetNormalMode(co->m_co_ss->CANmodule);
@@ -327,12 +329,14 @@ static CO_ReturnError_t init_CO_xmc4xxx(M_canopen* co)
         return coerr;
     }
 
+#if (((CO_CONFIG_PDO)&CO_CONFIG_RPDO_ENABLE) != 0) || (((CO_CONFIG_PDO)&CO_CONFIG_TPDO_ENABLE) != 0)
     coerr = CO_CANopenInitPDO(co->m_co_xmc4, co->m_co_xmc4->em, OD, NODE_ID, &errInfo);
 
     if(coerr != CO_ERROR_NO){
         //printf("CANopen init PDO fail! (err: %d err_info: %d)\n", (int)coerr, (int)errInfo);
         return coerr;
     }
+#endif
 
     /* Разрешение работы */
     CO_CANsetNormalMode(co->m_co_xmc4->CANmodule);
@@ -449,11 +453,51 @@ METHOD_CALC_IMPL(M_canopen, co)
     slcan_slave_poll(&co->m_scs);
     CO_CANinterrupt(co->m_co_ss->CANmodule);
     reset_cmd = CO_process(co->m_co_ss, false, NET_TIMER_TICKS_PERIOD_US, NULL);
+
+#if (((CO_CONFIG_PDO)&CO_CONFIG_RPDO_ENABLE) != 0) || (((CO_CONFIG_PDO)&CO_CONFIG_TPDO_ENABLE) != 0)
+    bool_t syncWas = false;
+#endif
+
+#if (((CO_CONFIG_SYNC)&CO_CONFIG_SYNC_ENABLE) != 0)
+#if (((CO_CONFIG_PDO)&CO_CONFIG_RPDO_ENABLE) != 0) || (((CO_CONFIG_PDO)&CO_CONFIG_TPDO_ENABLE) != 0)
+    syncWas =
+#endif
+    CO_process_SYNC(co->m_co_ss, NET_TIMER_TICKS_PERIOD_US, NULL);
+#endif
+
+#if (((CO_CONFIG_PDO)&CO_CONFIG_RPDO_ENABLE) != 0)
+    CO_process_RPDO(co->m_co_ss, syncWas, NET_TIMER_TICKS_PERIOD_US, NULL);
+#endif
+
+#if (((CO_CONFIG_PDO)&CO_CONFIG_TPDO_ENABLE) != 0)
+    CO_process_TPDO(co->m_co_ss, syncWas, NET_TIMER_TICKS_PERIOD_US, NULL);
+#endif
+
     canopen_process_nmt_reset_cmd_slcan_slave(co, reset_cmd);
 #endif
 
 #ifdef CO_DRIVER_XMC4XXX
     reset_cmd = CO_process(co->m_co_xmc4, false, NET_TIMER_TICKS_PERIOD_US, NULL);
+
+#if (((CO_CONFIG_PDO)&CO_CONFIG_RPDO_ENABLE) != 0) || (((CO_CONFIG_PDO)&CO_CONFIG_TPDO_ENABLE) != 0)
+    bool_t syncWas = false;
+#endif
+
+#if (((CO_CONFIG_SYNC)&CO_CONFIG_SYNC_ENABLE) != 0)
+#if (((CO_CONFIG_PDO)&CO_CONFIG_RPDO_ENABLE) != 0) || (((CO_CONFIG_PDO)&CO_CONFIG_TPDO_ENABLE) != 0)
+    syncWas =
+#endif
+    CO_process_SYNC(co->m_co_xmc4, NET_TIMER_TICKS_PERIOD_US, NULL);
+#endif
+
+#if (((CO_CONFIG_PDO)&CO_CONFIG_RPDO_ENABLE) != 0)
+    CO_process_RPDO(co->m_co_xmc4, syncWas, NET_TIMER_TICKS_PERIOD_US, NULL);
+#endif
+
+#if (((CO_CONFIG_PDO)&CO_CONFIG_TPDO_ENABLE) != 0)
+    CO_process_TPDO(co->m_co_xmc4, syncWas, NET_TIMER_TICKS_PERIOD_US, NULL);
+#endif
+
     canopen_process_nmt_reset_cmd_xmc4xxx(co, reset_cmd);
 #endif
 }

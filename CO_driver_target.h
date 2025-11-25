@@ -78,14 +78,14 @@
 #define CO_CONFIG_TIME 0
 
 // Disable SYNC.
-#define CO_CONFIG_SYNC 0
+#define CO_CONFIG_SYNC 0 //(CO_CONFIG_SYNC_ENABLE)
 
-// Disable PDO.
-#define CO_CONFIG_PDO 0
+// Enable PDO.
+#define CO_CONFIG_PDO (CO_CONFIG_RPDO_ENABLE | CO_CONFIG_TPDO_ENABLE |\
+                       CO_CONFIG_RPDO_TIMERS_ENABLE | CO_CONFIG_TPDO_TIMERS_ENABLE)
 
 // Enable SDO server.
-#define CO_CONFIG_SDO_SRV (CO_CONFIG_SDO_SRV_SEGMENTED | CO_CONFIG_SDO_SRV_BLOCK |\
-						   CO_CONFIG_FLAG_CALLBACK_PRE | CO_CONFIG_FLAG_TIMERNEXT)
+#define CO_CONFIG_SDO_SRV (CO_CONFIG_SDO_SRV_SEGMENTED | CO_CONFIG_SDO_SRV_BLOCK)
 
 // SDO server timeout.
 #define SDO_SERVER_TIMEOUT_MS 500
@@ -123,7 +123,7 @@ typedef struct _S_CO_Driver_CAN CO_driver_CAN_t;
 
 
 //! Размер пула драйвера.
-#define CO_DRIVER_POOL_SIZE 4096
+#define CO_DRIVER_POOL_SIZE (4096 /* base + SDO srv */ + 1536 /* RPDO (184 * 4) + TPDO (176 * 4) */)
 
 //! Тип пула драйвера.
 typedef struct _S_CO_Driver_Pool {

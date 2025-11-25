@@ -1152,7 +1152,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &sys_cmd.out_command,
     .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
+    .attribute = ODA_SDO_RW | ODA_RPDO | ODA_MB,
     .dataLength = 4
     }
 },
@@ -1252,7 +1252,7 @@ static CO_PROGMEM ODObjs_t ODObjs = {
     {
     .dataOrig = &sys_stat.in_command,
     .subIndex = 3,
-    .attribute = ODA_SDO_RW | ODA_MB,
+    .attribute = ODA_SDO_RW | ODA_TPDO | ODA_MB,
     .dataLength = 4
     }
 },
