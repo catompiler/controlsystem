@@ -81,7 +81,7 @@ struct _S_regs_data regs_data = {
 },
 .RPDOCommunicationParameter = {
     .highestSub_indexSupported = 5 /* Number of sub-entries */,
-    .COB_IDUsedByRPDO = 0x00000200 /*  */,
+    .COB_IDUsedByRPDO = 0x40000182 /*  */,
     .transmissionType = 254 /*  */,
     .eventTimer = 0 /*  */
 },
