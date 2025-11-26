@@ -382,26 +382,63 @@ EXTERN uint8_t can_node_receive_error_counter(can_node_t* can_node);
 EXTERN uint64_t can_node_rxtx_count(can_node_t* can_node);
 
 /**
- * Инициализирует буфер приёма с заданным индексом.
+ * Выделяет буфер приёма с заданным индексом.
+ * @param can_node Нода CAN.
+ * @param fifo_len Длина FIFO.
+ * @return Номер объекта сообщений.
+ */
+EXTERN can_mo_index_t can_node_alloc_buffer(can_node_t* can_node, size_t fifo_len);
+
+/**
+ * Выделяет буфер приёма с заданным индексом.
+ * @param can_node Нода CAN.
+ * @param mo_index Номер объекта сообщений.
+ */
+EXTERN void can_node_free_buffer(can_node_t* can_node, can_mo_index_t mo_index);
+
+/**
+ * Выделяет и инициализирует буфер приёма с заданным индексом.
  * @param can_node Нода CAN.
  * @param fifo_len Длина FIFO.
  * @param ident Идентификатор.
  * @param mask Маска.
  * @param rtr Флаг RTR.
- * @return Код ошибки.
+ * @return Номер объекта сообщений.
  */
-EXTERN can_mo_index_t can_node_init_rx_buffer(can_node_t* can_node, size_t fifo_len, uint16_t ident, uint16_t mask, bool rtr);
+EXTERN can_mo_index_t can_node_alloc_init_rx_buffer(can_node_t* can_node, size_t fifo_len, uint16_t ident, uint16_t mask, bool rtr);
 
 /**
- * Инициализирует буфер передачи с заданным индексом.
+ * Выделяет и инициализирует буфер передачи с заданным индексом.
  * @param can_node Нода CAN.
  * @param fifo_len Длина FIFO.
  * @param ident Идентификатор.
  * @param rtr Флаг RTR.
  * @param noOfBytes Количество байт данных.
+ * @return Номер объекта сообщений.
+ */
+EXTERN can_mo_index_t can_node_alloc_init_tx_buffer(can_node_t* can_node, size_t fifo_len, uint16_t ident, bool rtr, uint8_t noOfBytes);
+
+/**
+ * Инициализирует буфер приёма с заданным индексом.
+ * @param can_node Нода CAN.
+ * @param mo_index Номер объекта сообщений.
+ * @param ident Идентификатор.
+ * @param mask Маска.
+ * @param rtr Флаг RTR.
  * @return Код ошибки.
  */
-EXTERN can_mo_index_t can_node_init_tx_buffer(can_node_t* can_node, size_t fifo_len, uint16_t ident, bool rtr, uint8_t noOfBytes);
+EXTERN err_t can_node_init_rx_buffer(can_node_t* can_node, can_mo_index_t mo_index, uint16_t ident, uint16_t mask, bool rtr);
+
+/**
+ * Инициализирует буфер передачи с заданным индексом.
+ * @param can_node Нода CAN.
+ * @param mo_index Номер объекта сообщений.
+ * @param ident Идентификатор.
+ * @param rtr Флаг RTR.
+ * @param noOfBytes Количество байт данных.
+ * @return Код ошибки.
+ */
+EXTERN err_t can_node_init_tx_buffer(can_node_t* can_node, can_mo_index_t mo_index, uint16_t ident, bool rtr, uint8_t noOfBytes);
 
 /**
  * Отправляет сообщение через буфер с указанным индексом.

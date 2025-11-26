@@ -77,8 +77,6 @@ CO_CANmodule_init_xmc4xxx(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rx
         return CO_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    can_node_t* can_node = (can_node_t*)CANptr;
-
     /* Configure object variables */
     CANmodule->CANptr = CANptr;
     CANmodule->rxArray = rxArray;
@@ -92,16 +90,6 @@ CO_CANmodule_init_xmc4xxx(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rx
     CANmodule->firstCANtxMessage = true;
     CANmodule->CANtxCount = 0U;
     CANmodule->errOld = 0U;
-
-    for (i = 0U; i < rxSize; i++) {
-        rxArray[i].ident = 0U;
-        rxArray[i].mask = 0xFFFFU;
-        rxArray[i].object = NULL;
-        rxArray[i].pCANrx_callback = NULL;
-    }
-    for (i = 0U; i < txSize; i++) {
-        txArray[i].bufferFull = false;
-    }
 
     /* Configure CAN module registers */
 
@@ -144,10 +132,46 @@ CO_CANmodule_init_xmc4xxx(CO_CANmodule_t* CANmodule, void* CANptr, CO_CANrx_t rx
     cnis.pin_rx_msk = 0;
     cnis.conf_rx = 0;*/
 
+    can_node_t* can_node = (can_node_t*)CANptr;
+
     err_t err = can_node_init(can_node, &cnis);
     if(err != E_NO_ERROR) return CO_ERROR_INVALID_STATE;
 
     can_node_set_warning_level(can_node, CAN_WARNING_LEVEL);
+
+    // Init buffers.
+    // RX.
+    for (i = 0U; i < rxSize; i++) {
+        rxArray[i].ident = 0U;
+        rxArray[i].mask = 0xFFFFU;
+        rxArray[i].object = NULL;
+        rxArray[i].pCANrx_callback = NULL;
+
+        can_mo_index_t buf_mo = CAN_MO_INVALID_INDEX;
+
+        buf_mo = can_node_alloc_buffer(can_node, CAN_FIFO_RX_SIZE);
+
+        if(buf_mo == CAN_MO_INVALID_INDEX){
+            return CO_ERROR_INVALID_STATE;
+        }
+
+        rxArray[i].port_data = buf_mo;
+
+    }
+    // TX.
+    for (i = 0U; i < txSize; i++) {
+        txArray[i].bufferFull = false;
+
+        can_mo_index_t buf_mo = CAN_MO_INVALID_INDEX;
+
+        buf_mo = can_node_alloc_buffer(can_node, CAN_FIFO_TX_SIZE);
+
+        if(buf_mo == CAN_MO_INVALID_INDEX){
+            return CO_ERROR_INVALID_STATE;
+        }
+
+        txArray[i].port_data = buf_mo;
+    }
 
     /* Configure CAN module hardware filters */
     if (CANmodule->useCANrxFilters) {
@@ -200,20 +224,25 @@ CO_CANrxBufferInit_xmc4xxx(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t i
         }
         buffer->mask = (mask & 0x07FFU) | 0x0800U;
 
-        can_mo_index_t buf_mo = CAN_MO_INVALID_INDEX;
+        can_mo_index_t buf_mo = buffer->port_data;
 
-        /* Set CAN hardware module filter and mask. */
-        if(CANmodule->useCANrxFilters){
-            buf_mo = can_node_init_rx_buffer(can_node, CAN_FIFO_RX_SIZE, ident, mask, rtr);
+        if(buf_mo != CAN_MO_INVALID_INDEX){
+
+            err_t err;
+
+            /* Set CAN hardware module filter and mask. */
+            if(CANmodule->useCANrxFilters){
+                err = can_node_init_rx_buffer(can_node, buf_mo, ident, mask, rtr);
+            }else{
+                err = can_node_init_rx_buffer(can_node, buf_mo, ident, 0, rtr);
+            }
+
+            if(err != E_NO_ERROR){
+                ret = CO_ERROR_INVALID_STATE;
+            }
         }else{
-            buf_mo = can_node_init_rx_buffer(can_node, CAN_FIFO_RX_SIZE, ident, 0, rtr);
-        }
-
-        if(buf_mo == CAN_MO_INVALID_INDEX){
             ret = CO_ERROR_INVALID_STATE;
         }
-
-        buffer->port_data = buf_mo;
 
     } else {
         ret = CO_ERROR_ILLEGAL_ARGUMENT;
@@ -241,15 +270,18 @@ CO_CANtxBufferInit_xmc4xxx(CO_CANmodule_t* CANmodule, uint16_t index, uint16_t i
         buffer->bufferFull = false;
         buffer->syncFlag = syncFlag;
 
-        can_mo_index_t buf_mo = CAN_MO_INVALID_INDEX;
+        can_mo_index_t buf_mo = buffer->port_data;
 
-        buf_mo = can_node_init_tx_buffer(can_node, CAN_FIFO_TX_SIZE, ident, rtr, noOfBytes);
+        if(buf_mo != CAN_MO_INVALID_INDEX){
 
-        if(buf_mo == CAN_MO_INVALID_INDEX){
+            err_t err = can_node_init_tx_buffer(can_node, buf_mo, ident, rtr, noOfBytes);
+
+            if(err != E_NO_ERROR){
+                buffer = NULL;
+            }
+        }else{
             buffer = NULL;
         }
-
-        buffer->port_data = buf_mo;
     }
 
     return buffer;
