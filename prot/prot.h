@@ -99,6 +99,8 @@ struct _S_Prot {
     // Выходные данные.
     flag_t out_has_errors; //!< Флаг наличия ошибок.
     strobe_t out_error_occured; //!< Флаг возникновения новой ошибки.
+    flag_t out_has_warnings; //!< Флаг наличия предупреждений.
+    strobe_t out_warning_occured; //!< Флаг возникновения нового предупреждения.
     // Параметры.
     // Потеря фаз(ы).
     reg_u32_t p_mains_lost_enabled;
@@ -170,6 +172,8 @@ EXTERN METHOD_IDLE_PROTO(M_prot);
         /* Выходные данные */\
         0, /* out_has_errors */\
         0, /* out_error_occured */\
+        0, /* out_has_warnings */\
+        0, /* out_warning_occured */\
         /* Параметры */\
         /* Потеря фаз(ы). */\
         1, /* p_mains_lost_enabled */\
