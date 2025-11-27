@@ -381,6 +381,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
 //        pid_i.control = CONTROL_NONE;
 //        break;
     case SYS_CONTROL_STATE_INIT:
+        sys_ctrl->status = SYS_CONTROL_STATUS_NONE;
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
@@ -390,6 +391,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         prot.mask_errors2 = PROT_ERR2_MASK_INIT;
         break;
     case SYS_CONTROL_STATE_CHECK:
+        sys_ctrl->status = SYS_CONTROL_STATUS_NONE;
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
@@ -399,6 +401,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         prot.mask_errors2 = PROT_ERR2_MASK_CHECK;
         break;
     case SYS_CONTROL_STATE_IDLE:
+        sys_ctrl->status = SYS_CONTROL_STATUS_NONE;
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
@@ -408,6 +411,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         prot.mask_errors2 = PROT_ERR2_MASK_IDLE;
         break;
     case SYS_CONTROL_STATE_READY:
+        sys_ctrl->status = SYS_CONTROL_STATUS_READY;
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
@@ -417,6 +421,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         prot.mask_errors2 = PROT_ERR2_MASK_READY;
         break;
     case SYS_CONTROL_STATE_TEST:
+        sys_ctrl->status = SYS_CONTROL_STATUS_READY;
         ph3c.control = CONTROL_ENABLE;
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_TEST;
@@ -426,6 +431,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         prot.mask_errors2 = PROT_ERR2_MASK_TEST;
         break;
     case SYS_CONTROL_STATE_START:
+        sys_ctrl->status = SYS_CONTROL_STATUS_RUN;
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
@@ -435,6 +441,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         prot.mask_errors2 = PROT_ERR2_MASK_START;
         break;
     case SYS_CONTROL_STATE_START_FIELD_FORCE:
+        sys_ctrl->status = SYS_CONTROL_STATUS_RUN;
         ph3c.control = CONTROL_ENABLE;
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_FORCE;
@@ -444,6 +451,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         prot.mask_errors2 = PROT_ERR2_MASK_START_FIELD_FORCE;
         break;
     case SYS_CONTROL_STATE_RUN:
+        sys_ctrl->status = SYS_CONTROL_STATUS_RUN;
         ph3c.control = CONTROL_ENABLE;
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_RUN;
@@ -453,6 +461,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         prot.mask_errors2 = PROT_ERR2_MASK_RUN;
         break;
     case SYS_CONTROL_STATE_FIELD_FORCE:
+        sys_ctrl->status = SYS_CONTROL_STATUS_RUN;
         ph3c.control = CONTROL_ENABLE;
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_FORCE;
@@ -462,6 +471,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         prot.mask_errors2 = PROT_ERR2_MASK_FIELD_FORCE;
         break;
     case SYS_CONTROL_STATE_FIELD_SUPP:
+        sys_ctrl->status = SYS_CONTROL_STATUS_RUN;
         ph3c.control = CONTROL_ENABLE;
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_SUPP;
@@ -471,6 +481,7 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         prot.mask_errors2 = PROT_ERR2_MASK_FIELD_SUPP;
         break;
     case SYS_CONTROL_STATE_ERROR:
+        sys_ctrl->status = SYS_CONTROL_STATUS_ERROR;
         ph3c.control = CONTROL_NONE;
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
@@ -530,8 +541,9 @@ static void FSM_state(M_sys_control* sys_ctrl)
         FSM_state_error(sys_ctrl);
         break;
     default:
+        fsm_set_state(&sys_ctrl->fsm_state, SYS_CONTROL_STATE_ERROR);
         sys_ctrl->errors |= SYS_CONTROL_ERROR_SOFTWARE;
-        sys_ctrl->status |= SYS_CONTROL_STATUS_ERROR;
+        //sys_ctrl->status |= SYS_CONTROL_STATUS_ERROR;
         //TODO: Unhandled state process.
         break;
     }
