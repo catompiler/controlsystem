@@ -870,7 +870,6 @@ METHOD_CALC_IMPL(M_sys_main, sys)
         EVENT_LOG_WRITE(event_log, EVENT_TYPE_ERROR, NULL);
     }
 
-    // if(prot.errors == 0){
 
     // Опробование.
     if(sys_cmd.out_command & SYS_COMMAND_COMMAND_TEST){
@@ -886,19 +885,99 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     }
 
 
+    // Модуль управления.
+    CALC(sys_ctrl);
+
+
     // Выходные команды.
-    // Флаг ошибки.
-    if(prot.out_has_errors){
-        sys_stat.in_command |= SYS_STATUS_COMMAND_ERROR;
-    }else{
-        sys_stat.in_command &= ~SYS_STATUS_COMMAND_ERROR;
-    }
+    // Выходные флаги.
+    sys_status_in_command_t out_status = SYS_STATUS_COMMAND_NONE;
+
+    // Готовность.
+    // SYS_STATUS_COMMAND_READY
+    if(sys_ctrl.status & SYS_CONTROL_STATUS_READY) out_status |= SYS_STATUS_COMMAND_READY;
+
+    // Работа.
+    // SYS_STATUS_COMMAND_RUN
+    if(sys_ctrl.status & SYS_STATUS_COMMAND_RUN) out_status |= SYS_STATUS_COMMAND_RUN;
+
+    // Ошибка.
+    // SYS_STATUS_COMMAND_ERROR
+    if(prot.out_has_errors) out_status |= SYS_STATUS_COMMAND_ERROR;
+
+    // Предупреждение.
+    // SYS_STATUS_COMMAND_WARNING
+    if(prot.out_has_warnings) out_status |= SYS_STATUS_COMMAND_WARNING;
+
+    // Ограничители.
+    // SYS_STATUS_COMMAND_LIMIT
+    if(0) out_status |= SYS_STATUS_COMMAND_LIMIT;
+
+    // ВВ Вкл.
+    // SYS_STATUS_COMMAND_CELL_CB
+    if(cell_cb.out_state & CELL_CB_ON) out_status |= SYS_STATUS_COMMAND_CELL_CB;
+
+    // Ручной/Автомат.
+    // SYS_STATUS_COMMAND_MANUAL_AUTO
+    if(0) out_status |= SYS_STATUS_COMMAND_MANUAL_AUTO;
+
+    // Мест/Дист.
+    // SYS_STATUS_COMMAND_LOCAL_REMOTE
+    if(0) out_status |= SYS_STATUS_COMMAND_LOCAL_REMOTE;
+
+    // Вперёд/Назад.
+    // SYS_STATUS_COMMAND_FORW_BACKW
+    if(0) out_status |= SYS_STATUS_COMMAND_FORW_BACKW;
+
+    // Вентилятор.
+    // SYS_STATUS_COMMAND_FAN
+    if(0) out_status |= SYS_STATUS_COMMAND_FAN;
+
+    // Контактор.
+    // SYS_STATUS_COMMAND_MAINS_CB
+    if(0) out_status |= SYS_STATUS_COMMAND_MAINS_CB;
+
+    // Расцепитель.
+    // SYS_STATUS_COMMAND_MAINS_TRIP
+    if(0) out_status |= SYS_STATUS_COMMAND_MAINS_TRIP;
+
+    // Внешний тормоз.
+    // SYS_STATUS_COMMAND_EXT_BRAKE
+    if(0) out_status |= SYS_STATUS_COMMAND_EXT_BRAKE;
+
+    // Инвертирование возбуждения.
+    // SYS_STATUS_COMMAND_EXC_INV
+    if(0) out_status |= SYS_STATUS_COMMAND_EXC_INV;
+
+    // Внешний возбудитель вкл.
+    // SYS_STATUS_COMMAND_EXT_EXCITER
+    if(0) out_status |= SYS_STATUS_COMMAND_EXT_EXCITER;
+
     // Включение пускового сопротивления.
-    if(sys_ctrl.out_command & SYS_CONTROL_COMMAND_R_START_ON){
-        sys_stat.in_command |= SYS_STATUS_COMMAND_R_START_ON;
-    }else{
-        sys_stat.in_command &= ~SYS_STATUS_COMMAND_R_START_ON;
-    }
+    // SYS_STATUS_COMMAND_R_START_ON
+    if(sys_ctrl.out_command & SYS_CONTROL_COMMAND_R_START_ON) out_status |= SYS_STATUS_COMMAND_R_START_ON;
+
+    // Пользовательский выход 0.
+    // SYS_STATUS_COMMAND_USER_0
+    if(0) out_status |= SYS_STATUS_COMMAND_USER_0;
+
+    // Пользовательский выход 1.
+    // SYS_STATUS_COMMAND_USER_1
+    if(0) out_status |= SYS_STATUS_COMMAND_USER_1;
+
+
+//    // Флаг ошибки.
+//    if(prot.out_has_errors){
+//        sys_stat.in_command |= SYS_STATUS_COMMAND_ERROR;
+//    }else{
+//        sys_stat.in_command &= ~SYS_STATUS_COMMAND_ERROR;
+//    }
+//    // Включение пускового сопротивления.
+//    if(sys_ctrl.out_command & SYS_CONTROL_COMMAND_R_START_ON){
+//        sys_stat.in_command |= SYS_STATUS_COMMAND_R_START_ON;
+//    }else{
+//        sys_stat.in_command &= ~SYS_STATUS_COMMAND_R_START_ON;
+//    }
 
     // Команда выхода.
     if(sys->control & SYS_MAIN_CONTROL_QUIT){
@@ -906,11 +985,8 @@ METHOD_CALC_IMPL(M_sys_main, sys)
         sys->status |= SYS_MAIN_STATUS_QUIT;
     }
 
-    //} // prot.errors == 0
-
-    // Модуль управления.
-    CALC(sys_ctrl);
     // Модуль состояния.
+    sys_stat.in_command = out_status;
     CALC(sys_stat);
 
     // Конечный автомат.
