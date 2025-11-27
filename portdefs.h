@@ -18,8 +18,8 @@
 #define COMM_BSS __attribute__((section("DSRAM2_BSS")))
 #elif defined(PORT_XMC4700)
 #define CCM_CODE __attribute__((section(".ram_code"), noinline))
-#define CCM_DATA __attribute__((section(".data")))
-#define CCM_BSS __attribute__((section(".bss")))
+#define CCM_DATA __attribute__((section(".ram_code.data")))
+#define CCM_BSS __attribute__((section(".ram_code.bss")))
 #define COMM_DATA
 #define COMM_BSS
 #endif
