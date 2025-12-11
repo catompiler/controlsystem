@@ -50,7 +50,7 @@ struct _S_Sys_Status {
     control_t control; //!< Слово управления.
     status_t status; //!< Слово состояния.
     // Входные данные.
-    sys_status_in_command_t in_command; //!< Входное командное слово.
+    sys_status_in_command_t in_command; //!< Входное командное слово. @{"id": 3, "tpdo": true}
     // Выходные данные.
     // Параметры.
     // Регистры.

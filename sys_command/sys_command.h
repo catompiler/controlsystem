@@ -47,7 +47,7 @@ struct _S_Sys_Command {
     status_t status; //!< Слово состояния.
     // Входные данные.
     // Выходные данные.
-    sys_command_out_command_t out_command; //!< Выходное командное слово.
+    sys_command_out_command_t out_command; //!< Выходное командное слово. @{"id": 3, "rpdo": true}
     // Параметры.
     // Регистры.
     // Методы.

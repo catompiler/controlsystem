@@ -177,3 +177,5 @@ COMM_DATA M_storage storage = STORAGE_DEFAULTS;
 COMM_DATA M_settings settings = SETTINGS_DEFAULTS;
 
 COMM_DATA M_event_log event_log = EVENT_LOG_DEFAULTS;
+
+COMM_DATA M_oscope oscope = OSCOPE_DEFAULTS;

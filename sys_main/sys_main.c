@@ -144,6 +144,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
 
     // Осциллограф.
     INIT(dlog);
+    INIT(oscope);
 
     // Мотор.
     INIT(motor);
@@ -614,6 +615,7 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     // Мотор.
     DEINIT(motor);
 
+    DEINIT(oscope);
     DEINIT(dlog);
     DEINIT(sys_time);
     DEINIT(conf);
@@ -999,6 +1001,9 @@ METHOD_CALC_IMPL(M_sys_main, sys)
     // Запись выхода ЦАП.
     CALC(dac);
 
+    // Осциллограф.
+    CALC(oscope);
+
     // Последний модуль - запись лога.
     CALC(dlog);
 }
@@ -1011,6 +1016,7 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
 
     IDLE(conf);
     IDLE(dlog);
+    IDLE(oscope);
     // Мотор.
     IDLE(motor);
     IDLE(adc);

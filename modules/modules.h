@@ -68,16 +68,17 @@
 #include "settings/settings.h"
 #include "event_log/event_log.h"
 #include "field_trig/field_trig.h"
+#include "oscope/oscope.h"
 
 
 
 //! Основной модуль.
 extern M_sys_main sys;
-//! Основной командный модуль.
+//! Основной командный модуль. @{"id": 8208}
 extern M_sys_command sys_cmd;
 //! Основной модуль управления.
 extern M_sys_control sys_ctrl;
-//! Основной модуль состояния.
+//! Основной модуль состояния. @{"id": 8240}
 extern M_sys_status sys_stat;
 
 //! Конфигурация.
@@ -449,5 +450,9 @@ extern M_settings settings;
 
 //! Лог событий.
 extern M_event_log event_log;
+
+//! Осциллограф.
+extern M_oscope oscope;
+
 
 #endif /* MODULES_H */
