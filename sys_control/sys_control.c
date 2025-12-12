@@ -286,7 +286,7 @@ static void FSM_state_start_field_force(M_sys_control* sys_ctrl)
 static void FSM_state_run(M_sys_control* sys_ctrl)
 {
     FSM_STATE_ENTRY(&sys_ctrl->fsm_state){
-        mot_pot_manual_curr_ref.r_value = IQ24(1.0);
+        mot_pot_manual_curr_ref.r_value = sys_ctrl->p_init_run_current_ref;
     }
 
     //mot_pot_manual_curr_ref.in_inc = FLAG_ACTIVE;
@@ -386,6 +386,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        pid_i.r_min = 0;
+        pid_i.r_max = 0;
         prot.mask_errors0 = PROT_ERR0_MASK_INIT;
         prot.mask_errors1 = PROT_ERR1_MASK_INIT;
         prot.mask_errors2 = PROT_ERR2_MASK_INIT;
@@ -396,6 +398,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        pid_i.r_min = 0;
+        pid_i.r_max = 0;
         prot.mask_errors0 = PROT_ERR0_MASK_CHECK;
         prot.mask_errors1 = PROT_ERR1_MASK_CHECK;
         prot.mask_errors2 = PROT_ERR2_MASK_CHECK;
@@ -406,6 +410,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        pid_i.r_min = 0;
+        pid_i.r_max = 0;
         prot.mask_errors0 = PROT_ERR0_MASK_IDLE;
         prot.mask_errors1 = PROT_ERR1_MASK_IDLE;
         prot.mask_errors2 = PROT_ERR2_MASK_IDLE;
@@ -416,6 +422,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        pid_i.r_min = 0;
+        pid_i.r_max = 0;
         prot.mask_errors0 = PROT_ERR0_MASK_READY;
         prot.mask_errors1 = PROT_ERR1_MASK_READY;
         prot.mask_errors2 = PROT_ERR2_MASK_READY;
@@ -426,6 +434,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_TEST;
         pid_i.control = CONTROL_ENABLE;
+        pid_i.r_min = MAX(0, ph3c.out_min_control_value);
+        pid_i.r_max = ph3c.out_max_control_value;
         prot.mask_errors0 = PROT_ERR0_MASK_TEST;
         prot.mask_errors1 = PROT_ERR1_MASK_TEST;
         prot.mask_errors2 = PROT_ERR2_MASK_TEST;
@@ -436,6 +446,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        pid_i.r_min = 0;
+        pid_i.r_max = 0;
         prot.mask_errors0 = PROT_ERR0_MASK_START;
         prot.mask_errors1 = PROT_ERR1_MASK_START;
         prot.mask_errors2 = PROT_ERR2_MASK_START;
@@ -446,6 +458,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_FORCE;
         pid_i.control = CONTROL_ENABLE;
+        pid_i.r_min = MAX(0, ph3c.out_min_control_value);
+        pid_i.r_max = ph3c.out_max_control_value;
         prot.mask_errors0 = PROT_ERR0_MASK_START_FIELD_FORCE;
         prot.mask_errors1 = PROT_ERR1_MASK_START_FIELD_FORCE;
         prot.mask_errors2 = PROT_ERR2_MASK_START_FIELD_FORCE;
@@ -456,6 +470,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_RUN;
         pid_i.control = CONTROL_ENABLE;
+        pid_i.r_min = MAX(0, ph3c.out_min_control_value);
+        pid_i.r_max = ph3c.out_max_control_value;
         prot.mask_errors0 = PROT_ERR0_MASK_RUN;
         prot.mask_errors1 = PROT_ERR1_MASK_RUN;
         prot.mask_errors2 = PROT_ERR2_MASK_RUN;
@@ -466,6 +482,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_FORCE;
         pid_i.control = CONTROL_ENABLE;
+        pid_i.r_min = MAX(0, ph3c.out_min_control_value);
+        pid_i.r_max = ph3c.out_max_control_value;
         prot.mask_errors0 = PROT_ERR0_MASK_FIELD_FORCE;
         prot.mask_errors1 = PROT_ERR1_MASK_FIELD_FORCE;
         prot.mask_errors2 = PROT_ERR2_MASK_FIELD_FORCE;
@@ -476,6 +494,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_ENABLE;
         mux_curr_ref.p_sel = MUX_CURR_REF_FIELD_SUPP;
         pid_i.control = CONTROL_ENABLE;
+        pid_i.r_min = ph3c.out_min_control_value;
+        pid_i.r_max = ph3c.out_max_control_value;
         prot.mask_errors0 = PROT_ERR0_MASK_FIELD_SUPP;
         prot.mask_errors1 = PROT_ERR1_MASK_FIELD_SUPP;
         prot.mask_errors2 = PROT_ERR2_MASK_FIELD_SUPP;
@@ -486,6 +506,8 @@ static void FSM_post_state(M_sys_control* sys_ctrl)
         triacs.control = CONTROL_NONE;
         mux_curr_ref.p_sel = MUX_CURR_REF_NONE;
         pid_i.control = CONTROL_NONE;
+        pid_i.r_min = 0;
+        pid_i.r_max = 0;
         prot.mask_errors0 = PROT_ERR0_MASK_ERROR;
         prot.mask_errors1 = PROT_ERR1_MASK_ERROR;
         prot.mask_errors2 = PROT_ERR2_MASK_ERROR;

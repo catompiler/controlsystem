@@ -399,7 +399,7 @@ static void sys_calc_calc_current_regulator(M_sys_calc* sys_calc)
     mux_field_force_ref.p_sel = 0;
 
     // in_value[0] => Parameter - field force current.
-    //mux_field_force_ref.in_value[0] = IQ24(1.4);
+    mux_field_force_ref.in_value[0] = sys_ctrl.p_forcing_current;
     // in_value[1] => Max current value.
     mux_field_force_ref.in_value[1] = lim_field_regs_curr_ref.p_max_value;
     CALC(mux_field_force_ref);

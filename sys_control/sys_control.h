@@ -94,6 +94,8 @@ struct _S_Sys_Control {
     // Выходные данные.
     sys_control_out_command_t out_command; //!< Выходное командное слово.
     // Параметры.
+    reg_iq24_t p_init_run_current_ref; //!< Начальное значение задания тока. @{"base":"motor.r_r_I_base"}
+    reg_iq24_t p_forcing_current; //!< Значение тока форсировки. @{"base":"motor.r_r_I_base"}
     // Регистры.
     // Методы.
     METHOD_INIT(M_sys_control);
@@ -118,6 +120,8 @@ EXTERN METHOD_CALC_PROTO(M_sys_control);
         /* Выходные данные */\
         0, /* out_command */\
         /* Параметры */\
+        IQ24(0.5f), /* p_init_run_current_ref */\
+        IQ24(1.4f), /* p_forcing_current */\
         /* Регистры */\
         /* Методы */\
         METHOD_INIT_PTR(M_sys_control), METHOD_DEINIT_PTR(M_sys_control),\

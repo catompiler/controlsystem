@@ -276,8 +276,6 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(mux_field_regs);
     INIT(lim_field_regs_curr_ref);
     INIT(mux_field_force_ref);
-    // Field forcing current default value - 1.4 x Inom.
-    mux_field_force_ref.in_value[0] = IQ24(1.4);
     INIT(mot_pot_field_test);
     INIT(mot_pot_manual_curr_ref);
     INIT(mux_curr_ref);
@@ -289,8 +287,8 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     pid_i.r_ki = pid_coefs_i.out_ki;
     pid_i.r_kd = pid_coefs_i.out_kd;
     pid_i.r_kf = pid_coefs_i.out_kf;
-    pid_i.r_min = ph3c.out_min_control_value;
-    pid_i.r_max = ph3c.out_max_control_value;
+//    pid_i.r_min = ph3c.out_min_control_value;
+//    pid_i.r_max = ph3c.out_max_control_value;
 
     // Состояние ячейки.
     INIT(cell_cb);
@@ -311,7 +309,7 @@ METHOD_INIT_IMPL(M_sys_main, sys)
     INIT(thr_prim_I_s);
     INIT(thr_prim_T);
     INIT(am_prim_field_on);
-    // Основной.
+    // Дополнительный.
     INIT(thr_sec_Slip);
     INIT(thr_sec_I_s);
     INIT(thr_sec_T);
@@ -481,11 +479,12 @@ METHOD_DEINIT_IMPL(M_sys_main, sys)
     DEINIT(tmr_field_supp);
 
     // Критерии подачи возбуждения.
+    // Основной.
     DEINIT(thr_prim_Slip);
     DEINIT(thr_prim_I_s);
     DEINIT(thr_prim_T);
     DEINIT(am_prim_field_on);
-    // Основной.
+    // Дополнительный.
     DEINIT(thr_sec_Slip);
     DEINIT(thr_sec_I_s);
     DEINIT(thr_sec_T);
@@ -1043,8 +1042,8 @@ METHOD_IDLE_IMPL(M_sys_main, sys)
     pid_i.r_kf = pid_coefs_i.out_kf;
     // СИФУ.
     IDLE(ph3c);
-    pid_i.r_min = ph3c.out_min_control_value;
-    pid_i.r_max = ph3c.out_max_control_value;
+//    pid_i.r_min = ph3c.out_min_control_value;
+//    pid_i.r_max = ph3c.out_max_control_value;
     // Фильтры.
     // Фильтры напряжений для детекта нуля фаз.
     IDLE(filter_zcd_Ua);
