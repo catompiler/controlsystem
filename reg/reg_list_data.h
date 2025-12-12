@@ -212,6 +212,8 @@ REG(REG_ID_SYS_CTRL_WARNINGS, &sys_ctrl.warnings, REG_TYPE_U32, REG_FLAG_NONE, 0
 REG(REG_ID_SYS_CTRL_FSM_STATE_STATE, &sys_ctrl.fsm_state.state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние. */
 REG(REG_ID_SYS_CTRL_FSM_STATE_PREV_STATE, &sys_ctrl.fsm_state.prev_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Предыдущее состояние. */
 REG(REG_ID_SYS_CTRL_OUT_COMMAND, &sys_ctrl.out_command, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Выходное командное слово. */
+REG(REG_ID_SYS_CTRL_INIT_RUN_CURRENT_REF, &sys_ctrl.p_init_run_current_ref, REG_TYPE_IQ24, REG_FLAG_CONF, REG_ID_MOTOR_R_I_BASE) /* Начальное значение задания тока. */
+REG(REG_ID_SYS_CTRL_FORCING_CURRENT, &sys_ctrl.p_forcing_current, REG_TYPE_IQ24, REG_FLAG_CONF, REG_ID_MOTOR_R_I_BASE) /* Значение тока форсировки. */
 REG(REG_ID_SYS_CTRL_FSM_CHECK_STATE, &sys_ctrl.fsm_check.state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние. */
 REG(REG_ID_SYS_CTRL_FSM_CHECK_PREV_STATE, &sys_ctrl.fsm_check.prev_state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Предыдущее состояние. */
 REG(REG_ID_SYS_CTRL_FSM_IDLE_STATE, &sys_ctrl.fsm_idle.state, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Состояние. */
@@ -241,33 +243,33 @@ REG(REG_ID_ADC_STATUS, &adc.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* С
 REG(REG_ID_ADC_OUT_UA_RAW, &adc.out_Ua_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы A (сырое). */
 REG(REG_ID_ADC_OUT_UB_RAW, &adc.out_Ub_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы B (сырое). */
 REG(REG_ID_ADC_OUT_UC_RAW, &adc.out_Uc_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы C (сырое). */
-REG(REG_ID_ADC_OUT_UA, &adc.out_Ua, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы A. */
-REG(REG_ID_ADC_OUT_UB, &adc.out_Ub, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы B. */
-REG(REG_ID_ADC_OUT_UC, &adc.out_Uc, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы C. */
+REG(REG_ID_ADC_OUT_UA, &adc.out_Ua, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_CONF_U_BASE) /* Мнговенное напряжение фазы A. */
+REG(REG_ID_ADC_OUT_UB, &adc.out_Ub, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_CONF_U_BASE) /* Мнговенное напряжение фазы B. */
+REG(REG_ID_ADC_OUT_UC, &adc.out_Uc, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_CONF_U_BASE) /* Мнговенное напряжение фазы C. */
 REG(REG_ID_ADC_OUT_IA_RAW, &adc.out_Ia_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы A (сырое). */
 REG(REG_ID_ADC_OUT_IB_RAW, &adc.out_Ib_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы B (сырое). */
 REG(REG_ID_ADC_OUT_IC_RAW, &adc.out_Ic_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы C (сырое). */
-REG(REG_ID_ADC_OUT_IA, &adc.out_Ia, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы A. */
-REG(REG_ID_ADC_OUT_IB, &adc.out_Ib, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы B. */
-REG(REG_ID_ADC_OUT_IC, &adc.out_Ic, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы C. */
+REG(REG_ID_ADC_OUT_IA, &adc.out_Ia, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_CONF_I_BASE) /* Мнговенный ток фазы A. */
+REG(REG_ID_ADC_OUT_IB, &adc.out_Ib, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_CONF_I_BASE) /* Мнговенный ток фазы B. */
+REG(REG_ID_ADC_OUT_IC, &adc.out_Ic, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_CONF_I_BASE) /* Мнговенный ток фазы C. */
 REG(REG_ID_ADC_OUT_UARM_RAW, &adc.out_Uarm_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение выхода (сырое). */
-REG(REG_ID_ADC_OUT_UARM, &adc.out_Uarm, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение выхода. */
+REG(REG_ID_ADC_OUT_UARM, &adc.out_Uarm, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_R_U_BASE) /* Мнговенное напряжение выхода. */
 REG(REG_ID_ADC_OUT_IARM_RAW, &adc.out_Iarm_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенный ток выхода (сырое). */
-REG(REG_ID_ADC_OUT_IARM, &adc.out_Iarm, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток выхода. */
+REG(REG_ID_ADC_OUT_IARM, &adc.out_Iarm, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_R_I_BASE) /* Мнговенный ток выхода. */
 REG(REG_ID_ADC_OUT_IR_RAW, &adc.out_Ir_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенный ток резистора (сырое). */
-REG(REG_ID_ADC_OUT_IRSTART, &adc.out_Irstart, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток резистора. */
+REG(REG_ID_ADC_OUT_IRSTART, &adc.out_Irstart, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_R_I_BASE) /* Мнговенный ток резистора. */
 REG(REG_ID_ADC_OUT_S_UA_RAW, &adc.out_s_Ua_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы A статора (сырое). */
 REG(REG_ID_ADC_OUT_S_UB_RAW, &adc.out_s_Ub_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы B статора (сырое). */
 REG(REG_ID_ADC_OUT_S_UC_RAW, &adc.out_s_Uc_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы C статора (сырое). */
-REG(REG_ID_ADC_OUT_S_UA, &adc.out_s_Ua, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы A статора. */
-REG(REG_ID_ADC_OUT_S_UB, &adc.out_s_Ub, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы B статора. */
-REG(REG_ID_ADC_OUT_S_UC, &adc.out_s_Uc, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы C статора. */
+REG(REG_ID_ADC_OUT_S_UA, &adc.out_s_Ua, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_S_U_BASE) /* Мнговенное напряжение фазы A статора. */
+REG(REG_ID_ADC_OUT_S_UB, &adc.out_s_Ub, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_S_U_BASE) /* Мнговенное напряжение фазы B статора. */
+REG(REG_ID_ADC_OUT_S_UC, &adc.out_s_Uc, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_S_U_BASE) /* Мнговенное напряжение фазы C статора. */
 REG(REG_ID_ADC_OUT_S_IA_RAW, &adc.out_s_Ia_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы A статора (сырое). */
 REG(REG_ID_ADC_OUT_S_IB_RAW, &adc.out_s_Ib_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы B статора (сырое). */
 REG(REG_ID_ADC_OUT_S_IC_RAW, &adc.out_s_Ic_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы C статора (сырое). */
-REG(REG_ID_ADC_OUT_S_IA, &adc.out_s_Ia, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы A статора. */
-REG(REG_ID_ADC_OUT_S_IB, &adc.out_s_Ib, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы B статора. */
-REG(REG_ID_ADC_OUT_S_IC, &adc.out_s_Ic, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенный ток фазы C статора. */
+REG(REG_ID_ADC_OUT_S_IA, &adc.out_s_Ia, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_S_I_BASE) /* Мнговенный ток фазы A статора. */
+REG(REG_ID_ADC_OUT_S_IB, &adc.out_s_Ib, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_S_I_BASE) /* Мнговенный ток фазы B статора. */
+REG(REG_ID_ADC_OUT_S_IC, &adc.out_s_Ic, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_S_I_BASE) /* Мнговенный ток фазы C статора. */
 REG(REG_ID_ADC_UA_GAIN, &adc.p_Ua_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы A. */
 REG(REG_ID_ADC_UA_OFFSET, &adc.p_Ua_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы A. */
 REG(REG_ID_ADC_UB_GAIN, &adc.p_Ub_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы B. */
@@ -313,15 +315,15 @@ REG(REG_ID_ADC_MODEL_IN_S_F_SCALE, &adc_model.in_s_F_scale, REG_TYPE_IQ24, REG_F
 REG(REG_ID_ADC_MODEL_OUT_UA_RAW, &adc_model.out_Ua_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы A (сырое). */
 REG(REG_ID_ADC_MODEL_OUT_UB_RAW, &adc_model.out_Ub_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы B (сырое). */
 REG(REG_ID_ADC_MODEL_OUT_UC_RAW, &adc_model.out_Uc_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы C (сырое). */
-REG(REG_ID_ADC_MODEL_OUT_UA, &adc_model.out_Ua, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы A. */
-REG(REG_ID_ADC_MODEL_OUT_UB, &adc_model.out_Ub, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы B. */
-REG(REG_ID_ADC_MODEL_OUT_UC, &adc_model.out_Uc, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы C. */
+REG(REG_ID_ADC_MODEL_OUT_UA, &adc_model.out_Ua, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_CONF_U_BASE) /* Мнговенное напряжение фазы A. */
+REG(REG_ID_ADC_MODEL_OUT_UB, &adc_model.out_Ub, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_CONF_U_BASE) /* Мнговенное напряжение фазы B. */
+REG(REG_ID_ADC_MODEL_OUT_UC, &adc_model.out_Uc, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_CONF_U_BASE) /* Мнговенное напряжение фазы C. */
 REG(REG_ID_ADC_MODEL_OUT_S_UA_RAW, &adc_model.out_s_Ua_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы A статора (сырое). */
 REG(REG_ID_ADC_MODEL_OUT_S_UB_RAW, &adc_model.out_s_Ub_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы B статора (сырое). */
 REG(REG_ID_ADC_MODEL_OUT_S_UC_RAW, &adc_model.out_s_Uc_raw, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы C статора (сырое). */
-REG(REG_ID_ADC_MODEL_OUT_S_UA, &adc_model.out_s_Ua, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы A статора. */
-REG(REG_ID_ADC_MODEL_OUT_S_UB, &adc_model.out_s_Ub, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы B статора. */
-REG(REG_ID_ADC_MODEL_OUT_S_UC, &adc_model.out_s_Uc, REG_TYPE_IQ24, REG_FLAG_NONE, 0x000000) /* Мнговенное напряжение фазы C статора. */
+REG(REG_ID_ADC_MODEL_OUT_S_UA, &adc_model.out_s_Ua, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_S_U_BASE) /* Мнговенное напряжение фазы A статора. */
+REG(REG_ID_ADC_MODEL_OUT_S_UB, &adc_model.out_s_Ub, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_S_U_BASE) /* Мнговенное напряжение фазы B статора. */
+REG(REG_ID_ADC_MODEL_OUT_S_UC, &adc_model.out_s_Uc, REG_TYPE_IQ24, REG_FLAG_NONE, REG_ID_MOTOR_S_U_BASE) /* Мнговенное напряжение фазы C статора. */
 REG(REG_ID_ADC_MODEL_UA_GAIN, &adc_model.p_Ua_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы A. */
 REG(REG_ID_ADC_MODEL_UA_OFFSET, &adc_model.p_Ua_offset, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Смещеие АЦП напряжения фазы A. */
 REG(REG_ID_ADC_MODEL_UB_GAIN, &adc_model.p_Ub_gain, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /* Коэффициент усиления напряжения фазы B. */
@@ -1083,7 +1085,7 @@ REG(REG_ID_MUX_FIELD_FORCE_REF_STATUS, &mux_field_force_ref.status, REG_TYPE_U32
 REG(REG_ID_MUX_FIELD_FORCE_REF_IN_VALUE0, &mux_field_force_ref.in_value[0], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_FIELD_FORCE_REF_IN_VALUE1, &mux_field_force_ref.in_value[1], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_FIELD_FORCE_REF_OUT_VALUE, &mux_field_force_ref.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_FIELD_FORCE_REF_SEL, &mux_field_force_ref.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_MUX_FIELD_FORCE_REF_SEL, &mux_field_force_ref.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
 REG(REG_ID_MOT_POT_FIELD_TEST_COUNT, &regs_data.mot_pot_field_test.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_MOT_POT_FIELD_TEST_CONTROL, &mot_pot_field_test.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_MOT_POT_FIELD_TEST_STATUS, &mot_pot_field_test.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -1112,7 +1114,7 @@ REG(REG_ID_MUX_CURR_REF_IN_VALUE1, &mux_curr_ref.in_value[1], REG_TYPE_I32, REG_
 REG(REG_ID_MUX_CURR_REF_IN_VALUE2, &mux_curr_ref.in_value[2], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_CURR_REF_IN_VALUE3, &mux_curr_ref.in_value[3], REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Входные значения. */
 REG(REG_ID_MUX_CURR_REF_OUT_VALUE, &mux_curr_ref.out_value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Выходное значение. */
-REG(REG_ID_MUX_CURR_REF_SEL, &mux_curr_ref.p_sel, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /* Селектор значений. */
+REG(REG_ID_MUX_CURR_REF_SEL, &mux_curr_ref.p_sel, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Селектор значений. */
 REG(REG_ID_PID_I_COUNT, &regs_data.pid_i.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
 REG(REG_ID_PID_I_CONTROL, &pid_i.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
 REG(REG_ID_PID_I_STATUS, &pid_i.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
@@ -1352,6 +1354,8 @@ REG(REG_ID_PROT_WARNINGS1, &prot.warnings1, REG_TYPE_U32, REG_FLAG_NONE, 0x00000
 REG(REG_ID_PROT_WARNINGS2, &prot.warnings2, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово предупреждений 2. */
 REG(REG_ID_PROT_OUT_HAS_ERRORS, &prot.out_has_errors, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг наличия ошибок. */
 REG(REG_ID_PROT_OUT_ERROR_OCCURED, &prot.out_error_occured, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг возникновения новой ошибки. */
+REG(REG_ID_PROT_OUT_HAS_WARNINGS, &prot.out_has_warnings, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг наличия предупреждений. */
+REG(REG_ID_PROT_OUT_WARNING_OCCURED, &prot.out_warning_occured, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг возникновения нового предупреждения. */
 REG(REG_ID_PROT_MAINS_LOST_ENABLED, &prot.p_mains_lost_enabled, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_MAINS_LOST_U_LOW, &prot.p_mains_lost_U_low, REG_TYPE_IQ24, REG_FLAG_CONF, 0x000000) /*  */
 REG(REG_ID_PROT_MAINS_INVALID_ENABLED, &prot.p_mains_invalid_enabled, REG_TYPE_U32, REG_FLAG_CONF, 0x000000) /*  */
@@ -1489,6 +1493,44 @@ REG(REG_ID_EVENT_LOG_OSC_CHANNEL_DATA_CHANNEL_INFO_GAIN, &event_log.r_osc_channe
 REG(REG_ID_EVENT_LOG_OSC_CHANNEL_DATA_CHANNEL_INFO_CRC, &event_log.r_osc_channel_data.channel.info.crc, REG_TYPE_U16, REG_FLAG_NONE, 0x000000) /* Контрольная сумма. */
 REG(REG_ID_EVENT_LOG_OSC_CHANNEL_DATA_CHANNEL_DATA_SAMPLES, &event_log.r_osc_channel_data.channel.data.samples[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /* Данные осциллограммы. */
 REG(REG_ID_EVENT_LOG_OSC_CHANNEL_DATA_CHANNEL_DATA_CRC, &event_log.r_osc_channel_data.channel.data.crc, REG_TYPE_U16, REG_FLAG_NONE, 0x000000) /* Контрольная сумма. */
+REG(REG_ID_OSCOPE_COUNT, &regs_data.oscope.count, REG_TYPE_U8, REG_FLAG_READONLY, 0x000000) /* Number of sub entries count */
+REG(REG_ID_OSCOPE_CONTROL, &oscope.control, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово управления. */
+REG(REG_ID_OSCOPE_STATUS, &oscope.status, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Слово состояния. */
+REG(REG_ID_OSCOPE_SAMPLES, &oscope.r_samples, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Число семплов (длина буфера). */
+REG(REG_ID_OSCOPE_PRESCALER, &oscope.r_prescaler, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Предделитель. */
+REG(REG_ID_OSCOPE_HIST_SAMPLES, &oscope.r_hist_samples, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Семплы истории (0..SAMPLES-1) */
+REG(REG_ID_OSCOPE_CH0_REG_ID, &oscope.r_ch[0].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор регистра для осциллографирования. */
+REG(REG_ID_OSCOPE_CH0_ENABLED, &oscope.r_ch[0].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг разрешения осциллографирования. */
+REG(REG_ID_OSCOPE_CH1_REG_ID, &oscope.r_ch[1].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор регистра для осциллографирования. */
+REG(REG_ID_OSCOPE_CH1_ENABLED, &oscope.r_ch[1].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг разрешения осциллографирования. */
+REG(REG_ID_OSCOPE_CH2_REG_ID, &oscope.r_ch[2].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор регистра для осциллографирования. */
+REG(REG_ID_OSCOPE_CH2_ENABLED, &oscope.r_ch[2].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг разрешения осциллографирования. */
+REG(REG_ID_OSCOPE_CH3_REG_ID, &oscope.r_ch[3].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор регистра для осциллографирования. */
+REG(REG_ID_OSCOPE_CH3_ENABLED, &oscope.r_ch[3].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг разрешения осциллографирования. */
+REG(REG_ID_OSCOPE_CH4_REG_ID, &oscope.r_ch[4].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор регистра для осциллографирования. */
+REG(REG_ID_OSCOPE_CH4_ENABLED, &oscope.r_ch[4].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг разрешения осциллографирования. */
+REG(REG_ID_OSCOPE_CH5_REG_ID, &oscope.r_ch[5].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор регистра для осциллографирования. */
+REG(REG_ID_OSCOPE_CH5_ENABLED, &oscope.r_ch[5].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг разрешения осциллографирования. */
+REG(REG_ID_OSCOPE_CH6_REG_ID, &oscope.r_ch[6].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор регистра для осциллографирования. */
+REG(REG_ID_OSCOPE_CH6_ENABLED, &oscope.r_ch[6].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг разрешения осциллографирования. */
+REG(REG_ID_OSCOPE_CH7_REG_ID, &oscope.r_ch[7].reg_id, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Идентификатор регистра для осциллографирования. */
+REG(REG_ID_OSCOPE_CH7_ENABLED, &oscope.r_ch[7].enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Флаг разрешения осциллографирования. */
+REG(REG_ID_OSCOPE_CH_DATA0_SAMPLES, &oscope.r_ch_data[0].samples[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_OSCOPE_CH_DATA1_SAMPLES, &oscope.r_ch_data[1].samples[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_OSCOPE_CH_DATA2_SAMPLES, &oscope.r_ch_data[2].samples[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_OSCOPE_CH_DATA3_SAMPLES, &oscope.r_ch_data[3].samples[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_OSCOPE_CH_DATA4_SAMPLES, &oscope.r_ch_data[4].samples[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_OSCOPE_CH_DATA5_SAMPLES, &oscope.r_ch_data[5].samples[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_OSCOPE_CH_DATA6_SAMPLES, &oscope.r_ch_data[6].samples[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_OSCOPE_CH_DATA7_SAMPLES, &oscope.r_ch_data[7].samples[0], REG_TYPE_MEM, REG_FLAG_NONE, 0x000000) /*  */
+REG(REG_ID_OSCOPE_MODE, &oscope.r_mode, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Режим работы осциллографа. */
+REG(REG_ID_OSCOPE_TRIG_ENABLED, &oscope.r_trig.enabled, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Включение триггера. */
+REG(REG_ID_OSCOPE_TRIG_CH_N, &oscope.r_trig.ch_n, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Номер канала. */
+REG(REG_ID_OSCOPE_TRIG_TYPE, &oscope.r_trig.type, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Тип триггера. */
+REG(REG_ID_OSCOPE_TRIG_VALUE, &oscope.r_trig.value, REG_TYPE_I32, REG_FLAG_NONE, 0x000000) /* Значение триггера. */
+REG(REG_ID_OSCOPE_START, &oscope.r_start, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Начальный индекс записи (индекс сработки триггера). */
+REG(REG_ID_OSCOPE_INDEX, &oscope.r_index, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Индекс вставки. */
+REG(REG_ID_OSCOPE_COUNT_37, &oscope.r_count, REG_TYPE_U32, REG_FLAG_NONE, 0x000000) /* Текущее число семплов. */
 
 REGS_END()
 

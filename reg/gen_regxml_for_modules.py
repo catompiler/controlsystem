@@ -100,6 +100,7 @@ class Var:
     rpdo: bool
     tpdo: bool
     base_name: str or None
+    noconf: bool
 
     def __init__(self, vType: str, vName: str, vCount: int = 0):
         self.typename = vType
@@ -112,6 +113,7 @@ class Var:
         self.rpdo = False
         self.tpdo = False
         self.base_name = None
+        self.noconf = False
 
     def __repr__(self):
         if self.count == 0:
@@ -189,10 +191,12 @@ def getVars(parse_data: ParsedData) -> list[Var]:
     for var in parse_data.namespace.variables:
         #print(var)
         var_id = None
+        var_no_conf = False
         doxygen_comment, json_data = getJson(var.doxygen)
         #process json insertion
         if json_data is not None:
             var_id = json_data.get("id", None)
+            var_no_conf = json_data.get("noconf", False)
         if isinstance(var.type, Type):  # or not isinstance(fld.type.typename.segments[0], NameSpecifier):
             var_name = var.name.segments[0].name
             var_type = var.type.typename.segments[0].name
@@ -203,6 +207,7 @@ def getVars(parse_data: ParsedData) -> list[Var]:
             v.is_const = var.type.const
             v.comment = var_comment
             v.id = var_id
+            v.noconf = var_no_conf
             variables.append(v)
         elif isinstance(var.type, Array):
             #print(fld)
@@ -216,6 +221,7 @@ def getVars(parse_data: ParsedData) -> list[Var]:
                 v.is_param = True
             v.comment = arr_comment
             v.id = var_id
+            v.noconf = var_no_conf
             variables.append(v)
 
     return variables
@@ -469,6 +475,10 @@ def getRegEntry(index: int, entryVar: Var, entryType: Struct, structs: list[Stru
         rvs = getRegVar(re.name, id, field, None, structs)
         if rvs:
             for rv in rvs:
+                # process entryVar attributes
+                if entryVar.noconf:
+                    rv.flags = rv.flags & ~RegFlag.CONF
+                    #print("NoConf", rv.flags, entryVar.name)
                 #print(rv)
                 # correct id if subindex exists
                 id = rv.subIndex

@@ -737,6 +737,10 @@ struct _S_event_log {
     uint8_t count; /* Number of sub entries count */
 } event_log;
 
+struct _S_oscope {
+    uint8_t count; /* Number of sub entries count */
+} oscope;
+
 };
 extern struct _S_regs_data regs_data;
 

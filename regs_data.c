@@ -230,7 +230,7 @@ struct _S_regs_data regs_data = {
     .count = 3 /* Number of sub entries count */
 },
 .sys_ctrl = {
-    .count = 11 /* Number of sub entries count */
+    .count = 13 /* Number of sub entries count */
 },
 .sys_stat = {
     .count = 3 /* Number of sub entries count */
@@ -566,7 +566,7 @@ struct _S_regs_data regs_data = {
     .count = 42 /* Number of sub entries count */
 },
 .prot = {
-    .count = 94 /* Number of sub entries count */
+    .count = 96 /* Number of sub entries count */
 },
 .canopen = {
     .count = 2 /* Number of sub entries count */
@@ -579,5 +579,8 @@ struct _S_regs_data regs_data = {
 },
 .event_log = {
     .count = 42 /* Number of sub entries count */
+},
+.oscope = {
+    .count = 37 /* Number of sub entries count */
 }
 };
